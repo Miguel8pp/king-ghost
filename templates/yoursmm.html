@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Orden</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="yoursmm.css">
+    <script defer src="app.js"></script>
+</head>
+<link rel="stylesheet" href="{{ url_for('static', filename='yoursmm.css') }}">
+
+<body>
+    <div class="form-container">
+        <form class="form" action="/agregar_orden" method="POST">
+            <h2>Agregar Orden</h2>
+
+            <!-- Mostrar mensaje de error o éxito -->
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash-message {{ 'success-message' if 'Orden creada con éxito' in messages[0] else 'error-message' }}">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% endwith %}
+
+            <!-- Verificar si el usuario está logeado y tiene saldo suficiente -->
+            {% if usuario and saldo|float >= 10 %}
+                <div class="form-group">
+                    <label for="saldo">Saldo disponible:</label>
+                    <p id="saldo">${{ saldo }}</p>
+                </div>
+
+                <!-- Tabla con la información del servicio (solo visual) -->
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nombre del servicio</th>
+                            <th>Precio por 1000</th>
+                            <th>ID del servicio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Servicio 1</td>
+                            <td>$10.00</td>
+                            <td>12345</td>
+                        </tr>
+                        <tr>
+                            <td>Servicio 2</td>
+                            <td>$15.00</td>
+                            <td>67890</td>
+                        </tr>
+                        <tr>
+                            <td>Servicio 3</td>
+                            <td>$20.00</td>
+                            <td>11223</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Formulario para ingresar manualmente el ID del servicio -->
+                <div class="form-group">
+                    <label for="service">ID del Servicio (Opcional):</label>
+                    <input type="text" id="service" name="service" placeholder="Ingresa el ID del servicio" />
+                </div>
+
+                <!-- Formulario para agregar una orden -->
+                <div class="form-group">
+                    <i class="fas fa-box icon"></i>
+                    <input type="text" name="link" placeholder="URL del enlace" required>
+                </div>
+
+                <div class="form-group">
+                    <i class="fas fa-hashtag icon"></i>
+                    <input type="number" name="quantity" id="quantity" placeholder="Cantidad (Mayor a 50)" required min="50" oninput="actualizarMonto()">
+                </div>
+
+                <div class="form-group">
+                    <i class="fas fa-dollar-sign icon"></i>
+                    <input type="text" id="monto" name="monto" disabled placeholder="Monto">
+                </div>
+
+                <button type="submit" class="btn">Agregar Orden</button>
+
+            {% else %}
+                <div class="flash-message error-message">
+                    <p>No tienes suficiente saldo para realizar un pedido. Por favor, agrega fondos a tu cuenta.</p>
+                </div>
+                <button type="button" class="btn" disabled>Agregar Orden</button>
+                <p class="back-link"><a href="/pagina_principal">Regresar al Inicio</a></p>
+            {% endif %}
+
+            <p class="back-link"><a href="/pagina_principal">Regresar al Inicio</a></p>
+        </form>
+    </div>
+
+    <script>
+        // Función para actualizar el monto cuando cambia la cantidad
+        function actualizarMonto() {
+            const cantidad = document.getElementById('quantity').value;
+            const montoInput = document.getElementById('monto');
+            const costoPor1000 = 10; // Ejemplo de costo por cada 1000 (puedes cambiarlo según lo que necesites)
+            
+            if (cantidad >= 50) {
+                const monto = (cantidad * costoPor1000) / 1000;
+                montoInput.value = `$${monto.toFixed(2)}`;
+            } else {
+                montoInput.value = '';
+            }
+        }
+    </script>
+</body>
+</html>

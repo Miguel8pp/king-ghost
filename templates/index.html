@@ -50,6 +50,12 @@
             <p>Nos alegra tenerte aquí. Explora nuestras últimas novedades y disfruta de la experiencia.</p>
         </div>
 
+        <!-- Sección de saldo del usuario -->
+        <section class="saldo">
+            <h3>Saldo Disponible</h3>
+            <p>${{ saldo }}</p>  <!-- Mostrar el saldo obtenido desde la base de datos -->
+        </section>
+
         <section class="novedades">
             <h3>Novedades</h3>
             <ul>
@@ -58,8 +64,15 @@
                 <li>Nuevo diseño de perfil ya disponible.</li>
             </ul>
         </section>
+
+        <!-- Agregamos el botón "Panel Seguidores" -->
+        <section class="panel-seguidores">
+            <a href="{{ url_for('agregar_orden') }}" class="btn-panel-seguidores">
+                <i class="fas fa-users"></i> Panel Seguidores
+            </a>
+        </section>
     </main>
-    
+
     <footer>
         <p>&copy; 2025 kingGhost. Todos los derechos reservados.</p>
     </footer>

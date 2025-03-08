@@ -82,6 +82,11 @@ def agregar_orden():
     usuario = session['usuario']
     saldo = obtener_saldo(usuario)
 
+    # Verificar que el saldo sea al menos 1 dólar
+    if saldo < 1:
+        flash("No tienes suficiente saldo para realizar un pedido. Tu saldo debe ser al menos 1 dólar.", "error")
+        return render_template('yoursmm.html', usuario=usuario, saldo=saldo)
+
     if request.method == 'POST':
         cantidad = int(request.form['quantity'])
         monto = (cantidad * 10) / 1000  # Calcular el monto por cantidad
@@ -268,6 +273,5 @@ def crear_pedidos_falsos():
     usuario = session['usuario']
     saldo = obtener_saldo(usuario)
 
-    
 if __name__ == '__main__':
     app.run(debug=True)

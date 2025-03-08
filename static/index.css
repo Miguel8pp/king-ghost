@@ -249,22 +249,6 @@ footer a:hover {
 }
 
 /* Estilo para la sección de Bienvenida y Saldo */
-.header-info {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px;
-    background-color: #f4f4f4;
-    margin-bottom: 20px;
-}
-
-.header-info h2 {
-    font-size: 28px;
-    font-weight: 700;
-    color: #333333;
-    margin: 0;
-}
-
 .saldo-info {
     text-align: left; /* Cambié de right a left */
 }
@@ -296,40 +280,129 @@ footer a:hover {
     font-weight: 700;
 }
 
+/* Nuevos Estilos para Mis Pedidos */
+.main-container {
+    padding: 40px;
+    background-color: #ffffff;
+    margin: 20px auto;
+    width: 90%;
+    max-width: 1000px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.main-container h2 {
+    font-size: 36px;
+    font-weight: 700;
+    color: #333333;
+    margin-bottom: 20px;
+}
+
+.saldo {
+    font-size: 20px;
+    font-weight: 600;
+    color: #444444;
+    margin-bottom: 30px;
+}
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 18px;
+    text-align: left;
+}
+
+table th, table td {
+    padding: 12px;
+    border: 1px solid #dddddd;
+}
+
+table th {
+    background-color: #f2f2f2; /* Fondo gris claro */
+    font-weight: 700;
+}
+
+table td {
+    background-color: #ffffff;
+}
+
+table tr:nth-child(even) {
+    background-color: #f9f9f9; /* Fondo alterno para filas */
+}
+
+table tr:hover {
+    background-color: #f1f1f1; /* Fondo cuando pasa el ratón */
+}
+
+/* Estilo para el botón "Volver a la página principal" */
+.btn-back {
+    background-color: #007bff; /* Fondo azul */
+    color: #ffffff; /* Texto blanco */
+    padding: 8px 16px; /* Menor padding para hacer el botón más pequeño */
+    border-radius: 6px; /* Bordes más redondeados */
+    text-decoration: none;
+    font-size: 16px; /* Texto más pequeño */
+    font-weight: 600;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, transform 0.2s ease-in-out; /* Efecto de transición */
+    margin-top: 100px; /* Aumento el margen superior para mover el botón más abajo */
+}
+
+.btn-back:hover {
+    background-color: #0056b3; /* Fondo azul más oscuro */
+    transform: translateY(-2px); /* Efecto de elevación */
+}
+
+.btn-back:active {
+    background-color: #004085; /* Fondo aún más oscuro al hacer clic */
+    transform: translateY(2px); /* Efecto de presión */
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #222222; /* Fondo gris oscuro */
+    color: #ffffff;
+    font-size: 14px;
+    margin-top: 40px;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
-    .navbar-menu {
-        display: none;
+    .main-container {
+        padding: 20px;
+        width: 95%;
     }
 
-    .hamburger {
-        display: flex;
-    }
-
-    .dropdown-content {
-        left: auto;
-        transform: none;
-        min-width: 180px;
-    }
-
-    .mobile-menu {
-        top: 50px; /* Ajuste de la posición para el menú móvil */
-    }
-
-    .header-info {
+    .navbar {
         flex-direction: column;
         align-items: flex-start;
-        text-align: left;
     }
 
-    .saldo-info {
-        margin-top: 10px;
+    .navbar h1 {
+        font-size: 24px;
+        margin-bottom: 10px;
     }
 
-    /* Mensaje de bienvenida centrado en pantallas pequeñas */
-    .welcome-message {
+    .btn-back {
+        width: 100%;
         text-align: center;
-        margin-top: 20px;
-        font-size: 28px;
+        margin-top: 15px;
+    }
+
+    table {
+        font-size: 16px;
+    }
+
+    table th, table td {
+        padding: 10px;
+    }
+
+    footer {
+        font-size: 12px;
     }
 }

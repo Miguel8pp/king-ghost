@@ -27,7 +27,7 @@
             {% endwith %}
 
             <!-- Verificar si el usuario está logueado y tiene saldo suficiente -->
-            {% if usuario and saldo|float >= 10 %}
+            {% if usuario and saldo|float >= 1 %}
                 <div class="form-group">
                     <label for="saldo">Saldo disponible:</label>
                     <p id="saldo">${{ saldo }}</p>

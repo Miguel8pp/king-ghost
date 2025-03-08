@@ -248,6 +248,54 @@ footer a:hover {
     margin-right: 8px; /* Espacio entre el icono y el texto */
 }
 
+/* Estilo para la sección de Bienvenida y Saldo */
+.header-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: #f4f4f4;
+    margin-bottom: 20px;
+}
+
+.header-info h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #333333;
+    margin: 0;
+}
+
+.saldo-info {
+    text-align: left; /* Cambié de right a left */
+}
+
+.saldo-info h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #333333;
+}
+
+.saldo-info p {
+    font-size: 24px;
+    font-weight: 700;
+    color: #FFFFFF; /* Color de saldo (blanco por defecto) */
+}
+
+/* Cuando el saldo sea menor a 5, cambiarlo a rojo */
+.saldo-info p.low-balance {
+    color: #FF0000; /* Rojo para saldo bajo */
+}
+
+/* Estilo para el mensaje de bienvenida */
+.welcome-message {
+    text-align: center; /* Centrado horizontal */
+    margin-top: 20px;
+    padding: 20px;
+    font-size: 28px;
+    color: #333333;
+    font-weight: 700;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .navbar-menu {
@@ -266,5 +314,22 @@ footer a:hover {
 
     .mobile-menu {
         top: 50px; /* Ajuste de la posición para el menú móvil */
+    }
+
+    .header-info {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+    }
+
+    .saldo-info {
+        margin-top: 10px;
+    }
+
+    /* Mensaje de bienvenida centrado en pantallas pequeñas */
+    .welcome-message {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 28px;
     }
 }

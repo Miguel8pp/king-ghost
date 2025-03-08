@@ -3,11 +3,11 @@ from flask_bcrypt import Bcrypt
 from pymongo import MongoClient
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
-from itsdangerous import URLSafeTimedSerializer as Serializer
-from dotenv import load_dotenv  # Importar la librería dotenv
-import os  # Para acceder a las variables de entorno
-from urllib.parse import quote_plus  # Importar quote_plus
-import requests  # Para hacer peticiones HTTP a la API de Yoursmm
+from itsdangerous import URLSafeTimedSerializer
+from dotenv import load_dotenv
+import os
+from urllib.parse import quote_plus
+import requests
 import datetime
 
 # Importar el archivo yoursmm.py
@@ -22,9 +22,9 @@ password = os.getenv('MONGO_PASSWORD')
 username = quote_plus(username)
 password = quote_plus(password)
 client = MongoClient(f"mongodb+srv://{username}:{password}@cluster0.hx8un.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
-db = client['db1']  # Base de datos
-collection = db['usuarios']  # Colección de usuarios
-pedidos_collection = db['pedidos']  # Colección de pedidos
+db = client['db1']
+collection = db['usuarios']
+pedidos_collection = db['Pedidos']  # Cambio realizado aquí: 'pedidos' por 'Pedidos'
 
 # Configuración de SendGrid
 SENDGRID_API_KEY = os.getenv('SENDGRID_API_KEY')
@@ -34,58 +34,46 @@ app = Flask(__name__)
 bcrypt = Bcrypt(app)
 
 # Clave secreta para sesiones
-app.secret_key = "advpjsh"
+app.secret_key = os.getenv('FLASK_SECRET_KEY', 'advpjsh')  # Asegúrate de usar un valor secreto en producción
+
+# Crear el serializer para generar y verificar tokens
+serializer = URLSafeTimedSerializer(app.secret_key)
 
 # Función para enviar correos
 def enviar_email(destinatario, asunto, cuerpo):
     mensaje = Mail(
-        from_email='kinghostshop88@gmail.com',  # Cambia esto por tu correo
+        from_email='kinghostshop88@gmail.com',
         to_emails=destinatario,
         subject=asunto,
         html_content=cuerpo
     )
     try:
-        sg = SendGridAPIClient(SENDGRID_API_KEY)  # Usa tu clave API de SendGrid
+        sg = SendGridAPIClient(SENDGRID_API_KEY)
         response = sg.send(mensaje)
-        print(f"Correo enviado con éxito! Status code: {response.status_code}")
+        print(f"Correo enviado con éxito! Revisa los correos de spam! Status code: {response.status_code}")
     except Exception as e:
         print(f"Error al enviar el correo: {e}")
-
-# Función para enviar correo de bienvenida
-def enviar_correo_bienvenida(email, usuario):
-    asunto = "Bienvenido a nuestra plataforma"
-    cuerpo = f"""
-    <p>Hola {usuario},</p>
-    <p>Gracias por registrarte en nuestra plataforma. Estamos felices de tenerte con nosotros.</p>
-    <p>Si tienes alguna pregunta, no dudes en contactarnos.</p>
-    <p>¡Disfruta de tu experiencia!</p>
-    """
-    enviar_email(email, asunto, cuerpo)
+        flash("Error al enviar el correo, inténtalo más tarde.", "error")
 
 # Función para obtener el saldo del usuario
 def obtener_saldo(usuario):
     user_data = collection.find_one({'usuario': usuario})
-    saldo = user_data.get('saldo', 0)  # Retorna el saldo, si no existe, 0 por defecto
-    return float(saldo)  # Asegurarse de que el saldo es un número flotante
+    saldo = user_data.get('saldo', 0)  # Devolver saldo o 0 si no existe
+    return float(saldo)
 
-@app.route('/')
-def home():
-    return redirect(url_for('pagina_principal'))  # Redirige a la página principal
-
+# Ruta principal que requiere estar logueado
 @app.route('/pagina_principal')
 def pagina_principal():
     if 'usuario' not in session:
         return redirect(url_for('login'))
     
-    # Obtener el saldo del usuario
     saldo = obtener_saldo(session['usuario'])
-    
-    # Obtener los servicios disponibles desde Yoursmm
     api = Api()
     services = api.services()
     
     return render_template('index.html', usuario=session['usuario'], saldo=saldo, services=services)
 
+# Ruta para agregar una orden
 @app.route('/agregar_orden', methods=['GET', 'POST'])
 def agregar_orden():
     if 'usuario' not in session:
@@ -98,11 +86,9 @@ def agregar_orden():
         cantidad = int(request.form['quantity'])
         monto = (cantidad * 10) / 1000  # Calcular el monto por cantidad
 
-        # Obtener el ID del servicio directamente desde el campo de texto
         servicio_id = request.form['service']
         enlace = request.form['link']  # URL del enlace
 
-        # Validar si el saldo es suficiente
         if saldo >= monto:
             # Crear el pedido en Yoursmm
             api = Api()
@@ -112,30 +98,62 @@ def agregar_orden():
                 'quantity': cantidad,  # Cantidad de acciones
             }
 
-            order_response = api.order(order_data)
+            try:
+                order_response = api.order(order_data)
 
-            if order_response:
-                # Guardar el pedido en la colección de MongoDB
-                pedidos_collection.insert_one({
-                    'usuario': usuario,
-                    'cantidad': cantidad,
-                    'monto': monto,
-                    'estado': 'Pendiente',
-                    'fecha': datetime.datetime.now()
-                })
+                if order_response and 'order' in order_response:  # Cambié 'order_id' por 'order'
+                    # Obtener el estado del pedido desde la API de Yoursmm
+                    order_id = order_response['order']  # Usamos 'order' aquí
+                    estado = api.get_order_status(order_id)  # Suponiendo que la API tenga este método
 
-                # Actualizar el saldo del usuario
-                collection.update_one({'usuario': usuario}, {'$inc': {'saldo': -monto}})
+                    # Guardar el pedido en la colección de MongoDB
+                    pedidos_collection.insert_one({
+                        'usuario': usuario,
+                        'cantidad': cantidad,
+                        'monto': monto,
+                        'estado': estado,  # Guardamos el estado obtenido
+                        'fecha': datetime.datetime.now()  # Aseguramos que la fecha esté registrada
+                    })
 
-                flash("Pedido creado con éxito. Puedes hacer otro pedido.", "success")
-            else:
-                flash("Hubo un problema al crear el pedido con Yoursmm. Intenta nuevamente.", "error")
+                    # Actualizar el saldo del usuario
+                    collection.update_one({'usuario': usuario}, {'$inc': {'saldo': -monto}})
+
+                    flash("Pedido creado con éxito. Puedes hacer otro pedido.", "success")
+                else:
+                    flash(f"Hubo un problema al crear el pedido ", "error")
+            except Exception as e:
+                print(f"Error al realizar el pedido {e}")
+                flash("Error al realizar el pedido. Intenta más tarde.", "error")
         else:
             flash("No tienes suficiente saldo para realizar esta orden.", "error")
             return render_template('yoursmm.html', usuario=usuario, saldo=saldo)
 
     return render_template('yoursmm.html', usuario=usuario, saldo=saldo)
 
+# Ruta para mostrar los pedidos del usuario
+@app.route('/pedidos')
+def pedidos():
+    if 'usuario' not in session:
+        return redirect(url_for('login'))
+    
+    usuario = session['usuario']
+    saldo = obtener_saldo(usuario)  # Obtenemos el saldo del usuario
+
+    # Obtener solo los pedidos del usuario logueado
+    pedidos_usuario = pedidos_collection.find({'usuario': usuario}).sort('fecha', -1)  # Obtener pedidos del usuario
+
+    # Convertir la fecha en cada pedido a un formato legible
+    pedidos_usuario = list(pedidos_usuario)  # Convertir a lista para poder iterar correctamente
+    for pedido in pedidos_usuario:
+        if 'fecha' in pedido:
+            pedido['fecha'] = pedido['fecha'].strftime('%Y-%m-%d %H:%M:%S')  # Formatear la fecha
+        else:
+            pedido['fecha'] = 'Fecha no disponible'  # Si no hay fecha, asignar un valor predeterminado
+
+    # Pasamos los pedidos y el saldo al template
+    return render_template('pedidos.html', pedidos=pedidos_usuario, saldo=saldo)
+
+# Ruta para registrar un nuevo usuario
 @app.route('/registro', methods=['GET', 'POST'])
 def registro():
     if request.method == 'POST':
@@ -143,15 +161,12 @@ def registro():
         email = request.form['email']
         contrasena = request.form['contrasena']
 
-        # Verificar si el correo ya está registrado
         if collection.find_one({'email': email}):
             flash("El correo electrónico ya está registrado.")
             return redirect(url_for('registro'))
 
-        # Hashear la contraseña
         hashed_password = bcrypt.generate_password_hash(contrasena).decode('utf-8')
 
-        # Insertar usuario en la base de datos
         collection.insert_one({
             'usuario': usuario,
             'email': email,
@@ -162,22 +177,21 @@ def registro():
         session['usuario'] = usuario
 
         # Enviar correo de bienvenida
-        enviar_correo_bienvenida(email, usuario)
+        enviar_email(email, "Bienvenido a nuestra plataforma", f"Hola {usuario}, ¡bienvenido a nuestra plataforma! para agregar fondos a su cuenta comuniquese por WhatsApp al numero +52 4661002589")
 
         return redirect(url_for('pagina_principal'))
 
     return render_template('register.html')
 
+# Ruta para el login de usuarios
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         usuario = request.form['usuario']
         contrasena = request.form['contrasena']
 
-        # Buscar al usuario en la base de datos
         user = collection.find_one({'usuario': usuario})
         
-        # Verificar si las credenciales son correctas
         if user and bcrypt.check_password_hash(user['contrasena'], contrasena):
             session['usuario'] = usuario
             return redirect(url_for('pagina_principal'))
@@ -187,6 +201,7 @@ def login():
 
     return render_template('login.html')
 
+# Ruta para recuperar contraseña
 @app.route('/recuperar_contrasena', methods=['GET', 'POST'])
 def recuperar_contrasena():
     if request.method == 'POST':
@@ -210,6 +225,7 @@ def recuperar_contrasena():
 
     return render_template('recuperar_contrasena.html')
 
+# Ruta para restablecer la contraseña
 @app.route('/restablecer_contrasena/<token>', methods=['GET', 'POST'])
 def restablecer_contrasena(token):
     try:
@@ -227,6 +243,7 @@ def restablecer_contrasena(token):
 
     return render_template('restablecer_contrasena.html')
 
+# Ruta para mostrar el perfil del usuario
 @app.route('/mi_perfil')
 def mi_perfil():
     if 'usuario' not in session:
@@ -236,10 +253,21 @@ def mi_perfil():
     user_data = collection.find_one({'usuario': usuario})
     return render_template('mi_perfil.html', usuario=user_data['usuario'], email=user_data['email'])
 
+# Ruta para cerrar sesión
 @app.route('/logout')
 def logout():
     session.pop('usuario', None)
     return redirect(url_for('login'))
 
+@app.route('/crear_pedidos_falsos')
+def crear_pedidos_falsos():
+    # Verificar que el usuario esté logueado
+    if 'usuario' not in session:
+        return redirect(url_for('login'))
+    
+    usuario = session['usuario']
+    saldo = obtener_saldo(usuario)
+
+    
 if __name__ == '__main__':
     app.run(debug=True)

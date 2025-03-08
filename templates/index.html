@@ -22,6 +22,9 @@
                         <a href="/mi_perfil">
                             <i class="fas fa-user"></i> Mi Perfil
                         </a>
+                        <a href="/pedidos">
+                            <i class="fas fa-box"></i> Pedidos  <!-- Nueva opción de Pedidos -->
+                        </a>
                         <a href="/logout">
                             <i class="fas fa-sign-out-alt"></i> Cerrar sesión
                         </a>
@@ -34,27 +37,23 @@
                 <span></span>
             </button>
         </nav>
-        <div class="mobile-menu hidden">
-            <a href="/mi_perfil">
-                <i class="fas fa-user"></i> Mi Perfil
-            </a>
-            <a href="/logout">
-                <i class="fas fa-sign-out-alt"></i> Cerrar sesión
-            </a>
+
+        <!-- Sección de saldo debajo de la bienvenida -->
+        <div class="saldo-info">
+            <h3>Saldo Disponible:</h3>
+            <p>${{ saldo }}</p> <!-- Mostrar el saldo obtenido desde la base de datos -->
         </div>
     </header>
 
+    <!-- Mensaje debajo del header -->
+    <div class="welcome-message">
+        <h2>¡Bienvenido a nuestra página web!</h2>
+    </div>
+
     <main class="main-container">
         <div class="welcome-text">
-            <h2>¡Bienvenido a nuestra página web!</h2>
             <p>Nos alegra tenerte aquí. Explora nuestras últimas novedades y disfruta de la experiencia.</p>
         </div>
-
-        <!-- Sección de saldo del usuario -->
-        <section class="saldo">
-            <h3>Saldo Disponible</h3>
-            <p>${{ saldo }}</p>  <!-- Mostrar el saldo obtenido desde la base de datos -->
-        </section>
 
         <section class="novedades">
             <h3>Novedades</h3>
@@ -84,6 +83,15 @@
 
         hamburger.addEventListener('click', () => {
             mobileMenu.classList.toggle('hidden');
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const saldo = parseFloat("{{ saldo }}"); // Esto obtiene el saldo del backend
+            const saldoElement = document.querySelector('.saldo-info p');
+
+            if (saldo < 5) {
+                saldoElement.classList.add('low-balance');
+            }
         });
     </script>
 </body>

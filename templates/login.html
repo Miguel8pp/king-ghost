@@ -6,7 +6,7 @@
     <title>Iniciar Sesión</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../static/styles.css">
-    <script defer src="../static/app.js"></script>
+    <script defer src="../static/app.js"></script> <!-- Asegúrate de que app.js esté cargado correctamente -->
 </head>
 <body>
     <div class="login-container">
@@ -54,6 +54,7 @@
         togglePassword.addEventListener("click", function() {
             const type = password.type === "password" ? "text" : "password";
             password.type = type;
+            // Cambiar el icono del ojo
             this.classList.toggle("fa-eye-slash");
         });
     </script>

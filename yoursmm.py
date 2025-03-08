@@ -56,3 +56,12 @@ class Api:
         return self._connect({
             'action': 'balance'
         })
+    
+    def get_order_status(self, order_id):
+        """
+        Obtiene el estado de un pedido usando el ID del pedido.
+        """
+        return self._connect({
+            'action': 'status',
+            'order_id': order_id
+        })

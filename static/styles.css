@@ -1,0 +1,196 @@
+/* Global Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(to bottom, #2a2a2a, #1c1c1c); /* Gradiente oscuro con un toque de gris */
+    color: #fff; /* Texto blanco para mayor contraste */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    padding: 0 20px;
+    -webkit-font-smoothing: antialiased; /* Mejora la visualización en dispositivos Apple */
+    overflow: hidden; /* Asegura que no haya barras de desplazamiento */
+}
+
+/* Login Container */
+.login-container {
+    background-color: #000; /* Fondo negro para el contenedor */
+    padding: 40px 50px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* Sombra más pronunciada */
+    width: 100%;
+    max-width: 450px;
+    box-sizing: border-box;
+    border: 1px solid #000; /* Borde negro */
+    position: relative;
+    transform: translateZ(0);
+    animation: slideIn 1s ease-out; /* Animación de entrada */
+}
+
+/* Animación para el formulario */
+@keyframes slideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Form */
+.login-form h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 28px;
+    color: #fff; /* Título en blanco */
+    text-shadow: 0 0 10px #ff0033; /* Sutil resplandor para el título */
+}
+
+/* Form Fields */
+.form-group {
+    position: relative;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.form-group .icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #fff; /* Íconos en blanco */
+    font-size: 20px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 14px 14px 14px 45px;
+    border: 2px solid #444; /* Borde oscuro para los campos */
+    border-radius: 10px;
+    background-color: #222; /* Fondo oscuro para los inputs */
+    color: #fff; /* Texto blanco en los inputs */
+    outline: none;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.form-group input:focus {
+    background-color: #333; /* Fondo más oscuro al enfocar */
+    border-color: #ff0033; /* Borde rojo neón al enfocar */
+    box-shadow: 0 0 10px #ff0033; /* Efecto de resplandor en el borde */
+}
+
+.form-group input::placeholder {
+    color: #666; /* Placeholder en gris oscuro */
+}
+
+/* Buttons */
+.btn {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    background-color: #ff0033; /* Rojo neón fuerte */
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Sombra suave en el botón */
+}
+
+.btn:hover {
+    background-color: #e60029; /* Rojo más oscuro */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); /* Sombra más intensa */
+    transform: translateY(-3px); /* Efecto de "levantamiento" al pasar el ratón */
+}
+
+.btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Links */
+.signup-link, .login-link {
+    text-align: center;
+    margin-top: 25px;
+}
+
+.signup-link p, .login-link p {
+    font-size: 14px;
+    color: #fff; /* Texto en blanco */
+}
+
+.signup-text, .login-text {
+    color: #ff0033; /* Links en rojo neón */
+    font-weight: bold;
+    text-decoration: none;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.signup-text:hover, .login-text:hover {
+    color: #ff6666; /* Texto más claro al pasar el cursor */
+    transform: scale(1.1);
+}
+
+/* Password Toggle Icon */
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    background: transparent;
+    border: 2px solid #fff; /* Contorno blanco */
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.toggle-password::before {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 6px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    border: 2px solid #fff; /* Icono blanco */
+    background-color: transparent;
+}
+
+.toggle-password::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 2px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    background: #fff; /* Líneas blancas */
+    opacity: 1;
+}
+
+.toggle-password.active::after {
+    opacity: 0;
+}
+
+/* Estilo del mensaje de error */
+.error-message {
+    color: #ff4d4d; /* Rojo claro para indicar error */
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 15px;
+    border: 1px solid #ff4d4d;
+    background-color: rgba(255, 77, 77, 0.1);
+    padding: 10px;
+    border-radius: 5px;
+}

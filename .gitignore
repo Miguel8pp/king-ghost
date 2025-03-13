@@ -1,0 +1,17 @@
+# Ignorar el archivo .env
+.env
+
+# Ignorar los archivos compilados de Python
+*.pyc
+*.pyo
+__pycache__/
+
+# Ignorar el entorno virtual (si lo estás usando)
+venv/
+.env/
+
+# Ignorar archivos de configuración específicos del IDE (como VSCode)
+.vscode/
+.idea/
+
+# Ignorar otros archivos específicos de tu proyecto que no quieras subir

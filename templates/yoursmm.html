@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Realizar Pedido</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+        }
+        .container {
+            display: flex;
+            width: 100%;
+            margin-top: 20px;
+        }
+        .main-content {
+            width: 70%;
+            padding: 20px;
+            background-color: #fff;
+            margin-left: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .form-group select, .form-group input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+        }
+        .form-group input[type="number"] {
+            width: 60%;
+        }
+        .price-display {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .order-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            border-radius: 6px;
+        }
+        .order-btn:hover {
+            background-color: #45a049;
+        }
+        .saldo {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #fff;
+            text-align: center;
+        }
+        .saldo span {
+            color: #ffeb3b;
+        }
+        .info-text {
+            font-size: 14px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Realizar Pedido</h1>
+</header>
+
+<div class="container">
+    <div class="main-content">
+        <div class="saldo">
+            Saldo disponible: <span>${{ saldo }}</span>
+        </div>
+        
+        <form method="POST" id="order-form">
+            <div class="form-group">
+                <label for="category-select">Categoría</label>
+                <select id="category-select" name="category" onchange="updateServices()">
+                    <option value="">Selecciona una categoría</option>
+                    {% for category in categories %}
+                        <option value="{{ category }}">{{ category }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="service-select">Servicio</label>
+                <select id="service-select" name="service" onchange="updatePrice()">
+                    <option value="">Selecciona un servicio</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="quantity">Cantidad</label>
+                <input type="number" id="quantity" name="quantity" placeholder="Cantidad" min="1" oninput="updatePrice()">
+                <div class="info-text" id="quantity-info"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="service-link">Link</label>
+                <input type="text" id="service-link" name="link" placeholder="Ingresa el enlace" required>
+            </div>
+
+            <div class="form-group">
+                <label for="price-display">Precio por 1000</label>
+                <input type="text" id="price-display" name="price" readonly>
+            </div>
+
+            <p class="price-display" id="total-price">Total: $0.0000000</p>
+
+            <button type="submit" class="order-btn">Realizar Pedido</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    const categories = {{ categories | tojson }};
+    const services = {{ services | tojson }};
+    let selectedService = null;
+
+    // Actualizar servicios según la categoría seleccionada
+    function updateServices() {
+        const categorySelect = document.getElementById('category-select');
+        const serviceSelect = document.getElementById('service-select');
+        const selectedCategory = categorySelect.value;
+
+        // Limpiar los servicios previos
+        serviceSelect.innerHTML = '<option value="">Selecciona un servicio</option>';
+        document.getElementById('quantity-info').innerHTML = ''; // Limpiar la información de cantidad
+
+        if (selectedCategory) {
+            const filteredServices = services.filter(service => service.category === selectedCategory);
+            filteredServices.forEach(service => {
+                const option = document.createElement('option');
+                option.value = service.service;
+                option.textContent = service.name;
+                serviceSelect.appendChild(option);
+            });
+        }
+    }
+
+    // Actualizar el precio y mostrar el rango de cantidad cuando se selecciona un servicio
+    function updatePrice() {
+        const serviceSelect = document.getElementById('service-select');
+        const quantity = document.getElementById('quantity').value;
+
+        const selectedServiceId = serviceSelect.value;
+        if (selectedServiceId) {
+            selectedService = services.find(service => service.service === selectedServiceId);
+
+            // Mostrar los límites de cantidad
+            const quantityInfo = document.getElementById('quantity-info');
+            quantityInfo.innerHTML = `Min: ${selectedService.min} | Max: ${selectedService.max}`;
+
+            // Aumentar el precio por 1000 unidades en un 40%
+            const pricePer1000 = selectedService.rate * 1.40;
+
+            // Mostrar el precio por 1000 unidades
+            document.getElementById('price-display').value = `$${pricePer1000.toFixed(7)}`;
+
+            // Calcular el total dependiendo de la cantidad seleccionada
+            const totalPrice = (quantity * pricePer1000) / 1000;
+            document.getElementById('total-price').textContent = `Total: $${totalPrice.toFixed(7)}`;
+        }
+    }
+</script>
+
+</body>
+</html>

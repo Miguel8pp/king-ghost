@@ -278,7 +278,7 @@ def restablecer_contrasena(token):
         email = serializer.loads(token, salt='password-reset-salt', max_age=3600)
     except:
         flash("El enlace de restablecimiento ha caducado o es inválido.", "error")
-        return redirect(url_for('recuperar_contrasena'))
+        return redirect(url_for('recuperar_contrasena')) 
 
     if request.method == 'POST':
         nueva_contrasena = request.form['nueva_contrasena']
@@ -303,6 +303,7 @@ def mi_perfil():
 @app.route('/logout')
 def logout():
     session.pop('usuario', None)
+    flash("Has cerrado sesión correctamente.", "info")
     return redirect(url_for('login'))
 
 # Ejecutar la aplicación

@@ -136,6 +136,7 @@
 </div>
 
 <script>
+    // Aseguramos que las categorías y servicios sean pasados correctamente a la plantilla
     const categories = {{ categories | tojson }};
     const services = {{ services | tojson }};
     let selectedService = null;

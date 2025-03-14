@@ -52,7 +52,7 @@ def enviar_email(destinatario, asunto, cuerpo):
     try:
         sg = SendGridAPIClient(SENDGRID_API_KEY)
         response = sg.send(mensaje)
-        print(f"Correo enviado con éxito! Revisa los correos de spam! Status code: {response.status_code}")
+        print(f"Correo enviado con éxito! Status code: {response.status_code}")
     except Exception as e:
         print(f"Error al enviar el correo: {e}")
         flash("Error al enviar el correo, inténtalo más tarde.", "error")
@@ -167,10 +167,10 @@ def login():
 
     if request.method == 'POST':
         username = request.form['usuario']
-        password = request.form['password']
+        password = request.form['contrasena']
         
         user_data = collection.find_one({'usuario': username})
-        if user_data and bcrypt.check_password_hash(user_data['password'], password):
+        if user_data and bcrypt.check_password_hash(user_data['contrasena'], password):
             session['usuario'] = username
             flash("Bienvenido de nuevo!", "success")
             return redirect(url_for('pagina_principal'))
@@ -179,7 +179,7 @@ def login():
 
     return render_template('login.html')
 
-# Ruta de registro
+# Ruta para registrar un nuevo usuario
 @app.route('/registro', methods=['GET', 'POST'])
 def registro():
     if 'usuario' in session:
@@ -187,7 +187,7 @@ def registro():
 
     if request.method == 'POST':
         username = request.form['usuario']
-        password = request.form['password']
+        password = request.form['contrasena']
         password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
 
         # Verificar si el usuario ya existe
@@ -196,11 +196,11 @@ def registro():
             return render_template('registro.html')
 
         # Crear el nuevo usuario
-        collection.insert_one({'usuario': username, 'password': password_hash, 'saldo': 0.0})
+        collection.insert_one({'usuario': username, 'contrasena': password_hash, 'saldo': 0.0})
         flash("Registro exitoso. Ahora puedes iniciar sesión.", "success")
         return redirect(url_for('login'))
 
-    return render_template('registro.html')
+    return render_template('register.html')
 
 # Ruta para cerrar sesión
 @app.route('/logout')
@@ -210,41 +210,46 @@ def logout():
     return redirect(url_for('login'))
 
 # Ruta para el perfil del usuario
-@app.route('/perfil')
+@app.route('/mi_perfil')
 def perfil():
     if 'usuario' not in session:
         return redirect(url_for('login'))
 
     usuario = session['usuario']
-    user_data = collection.find_one({'usuario': usuario})
-    return render_template('perfil.html', usuario=usuario, saldo=user_data.get('saldo', 0))
+    user_data = collection.find_one({'usuario': usuario})  # Buscar al usuario en la base de datos
+    
+    # Obtener el email del usuario (asegúrate de que 'email' es el nombre del campo en la base de datos)
+    email = user_data.get('email', 'Email no disponible')  # Si no hay email, mostrar un valor por defecto
+    
+    return render_template('mi_perfil.html', usuario=usuario, saldo=user_data.get('saldo', 0), email=email)
 
-# Ruta para cambiar la contraseña
-@app.route('/cambiar_contraseña', methods=['GET', 'POST'])
-def cambiar_contraseña():
-    if 'usuario' not in session:
-        return redirect(url_for('login'))
+# Ruta para restablecer la contraseña
+@app.route('/recuperar_contrasena/<token>', methods=['GET', 'POST'])
+def restablecer_contrasena(token):
+    try:
+        email = serializer.loads(token, salt='password-reset-salt', max_age=3600)
+    except:
+        flash("El enlace de restablecimiento ha caducado o es inválido.", "error")
+        return redirect(url_for('recuperar_contrasena')) 
 
     if request.method == 'POST':
-        usuario = session['usuario']
-        nueva_contraseña = request.form['nueva_contraseña']
-        nueva_contraseña_hash = bcrypt.generate_password_hash(nueva_contraseña).decode('utf-8')
+        nueva_contrasena = request.form['nueva_contrasena']
+        hashed_password = bcrypt.generate_password_hash(nueva_contrasena).decode('utf-8')
+        collection.update_one({'email': email}, {'$set': {'contrasena': hashed_password}})
+        flash("Tu contraseña ha sido restablecida con éxito.", "success")
+        return redirect(url_for('login'))
 
-        collection.update_one({'usuario': usuario}, {'$set': {'password': nueva_contraseña_hash}})
-        flash("Contraseña actualizada con éxito.", "success")
-        return redirect(url_for('perfil'))
-
-    return render_template('cambiar_contraseña.html')
+    return render_template('restablecer_contrasena.html')
 
 # Ruta para ver el historial de pedidos
-@app.route('/historial_pedidos')
+@app.route('/pedidos')
 def historial_pedidos():
     if 'usuario' not in session:
         return redirect(url_for('login'))
 
     usuario = session['usuario']
     pedidos = pedidos_collection.find({'usuario': usuario})
-    return render_template('historial_pedidos.html', usuario=usuario, pedidos=pedidos)
+    return render_template('pedidos.html', usuario=usuario, pedidos=pedidos)
 
 # Ejecutar la aplicación
 if __name__ == '__main__':

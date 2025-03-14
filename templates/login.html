@@ -4,11 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar Sesión</title>
+    <!-- Link a Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../static/styles.css">
+    <link rel="stylesheet" href="../static/styles.css"> <!-- Tu archivo CSS original -->
     <script defer src="../static/app.js"></script>
+    <style>
+        /* Estilos para las partículas (Canvas) */
+        .particle-animation canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: -1; /* Aseguramos que las partículas estén al fondo */
+        }
+    </style>
 </head>
 <body>
+    <!-- Partículas -->
+    <div class="particle-animation">
+        <canvas data-particle-animation></canvas>
+    </div>
+
+    <!-- Formulario de Inicio de Sesión -->
     <div class="login-container">
         <form class="login-form" action="/login" method="POST">
             <h2>Iniciar Sesión</h2>
@@ -37,7 +54,6 @@
 
             <button type="submit" class="btn">Iniciar Sesión</button>
 
-            <!-- Enlace para recuperación de contraseña -->
             <p class="forgot-password"><a href="/recuperar_contrasena">¿Olvidaste tu contraseña?</a></p>
 
             <div class="signup-link">
@@ -45,5 +61,74 @@
             </div>
         </form>
     </div>
+
+    <!-- Carrusel de imágenes social slider (debajo del formulario) -->
+    <div class="social-slider">
+        <div class="social-items-container">
+            <div class="social-item"><span>Vimeo</span><i class="fab fa-vimeo-v"></i><i class="fab fa-vimeo-v absolute-icon"></i></div>
+            <div class="social-item"><span>Twitch</span><i class="fab fa-twitch"></i><i class="fab fa-twitch absolute-icon"></i></div>
+            <div class="social-item"><span>Reddit</span><i class="fab fa-reddit"></i><i class="fab fa-reddit absolute-icon"></i></div>
+            <div class="social-item"><span>Telegram</span><i class="fab fa-telegram"></i><i class="fab fa-telegram absolute-icon"></i></div>
+            <div class="social-item"><span>TikTok</span><i class="fab fa-tiktok"></i><i class="fab fa-tiktok absolute-icon"></i></div>
+            <div class="social-item"><span>Instagram</span><i class="fab fa-instagram"></i><i class="fab fa-instagram absolute-icon"></i></div>
+            <div class="social-item"><span>Twitter</span><i class="fab fa-twitter"></i><i class="fab fa-twitter absolute-icon"></i></div>
+            <div class="social-item"><span>Spotify</span><i class="fab fa-spotify"></i><i class="fab fa-spotify absolute-icon"></i></div>
+            <div class="social-item"><span>Discord</span><i class="fab fa-discord"></i><i class="fab fa-discord absolute-icon"></i></div>
+            <div class="social-item"><span>Dailymotion</span><i class="fab fa-dailymotion"></i><i class="fab fa-dailymotion absolute-icon"></i></div>
+            <div class="social-item"><span>Tumblr</span><i class="fab fa-tumblr"></i><i class="fab fa-tumblr absolute-icon"></i></div>
+            <div class="social-item"><span>YouTube</span><i class="fab fa-youtube"></i><i class="fab fa-youtube absolute-icon"></i></div>
+            <div class="social-item"><span>Pinterest</span><i class="fab fa-pinterest"></i><i class="fab fa-pinterest absolute-icon"></i></div>
+        </div>
+    </div>
+
+    <script>
+        // Animación de las partículas
+        const canvas = document.querySelector('canvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let particlesArray = [];
+
+        function Particle(x, y) {
+            this.x = x;
+            this.y = y;
+            this.size = Math.random() * 5 + 1;
+            this.speedX = Math.random() * 3 - 1.5;
+            this.speedY = Math.random() * 3 - 1.5;
+            this.color = 'rgba(255, 255, 255, 0.7)';
+        }
+
+        Particle.prototype.draw = function() {
+            ctx.fillStyle = this.color;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fill();
+        };
+
+        Particle.prototype.update = function() {
+            this.x += this.speedX;
+            this.y += this.speedY;
+
+            if (this.size > 0.2) this.size -= 0.1;
+            if (this.x > canvas.width || this.x < 0 || this.y > canvas.height || this.y < 0) {
+                this.size = 0;
+            }
+
+            this.draw();
+        };
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            if (Math.random() < 0.15) {
+                particlesArray.push(new Particle(Math.random() * canvas.width, Math.random() * canvas.height));
+            }
+            particlesArray.forEach(particle => particle.update());
+            requestAnimationFrame(animateParticles);
+        }
+
+        animateParticles();
+    </script>
 </body>
 </html>

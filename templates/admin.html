@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel de Administración</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+</head>
+<body>
+    <div id="particles-js"></div> <!-- Animación de partículas -->
+
+    <div class="admin-container">
+        <header class="admin-header">
+            <h1>Panel de Administración</h1>
+            <a href="{{ url_for('logout') }}" class="admin-link">Salir</a>
+        </header>
+
+        <!-- Mostrar los mensajes de Flask -->
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="messages-container">
+                {% for message in messages %}
+                    <div class="message">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% endwith %}
+
+        <!-- Formulario de búsqueda -->
+        <div class="search-bar">
+            <form method="get">
+                <input type="text" name="query" placeholder="Buscar por usuario o correo">
+                <button type="submit">Buscar</button>
+            </form>
+        </div>
+
+        <!-- Tabla de Usuarios -->
+        <h2>Usuarios Registrados</h2>
+        <table class="table-container">
+            <thead>
+                <tr>
+                    <th>Usuario</th>
+                    <th>Email</th>
+                    <th>Saldo</th>
+                    <th>Total de Pedidos</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in usuarios %}
+                <tr>
+                    <td>{{ user['usuario'] }}</td>
+                    <td>{{ user['email'] }}</td>
+                    <td>{{ user['saldo'] }}</td>
+                    <td>{{ user['total_pedidos'] }}</td>
+                    <td>
+                        <!-- Formulario para seleccionar acción -->
+                        <form method="post" class="form-inline">
+                            <input type="hidden" name="usuario" value="{{ user['usuario'] }}">
+                            
+                            <select name="accion" id="accion-{{ user['usuario'] }}" required onchange="changeForm('{{ user['usuario'] }}')">
+                                <option value="">Selecciona una acción</option>
+                                <option value="cambiar_usuario">Cambiar Usuario</option>
+                                <option value="cambiar_email">Cambiar Email</option>
+                                <option value="agregar_saldo">Agregar Saldo</option>
+                                <option value="quitar_saldo">Quitar Saldo</option>
+                                <option value="cambiar_contrasena">Cambiar Contraseña</option>
+                            </select>
+
+                            <div id="input-container-{{ user['usuario'] }}"></div>
+
+                            <button type="submit" class="btn">Actualizar</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Inicializar la animación de partículas -->
+    <script>
+        particlesJS("particles-js", {
+            "particles": {
+                "number": {
+                    "value": 80,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    "value": "#ffffff"  // Color rojo neon para las partículas
+                },
+                "shape": {
+                    "type": "circle",
+                    "stroke": {
+                        "width": 0,
+                        "color": "#000"
+                    }
+                },
+                "opacity": {
+                    "value": 0.8,
+                    "random": true,
+                    "anim": {
+                        "enable": true,
+                        "speed": 1,
+                        "opacity_min": 0.1
+                    }
+                },
+                "size": {
+                    "value": 4,
+                    "random": true,
+                    "anim": {
+                        "enable": true,
+                        "speed": 3,
+                        "size_min": 0.1
+                    }
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#66ff00",  // Rojo neon para las líneas
+                    "opacity": 0.5,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 3,
+                    "direction": "none",
+                    "random": true,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                    "attract": {
+                        "enable": false,
+                        "rotateX": 600,
+                        "rotateY": 1200
+                    }
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "repulse"
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
+                    }
+                }
+            },
+            "retina_detect": true
+        });
+
+        // Cambiar el formulario dinámicamente según la acción seleccionada
+        function changeForm(usuario) {
+            let selectElement = document.getElementById('accion-' + usuario);
+            let inputContainer = document.getElementById('input-container-' + usuario);
+            inputContainer.innerHTML = ''; // Limpiar el contenedor
+
+            const selectedAction = selectElement.value;
+
+            let inputField;
+
+            if (selectedAction === 'agregar_saldo' || selectedAction === 'quitar_saldo') {
+                inputField = `
+                    <label for="monto">Monto</label>
+                    <input type="number" name="monto" placeholder="Monto a agregar o quitar" required>
+                    <label for="tipo_saldo">Tipo</label>
+                    <select name="tipo_saldo" required>
+                        <option value="agregar">Agregar</option>
+                        <option value="quitar">Quitar</option>
+                    </select>`;
+            } else if (selectedAction === 'cambiar_email') {
+                inputField = '<input type="email" name="nuevo_valor" placeholder="Nuevo correo" required>';
+            } else if (selectedAction === 'cambiar_contrasena') {
+                inputField = '<input type="password" name="nuevo_valor" placeholder="Nueva contraseña" required>';
+            } else if (selectedAction === 'cambiar_usuario') {
+                inputField = '<input type="text" name="nuevo_valor" placeholder="Nuevo usuario" required>';
+            }
+
+            inputContainer.innerHTML = inputField;
+        }
+    </script>
+</body>
+</html>

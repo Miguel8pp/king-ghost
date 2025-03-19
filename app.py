@@ -444,13 +444,13 @@ def admin_dashboard():
         elif accion == 'banear_usuario':
             razon = request.form.get('razon_ban')  # Obtiene la razón de la base de datos
             if razon:  # Validar que la razón no esté vacía
-                collection.update_one({'usuario': usuario_a_modificar}, {'$set': {'estado': 'ban', 'razon_ban': razon}})
+                collection.update_one({'usuario': usuario_a_modificar}, {'$set': {'ban': 'ban', 'razon_ban': razon}})
                 flash(f"El usuario {usuario_a_modificar} ha sido baneado.", "success")
             else:
                 flash("Debes proporcionar una razón para el ban.", "error")
         
         elif accion == 'desbanear_usuario':
-            collection.update_one({'usuario': usuario_a_modificar}, {'$set': {'estado': 'activo', 'razon_ban': ''}})
+            collection.update_one({'usuario': usuario_a_modificar}, {'$set': {'ban': 'no_ban', 'razon_ban': ''}})
             flash(f"El usuario {usuario_a_modificar} ha sido desbloqueado.", "success")
         
         # Redirigir después de realizar la acción POST

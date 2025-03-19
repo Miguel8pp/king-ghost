@@ -7,9 +7,9 @@ body {
     color: #fff;  /* Texto blanco */
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
-    overflow: hidden; /* Evitar barras de desplazamiento */
+    align-items: flex-start; /* Cambié align-items para no centrar verticalmente */
+    height: auto; /* Permitimos que el contenido crezca verticalmente */
+    overflow-y: auto; /* Permite el desplazamiento vertical */
     flex-direction: column; /* Coloca los elementos en columna */
 }
 
@@ -17,9 +17,10 @@ body {
 .container {
     display: flex;
     flex-direction: column; /* Colocamos los elementos verticalmente */
-    justify-content: center;
+    justify-content: flex-start; /* Cambié a 'flex-start' para alinearlo al principio */
     align-items: center;
     width: 100%;
+    padding-bottom: 50px; /* Agregado un padding para que no se quede pegado al fondo */
 }
 
 /* Cabecera */
@@ -124,18 +125,24 @@ td {
     margin-bottom: 20px;
     border-radius: 5px;
     font-size: 16px;
+    width: 80%;  /* Limitamos el ancho de los mensajes */
+    margin: 10px auto;  /* Centramos el contenedor del mensaje */
+    text-align: center;  /* Aseguramos que el texto del mensaje esté centrado */
 }
 
+/* Mensaje de éxito */
 .flash-message.success {
     background-color: #d4edda;
     color: #155724;
 }
 
+/* Mensaje de error */
 .flash-message.error {
     background-color: #f8d7da;
     color: #721c24;
 }
 
+/* Mensaje informativo */
 .flash-message.info {
     background-color: #d1ecf1;
     color: #0c5460;

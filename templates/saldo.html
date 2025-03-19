@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Saldo</title>
+    <link rel="stylesheet" href="../static/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Contenedor Principal -->
+    <div class="login-container">
+        <h2>Función en Mantenimiento</h2>
+        <p>La función para agregar saldo está en mantenimiento. Por favor, contáctanos por WhatsApp para más información sobre como agregar saldo a tu cuenta :)</p>
+        
+        <!-- Ícono de configuración (tuerca) -->
+        <div class="maintenance-icon">
+            <i class="fas fa-cogs"></i> <!-- Icono de la tuerca de configuración -->
+        </div>
+        
+        <!-- Botón de WhatsApp -->
+        <a href="https://wa.me/524661002589?text=%C2%A1Hola!%20Me%20gustar%C3%ADa%20agregar%20saldo%20a%20mi%20cuenta." target="_blank" class="btn whatsapp-btn">
+            <i class="fab fa-whatsapp"></i> Contactar por WhatsApp
+        </a>
+        
+        <!-- Botón de Regresar -->
+        <a href="{{ url_for('pagina_principal') }}" class="btn regresar-btn">Regresar</a>
+    </div>
+
+    <!-- Pie de Página -->
+    <footer>
+        <p>&copy; 2025 kingGhost. Todos los derechos reservados.</p>
+    </footer>
+
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(to bottom, #2a2a2a, #1c1c1c); /* Gradiente oscuro con un toque de gris */
+            color: #fff; /* Texto blanco para mayor contraste */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 0 20px;
+            -webkit-font-smoothing: antialiased;
+            overflow: hidden;
+            flex-direction: column;
+        }
+
+        /* Contenedor del formulario */
+        .login-container {
+            background-color: #000;
+            padding: 40px 50px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 450px;
+            box-sizing: border-box;
+            border: 1px solid #000;
+            position: relative;
+            transform: translateZ(0);
+            animation: slideIn 1s ease-out;
+            z-index: 2;
+        }
+
+        /* Animación para el formulario */
+        @keyframes slideIn {
+            0% {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Título */
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 28px;
+            color: #fff;
+            text-shadow: 0 0 10px #ff0033;
+        }
+
+        /* Texto del mensaje */
+        .login-container p {
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #ddd;
+        }
+
+        /* Estilo para el ícono de configuración (tuerca) */
+        .maintenance-icon {
+            font-size: 60px;
+            color: #ff0033; /* Rojo neón para resaltar */
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Estilo para el botón de WhatsApp */
+        .whatsapp-btn {
+            background-color: #25d366;
+            color: white;
+            padding: 14px 28px;
+            font-size: 18px;
+            border-radius: 10px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            margin-top: 20px;
+            width: 100%; /* Asegura que el botón esté dentro del cuadro */
+            justify-content: center;
+            box-sizing: border-box;
+        }
+
+        .whatsapp-btn i {
+            margin-right: 10px;
+        }
+
+        /* Estilo para el botón de Regresar */
+        .regresar-btn {
+            background-color: #ff0033;
+            color: white;
+            padding: 14px 28px;
+            font-size: 18px;
+            border-radius: 10px;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .regresar-btn:hover {
+            background-color: #e60029;
+        }
+
+        /* Pie de Página */
+        footer {
+            position: absolute;
+            bottom: 10px;
+            width: 100%;
+            text-align: center;
+            color: #ddd;
+        }
+    </style>
+</body>
+</html>

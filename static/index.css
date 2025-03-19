@@ -1,8 +1,8 @@
 /* Estilo general del sitio */
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #D3D3D3; /* Fondo LightGray */
-    color: #333333; /* Texto negro */
+    background-color: #1c1c1c; /* Fondo oscuro */
+    color: #fff; /* Texto blanco para mayor contraste */
     margin: 0;
     padding: 0;
 }
@@ -14,7 +14,7 @@ body {
 }
 
 button {
-    background-color: #3498db; /* Azul fuerte */
+    background-color: #ff0033; /* Rojo neón */
     color: white;
     padding: 8px 18px;
     border: none;
@@ -25,12 +25,12 @@ button {
 }
 
 button:hover {
-    background-color: #2980b9; /* Azul más oscuro */
+    background-color: #e60029; /* Rojo más oscuro */
 }
 
 /* Estilo para el encabezado */
 h1 {
-    color: #2c3e50;
+    color: #fff; /* Título en blanco */
     text-align: center;
     margin-top: 40px;
     font-size: 2.5em;
@@ -41,9 +41,9 @@ h1 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #000000; /* Fondo negro */
+    background-color: #000; /* Fondo negro */
     padding: 8px 80px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -52,7 +52,7 @@ h1 {
 .navbar-brand h1 {
     font-size: 28px;
     font-weight: 700;
-    color: #ffffff;
+    color: #fff; /* Título en blanco */
     margin: 0;
 }
 
@@ -69,7 +69,7 @@ h1 {
 }
 
 .navbar-menu a {
-    color: #ffffff;
+    color: #fff; /* Enlaces blancos */
     text-decoration: none;
     font-size: 18px;
     font-weight: 500;
@@ -77,13 +77,13 @@ h1 {
 }
 
 .navbar-menu a:hover {
-    color: #D3D3D3;
+    color: #D3D3D3; /* Gris claro en hover */
 }
 
 /* Dropdown (Perfil) */
 .dropdown .dropbtn {
     background-color: #333333;
-    color: #ffffff;
+    color: #fff;
     border: none;
     padding: 12px;
     font-size: 18px;
@@ -111,7 +111,7 @@ h1 {
 }
 
 .dropdown-content a {
-    color: #ffffff;
+    color: #fff;
     padding: 10px 20px;
     text-decoration: none;
     display: block;
@@ -142,7 +142,7 @@ h1 {
 .hamburger span {
     width: 100%;
     height: 3px;
-    background-color: #ffffff;
+    background-color: #fff;
     border-radius: 3px;
 }
 
@@ -164,7 +164,7 @@ h1 {
 }
 
 .mobile-menu a {
-    color: #ffffff;
+    color: #fff;
     text-decoration: none;
     padding: 10px;
     transition: background-color 0.3s;
@@ -187,13 +187,13 @@ h1 {
 .main-container h2 {
     font-size: 36px;
     font-weight: 700;
-    color: #333333;
+    color: #fff; /* Título en blanco */
     margin-bottom: 20px;
 }
 
 .main-container p {
     font-size: 18px;
-    color: #555555;
+    color: #ccc; /* Gris claro */
     max-width: 800px;
     margin: 0 auto;
 }
@@ -207,7 +207,7 @@ h1 {
 .novedades h3 {
     font-size: 28px;
     font-weight: 700;
-    color: #333333;
+    color: #fff; /* Título en blanco */
     margin-bottom: 20px;
 }
 
@@ -219,13 +219,13 @@ h1 {
 
 .novedades ul li {
     font-size: 18px;
-    color: #555555;
+    color: #ccc; /* Gris claro */
     margin-bottom: 10px;
     transition: color 0.3s ease-in-out;
 }
 
 .novedades ul li:hover {
-    color: #333333;
+    color: #fff; /* Blanco en hover */
 }
 
 /* Footer */
@@ -239,13 +239,13 @@ footer {
 }
 
 footer a {
-    color: #ffffff;
+    color: #fff; /* Enlace blanco */
     text-decoration: none;
     font-weight: 600;
 }
 
 footer a:hover {
-    color: #D3D3D3;
+    color: #D3D3D3; /* Gris claro en hover */
 }
 
 /* Estilo para el botón "Panel Seguidores" */
@@ -253,28 +253,28 @@ footer a:hover {
     display: inline-flex;
     align-items: center;
     background-color: #333333; /* Fondo oscuro */
-    color: #ffffff; /* Texto blanco */
+    color: #fff;
     font-size: 18px;
     font-weight: 600;
-    padding: 12px 20px; /* Espaciado interno */
-    border-radius: 8px; /* Bordes redondeados */
-    text-decoration: none; /* Elimina el subrayado */
-    transition: background-color 0.3s, transform 0.2s ease-in-out; /* Efectos de transición */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Sombra suave */
+    padding: 12px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background-color 0.3s, transform 0.2s ease-in-out;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 .btn-panel-seguidores:hover {
-    background-color: #555555; /* Fondo más claro al pasar el ratón */
-    transform: translateY(-2px); /* Efecto de elevación */
+    background-color: #555555;
+    transform: translateY(-2px);
 }
 
 .btn-panel-seguidores:active {
-    background-color: #444444; /* Fondo aún más oscuro al hacer clic */
-    transform: translateY(2px); /* Efecto de presión */
+    background-color: #444444;
+    transform: translateY(2px);
 }
 
 .btn-panel-seguidores i {
-    margin-right: 8px; /* Espacio entre el icono y el texto */
+    margin-right: 8px;
 }
 
 /* Estilo para la sección de Bienvenida y Saldo */
@@ -285,13 +285,13 @@ footer a:hover {
 .saldo-info h3 {
     font-size: 20px;
     font-weight: 600;
-    color: #333333;
+    color: #fff; /* Títulos en blanco */
 }
 
 .saldo-info p {
     font-size: 24px;
     font-weight: 700;
-    color: #FFFFFF; /* Color de saldo (blanco por defecto) */
+    color: #FFFFFF; /* Color de saldo (blanco) */
 }
 
 /* Cuando el saldo sea menor a 5, cambiarlo a rojo */
@@ -301,39 +301,37 @@ footer a:hover {
 
 /* Estilo para el mensaje de bienvenida */
 .welcome-message {
-    text-align: center; /* Centrado horizontal */
+    text-align: center;
     margin-top: 20px;
     padding: 20px;
     font-size: 28px;
-    color: #333333;
+    color: #fff; /* Blanco para el mensaje de bienvenida */
     font-weight: 700;
 }
 
 /* Estilo de la tabla */
 table {
-    width: 60%; /* Tabla más pequeña */
+    width: 60%;
     margin: 30px auto;
     border-collapse: collapse;
-    background-color: white;
+    background-color: #333333; /* Fondo oscuro de la tabla */
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
 }
 
 table th, table td {
-    padding: 10px; /* Reducir aún más el espacio entre celdas */
+    padding: 10px;
     text-align: center;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #444444;
 }
 
-/* Encabezado de la tabla */
 table th {
-    background-color: #34495e; /* Gris oscuro */
+    background-color: #444444;
     color: white;
     font-weight: 700;
 }
 
-/* Colores para el estado de los pedidos */
 span.pendiente {
-    background-color: #f39c12; /* Naranja fuerte */
+    background-color: #f39c12;
     padding: 5px 12px;
     border-radius: 20px;
     color: white;
@@ -341,7 +339,7 @@ span.pendiente {
 }
 
 span.completado {
-    background-color: #2ecc71; /* Verde fuerte */
+    background-color: #2ecc71;
     padding: 5px 12px;
     border-radius: 20px;
     color: white;
@@ -349,7 +347,7 @@ span.completado {
 }
 
 span.cancelado {
-    background-color: #e74c3c; /* Rojo fuerte */
+    background-color: #e74c3c;
     padding: 5px 12px;
     border-radius: 20px;
     color: white;
@@ -358,7 +356,7 @@ span.cancelado {
 
 /* Estilo de los enlaces */
 a {
-    color: #3498db;
+    color: #ff0033; /* Rojo neón */
     text-decoration: none;
 }
 
@@ -368,9 +366,9 @@ a:hover {
 
 /* Fila alterna */
 table tr:nth-child(even) {
-    background-color: #f9f9f9; /* Fondo alterno para filas */
+    background-color: #444444; /* Fila alterna con fondo más oscuro */
 }
 
 table tr:hover {
-    background-color: #f1f1f1; /* Fondo cuando pasa el ratón */
+    background-color: #555555; /* Fondo más claro en hover */
 }

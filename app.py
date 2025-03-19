@@ -68,12 +68,17 @@ def obtener_saldo(usuario):
     return saldo
 
 # Ruta principal
-# Ruta principal
 @app.route('/pagina_principal')
 def pagina_principal():
     if 'usuario' not in session:
         return redirect(url_for('login'))
     
+    # Verificar si el usuario está baneado
+    user_data = collection.find_one({'usuario': session['usuario']})
+    if user_data.get('ban') == 'ban':
+        razon_ban = user_data.get('razon_ban', 'Razón no especificada')
+        return render_template('ban.html', razon_ban=razon_ban)  # Pasamos la razón del ban a la plantilla
+
     saldo = obtener_saldo(session['usuario'])
     api = Api()
     categories = api.categories()
@@ -204,29 +209,52 @@ def agregar_orden():
 # Ruta de login
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    # Si el usuario ya está logueado, redirigimos a la página correspondiente
     if 'usuario' in session:
         user_data = collection.find_one({'usuario': session['usuario']})
-        # Verificar el rol del usuario
-        if user_data.get('rol') == 'admin':
-            return redirect(url_for('admin_dashboard'))  # Redirigir al panel de administración si es admin
-        return redirect(url_for('pagina_principal'))  # Redirigir a la página principal si es usuario normal
+        if user_data:
+            # Si el usuario está baneado, lo redirigimos a la página de baneo
+            if user_data.get('ban') == 'ban':
+                razon_ban = user_data.get('razon_ban', 'Razón no especificada')
+                return render_template('ban.html', razon_ban=razon_ban)  # Redirigimos a la página de baneo con la razón
+            # Si no está baneado, redirigimos a la página principal o al dashboard de administrador según su rol
+            if user_data.get('rol') == 'admin':
+                return redirect(url_for('admin_dashboard'))
+            return redirect(url_for('pagina_principal'))
 
     if request.method == 'POST':
-        username = request.form['usuario']
-        password = request.form['contrasena']
-        
+        # Obtenemos los datos del formulario
+        username = request.form.get('usuario')
+        password = request.form.get('contrasena')
+
+        # Verificamos que los campos no estén vacíos
+        if not username or not password:
+            flash("Por favor, ingresa ambos campos.", "error")
+            return render_template('login.html')
+
+        # Buscamos al usuario en la base de datos
         user_data = collection.find_one({'usuario': username})
         if user_data and bcrypt.check_password_hash(user_data['contrasena'], password):
+            # Verificamos si el usuario está baneado
+            if user_data.get('ban') == 'ban':
+                razon_ban = user_data.get('razon_ban', 'Razón no especificada')
+                return render_template('ban.html', razon_ban=razon_ban)  # Redirigimos a la página de baneo
+
+            # Si el usuario está autenticado, almacenamos su sesión
             session['usuario'] = username
-            # Verificar el rol del usuario y redirigir
-            if user_data.get('rol') == 'admin':
-                return redirect(url_for('admin_dashboard'))  # Redirigir a la vista de admin si es admin
             flash("Bienvenido de nuevo!", "success")
+            
+            # Redirigimos según el rol del usuario
+            if user_data.get('rol') == 'admin':
+                return redirect(url_for('admin_dashboard'))
             return redirect(url_for('pagina_principal'))
         else:
             flash("Usuario o contraseña incorrectos. Intenta de nuevo.", "error")
 
     return render_template('login.html')
+
+
+
 
 
 # Ruta para registrar un nuevo usuario
@@ -251,7 +279,10 @@ def registro():
             'email': email,
             'contrasena': hashed_password,
             'saldo': 0.0000000,  # Aquí asignamos el saldo inicial de 0.0000000
-            'rol': 'user'
+            'rol': 'user',
+            'ban': 'no_ban',  # Este campo es para verificar si el usuario está baneado o no
+            'razon_ban': ''  # Campo adicional para almacenar la razón del ban
+
         })
         
         # Iniciar sesión automáticamente después de registrarse
@@ -334,6 +365,7 @@ def historial_pedidos():
     pedidos = pedidos_collection.find({'usuario': usuario})
     return render_template('pedidos.html', usuario=usuario, pedidos=pedidos)
 
+# Ruta del panel de administración
 @app.route('/admin', methods=['GET', 'POST'])
 def admin_dashboard():
     if 'usuario' not in session:
@@ -407,13 +439,49 @@ def admin_dashboard():
                 flash("Contraseña actualizada.", "success")
             else:
                 flash("La nueva contraseña no puede estar vacía.", "error")
+
+        # 6. Bannear o desbloquear usuario
+        elif accion == 'banear_usuario':
+            razon = request.form.get('razon_ban')  # Obtiene la razón de la base de datos
+            if razon:  # Validar que la razón no esté vacía
+                collection.update_one({'usuario': usuario_a_modificar}, {'$set': {'estado': 'ban', 'razon_ban': razon}})
+                flash(f"El usuario {usuario_a_modificar} ha sido baneado.", "success")
+            else:
+                flash("Debes proporcionar una razón para el ban.", "error")
+        
+        elif accion == 'desbanear_usuario':
+            collection.update_one({'usuario': usuario_a_modificar}, {'$set': {'estado': 'activo', 'razon_ban': ''}})
+            flash(f"El usuario {usuario_a_modificar} ha sido desbloqueado.", "success")
         
         # Redirigir después de realizar la acción POST
         return redirect(url_for('admin_dashboard'))
 
     return render_template('admin.html', usuarios=usuarios)
 
+# Ruta para la página de baneo
+@app.route('/ban')
+def ban():
+    usuario = session.get('usuario')
+    print(f"Usuario en sesión: {usuario}")  # Depuración
 
+    if not usuario:
+        print("No hay usuario en la sesión, redirigiendo al login.")
+        return redirect(url_for('login'))
+
+    # Verificamos si el usuario está en la base de datos
+    user_data = collection.find_one({'usuario': usuario})
+
+    razon_ban = 'No estás baneado'  # Este es el valor por defecto si no se encuentra al usuario o si no está baneado
+
+    if user_data and user_data.get('ban') == 'ban':
+        razon_ban = user_data.get('razon_ban')  # Obtenemos la razón del baneo
+
+    # Pasamos la razón del baneo a la plantilla
+    return render_template('ban.html', razon_ban=razon_ban)
+
+@app.route('/saldo', methods=['GET'])
+def saldo():
+    return render_template('saldo.html')
 
 
 # Ejecutar la aplicación

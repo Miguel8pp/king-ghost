@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuenta Baneada</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='ban.css') }}">
+    <!-- Cargar particles.js desde CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+    <style>
+        /* Aseguramos que las partículas se muestren en el fondo */
+        #particles-js {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Aseguramos que las partículas no tapen los demás elementos */
+        }
+    </style>
+</head>
+<body>
+       <!-- Div para la animación de partículas -->
+       <div id="particles-js"></div>
+
+    <div class="content">
+        <h1>¡Tu cuenta ha sido baneada!</h1>
+        <p class="message">Lo sentimos, pero tu cuenta está actualmente baneada. La razón de tu baneo es:</p>
+        <p class="reason">{{ razon_ban }}</p> <!-- Aquí se muestra la razón del baneo -->
+        <p class="support-message">
+            Si tienes preguntas sobre el baneo, puedes ponerte en contacto con el soporte técnico.
+        </p>
+
+        <!-- Logo de WhatsApp a la izquierda del botón -->
+        <div class="whatsapp-container">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp Logo" class="whatsapp-logo">
+            <a href="https://wa.me/+524661002589?text=Mi%20cuenta%20esta%20baneada,%20pero%20no%20se%20la%20razon" 
+               class="support-btn" target="_blank">
+                Contactar con soporte técnico
+            </a>
+        </div>
+
+        <a href="{{ url_for('logout') }}" class="back-btn">Cerrar sesión</a>
+    </div>
+
+   <!-- Inicializar la animación de partículas -->
+   <script>
+    particlesJS("particles-js", {
+        "particles": {
+            "number": {
+                "value": 80,
+                "density": {
+                    "enable": true,
+                    "value_area": 800
+                }
+            },
+            "color": {
+                "value": "#ff0000"  // Color rojo neón para las partículas
+            },
+            "shape": {
+                "type": "circle",
+                "stroke": {
+                    "width": 0,
+                    "color": "#000"
+                }
+            },
+            "opacity": {
+                "value": 0.8,
+                "random": true,
+                "anim": {
+                    "enable": true,
+                    "speed": 1,
+                    "opacity_min": 0.1
+                }
+            },
+            "size": {
+                "value": 4,
+                "random": true,
+                "anim": {
+                    "enable": true,
+                    "speed": 3,
+                    "size_min": 0.1
+                }
+            },
+            "line_linked": {
+                "enable": true,
+                "distance": 150,
+                "color": "#ff0000",  // Rojo neón para las líneas
+                "opacity": 0.5,
+                "width": 1
+            },
+            "move": {
+                "enable": true,
+                "speed": 3,
+                "direction": "none",
+                "random": true,
+                "straight": false,
+                "out_mode": "out",
+                "bounce": false,
+                "attract": {
+                    "enable": false,
+                    "rotateX": 600,
+                    "rotateY": 1200
+                }
+            }
+        },
+        "interactivity": {
+            "detect_on": "canvas",
+            "events": {
+                "onhover": {
+                    "enable": true,
+                    "mode": "repulse"
+                },
+                "onclick": {
+                    "enable": true,
+                    "mode": "push"
+                }
+            }
+        },
+        "retina_detect": true
+    });
+</script>
+</body>
+</html>

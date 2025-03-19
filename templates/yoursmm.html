@@ -4,103 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Realizar Pedido</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-        header {
-            background-color: #333;
-            color: #fff;
-            padding: 10px 0;
-            text-align: center;
-        }
-        .container {
-            display: flex;
-            width: 100%;
-            margin-top: 20px;
-        }
-        .main-content {
-            width: 70%;
-            padding: 20px;
-            background-color: #fff;
-            margin-left: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        .form-group label {
-            display: block;
-            font-size: 14px;
-            font-weight: bold;
-        }
-        .form-group select, .form-group input {
-            width: 100%;
-            padding: 10px;
-            margin-top: 8px;
-            border-radius: 6px;
-            border: 1px solid #ddd;
-        }
-        .form-group input[type="number"] {
-            width: 60%;
-        }
-        .price-display {
-            font-size: 20px;
-            font-weight: bold;
-            margin-top: 10px;
-        }
-        .order-btn {
-            background-color: #4CAF50;
-            color: white;
-            padding: 12px 25px;
-            border: none;
-            cursor: pointer;
-            font-size: 16px;
-            width: 100%;
-            border-radius: 6px;
-        }
-        .order-btn:hover {
-            background-color: #45a049;
-        }
-        .saldo {
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            color: #fff;
-            text-align: center;
-        }
-        .saldo span {
-            color: #ffeb3b;
-        }
-        .info-text {
-            font-size: 14px;
-            color: #888;
-        }
-
-        /* Mensajes flash */
-        .flash-message {
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-        .flash-message.success {
-            background-color: #d4edda;
-            color: #155724;
-        }
-        .flash-message.error {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
-        .flash-message.info {
-            background-color: #d1ecf1;
-            color: #0c5460;
-        }
-    </style>
+    <link rel="stylesheet" href="static/yoursmm.css">
 </head>
 <body>
 
@@ -124,7 +28,8 @@
 <div class="container">
     <div class="main-content">
         <div class="saldo">
-            Saldo disponible: <span>${{ saldo }}</span>
+            <span>Saldo: </span>
+            <span class="{{ 'low-balance' if saldo < 5 else '' }}">${{ saldo }}</span>
         </div>
         
         <form method="POST" id="order-form">

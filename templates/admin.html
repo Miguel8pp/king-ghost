@@ -43,6 +43,8 @@
                     <th>Email</th>
                     <th>Saldo</th>
                     <th>Total de Pedidos</th>
+                    <th>Estado</th> <!-- Nueva columna Estado -->
+                    <th>Razón de Baneo</th> <!-- Nueva columna Razón de Baneo -->
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -53,6 +55,8 @@
                     <td>{{ user['email'] }}</td>
                     <td>{{ user['saldo'] }}</td>
                     <td>{{ user['total_pedidos'] }}</td>
+                    <td>{{ user['estado'] }}</td> <!-- Estado del usuario -->
+                    <td>{{ user['razon_ban'] if user['ban'] == 'ban' else 'No Baneado' }}</td> <!-- Razón de baneo si aplica -->
                     <td>
                         <!-- Formulario para seleccionar acción -->
                         <form method="post" class="form-inline">
@@ -65,6 +69,8 @@
                                 <option value="agregar_saldo">Agregar Saldo</option>
                                 <option value="quitar_saldo">Quitar Saldo</option>
                                 <option value="cambiar_contrasena">Cambiar Contraseña</option>
+                                <option value="banear_usuario">Banear Usuario</option>
+                                <option value="desbanear_usuario">Desbanear Usuario</option>
                             </select>
 
                             <div id="input-container-{{ user['usuario'] }}"></div>
@@ -90,7 +96,7 @@
                     }
                 },
                 "color": {
-                    "value": "#ffffff"  // Color rojo neon para las partículas
+                    "value": "#ffffff"  // Color blanco para las partículas
                 },
                 "shape": {
                     "type": "circle",
@@ -120,7 +126,7 @@
                 "line_linked": {
                     "enable": true,
                     "distance": 150,
-                    "color": "#66ff00",  // Rojo neon para las líneas
+                    "color": "#66ff00",  // Verde neon para las líneas
                     "opacity": 0.5,
                     "width": 1
                 },
@@ -180,6 +186,8 @@
                 inputField = '<input type="password" name="nuevo_valor" placeholder="Nueva contraseña" required>';
             } else if (selectedAction === 'cambiar_usuario') {
                 inputField = '<input type="text" name="nuevo_valor" placeholder="Nuevo usuario" required>';
+            } else if (selectedAction === 'banear_usuario' || selectedAction === 'desbanear_usuario') {
+                inputField = '<input type="text" name="razon_ban" placeholder="Razón del baneo" required>';
             }
 
             inputContainer.innerHTML = inputField;

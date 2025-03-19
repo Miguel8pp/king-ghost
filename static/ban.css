@@ -1,0 +1,132 @@
+/* Global Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(to bottom, #2a2a2a, #1c1c1c); /* Gradiente oscuro */
+    color: #fff; /* Texto blanco para mayor contraste */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    padding: 0 20px;
+    -webkit-font-smoothing: antialiased; /* Mejora la visualización en dispositivos Apple */
+    overflow: hidden; /* Asegura que no haya barras de desplazamiento */
+    position: relative; /* Necesario para las partículas */
+}
+
+/* Content Styling */
+.content {
+    text-align: center;
+    max-width: 600px;
+    background-color: #000; /* Fondo oscuro para la caja */
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* Sombra más pronunciada */
+    width: 100%;
+    animation: slideIn 1s ease-out; /* Animación de entrada */
+}
+
+h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+    color: #ff0033; /* Título en rojo neón */
+    text-shadow: 0 0 10px #ff0033; /* Resplandor */
+}
+
+.message, .reason, .support-message {
+    font-size: 18px;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+/* Botón de soporte técnico */
+.support-btn {
+    display: inline-block;
+    padding: 15px 30px;
+    font-size: 18px;
+    color: white;
+    background-color: #00e676; /* Verde para el botón */
+    text-decoration: none;
+    border-radius: 10px;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+}
+
+.support-btn:hover {
+    background-color: #00c853; /* Verde más oscuro al pasar el cursor */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transform: translateY(-3px); /* Efecto de "levantamiento" */
+}
+
+.support-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Logo de WhatsApp a la izquierda del botón */
+.whatsapp-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.whatsapp-logo {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px; /* Espacio entre el logo y el botón */
+}
+
+/* Botón de Cerrar sesión en rojo */
+.back-btn {
+    display: inline-block;
+    padding: 15px 30px;
+    font-size: 18px;
+    color: white;
+    background-color: #ff0033; /* Rojo para el botón */
+    text-decoration: none;
+    border-radius: 10px;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+}
+
+.back-btn:hover {
+    background-color: #e60029; /* Rojo más oscuro */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transform: translateY(-3px); /* Efecto de "levantamiento" */
+}
+
+.back-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Animación para el contenido */
+@keyframes slideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsividad */
+@media (max-width: 600px) {
+    .content {
+        padding: 20px;
+        max-width: 90%;
+    }
+
+    .support-btn {
+        font-size: 16px;
+        padding: 12px 25px;
+    }
+
+    .whatsapp-logo {
+        width: 25px;
+        height: 25px;
+    }
+}

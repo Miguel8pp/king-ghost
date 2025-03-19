@@ -1,17 +1,19 @@
+/* Estilo general del sitio */
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #D3D3D3;  /* Fondo LightGray */
-    color: #333333;
+    background-color: #1c1c1c; /* Fondo oscuro */
+    color: #fff; /* Texto blanco para un contraste claro */
     margin: 0;
     padding: 0;
 }
 
+/* Contenedor del perfil */
 .profile-container {
     max-width: 600px;
     margin: 50px auto;
-    background-color: #ffffff;
+    background-color: #333333; /* Fondo oscuro para el contenedor */
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
     padding: 20px 30px;
     text-align: center;
 }
@@ -19,39 +21,42 @@ body {
 .profile-container h2 {
     font-size: 24px;
     margin-bottom: 20px;
-    color: #333333;
+    color: #fff; /* Título en blanco */
 }
 
+/* Icono de perfil */
 .profile-icon {
     font-size: 80px;  /* Tamaño grande del ícono */
-    color: #444444;   /* Color gris oscuro */
+    color: #ff0033;   /* Rojo brillante para el ícono */
     margin-bottom: 20px;
 }
 
+/* Elementos del perfil */
 .profile-item {
     display: flex;
     align-items: center;
     margin-bottom: 15px;
     font-size: 18px;
-    color: #555555;
+    color: #ccc;  /* Gris claro para los elementos del perfil */
 }
 
 .profile-item i {
     margin-right: 12px;
     font-size: 20px;
-    color: #444444;
+    color: #ff0033;  /* Rojo brillante para los íconos */
 }
 
 .profile-item span {
     font-weight: bold;
-    color: #333333;  /* Color negro para el texto destacado */
+    color: #fff;  /* Texto destacado en blanco */
 }
 
+/* Botón de regreso */
 .btn-back {
     display: inline-block;
     margin-top: 20px;
-    background-color: #333333;
-    color: #ffffff;
+    background-color: #333333; /* Fondo oscuro para el botón */
+    color: #fff; /* Texto blanco */
     padding: 10px 20px;
     font-size: 16px;
     text-decoration: none;
@@ -60,5 +65,5 @@ body {
 }
 
 .btn-back:hover {
-    background-color: #444444;
+    background-color: #444444; /* Fondo más claro al pasar el ratón */
 }

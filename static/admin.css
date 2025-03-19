@@ -39,6 +39,7 @@ body {
     box-sizing: border-box;
 }
 
+/* Admin Header */
 .admin-header {
     display: flex;
     justify-content: space-between;
@@ -184,17 +185,135 @@ body {
 }
 
 /* Responsive Adjustments */
-@media (max-width: 768px) {
+
+/* Tablet and Mobile adjustments */
+@media (max-width: 1024px) {
     .admin-container {
-        width: 90%;
+        width: 95%; /* Asegura que el contenedor se ajuste mejor en pantallas más pequeñas */
+        padding: 15px; /* Reducir el padding */
+    }
+
+    .admin-header h1 {
+        font-size: 20px; /* Reducir tamaño de fuente en pantallas más pequeñas */
     }
 
     .search-bar {
         flex-direction: column;
+        margin-bottom: 10px;
     }
 
     .search-bar input, .search-bar button {
-        width: 100%;
+        width: 100%; /* Hacer que los elementos de la barra de búsqueda ocupen el 100% */
         margin-bottom: 10px;
+    }
+
+    .table-container th, .table-container td {
+        font-size: 12px; /* Reducir tamaño de fuente en tablas */
+    }
+
+    .form-inline select, .form-inline input {
+        font-size: 12px; /* Reducir tamaño de fuente en formularios */
+    }
+
+    .form-inline button {
+        font-size: 12px; /* Reducir tamaño del botón */
+        padding: 8px 16px; /* Ajustar padding */
+    }
+
+    .messages-container {
+        margin: 10px 0; /* Reducir márgenes */
+    }
+
+    .message {
+        font-size: 14px; /* Reducir tamaño del texto en mensajes */
+    }
+}
+
+/* Smartphone adjustments */
+@media (max-width: 768px) {
+    .admin-container {
+        width: 100%;
+        padding: 10px; /* Reducir padding aún más para pantallas pequeñas */
+    }
+
+    .admin-header {
+        flex-direction: column;
+        text-align: center; /* Centrar contenido en pantallas pequeñas */
+    }
+
+    .admin-header h1 {
+        font-size: 18px; /* Reducir tamaño de fuente */
+    }
+
+    .admin-header .admin-link {
+        font-size: 12px; /* Ajustar el tamaño de los enlaces */
+    }
+
+    .search-bar {
+        width: 100%;
+        flex-direction: column;
+        margin-bottom: 10px;
+    }
+
+    .search-bar input, .search-bar button {
+        width: 100%; /* Asegurar que los elementos ocupen el 100% del espacio */
+        margin-bottom: 10px;
+    }
+
+    .table-container th, .table-container td {
+        font-size: 12px; /* Reducir tamaño de fuente en tablas */
+    }
+
+    .form-inline select, .form-inline input {
+        font-size: 12px; /* Reducir tamaño de fuente en formularios */
+    }
+
+    .form-inline button {
+        font-size: 12px; /* Reducir tamaño del botón */
+        padding: 8px 16px; /* Ajustar padding */
+    }
+
+    .messages-container {
+        margin: 10px 0;
+    }
+
+    .message {
+        font-size: 14px;
+    }
+}
+
+/* For very small smartphones */
+@media (max-width: 480px) {
+    .admin-container {
+        padding: 5px;
+    }
+
+    .admin-header h1 {
+        font-size: 16px;
+    }
+
+    .search-bar input, .search-bar button {
+        font-size: 12px; /* Ajustar aún más el tamaño de la fuente */
+    }
+
+    .table-container th, .table-container td {
+        font-size: 12px;
+    }
+
+    .form-inline select, .form-inline input {
+        font-size: 12px;
+    }
+
+    .form-inline button {
+        font-size: 12px;
+        padding: 6px 12px; /* Ajustar el padding */
+    }
+
+    .messages-container {
+        margin: 5px 0;
+    }
+
+    .message {
+        font-size: 12px;
     }
 }

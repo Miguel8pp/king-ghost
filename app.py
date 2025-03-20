@@ -304,54 +304,14 @@ def logout():
     return redirect(url_for('login'))
  
 # Ruta para mostrar el perfil del usuario
-@app.route('/mi_perfil', methods=['GET', 'POST'])
+@app.route('/mi_perfil')
 def mi_perfil():
     if 'usuario' not in session:
         return redirect(url_for('login'))
-
+    
     usuario = session['usuario']
     user_data = collection.find_one({'usuario': usuario})
-    
-    if not user_data:
-        flash("Usuario no encontrado.", "error")
-        return redirect(url_for('login'))
-
-    # Obtener el email del usuario
-    email = user_data.get('email')
-
-    # Si el formulario de cambio de correo ha sido enviado
-    if request.method == 'POST':
-        # Cambiar correo (validar código)
-        if 'verification-code' in request.form and 'new-email' in request.form:
-            codigo_ingresado = request.form['verification-code']
-            nuevo_email = request.form['new-email']
-
-            # Verificamos que el código ingresado sea el correcto
-            if codigo_ingresado != session.get('codigo_verificacion'):
-                flash("El código de verificación es incorrecto.", "error")
-                return redirect(url_for('mi_perfil'))
-
-            # Actualizar el correo en la base de datos
-            collection.update_one({'usuario': usuario}, {'$set': {'email': nuevo_email}})
-            session.pop('codigo_verificacion', None)  # Limpiar el código después de usarlo
-            flash("Correo electrónico actualizado con éxito.", "success")
-            return redirect(url_for('mi_perfil'))
-
-        # Cambiar contraseña (validar)
-        elif 'old-password' in request.form and 'new-password' in request.form:
-            old_password = request.form['old-password']
-            new_password = request.form['new-password']
-
-            # Aquí puedes agregar la lógica de validación de la contraseña
-            if old_password == user_data['password']:  # Suponiendo que la contraseña esté almacenada en texto claro (NO recomendado en producción)
-                collection.update_one({'usuario': usuario}, {'$set': {'password': new_password}})
-                flash("Contraseña cambiada con éxito.", "success")
-            else:
-                flash("La contraseña actual es incorrecta.", "error")
-
-            return redirect(url_for('mi_perfil'))
-
-    return render_template('mi_perfil.html', usuario=usuario, email=email)
+    return render_template('mi_perfil.html', usuario=user_data['usuario'], email=user_data['email'])
 
 # Ruta para recuperar contraseña
 @app.route('/recuperar_contrasena', methods=['GET', 'POST'])

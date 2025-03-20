@@ -30,6 +30,51 @@ body {
     z-index: 2; /* Asegura que el formulario esté por encima del carrusel */
 }
 
+/* Password Toggle Icon */
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    background: transparent;
+    border: 2px solid #000; /* Contorno negro */
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.toggle-password::before {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 6px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    border: 2px solid #000; /* Icono negro */
+    background-color: transparent;
+}
+
+.toggle-password::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 2px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    background: #000; /* Líneas en negro */
+    opacity: 1;
+}
+
+.toggle-password.active::after {
+    opacity: 0;
+}
+
 /* Animación para el formulario */
 @keyframes slideIn {
     0% {

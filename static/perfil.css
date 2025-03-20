@@ -18,9 +18,7 @@ body {
     text-align: center;
 }
 
-/* Títulos de sección */
-.profile-container h2,
-.profile-container h3 {
+.profile-container h2 {
     font-size: 24px;
     margin-bottom: 20px;
     color: #fff; /* Título en blanco */
@@ -53,89 +51,12 @@ body {
     color: #fff;  /* Texto destacado en blanco */
 }
 
-/* Estilos para los formularios de cambio de contraseña y correo */
-form {
-    margin-bottom: 30px;
-    text-align: left;
-}
-
-/* Agrupación de los campos del formulario */
-.form-group {
-    margin-bottom: 15px;
-}
-
-/* Estilos para las etiquetas de los campos del formulario */
-label {
-    font-size: 16px;
-    color: #fff;  /* Color blanco para las etiquetas */
-    margin-bottom: 5px;
-    display: block;
-}
-
-/* Estilos para los campos de entrada */
-input[type="password"], input[type="email"], input[type="text"] {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    background-color: #444444; /* Fondo más claro para los campos */
-    color: #fff; /* Texto blanco en los campos */
-    border: 1px solid #666; /* Borde gris claro */
-    border-radius: 4px;
-    font-size: 16px;
-}
-
-input[type="password"]:focus, input[type="email"]:focus, input[type="text"]:focus {
-    outline: none;
-    border-color: #ff0033; /* Borde rojo al enfocar */
-}
-
-/* Estilos para los botones */
-button[type="submit"], .btn-back {
-    display: inline-block;
-    background-color: #ff0033; /* Rojo brillante para los botones */
-    color: #fff;
-    padding: 10px 20px;
-    font-size: 16px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease-in-out;
-    margin-top: 10px;
-}
-
-button[type="submit"]:hover, .btn-back:hover {
-    background-color: #cc0022; /* Fondo más oscuro al pasar el ratón */
-}
-
-/* Estilos específicos para los botones de cambiar contraseña y correo */
-.btn-change-password, .btn-change-email, .btn-send-code {
-    background-color: #0099cc; /* Azul para los botones específicos */
-}
-
-.btn-change-password:hover, .btn-change-email:hover, .btn-send-code:hover {
-    background-color: #0077aa; /* Fondo más oscuro al pasar el ratón */
-}
-
-/* Contenedores de cambio de contraseña y correo */
-.change-password, .change-email {
-    margin-top: 30px;
-    background-color: #444444; /* Fondo más claro para las secciones */
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    text-align: left;
-}
-
-/* Mostrar el formulario de cambio de correo solo cuando se haya enviado el código */
-#verify-code-form {
-    display: none; /* Inicia oculto */
-}
-
 /* Botón de regreso */
 .btn-back {
+    display: inline-block;
     margin-top: 20px;
     background-color: #333333; /* Fondo oscuro para el botón */
-    color: #fff;
+    color: #fff; /* Texto blanco */
     padding: 10px 20px;
     font-size: 16px;
     text-decoration: none;

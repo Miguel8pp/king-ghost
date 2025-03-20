@@ -5,16 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Perfil</title>
     <link rel="stylesheet" href="../static/perfil.css">
-    <!-- Añadir Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="profile-container">
         <h2>Mi Perfil</h2>
-        <!-- Ícono de usuario en grande -->
         <i class="fas fa-user profile-icon"></i>
-        
-        <!-- Información del usuario -->
+
         <div class="profile-item">
             <i class="fas fa-user"></i>
             <span>Usuario:</span> {{ usuario }}
@@ -24,8 +21,57 @@
             <span>Correo:</span> {{ email }}
         </div>
 
-        <!-- Botón para volver al inicio -->
+        <!-- Cambiar Contraseña -->
+        <div class="change-password">
+            <h3>Cambiar Contraseña</h3>
+            <form action="/cambiar_contraseña" method="POST">
+                <div class="form-group">
+                    <label for="old-password">Contraseña Actual:</label>
+                    <input type="password" id="old-password" name="old-password" required>
+                </div>
+                <div class="form-group">
+                    <label for="new-password">Nueva Contraseña:</label>
+                    <input type="password" id="new-password" name="new-password" required>
+                </div>
+                <button type="submit" class="btn-change-password">Cambiar Contraseña</button>
+            </form>
+        </div>
+
+        <!-- Cambiar Correo -->
+        <div class="change-email">
+            <h3>Cambiar Correo</h3>
+            <form action="/enviar_codigo_correo" method="POST">
+                <button type="submit" class="btn-send-code">Enviar Código de Verificación</button>
+            </form>
+
+            <!-- Solo mostrar este formulario si el código ha sido enviado -->
+            <div id="verify-code-form" style="display:none;">
+                <h4>Ingresa el código de verificación:</h4>
+                <form action="/cambiar_correo" method="POST">
+                    <div class="form-group">
+                        <label for="verification-code">Código de Verificación:</label>
+                        <input type="text" id="verification-code" name="verification-code" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="new-email">Nuevo Correo:</label>
+                        <input type="email" id="new-email" name="new-email" required>
+                    </div>
+                    <button type="submit" class="btn-change-email">Cambiar Correo</button>
+                </form>
+            </div>
+        </div>
+
         <a href="/pagina_principal" class="btn-back">Volver a Inicio</a>
     </div>
+
+    <script>
+        document.querySelector('.btn-send-code').addEventListener('click', function (e) {
+            e.preventDefault();
+            // Aquí simula el envío del código
+            alert('Código de verificación enviado al correo.');
+            // Mostrar el formulario para ingresar el código de verificación
+            document.getElementById('verify-code-form').style.display = 'block';
+        });
+    </script>
 </body>
 </html>

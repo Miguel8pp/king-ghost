@@ -304,13 +304,52 @@ def logout():
     return redirect(url_for('login'))
  
 # Ruta para mostrar el perfil del usuario
-@app.route('/mi_perfil')
+# Ruta para mostrar el perfil del usuario y manejar cambios
+@app.route('/mi_perfil', methods=['GET', 'POST'])
 def mi_perfil():
     if 'usuario' not in session:
         return redirect(url_for('login'))
-    
+
     usuario = session['usuario']
     user_data = collection.find_one({'usuario': usuario})
+
+    if request.method == 'POST':
+        # Cambiar contraseña
+        if 'change-password' in request.form:
+            current_password = request.form['current-password']
+            new_password = request.form['new-password']
+            confirm_new_password = request.form['confirm-new-password']
+            
+            # Validación de contraseñas
+            if not bcrypt.check_password_hash(user_data['contrasena'], current_password):
+                flash("Contraseña actual incorrecta.", "error")
+            elif new_password != confirm_new_password:
+                flash("Las contraseñas no coinciden.", "error")
+            else:
+                hashed_password = bcrypt.generate_password_hash(new_password).decode('utf-8')
+                collection.update_one({'usuario': usuario}, {'$set': {'contrasena': hashed_password}})
+                flash("Contraseña cambiada con éxito.", "success")
+
+        # Cambiar correo
+        if 'change-email' in request.form:
+            current_email = request.form['current-email']
+            new_email = request.form['new-email']
+            current_password_email = request.form['current-password-email']
+            
+            # Verificar si la contraseña es correcta
+            if not bcrypt.check_password_hash(user_data['contrasena'], current_password_email):
+                flash("Contraseña incorrecta.", "error")
+            else:
+                # Comprobar si el nuevo correo ya está registrado
+                if collection.find_one({'email': new_email}):
+                    flash("Este correo electrónico ya está registrado.", "error")
+                else:
+                    collection.update_one({'usuario': usuario}, {'$set': {'email': new_email}})
+                    flash("Correo electrónico cambiado con éxito.", "success")
+
+        # Redirigir al perfil para evitar el reenvío del formulario
+        return redirect(url_for('mi_perfil'))
+
     return render_template('mi_perfil.html', usuario=user_data['usuario'], email=user_data['email'])
 
 # Ruta para recuperar contraseña

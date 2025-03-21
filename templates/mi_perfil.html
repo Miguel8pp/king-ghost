@@ -5,27 +5,84 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Perfil</title>
     <link rel="stylesheet" href="../static/perfil.css">
-    <!-- Añadir Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <div class="profile-container">
-        <h2>Mi Perfil</h2>
-        <!-- Ícono de usuario en grande -->
-        <i class="fas fa-user profile-icon"></i>
-        
-        <!-- Información del usuario -->
-        <div class="profile-item">
-            <i class="fas fa-user"></i>
-            <span>Usuario:</span> {{ usuario }}
-        </div>
-        <div class="profile-item">
-            <i class="fas fa-envelope"></i>
-            <span>Correo:</span> {{ email }}
-        </div>
+    <div class="container">
+        <header>
+            <h1>Mi Perfil</h1>
+        </header>
 
-        <!-- Botón para volver al inicio -->
-        <a href="/pagina_principal" class="btn-back">Volver a Inicio</a>
+        <!-- Mostrar mensajes de Flask -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <div class="main-content">
+            <!-- Ícono de usuario en grande -->
+            <i class="fas fa-user profile-icon"></i>
+            
+            <!-- Información del usuario -->
+            <div class="profile-item">
+                <i class="fas fa-user"></i>
+                <span>Usuario:</span> {{ usuario }}
+            </div>
+            <div class="profile-item">
+                <i class="fas fa-envelope"></i>
+                <span>Correo:</span> {{ email }}
+            </div>
+
+            <!-- Cambiar Contraseña -->
+            <form method="POST">
+                <div class="change-password-section">
+                    <h3>Cambiar Contraseña</h3>
+                    <div class="form-group">
+                        <label for="current-password">Contraseña Actual</label>
+                        <input type="password" name="current-password" id="current-password" placeholder="Contraseña actual" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="new-password">Nueva Contraseña</label>
+                        <input type="password" name="new-password" id="new-password" placeholder="Nueva contraseña" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-new-password">Confirmar Nueva Contraseña</label>
+                        <input type="password" name="confirm-new-password" id="confirm-new-password" placeholder="Confirmar nueva contraseña" required>
+                    </div>
+                    <button type="submit" name="change-password" class="order-btn">Cambiar Contraseña</button>
+                </div>
+            </form>
+
+            <!-- Cambiar Correo Electrónico -->
+            <form method="POST">
+                <div class="change-email-section">
+                    <h3><i class="fas fa-envelope" style="color: red;"></i> Cambiar Correo Electrónico</h3>
+                    <div class="form-group">
+                        <label for="current-email">Correo Electrónico Actual</label>
+                        <input type="email" name="current-email" id="current-email" placeholder="Correo electrónico actual" value="{{ email }}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="new-email">Nuevo Correo Electrónico</label>
+                        <input type="email" name="new-email" id="new-email" placeholder="Nuevo correo electrónico" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="current-password-email">Contraseña Actual</label>
+                        <input type="password" name="current-password-email" id="current-password-email" placeholder="Contraseña actual" required>
+                    </div>
+                    <button type="submit" name="change-email" class="order-btn">Cambiar Correo Electrónico</button>
+                </div>
+            </form>
+
+            <!-- Botón para volver al inicio -->
+            <a href="/pagina_principal" class="order-btn">Volver a Inicio</a>
+        </div>
     </div>
 </body>
 </html>

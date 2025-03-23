@@ -62,6 +62,7 @@
                         <form method="post" class="form-inline">
                             <input type="hidden" name="usuario" value="{{ user['usuario'] }}">
                             
+
                             <select name="accion" id="accion-{{ user['usuario'] }}" required onchange="changeForm('{{ user['usuario'] }}')">
                                 <option value="">Selecciona una acción</option>
                                 <option value="cambiar_usuario">Cambiar Usuario</option>
@@ -82,6 +83,41 @@
                 {% endfor %}
             </tbody>
         </table>
+
+        <!-- Tabla de Pagos Pendientes -->
+<h2>Pagos Pendientes</h2>
+<table class="table-container">
+    <thead>
+        <tr>
+            <th>Usuario</th>
+            <th>Monto</th>
+            <th>Estado del Pago</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for pago in pagos %}
+        <tr>
+            <td>{{ pago['usuario'] }}</td>
+            <td>{{ pago['monto'] }}</td>
+            <td>{{ pago['estado'] }}</td>
+            <td>
+                <!-- Formulario para cambiar el estado del pago -->
+                <form method="post" action="{{ url_for('actualizar_pago') }}">
+                    <input type="hidden" name="pago_id" value="{{ pago['_id'] }}"> <!-- Utilizamos _id para actualizar -->
+                    <select name="nuevo_estado" required>
+                        <option value="pendiente" {% if pago['estado'] == 'pendiente' %}selected{% endif %}>Pendiente</option>
+                        <option value="completado" {% if pago['estado'] == 'completado' %}selected{% endif %}>Completado</option>
+                        <option value="cancelado" {% if pago['estado'] == 'cancelado' %}selected{% endif %}>Cancelado</option>
+                    </select>
+                    <button type="submit" class="btn">Actualizar Estado</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
     </div>
 
     <!-- Inicializar la animación de partículas -->

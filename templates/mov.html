@@ -3,16 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página Principal</title>
+    <title>Movimientos</title>
     <link rel="stylesheet" href="../static/index.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .movimiento {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .movimiento .descripcion {
+            font-weight: bold;
+        }
+        .movimiento .monto {
+            font-size: 1.2em;
+            padding: 5px;
+        }
+        .movimiento .fecha {
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        /* Colores según el estado */
+        .completado {
+            color: green;
+        }
+        .pendiente {
+            color: yellow;
+        }
+        .cancelado {
+            color: red;
+        }
+    </style>
 </head>
 <body>
     <header>
         <nav class="navbar">
             <div class="navbar-brand">
-                <h1>Bienvenido, {{ usuario }}!</h1>
+                <h1>Movimientos de {{ usuario }}!</h1>
             </div>
             <ul class="navbar-menu">
                 <li><a href="/pagina_principal">INICIO</a></li>
@@ -23,12 +55,12 @@
                             <i class="fas fa-user"></i> Mi Perfil
                         </a>
                         <a href="/pedidos">
-                            <i class="fas fa-box"></i> Pedidos  <!-- Nueva opción de Pedidos -->
+                            <i class="fas fa-box"></i> Pedidos
                         </a>
                         <a href="/saldo">
-                            <i class="fas fa-credit-card"></i> Agregar saldo  <!-- Nueva opción de agregar saldo -->
+                            <i class="fas fa-credit-card"></i> Agregar saldo
                         </a>
-                        <a href="/movimientos"> <!-- Nueva opción Movimientos -->
+                        <a href="/movimientos">
                             <i class="fas fa-exchange-alt"></i> Movimientos
                         </a>
                         <a href="/logout">
@@ -43,27 +75,27 @@
                 <span></span>
             </button>
         </nav>
-
-        <!-- Sección de saldo debajo de la bienvenida -->
-        <div class="saldo-info">
-            <h3>Saldo Disponible:</h3>
-            <p>${{ saldo }}</p> <!-- Mostrar el saldo obtenido desde la base de datos -->
-        </div>
     </header>
 
-    <!-- Mensaje debajo del header -->
-    <div class="welcome-message">
-        <h2>¡Bienvenido al Mejor Panel SMM!</h2>
-    </div>
-
     <main class="main-container">
+        <h2>Movimientos de Pago</h2>
 
-        <!-- Agregamos el botón "Panel Seguidores" -->
-        <section class="panel-seguidores">
-            <a href="{{ url_for('agregar_orden') }}" class="btn-panel-seguidores">
-                <i class="fas fa-users"></i> Panel Seguidores
-            </a>
-        </section>
+        <!-- Mostrar los movimientos -->
+        <div class="movimientos-container">
+            {% for pago in pagos %}
+                <div class="movimiento">
+                    <div class="descripcion">
+                        {{ pago['descripcion'] }} <!-- Descripción (por ejemplo: Binance) -->
+                    </div>
+                    <div class="monto {{ pago['estado'] }}">
+                        ${{ pago['monto'] }} <!-- Monto del pago -->
+                    </div>
+                    <div class="fecha">
+                        {{ pago['fecha'] }} <!-- Fecha del pago -->
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
     </main>
 
     <footer>
@@ -77,15 +109,6 @@
 
         hamburger.addEventListener('click', () => {
             mobileMenu.classList.toggle('hidden');
-        });
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const saldo = parseFloat("{{ saldo }}"); // Esto obtiene el saldo del backend
-            const saldoElement = document.querySelector('.saldo-info p');
-
-            if (saldo < 5) {
-                saldoElement.classList.add('low-balance');
-            }
         });
     </script>
 </body>

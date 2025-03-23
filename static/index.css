@@ -329,30 +329,31 @@ table th {
     color: white;
     font-weight: 700;
 }
-
+/* Colores para el estado de los pedidos */
 span.pendiente {
-    background-color: #f39c12;
+    background-color: #f39c12; /* Naranja fuerte */
     padding: 5px 12px;
     border-radius: 20px;
     color: white;
     font-weight: bold;
 }
 
-span.completado {
-    background-color: #2ecc71;
+span.Completed {
+    background-color: #2ecc71; /* Verde fuerte */
     padding: 5px 12px;
     border-radius: 20px;
     color: white;
     font-weight: bold;
 }
 
-span.cancelado {
-    background-color: #e74c3c;
+span.Canceled {
+    background-color: #e74c3c; /* Rojo fuerte */
     padding: 5px 12px;
     border-radius: 20px;
     color: white;
     font-weight: bold;
 }
+
 
 /* Estilo de los enlaces */
 a {

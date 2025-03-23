@@ -11,6 +11,8 @@ import requests
 import datetime
 from bson import Decimal128
 from decimal import Decimal
+from bson import ObjectId
+
 
 # Importar el archivo yoursmm.py
 from yoursmm import Api
@@ -27,6 +29,7 @@ client = MongoClient(f"mongodb+srv://{username}:{password}@cluster0.hx8un.mongod
 db = client['db1']
 collection = db['usuarios']
 pedidos_collection = db['Pedidos']
+pagos_collection = db['Pagos']        
 
 # Configuración de SendGrid
 SENDGRID_API_KEY = os.getenv('SENDGRID_API_KEY')
@@ -103,6 +106,107 @@ def pagina_principal():
     print(f"Services cleaned: {services}")  # Imprimir para depuración
 
     return render_template('index.html', usuario=session['usuario'], saldo=saldo, categories=categories, services=services)
+
+# Ruta para crear orden de pago
+@app.route('/saldo', methods=['GET', 'POST'])
+def saldo():
+    if 'usuario' not in session:
+        return redirect(url_for('login'))  # Redirigir a login si no hay usuario en la sesión
+
+    # Obtener el saldo del usuario
+    usuario = session['usuario']
+    saldo = obtener_saldo(usuario)
+
+    if request.method == 'POST':
+        # Aquí manejamos el pago
+        monto = float(request.form['monto'])  # Monto a agregar
+        metodo_pago = request.form['metodo_pago']  # Método de pago seleccionado (PayPal, Binance, etc.)
+
+        # Guardar la orden de pago en la base de datos (colección Pagos)
+        try:
+            # Insertar el pago en la colección "Pagos"
+            pagos_collection.insert_one({
+                'usuario': usuario,
+                'monto': monto,
+                'metodo_pago': metodo_pago,
+                'estado': 'pendiente',  # El estado inicial será 'pendiente'
+                'fecha': datetime.datetime.now()
+            })
+
+            flash("Pago guardado correctamente. El estado es 'pendiente'.", "success")
+            return redirect(url_for('saldo'))
+
+        except Exception as e:
+            flash(f"Hubo un error al procesar tu pago: {e}", "error")
+            return redirect(url_for('saldo'))
+
+    # Renderizar la plantilla de saldo con el saldo del usuario
+    return render_template('saldo.html', usuario=usuario, saldo=saldo)
+
+@app.route('/guardar_pago', methods=['POST'])
+def guardar_pago():
+    try:
+        # Obtener los datos del pago desde el frontend (en formato JSON)
+        data = request.get_json()
+
+        # Extraer datos del pago
+        usuario = data['usuario']
+        monto = data['monto']
+        metodo_pago = data['metodo_pago']
+        estado = data.get('estado', 'pendiente')  # 'pendiente' es el estado por defecto
+        fecha = datetime.datetime.now()
+
+        # Insertar el pago en la colección 'Pagos'
+        pagos_collection.insert_one({
+            'usuario': usuario,
+            'monto': monto,
+            'metodo_pago': metodo_pago,
+            'estado': estado,
+            'fecha': fecha
+        })
+
+        # Responder al frontend con éxito
+        return jsonify({'success': True, 'message': 'Pago guardado exitosamente.'})
+
+    except Exception as e:
+        # En caso de error, devolver un mensaje de error
+        return jsonify({'success': False, 'error': str(e)})
+    
+    
+
+@app.route('/movimientos')
+def movimientos():
+    if 'usuario' not in session:
+        return redirect(url_for('login'))  # Redirigir a login si no hay usuario en la sesión
+    
+    # Obtener los movimientos de pagos del usuario desde la base de datos
+    usuario = session['usuario']
+    movimientos_usuario = pagos_collection.find({'usuario': usuario})
+    
+    # Convertir los movimientos de MongoDB en una lista de diccionarios
+    pagos = []
+    for pago in movimientos_usuario:
+        estado = pago.get('estado', 'pendiente')
+        
+        # Asegurarnos de que 'monto' sea un número antes de redondearlo
+        monto = pago.get('monto', 0)
+        if isinstance(monto, (int, float)):  # Si 'monto' ya es un número, lo dejamos como está
+            monto_redondeado = round(monto, 2)
+        else:  # Si 'monto' es un string, tratamos de convertirlo a float
+            try:
+                monto_redondeado = round(float(monto), 2)
+            except ValueError:
+                monto_redondeado = 0  # Si no podemos convertirlo, lo dejamos como 0
+        
+        pagos.append({
+            'descripcion': pago.get('metodo_pago', 'Desconocido'),
+            'monto': monto_redondeado,
+            'estado': estado,
+            'fecha': pago.get('fecha', datetime.datetime.now()).strftime('%Y-%m-%d')
+        })
+    
+    return render_template('mov.html', usuario=usuario, pagos=pagos)
+
 
 # Ruta para agregar una orden
 @app.route('/agregar_orden', methods=['GET', 'POST'])
@@ -253,10 +357,6 @@ def login():
 
     return render_template('login.html')
 
-
-
-
-
 # Ruta para registrar un nuevo usuario
 @app.route('/registro', methods=['GET', 'POST'])
 def registro():
@@ -405,6 +505,8 @@ def historial_pedidos():
     return render_template('pedidos.html', usuario=usuario, pedidos=pedidos)
 
 # Ruta del panel de administración
+# Ruta del panel de administración
+# Ruta del panel de administración
 @app.route('/admin', methods=['GET', 'POST'])
 def admin_dashboard():
     if 'usuario' not in session:
@@ -428,6 +530,9 @@ def admin_dashboard():
             ]
         })
     
+    # Obtener los pagos pendientes
+    pagos = pagos_collection.find({'estado': 'pendiente'})  # Solo pagos con estado pendiente
+
     # Modificar datos de usuarios
     if request.method == 'POST':
         accion = request.form.get('accion')
@@ -492,10 +597,50 @@ def admin_dashboard():
             collection.update_one({'usuario': usuario_a_modificar}, {'$set': {'ban': 'no_ban', 'razon_ban': ''}})
             flash(f"El usuario {usuario_a_modificar} ha sido desbloqueado.", "success")
         
-        # Redirigir después de realizar la acción POST
-        return redirect(url_for('admin_dashboard'))
+     # 7. Actualizar el estado de los pagos (completado/cancelado)
+        elif 'usuario_pago' in request.form and 'monto_pago' in request.form:
+            usuario_pago = request.form['usuario_pago']
+            monto_pago = float(request.form['monto_pago'])
+            nuevo_estado = request.form['nuevo_estado']
 
-    return render_template('admin.html', usuarios=usuarios)
+            # Buscar el pago pendiente correspondiente en la colección de pagos
+            pago = pagos_collection.find_one({'usuario': usuario_pago, 'monto': monto_pago, 'estado': 'pendiente'})
+
+            if pago:
+                # Actualizar el estado del pago
+                pagos_collection.update_one({'usuario': usuario_pago, 'monto': monto_pago}, {'$set': {'estado': nuevo_estado}})
+                
+                if nuevo_estado == 'completado':
+                    # Si el pago es completado, agregar el monto al saldo del usuario
+                    collection.update_one({'usuario': usuario_pago}, {'$inc': {'saldo': monto_pago}})
+                    flash(f"Pago de {usuario_pago} completado y saldo actualizado.", "success")
+                elif nuevo_estado == 'cancelado':
+                    flash(f"Pago de {usuario_pago} cancelado.", "error")
+            else:
+                flash(f"No se encontró un pago pendiente con el monto {monto_pago} para el usuario {usuario_pago}.", "error")
+            
+            # Redirigir después de realizar la acción POST
+            return redirect(url_for('admin_dashboard'))
+
+    return render_template('admin.html', usuarios=usuarios, pagos=pagos)
+
+@app.route('/actualizar_pago', methods=['POST'])
+def actualizar_pago():
+    try:
+        # Obtener el ID del pago y el nuevo estado desde el formulario
+        pago_id = request.form['pago_id']
+        nuevo_estado = request.form['nuevo_estado']
+
+        # Actualizar el estado del pago en la base de datos
+        pagos_collection.update_one({'_id': ObjectId(pago_id)}, {'$set': {'estado': nuevo_estado}})
+
+        flash("Estado del pago actualizado exitosamente.", "success")
+        return redirect(url_for('admin_dashboard'))  # Redirigir al panel de administración
+
+    except Exception as e:
+        flash(f"Hubo un error al actualizar el estado del pago: {e}", "error")
+        return redirect(url_for('admin_dashboard'))  # Redirigir al panel de administración
+
 
 # Ruta para la página de baneo
 @app.route('/ban')
@@ -517,11 +662,6 @@ def ban():
 
     # Pasamos la razón del baneo a la plantilla
     return render_template('ban.html', razon_ban=razon_ban)
-
-@app.route('/saldo', methods=['GET'])
-def saldo():
-    return render_template('saldo.html')
-
 
 # Ejecutar la aplicación
 if __name__ == '__main__':

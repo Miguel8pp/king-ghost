@@ -1,152 +1,474 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agregar Saldo</title>
-    <link rel="stylesheet" href="../static/index.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+ /* Global Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(to bottom, #2a2a2a, #1c1c1c);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    overflow-y: auto;
+}
+
+/* Menú de navegación */
+header {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #333;
+    z-index: 10;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+    align-items: center;
+}
+
+.navbar-brand h1 {
+    margin: 0;
+}
+
+.navbar-menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.navbar-menu li {
+    margin: 0 15px;
+}
+
+.navbar-menu a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 16px;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #333;
+    min-width: 160px;
+    z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Estilos generales */
+h2, h3 {
+    margin-bottom: 15px;
+}
+
+/* Caja de pago centrada */
+.payment-container {
+    background-color: #333;
+    border-radius: 10px;
+    padding: 20px;
+    width: 100%;
+    max-width: 500px; /* El cuadro es más pequeño */
+    text-align: center;
+    box-shadow: 0px 4px 6px rgba(0,0,0,0.5);
+    margin-top: 100px; /* Esto asegura que la caja esté por debajo del menú */
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centramos los elementos dentro de la caja */
+}
+
+/* Saldo actual dentro del cuadro */
+h2 {
+    margin-top: 0;
+    font-size: 20px;
+    color: #fff;
+}
+
+/* Estilo de input de solo lectura */
+input[readonly] {
+    background-color: #f1f1f1;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+/* Estilo para el campo de ingreso de monto */
+#saldoInput {
+    background-color: #2a2a2a; /* Fondo gris casi negro */
+    border: 1px solid transparent;
+    padding: 10px;
+    margin: 10px 0;
+    color: #fff;
+    font-size: 16px;
+    border-radius: 6px;
+    transition: border 0.3s ease;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Estilo cuando el input tiene el foco */
+#saldoInput:focus {
+    border-color: #ff0033; /* Borde rojo neón cuando el input tiene foco */
+    outline: none;
+    background-color: #444; /* Fondo ligeramente más claro cuando tiene foco */
+    box-shadow: 0 0 10px #ff0033;
+}
+
+/* Estilos de botones */
+.btn {
+    padding: 14px;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 10px 0;
+    width: 100%;
+    display: inline-block;
+    box-sizing: border-box;
+}
+
+.paypal-btn {
+    background-color: #0070ba;
+    color: white;
+}
+
+.binance-btn {
+    background-color: #f4b731;
+    color: white;
+}
+
+.transfer-btn {
+    background-color: #333;
+    color: white;
+}
+
+.oxxo-btn {
+    background-color: #ff0033;
+    color: white;
+}
+
+.btn:hover {
+    opacity: 0.8;
+}
+
+/* Estilos del modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+    padding-top: 60px;
+}
+
+.modal-content {
+    background-color: #333;
+    color: white;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Ajustes a la estructura para dispositivos móviles */
+@media screen and (max-width: 768px) {
+    .payment-container {
+        width: 100%;
+        padding: 15px;
+    }
+
+    .navbar-menu li {
+        margin: 0 10px;
+    }
+}
+
+    </style>
 </head>
 <body>
-    <!-- Contenedor Principal -->
-    <div class="login-container">
-        <h2>Función en Mantenimiento</h2>
-        <p>La función para agregar saldo está en mantenimiento. Por favor, contáctanos por WhatsApp para más información sobre como agregar saldo a tu cuenta :)</p>
-        
-        <!-- Ícono de configuración (tuerca) -->
-        <div class="maintenance-icon">
-            <i class="fas fa-cogs"></i> <!-- Icono de la tuerca de configuración -->
+
+<header>
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <h1>Agregar Saldo </h1>
         </div>
-        
-        <!-- Botón de WhatsApp -->
-        <a href="https://wa.me/524661002589?text=%C2%A1Hola!%20Me%20gustar%C3%ADa%20agregar%20saldo%20a%20mi%20cuenta." target="_blank" class="btn whatsapp-btn">
-            <i class="fab fa-whatsapp"></i> Contactar por WhatsApp
-        </a>
-        
-        <!-- Botón de Regresar -->
-        <a href="{{ url_for('pagina_principal') }}" class="btn regresar-btn">Regresar</a>
+        <ul class="navbar-menu">
+            <li><a href="/pagina_principal">INICIO</a></li>
+            <li class="dropdown">
+                <a href="javascript:void(0)" class="dropbtn">{{ usuario[0].upper() }}</a>
+                <div class="dropdown-content">
+                    <a href="/mi_perfil">
+                        <i class="fas fa-user"></i> Mi Perfil
+                    </a>
+                    <a href="/pedidos">
+                        <i class="fas fa-box"></i> Pedidos
+                    </a>
+                    <a href="/saldo">
+                        <i class="fas fa-credit-card"></i> Agregar saldo
+                    </a>
+                    <a href="/movimientos">
+                        <i class="fas fa-exchange-alt"></i> Movimientos
+                    </a>
+                    <a href="/logout">
+                        <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+                    </a>
+                </div>
+            </li>
+        </ul>
+        <button class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </nav>
+</header>
+
+<!-- Título y caja de agregar saldo -->
+<h2>Saldo Actual: <span id="saldo">{{ saldo }}</span></h2>
+<div class="payment-container">
+    <h3>¿Cuánto deseas agregar?</h3>
+    <input type="number" id="montoInput" placeholder="Monto a agregar" min="1" required>
+
+    <!-- Botones de pago -->
+    <div class="btn paypal-btn" id="paypalBtn">
+        <i class="fab fa-paypal"></i> Pagar con PayPal
     </div>
 
-    <!-- Pie de Página -->
-    <footer>
-        <p>&copy; 2025 kingGhost. Todos los derechos reservados.</p>
-    </footer>
+    <div class="btn binance-btn" id="binanceBtn">
+        <i class="fab fa-btc"></i> Pagar con Binance
+    </div>
 
-    <style>
-        /* Global Styles */
-        body {
-            font-family: 'Roboto', sans-serif;
-            background: linear-gradient(to bottom, #2a2a2a, #1c1c1c); /* Gradiente oscuro con un toque de gris */
-            color: #fff; /* Texto blanco para mayor contraste */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            padding: 0 20px;
-            -webkit-font-smoothing: antialiased;
-            overflow: hidden;
-            flex-direction: column;
+    <div class="btn transfer-btn" id="transferBtn">
+        <i class="fas fa-exchange-alt"></i> Transferencia Bancaria
+    </div>
+
+    <div class="btn oxxo-btn" id="oxxoBtn">
+        Depositar en OXXO
+    </div>
+</div>
+
+<!-- Modal para PayPal -->
+<div id="paypalModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Mandar Comprobante de pago por WhatsApp</h2>
+        <p>las comisiones de paypal, seran descontadas al actualizar su saldo</p>
+        <p>El correo de paypal es: 33hackeryt@gmail.com</p>
+        <button id="createOrderBtn" class="btn paypal-btn">Crear Orden de Pago</button>
+    </div>
+</div>
+
+<!-- Modal para Binance -->
+<div id="binanceModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Paga mediante Binance Pay</h2>
+        <p>Por favor, paga al siguiente ID:</p>
+        <input type="text" value="1051744842" readonly onclick="this.select(); document.execCommand('copy');">
+        <button id="createOrderBinanceBtn" class="btn binance-btn">Crear Orden de Pago</button>
+    </div>
+</div>
+
+<!-- Modal para Transferencia -->
+<div id="transferModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Paga mediante Transferencia</h2>
+        <p>Clave: <input type="text" value="728969000023825614" readonly onclick="this.select(); document.execCommand('copy');"></p>
+        <p>Concepto: Pago "Tu Usuario"</p>
+        <button id="createOrderTransferBtn" class="btn transfer-btn">Crear Orden de Pago</button>
+    </div>
+</div>
+
+<!-- Modal para OXXO -->
+<div id="oxxoModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Deposita en OXXO</h2>
+        <p>Depósito en OXXO: <input type="text" value="2242 1702 1012 1364" readonly onclick="this.select(); document.execCommand('copy');"></p>
+        <button id="createOrderOxxoBtn" class="btn oxxo-btn">Crear Orden de Pago</button>
+    </div>
+</div>
+
+<!-- Modal de Gracias -->
+<div id="thankYouModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>¡Gracias por tu pago!</h2>
+        <p>Tu pago ha sido procesado exitosamente.</p>
+        <button id="whatsappButton" class="btn paypal-btn">Enviar Comprobante por WhatsApp</button>
+    </div>
+</div>
+
+<script>
+    // Variables de usuario dinámico desde Flask
+    var usuario = "{{ usuario }}"; // Esto se obtiene del backend (Flask)
+    var monto = 0; // Monto que el usuario desea agregar
+    var metodoPago = ""; // Método de pago seleccionado
+    var modalActual = null; // Modal que se muestra en este momento
+
+    // Función para guardar el pago en la base de datos (simulado)
+    function guardarPago(usuario, monto, metodoPago) {
+        fetch('/guardar_pago', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                usuario: usuario,
+                monto: monto,
+                metodo_pago: metodoPago,
+                estado: 'pendiente'
+            })
+        }).then(response => response.json())
+          .then(data => {
+              if (data.success) {
+                  console.log('Pago guardado exitosamente');
+              } else {
+                  console.log('Error al guardar el pago:', data.error);
+              }
+          }).catch(error => {
+              console.log('Error en la solicitud:', error);
+          });
+    }
+
+    // Crear orden de pago y mostrar el modal de gracias
+    function crearOrdenDePago() {
+        // Guardar el pago en la base de datos
+        guardarPago(usuario, monto, metodoPago);
+
+        // Cerrar el modal de instrucciones actual
+        if (modalActual) {
+            modalActual.style.display = "none";
         }
 
-        /* Contenedor del formulario */
-        .login-container {
-            background-color: #000;
-            padding: 40px 50px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            width: 100%;
-            max-width: 450px;
-            box-sizing: border-box;
-            border: 1px solid #000;
-            position: relative;
-            transform: translateZ(0);
-            animation: slideIn 1s ease-out;
-            z-index: 2;
-        }
+        // Mostrar modal de gracias
+        document.getElementById("thankYouModal").style.display = "block";
+    }
 
-        /* Animación para el formulario */
-        @keyframes slideIn {
-            0% {
-                opacity: 0;
-                transform: translateY(-50px);
+    // Mostrar modal correspondiente dependiendo del botón que se haya presionado
+    document.getElementById("paypalBtn").onclick = function() {
+        monto = document.getElementById("montoInput").value;
+        if (monto) {
+            metodoPago = "PayPal";
+            modalActual = document.getElementById("paypalModal");
+            modalActual.style.display = "block";
+        } else {
+            alert("Por favor, ingresa un monto válido.");
+        }
+    }
+
+    // Crear orden para PayPal
+    document.getElementById("createOrderBtn").onclick = function() {
+        crearOrdenDePago();
+    }
+
+    // Mostrar modal para Binance
+    document.getElementById("binanceBtn").onclick = function() {
+        monto = document.getElementById("montoInput").value;
+        if (monto) {
+            metodoPago = "Binance";
+            modalActual = document.getElementById("binanceModal");
+            modalActual.style.display = "block";
+        } else {
+            alert("Por favor, ingresa un monto válido.");
+        }
+    }
+
+    // Crear orden para Binance
+    document.getElementById("createOrderBinanceBtn").onclick = function() {
+        crearOrdenDePago();
+    }
+
+    // Mostrar modal para Transferencia
+    document.getElementById("transferBtn").onclick = function() {
+        monto = document.getElementById("montoInput").value;
+        if (monto) {
+            metodoPago = "Transferencia";
+            modalActual = document.getElementById("transferModal");
+            modalActual.style.display = "block";
+        } else {
+            alert("Por favor, ingresa un monto válido.");
+        }
+    }
+
+    // Crear orden para Transferencia
+    document.getElementById("createOrderTransferBtn").onclick = function() {
+        crearOrdenDePago();
+    }
+
+    // Mostrar modal para OXXO
+    document.getElementById("oxxoBtn").onclick = function() {
+        monto = document.getElementById("montoInput").value;
+        if (monto) {
+            metodoPago = "OXXO";
+            modalActual = document.getElementById("oxxoModal");
+            modalActual.style.display = "block";
+        } else {
+            alert("Por favor, ingresa un monto válido.");
+        }
+    }
+
+    // Crear orden para OXXO
+    document.getElementById("createOrderOxxoBtn").onclick = function() {
+        crearOrdenDePago();
+    }
+
+    // Cerrar modales cuando se hace clic en la "X"
+    var modals = document.querySelectorAll(".modal");
+    var spans = document.querySelectorAll(".close");
+    for (var i = 0; i < spans.length; i++) {
+        spans[i].onclick = function() {
+            for (var j = 0; j < modals.length; j++) {
+                modals[j].style.display = "none";
             }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+        };
+    }
 
-        /* Título */
-        .login-container h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 28px;
-            color: #fff;
-            text-shadow: 0 0 10px #ff0033;
-        }
+    // Abrir WhatsApp con el mensaje predefinido
+    document.getElementById("whatsappButton").onclick = function() {
+        var mensaje = `¡Hola! acabo de recargar saldo en el Panel Ghost, Mi usuario es ${usuario} y en un momento envío mi comprobante de pago.`;
+        var whatsappUrl = `https://wa.me/524661002589?text=${encodeURIComponent(mensaje)}`;
+        window.open(whatsappUrl, '_blank');
+    }
+</script>
 
-        /* Texto del mensaje */
-        .login-container p {
-            text-align: center;
-            font-size: 18px;
-            margin-bottom: 20px;
-            color: #ddd;
-        }
-
-        /* Estilo para el ícono de configuración (tuerca) */
-        .maintenance-icon {
-            font-size: 60px;
-            color: #ff0033; /* Rojo neón para resaltar */
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        /* Estilo para el botón de WhatsApp */
-        .whatsapp-btn {
-            background-color: #25d366;
-            color: white;
-            padding: 14px 28px;
-            font-size: 18px;
-            border-radius: 10px;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            margin-top: 20px;
-            width: 100%; /* Asegura que el botón esté dentro del cuadro */
-            justify-content: center;
-            box-sizing: border-box;
-        }
-
-        .whatsapp-btn i {
-            margin-right: 10px;
-        }
-
-        /* Estilo para el botón de Regresar */
-        .regresar-btn {
-            background-color: #ff0033;
-            color: white;
-            padding: 14px 28px;
-            font-size: 18px;
-            border-radius: 10px;
-            text-decoration: none;
-            display: block;
-            text-align: center;
-            margin-top: 15px;
-        }
-
-        .regresar-btn:hover {
-            background-color: #e60029;
-        }
-
-        /* Pie de Página */
-        footer {
-            position: absolute;
-            bottom: 10px;
-            width: 100%;
-            text-align: center;
-            color: #ddd;
-        }
-    </style>
 </body>
 </html>

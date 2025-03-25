@@ -70,9 +70,9 @@
 
             <button type="submit" class="order-btn">Realizar Pedido</button>
             <!-- Botón de regresar a la página principal -->
-<div class="back-to-home-container">
-    <a href="/pagina_principal" class="back-to-home-btn">Regresar</a>
-</div>
+            <div class="back-to-home-container">
+                <a href="/pagina_principal" class="back-to-home-btn">Regresar</a>
+            </div>
         </form>
     </div>
 </div>
@@ -97,8 +97,8 @@
             const filteredServices = services.filter(service => service.category === selectedCategory);
             filteredServices.forEach(service => {
                 const option = document.createElement('option');
-                option.value = service.service;
-                option.textContent = service.name;
+                option.value = service.service;  // El valor será el ID del servicio
+                option.textContent = `${service.name} (ID: ${service.service})`;  // Mostramos el nombre y el ID
                 serviceSelect.appendChild(option);
             });
         }

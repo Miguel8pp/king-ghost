@@ -23,8 +23,8 @@ class Api:
         params['key'] = self.api_key  # Se asegura de agregar la API key a la solicitud.
         
         try:
-            # Realizamos la solicitud POST a la API
-            response = requests.post(self.api_url, data=params)
+            # Realizamos la solicitud POST a la API enviando los datos como JSON
+            response = requests.post(self.api_url, json=params)  # Cambié 'data' por 'json'
             response.raise_for_status()  # Si la respuesta tiene un código de error HTTP, se lanza una excepción.
             
             # Si la respuesta es exitosa (código 200), se devuelve el resultado en formato JSON.
@@ -76,7 +76,7 @@ class Api:
         Realiza un pedido de acuerdo a los datos proporcionados.
         """
         return self._connect({
-            'action': 'order',
+            'action': 'add',  # Usamos 'add' para la creación de un pedido
             'service': order_data['service'],
             'link': order_data['link'],
             'quantity': order_data['quantity']

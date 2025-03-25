@@ -211,64 +211,51 @@ def movimientos():
 # Ruta para agregar una orden
 @app.route('/agregar_orden', methods=['GET', 'POST'])
 def agregar_orden():
+    # Verificar si el usuario está autenticado
     if 'usuario' not in session:
-        return redirect(url_for('login'))
+        return redirect(url_for('login'))  # Redirige a la página de login si no está autenticado
 
     usuario = session['usuario']
-    saldo = obtener_saldo(usuario)
+    saldo = obtener_saldo(usuario)  # Obtener saldo del usuario
 
     # Si el saldo es 0 o inferior, mostrar el mensaje de "Saldo Insuficiente"
     if saldo <= 0:
         flash("Saldo Insuficiente. No tienes saldo suficiente para realizar pedidos.", "error")
         
-        # Antes de redirigir, asegurémonos de que 'categories' y 'services' son listas válidas
+        # Traer categorías y servicios desde la API
         api = Api()
         categories = api.categories()
         services = api.services()
 
-        # Verificar los datos antes de limpiarlos
-        print("Categorías originales:", categories)
-        print("Servicios originales:", services)
-
-        # Limpiar los valores None de categories y services
+        # Limpiar valores None de categories y services
         categories = [category for category in categories if category is not None]
         services = [service for service in services if service is not None]
 
-        # Verificar después de la limpieza
-        print("Categorías después de limpieza:", categories)
-        print("Servicios después de limpieza:", services)
-
-        # Renderizar la plantilla sin hacer nada más si no hay saldo
+        # Redirigir a la misma página, ya que no hay saldo suficiente
         return render_template('yoursmm.html', usuario=usuario, saldo=saldo, categories=categories, services=services)
 
+    # Si el saldo es suficiente, obtener categorías y servicios
     api = Api()
     categories = api.categories()
     services = api.services()
 
-    # Verificar los datos antes de limpiarlos
-    print("Categorías originales (cuando hay saldo):", categories)
-    print("Servicios originales (cuando hay saldo):", services)
-
-    # Limpiar los valores None de categories y services
+    # Limpiar valores None de categories y services
     categories = [category for category in categories if category is not None]
     services = [service for service in services if service is not None]
 
-    # Verificar después de la limpieza
-    print("Categorías después de limpieza (cuando hay saldo):", categories)
-    print("Servicios después de limpieza (cuando hay saldo):", services)
-
+    # Manejar la lógica del formulario cuando se hace un POST
     if request.method == 'POST':
-        cantidad = int(request.form['quantity'])
-        servicio_id = request.form['service']
-        enlace = request.form['link']
+        cantidad = int(request.form['quantity'])  # Obtener cantidad
+        servicio_id = request.form['service']  # Obtener ID del servicio
+        enlace = request.form['link']  # Obtener el link
 
-        # Obtener el servicio correspondiente
+        # Buscar el servicio correspondiente en la lista de servicios
         servicio = next((s for s in services if s['service'] == servicio_id), None)
 
         if servicio:
-            precio_por_unidad = float(servicio.get('rate', 0)) * 1.40  # Aumento del 40%
-
-            monto = (cantidad * precio_por_unidad) / 1000
+            # Calcular el precio por unidad con el aumento del 40%
+            precio_por_unidad = float(servicio.get('rate', 0)) * 1.40
+            monto = (cantidad * precio_por_unidad) / 1000  # Calcular el monto total del pedido
 
             # Verificar si el saldo es suficiente para realizar el pedido
             if saldo >= monto:
@@ -279,28 +266,35 @@ def agregar_orden():
                 }
 
                 try:
+                    # Realizar el pedido a la API
                     order_response = api.order(order_data)
 
                     if order_response and 'order' in order_response:
                         order_id = order_response['order']
                         estado = api.get_order_status(order_id)
 
+                        # Asegurarte de que la primera letra sea mayúscula
+                        if estado and 'status' in estado:
+                            estado = estado['status'].capitalize()  # Convertir la primera letra a mayúscula
+
+                        # Registrar el pedido en la base de datos
                         pedidos_collection.insert_one({
                             'usuario': usuario,
                             'cantidad': cantidad,
                             'monto': monto,
-                            'estado': estado,
+                            'estado': estado,  # Guardar el estado con la primera letra mayúscula
                             'order_id': order_id,
                             'fecha': datetime.datetime.now()
                         })
 
+                        # Actualizar el saldo del usuario
                         collection.update_one({'usuario': usuario}, {'$inc': {'saldo': -monto}})
 
                         flash("Pedido creado con éxito. Puedes hacer otro pedido.", "success")
                     else:
-                        flash(f"Hubo un problema al crear el pedido", "error")
+                        flash(f"Hubo un problema al crear el pedido: {order_response.get('error', 'Error desconocido')}", "error")
                 except Exception as e:
-                    print(f"Error al realizar el pedido {e}")
+                    print(f"Error al realizar el pedido: {e}")
                     flash("Error al realizar el pedido. Intenta más tarde.", "error")
             else:
                 flash("No tienes suficiente saldo para realizar esta orden.", "error")
@@ -308,6 +302,7 @@ def agregar_orden():
         # Redirigir después de procesar el formulario (PRG)
         return redirect(url_for('agregar_orden'))
 
+    # Si es un GET, simplemente renderizar la página con las categorías y servicios
     return render_template('yoursmm.html', usuario=usuario, saldo=saldo, categories=categories, services=services)
 
 # Ruta de login
@@ -496,16 +491,42 @@ def restablecer_contrasena(token):
 
 # Ruta para ver el historial de pedidos
 @app.route('/pedidos')
-def historial_pedidos():
+def ver_pedidos():
     if 'usuario' not in session:
-        return redirect(url_for('login'))
+        return redirect(url_for('login'))  # Redirige a la página de login si no está autenticado
 
     usuario = session['usuario']
-    pedidos = pedidos_collection.find({'usuario': usuario})
-    return render_template('pedidos.html', usuario=usuario, pedidos=pedidos)
+    saldo = obtener_saldo(usuario)  # Obtener saldo del usuario
 
-# Ruta del panel de administración
-# Ruta del panel de administración
+    # Traer todos los pedidos del usuario desde la base de datos
+    pedidos = pedidos_collection.find({'usuario': usuario})
+
+    api = Api()
+
+    # Iterar sobre los pedidos para obtener y actualizar el estado de cada uno
+    for pedido in pedidos:
+        order_id = pedido.get('order_id')
+        if order_id:
+            try:
+                # Obtener el estado más reciente del pedido desde la API
+                estado_actual = api.get_order_status(order_id)
+                if estado_actual and 'status' in estado_actual:
+                    nuevo_estado = estado_actual['status'].capitalize()  # Asegurarse de que la primera letra esté en mayúscula
+                    
+                    # Si el estado ha cambiado, actualizamos en la base de datos
+                    if pedido['estado'] != nuevo_estado:
+                        pedidos_collection.update_one(
+                            {'_id': pedido['_id']},
+                            {'$set': {'estado': nuevo_estado}}
+                        )
+            except Exception as e:
+                print(f"Error al obtener el estado del pedido {order_id}: {e}")
+    
+    # Recargar los pedidos con los estados actualizados
+    pedidos = pedidos_collection.find({'usuario': usuario})
+
+    return render_template('pedidos.html', usuario=usuario, saldo=saldo, pedidos=pedidos)
+
 # Ruta del panel de administración
 @app.route('/admin', methods=['GET', 'POST'])
 def admin_dashboard():

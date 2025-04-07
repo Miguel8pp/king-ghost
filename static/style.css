@@ -87,3 +87,18 @@ footer a:hover{
   text-align: left;
 }
 
+.ab {
+  transition: all 0.3s ease;
+  display: block;
+  margin: 10px auto;
+  text-align: center;
+  padding: 3px;
+  background-color: #364552; 
+  color: rgb(255, 255, 255);
+  text-decoration: none;
+  border-radius: 8px; 
+}
+
+.ab:hover {
+  background-color: #20262b;
+}

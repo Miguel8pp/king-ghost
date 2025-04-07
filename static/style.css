@@ -1,0 +1,88 @@
+html{
+  font-family: "Montserrat", sans-serif;
+}
+
+body {
+  /*para el fondo de todo se usa la etiqueta de body*/
+  background-color: #efefef;
+  margin: 0;
+}
+
+img {
+  /*width es el ancho
+  y heigth es el alto*/
+  width: 400px;
+}
+
+header{
+  /*background-color sirve para el color 
+  de una etiqueta*/
+background-color: #364552;
+color: white;
+padding: 30px 20px;
+}
+
+header h1 {
+  font-size: 35px;
+  /*text align sirve para centrar el texto*/
+  text-align: center;
+}
+
+.container {
+  width: 400px;
+  margin: 0 auto;
+}
+
+section article {
+  /* trasnsition es para indicar que 
+  propiedades de css queremos que sean animadas*/
+  transition: all 0.3s ease;
+  background-color: #fff;
+  margin: 15px auto;
+  border-radius: 10px;
+  padding: 5px 0;
+  /* cursor pointer sirve para mostrar la manito*/
+  cursor: pointer;
+}
+
+section article:hover {
+  box-shadow: 0 4px 7px rgba(0, 0, 0,0.3);
+}
+
+section article h2, section article p {
+margin: 10px;
+}
+
+
+footer {
+  background-color: #222 ;
+  padding: 30px;
+  color: aliceblue;
+}
+
+footer section{
+  float: right;
+}
+
+footer p{
+  margin: 0;
+}
+footer a{
+  /*transition sirve para darle una animacion
+  y seleccione la propiedad de color*/
+  transition: color 0.3s ease;
+  color: #ffffff;
+  /*text-decoration sirve para quitar la linea debajo
+  ya que es un link y siempre pone una linea abajo*/
+  text-decoration: none;
+}
+
+/*el hover sirve cuando paso el mouse cambie de color*/
+footer a:hover{
+  color: cornflowerblue;
+}
+
+.section{
+      background-color: #222;
+  text-align: left;
+}

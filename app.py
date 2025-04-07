@@ -12,6 +12,7 @@ import datetime
 from bson import Decimal128
 from decimal import Decimal
 from bson import ObjectId
+from flask import Flask, send_from_directory
 
 
 # Importar el archivo yoursmm.py
@@ -69,6 +70,10 @@ def obtener_saldo(usuario):
     elif isinstance(saldo, Decimal):
         saldo = float(saldo)
     return saldo
+
+@app.route('/')
+def inicios():
+    return send_from_directory('templates', 'inicio.html')
 
 # Ruta principal
 @app.route('/pagina_principal')

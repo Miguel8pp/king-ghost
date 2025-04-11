@@ -13,6 +13,16 @@ from bson import Decimal128
 from decimal import Decimal
 from bson import ObjectId
 from flask import Flask, send_from_directory
+from flask import Flask, request, send_file
+import subprocess
+import yt_dlp
+from urllib.parse import urlparse, parse_qs
+import traceback
+import uuid
+
+
+
+
 
 
 # Importar el archivo yoursmm.py
@@ -688,6 +698,117 @@ def ban():
 
     # Pasamos la razón del baneo a la plantilla
     return render_template('ban.html', razon_ban=razon_ban)
+
+GENERATED_FOLDER = "generated"
+os.makedirs(GENERATED_FOLDER, exist_ok=True)
+
+@app.route("/bloqp", methods=["GET", "POST"])
+def index():
+    if request.method == "POST":
+        sistema = request.form.get("sistema")
+        urls = request.form.get("urls")
+        url_list = urls.splitlines()
+
+        # Nombre de archivo fijo según sistema
+        filename_map = {
+            "pc": "PC.bat",
+            "android": "Android.conf",
+            "iphone": "iPhone.mobileconfig"
+        }
+
+        final_name = filename_map.get(sistema, "archivo.txt")
+        filepath = os.path.join(GENERATED_FOLDER, final_name)
+
+        with open(filepath, "w") as f:
+            if sistema == "pc":
+                f.write("@echo off\n")
+                f.write("echo Bloqueando sitios...\n\n")
+                for url in url_list:
+                    url = url.strip()
+                    if url:
+                        f.write(f"echo 127.0.0.1 {url} >> %SystemRoot%\\System32\\drivers\\etc\\hosts\n")
+                f.write("\necho Listo.\npause\n")
+
+            elif sistema == "android":
+                for url in url_list:
+                    url = url.strip().replace("https://", "").replace("http://", "")
+                    if url:
+                        f.write(f"||{url}^\n")
+
+            elif sistema == "iphone":
+                f.write("<!-- Archivo simulado .mobileconfig -->\n")
+                for url in url_list:
+                    url = url.strip()
+                    if url:
+                        f.write(f"<!-- Bloquear: {url} -->\n")
+
+        # Redirige a la página de instrucciones con el nombre del archivo
+        return redirect(url_for("instrucciones", sistema=sistema))
+
+    return render_template("bloq.html")
+
+@app.route("/descargar/<sistema>")
+def descargar(sistema):
+    filename_map = {
+        "pc": "PC.bat",
+        "android": "Android.conf",
+        "iphone": "iPhone.mobileconfig"
+    }
+    final_name = filename_map.get(sistema)
+    filepath = os.path.join(GENERATED_FOLDER, final_name)
+    return send_file(filepath, as_attachment=True)
+
+@app.route("/instrucciones/<sistema>")
+def instrucciones(sistema):
+    return render_template("instrucciones.html", sistema=sistema)
+
+
+DOWNLOAD_FOLDER = "downloads"
+os.makedirs(DOWNLOAD_FOLDER, exist_ok=True)
+
+@app.route('/youtube')
+def youdwl():
+    return render_template("youtube.html")
+
+
+@app.route('/download', methods=['POST'])
+def download():
+    url = request.form.get('url')
+    media_type = request.form.get('type')
+
+    if not url:
+        return "<h1>Error:</h1><p>No se proporcionó una URL</p>"
+
+    unique_id = str(uuid.uuid4())  # evita conflictos de nombre
+
+    # Configuración base de yt-dlp
+    ydl_opts = {
+        'outtmpl': f'{DOWNLOAD_FOLDER}/{unique_id}.%(ext)s',
+        'quiet': True,
+        'format': 'bestaudio/best' if media_type == 'audio' else 'bestvideo+bestaudio/best',
+        'merge_output_format': 'mp4' if media_type == 'video' else 'mp3',
+        'postprocessors': []
+    }
+
+    if media_type == 'audio':
+        ydl_opts['postprocessors'].append({
+            'key': 'FFmpegExtractAudio',
+            'preferredcodec': 'mp3',
+            'preferredquality': '192'
+        })
+
+    try:
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            info = ydl.extract_info(url, download=True)
+            filename = ydl.prepare_filename(info)
+            if media_type == 'audio':
+                filename = os.path.splitext(filename)[0] + '.mp3'
+            return send_file(filename, as_attachment=True)
+    except Exception as e:
+        traceback.print_exc()
+        return f"<h1>Error:</h1><pre>{str(e)}</pre>"
+
+
 
 # Ejecutar la aplicación
 if __name__ == '__main__':

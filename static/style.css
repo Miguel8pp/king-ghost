@@ -11,7 +11,8 @@ body {
 img {
   /*width es el ancho
   y heigth es el alto*/
-  width: 400px;
+  width: 100%;
+  max-width: 400px;
 }
 
 header{
@@ -29,7 +30,8 @@ header h1 {
 }
 
 .container {
-  width: 400px;
+  width: 100%;
+  max-width: 400px;
   margin: 0 auto;
 }
 
@@ -45,8 +47,11 @@ section article {
   cursor: pointer;
 }
 
+
+
 section article:hover {
   box-shadow: 0 4px 7px rgba(0, 0, 0,0.3);
+  transform: translateY(-1%); 
 }
 
 section article h2, section article p {

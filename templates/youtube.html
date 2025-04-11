@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Descargar Videos de YouTube</title>
+  <link rel="stylesheet" href="../static/youtube.css" />
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <link rel="icon" href="../static/fav/yt.png">
+</head>
+<body>
+  <button class="theme-toggle" onclick="toggleTheme()">
+    <i class="fas fa-moon"></i>
+  </button>
+
+  <div class="container">
+    <h1>Descargar<br>Videos de YouTube</h1>
+
+    <section>
+      <article>
+        <form id="download-form" action="/download" method="POST">
+          <div class="input-group">
+            <input type="url" name="url" placeholder="Enlace de YouTube" required />
+            <button class="youtube-btn" type="submit">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_(2017).svg" alt="YouTube" />
+            </button>
+          </div>
+
+          <select class="download-btn" name="type">
+            <option value="video">Video + Audio</option>
+            <option value="audio">Solo Audio</option>
+          </select>
+
+          <button class="download-btn" type="submit">Descargar</button>
+        </form>
+
+
+      </article>
+    </section>
+  </div>
+</body>
+</html>

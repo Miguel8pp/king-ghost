@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Instrucciones</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/instrucciones.css">
+</head>
+<body>
+    <button id="toggleMode">Cambiar modo</button>
+
+    <header>
+        <h1>Instrucciones para {{ sistema|capitalize }}</h1>
+    </header>
+
+
+    <p>Tu archivo ya fue generado. Si no se descargó automáticamente, <a href="{{ url_for('descargar', sistema=sistema) }}">haz clic aquí para descargarlo</a>.</p>
+
+    <section  class="container">
+        <article class="post">
+            {% if sistema == 'pc' %}
+            <h3>Pasos en PC (Windows):</h3>
+            <ol>
+                <li>Haz clic derecho en <strong>PC.bat</strong> y selecciona <strong>"Ejecutar como administrador"</strong>.</li>
+                <li>Se agregarán las páginas al archivo <code>hosts</code> del sistema.</li>
+                <li>Reinicia tu navegador o PC si es necesario.</li>
+            </ol> 
+        </article>
+        <article class="post">
+            {% elif sistema == 'android' %}
+            <h3>Pasos en Android:</h3>
+            <ol>
+                <li>Usa AdGuard, NextDNS o Pi-hole e importa el archivo <strong>Android.conf</strong>.</li>
+                <li>Abre tu app de DNS y carga la lista.</li>
+                <li>Activa el filtrado.</li>
+            </ol>
+        </article>
+        <article class="post">
+            {% elif sistema == 'iphone' %}
+            <h3>Pasos en iPhone:</h3>
+            <ol>
+                <li>Requiere un perfil de configuración (MDM). Por ahora, este archivo es una simulación.</li>
+                <li>Puedes usar apps como AdGuard para bloquear usando DNS.</li>
+            </ol>
+        </article> 
+    </section>
+   
+    {% endif %}
+
+    <script>
+        // Descarga automática
+window.onload = () => {
+ window.location.href = "/descargar/{{ sistema }}";
+};
+  
+    </script>
+    <script src="../static/instrucciones.js"></script>
+</body>
+</html>

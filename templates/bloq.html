@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Bloqueador de Sitios</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bloq.css') }}">
+    <link rel="icon" href="../static/fav/proh.jpg">
+</head>
+<body>
+    <h1>Bloquear sitios web</h1>
+    <form method="POST">
+        <label>Selecciona tu sistema:</label><br>
+        <select name="sistema" required>
+            <option value="pc">PC (Windows)</option>
+            <option value="android">Android</option>
+            <option value="iphone">iPhone</option>
+        </select><br><br>
+
+        <label>Escribe las URLs que quieres bloquear (una por línea):</label><br>
+        <textarea name="urls" rows="10" cols="40" required></textarea><br><br>
+
+        <button type="submit">Generar script</button>
+        <button type="button" id="toggle-theme">Cambiar tema</button>
+    </form>
+
+    <script src="../static/bloq.js"></script>
+</body>
+</html>

@@ -771,7 +771,7 @@ os.makedirs(DOWNLOAD_FOLDER, exist_ok=True)
 SCRAPER_API_KEY = os.getenv('SCRAPER_API_KEY')
 
 # Carpeta donde se almacenarán los archivos descargados
-DOWNLOAD_FOLDER = '/path/to/download_folder'  # Actualiza esto con tu ruta real
+DOWNLOAD_FOLDER = '/downloads'  # Actualiza esto con tu ruta real
 
 # Ruta para la página de YouTube
 @app.route('/youtube')

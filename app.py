@@ -808,6 +808,46 @@ def download():
         traceback.print_exc()
         return f"<h1>Error:</h1><pre>{str(e)}</pre>"
 
+@app.route('/tiktok')
+def tiktok_page():
+    return render_template("tiktok.html")
+
+
+@app.route('/tiktok-download', methods=['POST'])
+def tiktok_download():
+    import requests
+    from urllib.parse import unquote
+
+    video_url = request.form.get('url')
+
+    if not video_url:
+        return "<h1>Error:</h1><p>No se proporcionó una URL de TikTok</p>"
+
+    try:
+        # Llamar a la API de TikWM
+        api_url = "https://tikwm.com/api"
+        response = requests.get(api_url, params={"url": video_url})
+        data = response.json()
+
+        if data["code"] != 0:
+            return f"<h1>Error:</h1><p>{data['msg']}</p>"
+
+        # Obtener el link del video sin marca de agua
+        video_download_url = data["data"]["play"]
+
+        # Descargar el video en un archivo temporal
+        video_content = requests.get(video_download_url).content
+        filename = f"tiktok_{uuid.uuid4().hex}.mp4"
+        filepath = os.path.join(DOWNLOAD_FOLDER, filename)
+
+        with open(filepath, "wb") as f:
+            f.write(video_content)
+
+        return send_file(filepath, as_attachment=True)
+
+    except Exception as e:
+        traceback.print_exc()
+        return f"<h1>Error:</h1><pre>{str(e)}</pre>"
 
 
 # Ejecutar la aplicación

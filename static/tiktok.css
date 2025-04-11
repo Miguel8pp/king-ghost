@@ -1,0 +1,61 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    text-align: center;
+}
+
+h1 {
+    font-size: 2.5rem;
+    color: #000;
+    margin-bottom: 30px;
+}
+
+.input-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #ccc;
+    border-radius: 12px;
+    overflow: hidden;
+    width: 320px;
+    margin: 0 auto 20px;
+    background-color: #fff;
+}
+
+.input-group input {
+    flex: 1;
+    padding: 12px;
+    font-size: 1rem;
+    border: none;
+    outline: none;
+}
+
+.youtube-btn {
+    background-color: transparent;
+    border: none;
+    padding: 0 12px;
+    cursor: pointer;
+}
+
+.youtube-btn img {
+    width: 30px;
+    height: 30px;
+}
+
+.download-btn {
+    padding: 12px 24px;
+    font-size: 1rem;
+    background-color: #e5e5e5;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+}

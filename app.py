@@ -766,19 +766,11 @@ def instrucciones(sistema):
 DOWNLOAD_FOLDER = "downloads"
 os.makedirs(DOWNLOAD_FOLDER, exist_ok=True)
 
-
-# Obtén tu clave API de ScraperAPI desde las variables de entorno
-SCRAPER_API_KEY = os.getenv('SCRAPER_API_KEY')
-
-# Carpeta donde se almacenarán los archivos descargados
-DOWNLOAD_FOLDER = '/downloads'  # Actualiza esto con tu ruta real
-
-# Ruta para la página de YouTube
 @app.route('/youtube')
 def youdwl():
     return render_template("youtube.html")
 
-# Ruta para manejar la descarga
+
 @app.route('/download', methods=['POST'])
 def download():
     url = request.form.get('url')
@@ -787,10 +779,7 @@ def download():
     if not url:
         return "<h1>Error:</h1><p>No se proporcionó una URL</p>"
 
-    unique_id = str(uuid.uuid4())  # Evita conflictos de nombre
-
-    # Construir la URL de ScraperAPI para manejar el proxy
-    scraper_api_url = f'http://api.scraperapi.com?api_key={SCRAPER_API_KEY}&url={url}'
+    unique_id = str(uuid.uuid4())  # evita conflictos de nombre
 
     # Configuración base de yt-dlp
     ydl_opts = {
@@ -798,8 +787,7 @@ def download():
         'quiet': True,
         'format': 'bestaudio/best' if media_type == 'audio' else 'bestvideo+bestaudio/best',
         'merge_output_format': 'mp4' if media_type == 'video' else 'mp3',
-        'postprocessors': [],
-        'proxy': scraper_api_url  # Usar ScraperAPI como proxy
+        'postprocessors': []
     }
 
     if media_type == 'audio':
@@ -810,7 +798,6 @@ def download():
         })
 
     try:
-        # Descargar el contenido usando yt-dlp y ScraperAPI
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(url, download=True)
             filename = ydl.prepare_filename(info)
@@ -820,6 +807,7 @@ def download():
     except Exception as e:
         traceback.print_exc()
         return f"<h1>Error:</h1><pre>{str(e)}</pre>"
+
 
 
 # Ejecutar la aplicación

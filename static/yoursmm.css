@@ -231,3 +231,81 @@ td {
     box-shadow: 0 0 8px #ff0033, 0 0 15px #ff0033; /* Efecto de neón rojo */
     transform: scale(1.1); /* Agrandar ligeramente el botón al hacer hover */
 }
+
+
+/* Estilo del ícono de favorito (relleno cuando está en favoritos) */
+.favorite-icon {
+    font-size: 24px; /* Tamaño del ícono */
+    color: #ff0033; /* Color cuando está en favoritos */
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Estilo del ícono de favorito cuando no está seleccionado */
+.favorite-icon.not-favorite {
+    color: #444; /* Color cuando no está en favoritos */
+}
+
+/* Efecto hover para el ícono */
+.favorite-icon:hover {
+    transform: scale(1.1); /* Agranda el ícono al pasar el cursor */
+    color: #e60029; /* Cambio de color al hacer hover */
+}
+
+/* Botón de realizar pedido modificado para incluir estilo de favorito */
+.order-btn {
+    background-color: #ff0033;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    border-radius: 6px;
+    margin-top: 20px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.order-btn:hover {
+    background-color: #e60029;
+}
+
+/* Contenedor para el ícono de favoritos junto al saldo */
+.favorite-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* Coloca el ícono al lado derecho */
+    margin-right: 15px; /* Espacio a la derecha */
+}
+
+/* Estilo del ícono de favoritos dentro de la tabla */
+.favorite-column {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#search-id {
+    outline: none;
+    margin: 0 auto;
+    margin: 0 0 20px 0;
+    border: none;
+    background-color: #333;
+    padding: 4px;
+ border-radius: 5px;
+ color: #d1ecf1;
+    width: 100%;
+    max-width: 160px;
+}
+
+#search-id:focus{
+    border: red 1px solid;
+    box-shadow: 0 0 8px #ff0033, 0 0 15px #ff0033;
+}
+
+#search-id::placeholder{
+    color: white;
+}

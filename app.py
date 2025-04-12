@@ -19,6 +19,10 @@ import yt_dlp
 from urllib.parse import urlparse, parse_qs
 import traceback
 import uuid
+import tempfile
+import shutil
+from urllib.parse import unquote_plus
+import re
 
 
 
@@ -763,50 +767,50 @@ def instrucciones(sistema):
     return render_template("instrucciones.html", sistema=sistema)
 
 
+
 DOWNLOAD_FOLDER = "downloads"
 os.makedirs(DOWNLOAD_FOLDER, exist_ok=True)
 
 @app.route('/youtube')
-def youdwl():
+def ytb():
     return render_template("youtube.html")
-
 
 @app.route('/download', methods=['POST'])
 def download():
-    url = request.form.get('url')
-    media_type = request.form.get('type')
+    url = request.form['url']
+    download_type = request.form['type']
 
-    if not url:
-        return "<h1>Error:</h1><p>No se proporcionó una URL</p>"
+    # Crear una carpeta temporal para la descarga
+    tmp_dir = tempfile.mkdtemp(dir=DOWNLOAD_FOLDER)
+    output_template = os.path.join(tmp_dir, "%(title)s.%(ext)s")
 
-    unique_id = str(uuid.uuid4())  # evita conflictos de nombre
-
-    # Configuración base de yt-dlp
-    ydl_opts = {
-        'outtmpl': f'{DOWNLOAD_FOLDER}/{unique_id}.%(ext)s',
-        'quiet': True,
-        'format': 'bestaudio/best' if media_type == 'audio' else 'bestvideo+bestaudio/best',
-        'merge_output_format': 'mp4' if media_type == 'video' else 'mp3',
-        'postprocessors': []
-    }
-
-    if media_type == 'audio':
-        ydl_opts['postprocessors'].append({
-            'key': 'FFmpegExtractAudio',
-            'preferredcodec': 'mp3',
-            'preferredquality': '192'
-        })
+    # Comando yt-dlp para descargar el video o audio
+    ytdlp_cmd = [
+        "yt-dlp",
+        "-f",
+        "bestaudio" if download_type == "audio" else "bestvideo+bestaudio",
+        "-o",
+        output_template,
+        url
+    ]
 
     try:
-        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-            info = ydl.extract_info(url, download=True)
-            filename = ydl.prepare_filename(info)
-            if media_type == 'audio':
-                filename = os.path.splitext(filename)[0] + '.mp3'
-            return send_file(filename, as_attachment=True)
-    except Exception as e:
-        traceback.print_exc()
-        return f"<h1>Error:</h1><pre>{str(e)}</pre>"
+        # Ejecutar el comando yt-dlp
+        subprocess.run(ytdlp_cmd, check=True)
+        # Obtener el archivo descargado
+        files = os.listdir(tmp_dir)
+        file_path = os.path.join(tmp_dir, files[0]) if files else None
+
+        if file_path:
+            # Enviar el archivo descargado al usuario
+            return send_file(file_path, as_attachment=True)
+        else:
+            return "No se pudo encontrar el archivo descargado."
+    except subprocess.CalledProcessError as e:
+        return f"Ocurrió un error al descargar el video: {str(e)}"
+    finally:
+        # Limpiar la carpeta temporal después de la descarga
+        shutil.rmtree(tmp_dir, ignore_errors=True)
 
 @app.route('/tiktok')
 def tiktok_page():
@@ -848,8 +852,7 @@ def tiktok_download():
     except Exception as e:
         traceback.print_exc()
         return f"<h1>Error:</h1><pre>{str(e)}</pre>"
-
-
+    
 # Ejecutar la aplicación
 if __name__ == '__main__':
     app.run(debug=True)

@@ -250,6 +250,9 @@ footer a:hover {
 
 /* Estilo para el botón "Panel Seguidores" */
 .btn-panel-seguidores {
+    width: 100%;
+    max-width: 280px;
+    margin: 10px;
     display: inline-flex;
     align-items: center;
     background-color: #333333; /* Fondo oscuro */
@@ -279,6 +282,7 @@ footer a:hover {
 
 /* Estilo para la sección de Bienvenida y Saldo */
 .saldo-info {
+    width: 100%;
     text-align: left;
 }
 
@@ -373,3 +377,4 @@ table tr:nth-child(even) {
 table tr:hover {
     background-color: #555555; /* Fondo más claro en hover */
 }
+

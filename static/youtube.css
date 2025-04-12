@@ -2,21 +2,36 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Arial', sans-serif;
-    background-color: #f9f9f9;
+    background: linear-gradient(135deg, #f6f6f6, #e2e2e2);
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
+    color: #333;
 }
 
 .container {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    padding: 40px;
     text-align: center;
+    width: 90%;
+    max-width: 400px;
 }
 
 h1 {
     font-size: 2.5rem;
-    color: #000;
+    color: #333;
     margin-bottom: 30px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .input-group {
@@ -26,12 +41,14 @@ h1 {
     border: 2px solid #ccc;
     border-radius: 12px;
     overflow: hidden;
-    width: 320px;
-    margin: 0 auto 20px;
+    width: 100%;
+    margin-bottom: 20px;
     background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .input-group input {
+
     flex: 1;
     padding: 12px;
     font-size: 1rem;
@@ -42,20 +59,34 @@ h1 {
 .youtube-btn {
     background-color: transparent;
     border: none;
-    padding: 0 12px;
+    padding: 10px;
     cursor: pointer;
+    border-radius: 0 12px 12px 0;
 }
 
 .youtube-btn img {
-    width: 30px;
-    height: 30px;
+    width: 35px;
+    height: 35px;
 }
 
 .download-btn {
-    padding: 12px 24px;
+    padding: 12px 28px;
     font-size: 1rem;
-    background-color: #e5e5e5;
+    background: linear-gradient(45deg, #ff0000, #afaaaa, #ff0000);
+    color: rgb(255, 255, 255);
     border: none;
     border-radius: 12px;
     cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.5s ease;
+    margin-top: 20px;
+}
+
+.download-btn:hover {
+    filter: brightness(1.1);
+    transform: scale(1.05);
+}
+
+.download-btn:focus, .youtube-btn:focus {
+    outline: none;
 }

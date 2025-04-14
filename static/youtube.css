@@ -16,7 +16,7 @@ body {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
     padding: 40px;
     text-align: center;
-    width: 90%;
+    width: 100%;
     max-width: 400px;
 }
 
@@ -42,15 +42,17 @@ form {
     border-radius: 12px;
     overflow: hidden;
     width: 100%;
+    max-width: 350px;
     margin-bottom: 20px;
     background-color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .input-group input {
-
+    width: 100%;
+    max-width: 350px;
     flex: 1;
-    padding: 12px;
+    padding: 20px;
     font-size: 1rem;
     border: none;
     outline: none;
@@ -89,4 +91,28 @@ form {
 
 .download-btn:focus, .youtube-btn:focus {
     outline: none;
+}
+
+.icon {
+    position: relative;
+    transform: translateX(50%);
+}
+
+.regresar {
+    position: fixed;
+    transform: translateY(-240px);
+    background-color: #fff;
+    border-radius: 7px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 100%;
+    max-width: 100px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+.regresar:hover {
+    transform: translateY(-245px);
+
 }

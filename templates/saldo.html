@@ -143,31 +143,55 @@ input[readonly] {
     width: 100%;
     display: inline-block;
     box-sizing: border-box;
+    transition: all 0.3s ease;
 }
 
 .paypal-btn {
+    border: none;
     background-color: #0070ba;
     color: white;
 }
 
 .binance-btn {
+    border: none;
     background-color: #f4b731;
     color: white;
 }
 
 .transfer-btn {
+    border: none;
     background-color: #333;
     color: white;
+    border: 2px solid rgb(36, 34, 34);
 }
 
 .oxxo-btn {
+    border: none;
     background-color: #ff0033;
     color: white;
 }
 
 .btn:hover {
-    opacity: 0.8;
+    transform: translateY(-5%); 
+    opacity: 0,8;
 }
+
+.paypal-btn:hover {
+box-shadow: 0 0 10px rgb(0, 38, 255);
+}
+
+.binance-btn:hover {
+    box-shadow: 0 0 10px #ffae00;
+}
+
+.transfer-btn:hover {
+    box-shadow: 0 0 10px #000000;
+}
+
+.oxxo-btn:hover {
+    box-shadow: 0 0 10px #ff0000;
+}
+
 
 /* Estilos del modal */
 .modal {
@@ -184,15 +208,72 @@ input[readonly] {
 }
 
 .modal-content {
-    background-color: #333;
+    background-color: #000000;
     color: white;
     margin: 5% auto;
     padding: 20px;
-    border: 1px solid #888;
     width: 80%;
     max-width: 500px;
     border-radius: 10px;
     text-align: center;
+}
+
+#p{
+    border: 2px solid #0070ba;
+    box-shadow: 0 0 10px blue;
+}
+
+#b{
+    border: 2px solid #ffae00;
+    box-shadow: 0 0 10px #ffae00;
+}
+
+#b input{
+    outline: none;
+    padding: 4px 0 4px 25px;
+    color: white;
+    background-color: #000000;
+    border: 2px solid #ffae00;
+    box-shadow: 0 0 10px #ffae00;
+}
+
+#b i{
+    transform: translateX(25px);
+}
+
+#t{
+    border: 2px solid #6b6868;
+    box-shadow: 0 0 10px #6b6868;
+}
+
+#t input{
+    outline: none;
+    padding: 4px 0 4px 25px;
+    color: white;
+    background-color: #000000;
+    border: 2px solid #6b6868;
+    box-shadow: 0 0 10px #6b6868;
+}
+
+#t i{
+    transform: translateX(25px);  
+}
+
+#o{
+    border: 2px solid #ff0000;
+    box-shadow: 0 0 10px #ff0000;
+}
+
+#o input{
+    padding: 4px 0 4px 25px;
+    color: white;
+    background-color: #000000;
+    border: 2px solid #ff0000;
+    box-shadow: 0 0 10px #ff0000;
+}
+
+#o i{
+    transform: translateX(25px);  
 }
 
 .close {
@@ -204,7 +285,7 @@ input[readonly] {
 
 .close:hover,
 .close:focus {
-    color: black;
+    color: rgb(255, 0, 0);
     text-decoration: none;
     cursor: pointer;
 }
@@ -220,6 +301,55 @@ input[readonly] {
         margin: 0 10px;
     }
 }
+
+#montoInput {
+    font-size: 0.9rem;
+    color: #fff;
+    outline: none;
+    border: none;
+    background-color: #1c1c1c;
+    padding: 7px;
+}
+
+#montoInput:focus{
+    border: red solid 1px;
+    box-shadow: 0 0 15px rgb(255, 0, 0);
+}
+
+
+
+
+
+
+
+
+.copyed {
+    width: 150px;
+    background-color: rgb(16, 212, 121);
+    border: green solid 1px;
+    padding: 5px;
+    text-align: center;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    transition: opacity 0.3s ease;
+    animation: anim 0.4s ease forwards;
+}
+
+
+@keyframes anim {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+
 
     </style>
 </head>
@@ -287,7 +417,7 @@ input[readonly] {
 
 <!-- Modal para PayPal -->
 <div id="paypalModal" class="modal">
-    <div class="modal-content">
+    <div class="modal-content" id="p">
         <span class="close">&times;</span>
         <h2>Mandar Comprobante de pago por WhatsApp</h2>
         <p>las comisiones de paypal, seran descontadas al actualizar su saldo</p>
@@ -298,32 +428,40 @@ input[readonly] {
 
 <!-- Modal para Binance -->
 <div id="binanceModal" class="modal">
-    <div class="modal-content">
+    <div class="modal-content" id="b">
         <span class="close">&times;</span>
+        <p class="exito copyed" id="idcopy" style="display: none;">ID copiado exitosamente</p>
         <h2>Paga mediante Binance Pay</h2>
         <p>Por favor, paga al siguiente ID:</p>
-        <input type="text" value="1051744842" readonly onclick="this.select(); document.execCommand('copy');">
+        <i class="fa-solid fa-copy" onclick="copiarBinanceID()" style="cursor: pointer;" title="Copiar ID"></i>
+        <input type="text" value="1051744842" readonly id="binanceID">
         <button id="createOrderBinanceBtn" class="btn binance-btn">Crear Orden de Pago</button>
     </div>
 </div>
 
 <!-- Modal para Transferencia -->
 <div id="transferModal" class="modal">
-    <div class="modal-content">
+    <div class="modal-content" id="t">
         <span class="close">&times;</span>
+        <p class="exito copyed" id="clcopy" style="display: none;">Clave copiada exitosamente</p>
         <h2>Paga mediante Transferencia</h2>
-        <p>Clave: <input type="text" value="728969000023825614" readonly onclick="this.select(); document.execCommand('copy');"></p>
-        <p>Concepto: Pago "Tu Usuario"</p>
+        <p>Clave:</p>
+        <i class="fa-solid fa-copy" onclick="copiarNumeroTransfer()" style="cursor: pointer;" title="Copiar ID"></i>
+        <input   type="text" value="728969000023825614" readonly id="claveTransfer">
+        <p>Concepto: Pago "{{ usuario }}"</p>
         <button id="createOrderTransferBtn" class="btn transfer-btn">Crear Orden de Pago</button>
     </div>
 </div>
 
 <!-- Modal para OXXO -->
 <div id="oxxoModal" class="modal">
-    <div class="modal-content">
+    <div class="modal-content" id="o">
         <span class="close">&times;</span>
+        <p class="exito copyed" id="oxxocopy" style="display: none;">Clave OXXO copiada exitosamente</p>
         <h2>Deposita en OXXO</h2>
-        <p>Depósito en OXXO: <input type="text" value="2242 1702 1012 1364" readonly onclick="this.select(); document.execCommand('copy');"></p>
+        <p>Depósito en OXXO:</p>
+        <i class="fa-solid fa-copy" onclick="copiarNumeroOxxo()" style="cursor: pointer;" title="Copiar ID"></i>
+        <input type="text" value="2242 1702 1012 1364" readonly id="claveOxxo">
         <button id="createOrderOxxoBtn" class="btn oxxo-btn">Crear Orden de Pago</button>
     </div>
 </div>
@@ -469,6 +607,54 @@ input[readonly] {
         var whatsappUrl = `https://wa.me/524661002589?text=${encodeURIComponent(mensaje)}`;
         window.open(whatsappUrl, '_blank');
     }
+
+    function copiarBinanceID() {
+    const input = document.getElementById('binanceID');
+    input.select();
+    input.setSelectionRange(0, 99999); // Para móviles
+    document.execCommand('copy');
+
+    const mensaje = document.getElementById('idcopy');
+    mensaje.style.display = 'block';
+
+    setTimeout(() => {
+        mensaje.style.display = 'none';
+    }, 2000);
+}
+
+function copiarNumeroTransfer() {
+    const input = document.getElementById('claveTransfer');
+    input.select();
+    input.setSelectionRange(0, 99999); // Para móviles
+    document.execCommand('copy');
+
+    const mensaje = document.getElementById('clcopy');
+    mensaje.style.display = 'block';
+
+    setTimeout(() => {
+        mensaje.style.display = 'none';
+    }, 2000);
+ } 
+
+    function copiarNumeroOxxo() {
+    const input = document.getElementById('claveOxxo');
+    input.select();
+    input.setSelectionRange(0, 99999); // Para móviles
+    document.execCommand('copy');
+
+    const mensaje = document.getElementById('oxxocopy');
+    mensaje.style.display = 'block';
+
+    setTimeout(() => {
+        mensaje.style.display = 'none';
+    }, 2000);
+
+
+    
+    
+    
+} 
+
 </script>
 
 </body>

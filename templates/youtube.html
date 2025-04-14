@@ -7,8 +7,12 @@
   <link rel="stylesheet" href="../static/youtube.css" />
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
   <link rel="icon" href="../static/fav/yt.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
+  <div class="regresar" onclick="volverPagina()">
+    <i class="fas fa-sign-out-alt"> regresar</i>
+  </div>
   <div class="container">
     <h1>Descargar<br>Videos de YouTube</h1>
 
@@ -16,6 +20,7 @@
       <article>
         <form id="download-form" action="/download" method="POST">
           <div class="input-group">
+            <div class="icon">            <i class="fa-solid fa-link"></i>            </div>
             <input type="url" name="url" placeholder="Enlace de YouTube" required />
             <button class="youtube-btn" type="submit">
               <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_(2017).svg" alt="YouTube" />
@@ -26,7 +31,7 @@
             <option value="video">Video + Audio</option>
             <option value="audio">Solo Audio</option>
           </select>
-          <button class="download-btn" type="submit">Descargar</button>
+          <button class="download-btn" type="submit"> <i class="fa-solid fa-download"></i> Descargar</button>
         </form>
       </article>
     </section>

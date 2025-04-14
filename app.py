@@ -768,8 +768,12 @@ def instrucciones(sistema):
 
 
 
+proxy = os.getenv("PROXY")
+
 DOWNLOAD_FOLDER = "downloads"
 os.makedirs(DOWNLOAD_FOLDER, exist_ok=True)
+
+app = Flask(__name__)
 
 @app.route('/youtube')
 def ytb():
@@ -794,9 +798,15 @@ def download():
         url
     ]
 
+    # Si hay un proxy, añadirlo al comando yt-dlp
+    if proxy:
+        ytdlp_cmd.insert(1, "--proxy")
+        ytdlp_cmd.insert(2, proxy)
+
     try:
         # Ejecutar el comando yt-dlp
         subprocess.run(ytdlp_cmd, check=True)
+        
         # Obtener el archivo descargado
         files = os.listdir(tmp_dir)
         file_path = os.path.join(tmp_dir, files[0]) if files else None
@@ -836,10 +846,8 @@ def tiktok_download():
         if data["code"] != 0:
             return f"<h1>Error:</h1><p>{data['msg']}</p>"
 
-        # Obtener el link del video sin marca de agua
         video_download_url = data["data"]["play"]
 
-        # Descargar el video en un archivo temporal
         video_content = requests.get(video_download_url).content
         filename = f"tiktok_{uuid.uuid4().hex}.mp4"
         filepath = os.path.join(DOWNLOAD_FOLDER, filename)

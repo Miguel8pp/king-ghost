@@ -18,7 +18,7 @@ body {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
     padding: 40px;
     text-align: center;
-    width: 90%;
+    width: 100%;
     max-width: 400px;
 }
 
@@ -54,9 +54,10 @@ form {
 
 /* Estilo del campo de entrada */
 .input-group input {
-
+    width: 100%;
+    max-width: 350px;
     flex: 1;
-    padding: 12px;
+    padding: 20px;
     font-size: 1rem;
     border: none;
     outline: none;
@@ -82,7 +83,7 @@ form {
     padding: 12px 28px;
     font-size: 1rem;
     background: linear-gradient(45deg, #fe2c55, #25f4ee);
-    color: white;
+    color: rgb(255, 255, 255);
     border: none;
     border-radius: 12px;
     cursor: pointer;
@@ -99,4 +100,29 @@ form {
 /* Añadido un poco de espacio entre los botones */
 .download-btn:focus, .youtube-btn:focus {
     outline: none;
+}
+
+.icon {
+    color: black;
+    position: relative;
+    transform: translateX(50%);
+}
+
+.regresar {
+    position: fixed;
+    transform: translateY(-220px);
+    background-color: #fff;
+    border-radius: 7px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 100%;
+    max-width: 100px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+.regresar:hover {
+    transform: translateY(-225px);
+
 }

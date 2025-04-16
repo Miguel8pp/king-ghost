@@ -120,10 +120,7 @@ def pagina_principal():
     # Limpiar valores None en categories y services
     categories = [category for category in categories if category is not None and isinstance(category, dict)]
     services = [service for service in services if service is not None and isinstance(service, dict)]
-
-    print(f"Categories cleaned: {categories}")  # Imprimir para depuración
-    print(f"Services cleaned: {services}")  # Imprimir para depuración
-
+    
     return render_template('index.html', usuario=session['usuario'], saldo=saldo, categories=categories, services=services)
 
 # Ruta para crear orden de pago
@@ -313,7 +310,6 @@ def agregar_orden():
                     else:
                         flash(f"Hubo un problema al crear el pedido: {order_response.get('error', 'Error desconocido')}", "error")
                 except Exception as e:
-                    print(f"Error al realizar el pedido: {e}")
                     flash("Error al realizar el pedido. Intenta más tarde.", "error")
             else:
                 flash("No tienes suficiente saldo para realizar esta orden.", "error")

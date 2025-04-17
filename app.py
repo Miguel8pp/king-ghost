@@ -849,6 +849,10 @@ def tiktok_download():
         traceback.print_exc()
         return f"<h1>Error:</h1><pre>{str(e)}</pre>"
     
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+    
 # Ejecutar la aplicación
 if __name__ == '__main__':
     app.run(debug=True)

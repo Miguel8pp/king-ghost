@@ -23,6 +23,9 @@ import tempfile
 import shutil
 from urllib.parse import unquote_plus
 import re
+from werkzeug.utils import secure_filename
+from bson import ObjectId
+
 
 
 
@@ -414,7 +417,15 @@ def logout():
     return redirect(url_for('login'))
  
 # Ruta para mostrar el perfil del usuario
-# Ruta para mostrar el perfil del usuario y manejar cambios
+UPLOAD_FOLDER = 'static/fotos_perfil'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.secret_key = 'tu_clave_secreta'  # Necesario para usar sesiones
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 @app.route('/mi_perfil', methods=['GET', 'POST'])
 def mi_perfil():
     if 'usuario' not in session:
@@ -429,8 +440,7 @@ def mi_perfil():
             current_password = request.form['current-password']
             new_password = request.form['new-password']
             confirm_new_password = request.form['confirm-new-password']
-            
-            # Validación de contraseñas
+
             if not bcrypt.check_password_hash(user_data['contrasena'], current_password):
                 flash("Contraseña actual incorrecta.", "error")
             elif new_password != confirm_new_password:
@@ -445,22 +455,42 @@ def mi_perfil():
             current_email = request.form['current-email']
             new_email = request.form['new-email']
             current_password_email = request.form['current-password-email']
-            
-            # Verificar si la contraseña es correcta
+
             if not bcrypt.check_password_hash(user_data['contrasena'], current_password_email):
                 flash("Contraseña incorrecta.", "error")
             else:
-                # Comprobar si el nuevo correo ya está registrado
                 if collection.find_one({'email': new_email}):
                     flash("Este correo electrónico ya está registrado.", "error")
                 else:
                     collection.update_one({'usuario': usuario}, {'$set': {'email': new_email}})
                     flash("Correo electrónico cambiado con éxito.", "success")
 
-        # Redirigir al perfil para evitar el reenvío del formulario
+        # Cambiar foto de perfil
+        if 'change-photo' in request.form and 'foto' in request.files:
+            file = request.files['foto']
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                extension = filename.rsplit('.', 1)[1].lower()
+                new_filename = f"{usuario}.{extension}"
+                file_path = os.path.join(app.config['UPLOAD_FOLDER'], new_filename)
+                file.save(file_path)
+
+                collection.update_one({'usuario': usuario}, {'$set': {'foto_perfil': new_filename}})
+                session['foto_perfil'] = new_filename  # Guardar en sesión
+                flash("Foto de perfil actualizada.", "success")
+            else:
+                flash("Formato de imagen no permitido. Usa PNG, JPG, JPEG o GIF.", "error")
+
         return redirect(url_for('mi_perfil'))
 
-    return render_template('mi_perfil.html', usuario=user_data['usuario'], email=user_data['email'])
+    # Obtener y guardar la foto actual en la sesión
+    foto_perfil = user_data.get('foto_perfil', 'default.jpg')
+    session['foto_perfil'] = foto_perfil  # Para poder acceder en todas las rutas
+
+    return render_template('mi_perfil.html',
+                           usuario=user_data['usuario'],
+                           email=user_data['email'],
+                           foto_perfil=foto_perfil)
 
 # Ruta para recuperar contraseña
 @app.route('/recuperar_contrasena', methods=['GET', 'POST'])

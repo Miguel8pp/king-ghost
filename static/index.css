@@ -378,3 +378,10 @@ table tr:hover {
     background-color: #555555; /* Fondo más claro en hover */
 }
 
+.navbar-profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #fff;
+}

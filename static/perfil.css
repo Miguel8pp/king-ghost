@@ -236,3 +236,58 @@ input[readonly] {
     border: 1px solid #f5c6cb;
     color: #721c24;
 }
+
+
+.profile-picture-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.profile-picture {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #ccc;
+}
+
+.navbar-profile-pic {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #fff;
+}
+
+.order-btn {
+    margin-bottom: 20px;
+}
+
+/* Oculta el input file original */
+/* Ocultamos el input real */
+input[type="file"] {
+    display: none;
+}
+
+/* Estilo del label personalizado como botón */
+.custom-file-upload {
+    display: inline-block;
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #ff0033;
+    color: #fff;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    margin-bottom: 10px;
+}
+
+.custom-file-upload:hover {
+    background-color: #e60029;
+}
+
+.custom-file-upload i {
+    margin-right: 8px;
+}
+

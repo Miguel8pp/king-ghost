@@ -25,6 +25,10 @@ from urllib.parse import unquote_plus
 import re
 from werkzeug.utils import secure_filename
 from bson import ObjectId
+import gridfs
+from io import BytesIO
+
+
 
 
 
@@ -43,11 +47,17 @@ username = os.getenv('MONGO_USERNAME')
 password = os.getenv('MONGO_PASSWORD')
 username = quote_plus(username)
 password = quote_plus(password)
+
 client = MongoClient(f"mongodb+srv://{username}:{password}@cluster0.hx8un.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+
+# Base de datos y colecciones
 db = client['db1']
 collection = db['usuarios']
 pedidos_collection = db['Pedidos']
-pagos_collection = db['Pagos']        
+pagos_collection = db['Pagos'] 
+
+# GridFS
+fs = gridfs.GridFS(db)      
 
 # Configuración de SendGrid
 SENDGRID_API_KEY = os.getenv('SENDGRID_API_KEY')
@@ -92,6 +102,87 @@ def obtener_saldo(usuario):
 def inicios():
     return send_from_directory('templates', 'inicio.html')
 
+# Extensiones de archivo permitidas
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+
+# Verifica si el archivo tiene una extensión permitida
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+@app.route('/mi_perfil', methods=['GET', 'POST'])
+def mi_perfil():
+    if 'usuario' not in session:
+        return redirect(url_for('login'))
+
+    usuario = session['usuario']
+    user_data = collection.find_one({'usuario': usuario})
+
+    if request.method == 'POST':
+        # Cambiar contraseña
+        if 'change-password' in request.form:
+            current_password = request.form['current-password']
+            new_password = request.form['new-password']
+            confirm_new_password = request.form['confirm-new-password']
+
+            if not bcrypt.check_password_hash(user_data['contrasena'], current_password):
+                flash("Contraseña actual incorrecta.", "error")
+            elif new_password != confirm_new_password:
+                flash("Las contraseñas no coinciden.", "error")
+            else:
+                hashed_password = bcrypt.generate_password_hash(new_password).decode('utf-8')
+                collection.update_one({'usuario': usuario}, {'$set': {'contrasena': hashed_password}})
+                flash("Contraseña cambiada con éxito.", "success")
+
+        # Cambiar correo
+        if 'change-email' in request.form:
+            new_email = request.form['new-email']
+            current_password_email = request.form['current-password-email']
+
+            if not bcrypt.check_password_hash(user_data['contrasena'], current_password_email):
+                flash("Contraseña incorrecta.", "error")
+            elif collection.find_one({'email': new_email}):
+                flash("Este correo electrónico ya está registrado.", "error")
+            else:
+                collection.update_one({'usuario': usuario}, {'$set': {'email': new_email}})
+                flash("Correo electrónico cambiado con éxito.", "success")
+
+        # Cambiar foto de perfil con GridFS
+        if 'change-photo' in request.form and 'foto' in request.files:
+            file = request.files['foto']
+            if file and allowed_file(file.filename):
+                # Eliminar foto anterior si existía
+                if user_data.get('foto_id'):
+                    try:
+                        fs.delete(ObjectId(user_data['foto_id']))  # Eliminar la foto anterior
+                    except Exception as e:
+                        print(f"Error al eliminar la foto anterior: {e}")
+
+                # Guardar nueva imagen en GridFS
+                file_id = fs.put(file, filename=file.filename, content_type=file.content_type)
+                collection.update_one({'usuario': usuario}, {'$set': {'foto_id': file_id}})
+                session['foto_id'] = str(file_id)  # Guardar el nuevo foto_id en la sesión
+                flash("Foto de perfil actualizada.", "success")
+            else:
+                flash("Formato de imagen no permitido. Usa PNG, JPG, JPEG o GIF.", "error")
+
+        return redirect(url_for('mi_perfil'))
+
+    foto_id = user_data.get('foto_id')
+    session['foto_id'] = str(foto_id) if foto_id else None
+
+    return render_template('mi_perfil.html', usuario=user_data['usuario'], email=user_data['email'], foto_id=foto_id)
+
+@app.route('/foto_perfil/<foto_id>')
+def foto_perfil(foto_id):
+    try:
+        # Obtener la foto desde GridFS usando el foto_id
+        file = fs.get(ObjectId(foto_id))
+        return send_file(BytesIO(file.read()), mimetype=file.content_type)
+    except Exception as e:
+        print(f"Error al obtener la foto: {e}")
+        # Imagen por defecto si no existe o hay un error
+        return send_file('static/fotos_perfil/default.jpg', mimetype='image/jpeg')
+
 # Ruta principal
 @app.route('/pagina_principal')
 def pagina_principal():
@@ -108,6 +199,7 @@ def pagina_principal():
     api = Api()
     categories = api.categories()
     services = api.services()
+    foto_id = user_data.get('foto_id')
 
     # Validación para categories y services
     if isinstance(categories, dict) and 'categories' in categories:
@@ -124,7 +216,7 @@ def pagina_principal():
     categories = [category for category in categories if category is not None and isinstance(category, dict)]
     services = [service for service in services if service is not None and isinstance(service, dict)]
     
-    return render_template('index.html', usuario=session['usuario'], saldo=saldo, categories=categories, services=services)
+    return render_template('index.html', usuario=session['usuario'], saldo=saldo, categories=categories, services=services, foto_id=foto_id)
 
 # Ruta para crear orden de pago
 @app.route('/saldo', methods=['GET', 'POST'])
@@ -132,18 +224,22 @@ def saldo():
     if 'usuario' not in session:
         return redirect(url_for('login'))  # Redirigir a login si no hay usuario en la sesión
 
-    # Obtener el saldo del usuario
+    # Obtener el usuario desde la sesión
     usuario = session['usuario']
+
+    # Obtener el saldo del usuario
     saldo = obtener_saldo(usuario)
+
+    # Obtener el foto_id desde la sesión
+    foto_id = session.get('foto_id')
 
     if request.method == 'POST':
         # Aquí manejamos el pago
-        monto = float(request.form['monto'])  # Monto a agregar
-        metodo_pago = request.form['metodo_pago']  # Método de pago seleccionado (PayPal, Binance, etc.)
-
-        # Guardar la orden de pago en la base de datos (colección Pagos)
         try:
-            # Insertar el pago en la colección "Pagos"
+            monto = float(request.form['monto'])  # Monto a agregar
+            metodo_pago = request.form['metodo_pago']  # Método de pago seleccionado (PayPal, Binance, etc.)
+
+            # Guardar la orden de pago en la base de datos (colección Pagos)
             pagos_collection.insert_one({
                 'usuario': usuario,
                 'monto': monto,
@@ -159,8 +255,9 @@ def saldo():
             flash(f"Hubo un error al procesar tu pago: {e}", "error")
             return redirect(url_for('saldo'))
 
-    # Renderizar la plantilla de saldo con el saldo del usuario
-    return render_template('saldo.html', usuario=usuario, saldo=saldo)
+    # Renderizar la plantilla de saldo con el saldo del usuario y el foto_id
+    return render_template('saldo.html', usuario=usuario, saldo=saldo, foto_id=foto_id)
+
 
 @app.route('/guardar_pago', methods=['POST'])
 def guardar_pago():
@@ -198,15 +295,20 @@ def movimientos():
     if 'usuario' not in session:
         return redirect(url_for('login'))  # Redirigir a login si no hay usuario en la sesión
     
-    # Obtener los movimientos de pagos del usuario desde la base de datos
+    # Obtener el usuario desde la sesión
     usuario = session['usuario']
+
+    # Obtener los movimientos de pagos del usuario desde la base de datos
     movimientos_usuario = pagos_collection.find({'usuario': usuario})
-    
+
+    # Obtener el foto_id desde la sesión
+    foto_id = session.get('foto_id')
+
     # Convertir los movimientos de MongoDB en una lista de diccionarios
     pagos = []
     for pago in movimientos_usuario:
         estado = pago.get('estado', 'pendiente')
-        
+
         # Asegurarnos de que 'monto' sea un número antes de redondearlo
         monto = pago.get('monto', 0)
         if isinstance(monto, (int, float)):  # Si 'monto' ya es un número, lo dejamos como está
@@ -216,7 +318,7 @@ def movimientos():
                 monto_redondeado = round(float(monto), 2)
             except ValueError:
                 monto_redondeado = 0  # Si no podemos convertirlo, lo dejamos como 0
-        
+
         pagos.append({
             'descripcion': pago.get('metodo_pago', 'Desconocido'),
             'monto': monto_redondeado,
@@ -224,7 +326,8 @@ def movimientos():
             'fecha': pago.get('fecha', datetime.datetime.now()).strftime('%Y-%m-%d')
         })
     
-    return render_template('mov.html', usuario=usuario, pagos=pagos)
+    return render_template('mov.html', usuario=usuario, pagos=pagos, foto_id=foto_id)
+
 
 
 # Ruta para agregar una orden
@@ -415,82 +518,6 @@ def logout():
     session.pop('usuario', None)
     flash("Has cerrado sesión con éxito.", "info")
     return redirect(url_for('login'))
- 
-# Ruta para mostrar el perfil del usuario
-UPLOAD_FOLDER = 'static/fotos_perfil'
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
-
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.secret_key = 'tu_clave_secreta'  # Necesario para usar sesiones
-
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-@app.route('/mi_perfil', methods=['GET', 'POST'])
-def mi_perfil():
-    if 'usuario' not in session:
-        return redirect(url_for('login'))
-
-    usuario = session['usuario']
-    user_data = collection.find_one({'usuario': usuario})
-
-    if request.method == 'POST':
-        # Cambiar contraseña
-        if 'change-password' in request.form:
-            current_password = request.form['current-password']
-            new_password = request.form['new-password']
-            confirm_new_password = request.form['confirm-new-password']
-
-            if not bcrypt.check_password_hash(user_data['contrasena'], current_password):
-                flash("Contraseña actual incorrecta.", "error")
-            elif new_password != confirm_new_password:
-                flash("Las contraseñas no coinciden.", "error")
-            else:
-                hashed_password = bcrypt.generate_password_hash(new_password).decode('utf-8')
-                collection.update_one({'usuario': usuario}, {'$set': {'contrasena': hashed_password}})
-                flash("Contraseña cambiada con éxito.", "success")
-
-        # Cambiar correo
-        if 'change-email' in request.form:
-            current_email = request.form['current-email']
-            new_email = request.form['new-email']
-            current_password_email = request.form['current-password-email']
-
-            if not bcrypt.check_password_hash(user_data['contrasena'], current_password_email):
-                flash("Contraseña incorrecta.", "error")
-            else:
-                if collection.find_one({'email': new_email}):
-                    flash("Este correo electrónico ya está registrado.", "error")
-                else:
-                    collection.update_one({'usuario': usuario}, {'$set': {'email': new_email}})
-                    flash("Correo electrónico cambiado con éxito.", "success")
-
-        # Cambiar foto de perfil
-        if 'change-photo' in request.form and 'foto' in request.files:
-            file = request.files['foto']
-            if file and allowed_file(file.filename):
-                filename = secure_filename(file.filename)
-                extension = filename.rsplit('.', 1)[1].lower()
-                new_filename = f"{usuario}.{extension}"
-                file_path = os.path.join(app.config['UPLOAD_FOLDER'], new_filename)
-                file.save(file_path)
-
-                collection.update_one({'usuario': usuario}, {'$set': {'foto_perfil': new_filename}})
-                session['foto_perfil'] = new_filename  # Guardar en sesión
-                flash("Foto de perfil actualizada.", "success")
-            else:
-                flash("Formato de imagen no permitido. Usa PNG, JPG, JPEG o GIF.", "error")
-
-        return redirect(url_for('mi_perfil'))
-
-    # Obtener y guardar la foto actual en la sesión
-    foto_perfil = user_data.get('foto_perfil', 'default.jpg')
-    session['foto_perfil'] = foto_perfil  # Para poder acceder en todas las rutas
-
-    return render_template('mi_perfil.html',
-                           usuario=user_data['usuario'],
-                           email=user_data['email'],
-                           foto_perfil=foto_perfil)
 
 # Ruta para recuperar contraseña
 @app.route('/recuperar_contrasena', methods=['GET', 'POST'])
@@ -538,10 +565,14 @@ def restablecer_contrasena(token):
 @app.route('/pedidos')
 def ver_pedidos():
     if 'usuario' not in session:
-        return redirect(url_for('login'))  # Redirige a la página de login si no está autenticado
+        return redirect(url_for('login'))
 
     usuario = session['usuario']
     saldo = obtener_saldo(usuario)  # Obtener saldo del usuario
+
+    # Obtener datos del usuario para traer el foto_id
+    user_data = collection.find_one({'usuario': usuario})
+    foto_id = user_data.get('foto_id')
 
     # Traer todos los pedidos del usuario desde la base de datos
     pedidos = pedidos_collection.find({'usuario': usuario})
@@ -553,12 +584,10 @@ def ver_pedidos():
         order_id = pedido.get('order_id')
         if order_id:
             try:
-                # Obtener el estado más reciente del pedido desde la API
                 estado_actual = api.get_order_status(order_id)
                 if estado_actual and 'status' in estado_actual:
-                    nuevo_estado = estado_actual['status'].capitalize()  # Asegurarse de que la primera letra esté en mayúscula
-                    
-                    # Si el estado ha cambiado, actualizamos en la base de datos
+                    nuevo_estado = estado_actual['status'].capitalize()
+
                     if pedido['estado'] != nuevo_estado:
                         pedidos_collection.update_one(
                             {'_id': pedido['_id']},
@@ -566,11 +595,11 @@ def ver_pedidos():
                         )
             except Exception as e:
                 print(f"Error al obtener el estado del pedido {order_id}: {e}")
-    
-    # Recargar los pedidos con los estados actualizados
+
+    # Volver a consultar los pedidos para mostrar estados actualizados
     pedidos = pedidos_collection.find({'usuario': usuario})
 
-    return render_template('pedidos.html', usuario=usuario, saldo=saldo, pedidos=pedidos)
+    return render_template('pedidos.html', usuario=usuario, saldo=saldo, pedidos=pedidos, foto_id=foto_id)
 
 # Ruta del panel de administración
 @app.route('/admin', methods=['GET', 'POST'])

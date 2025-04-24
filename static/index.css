@@ -1,10 +1,14 @@
-/* Estilo general del sitio */
+html, body {
+    height: 100%;
+}
+
 body {
     font-family: 'Arial', sans-serif;
     background-color: #1c1c1c; /* Fondo oscuro */
     color: #fff; /* Texto blanco para mayor contraste */
     margin: 0;
     padding: 0;
+
 }
 
 /* Botón para regresar */
@@ -312,25 +316,109 @@ footer a:hover {
 }
 
 /* Estilo de la tabla */
-table {
-    width: 60%;
+/* --- ESTILO GENERAL DE LA TABLA PARA ESCRITORIO --- */
+.tabla-responsive table {
+    width: 100%;
     margin: 30px auto;
     border-collapse: collapse;
-    background-color: #333333; /* Fondo oscuro de la tabla */
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-}
-
-table th, table td {
-    padding: 10px;
-    text-align: center;
-    border-bottom: 1px solid #444444;
-}
-
-table th {
-    background-color: #444444;
+    background-color: #2c2c2c;
     color: white;
-    font-weight: 700;
+    font-family: 'Segoe UI', sans-serif;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
+
+.tabla-responsive th, .tabla-responsive td {
+    padding: 16px;
+    text-align: center;
+    border-bottom: 1px solid #3f3f3f;
+}
+
+.tabla-responsive th {
+    background-color: #3b3b3b;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* --- ESTILOS PARA MÓVIL (hasta 768px) --- */
+@media (max-width: 768px) {
+    .tabla-responsive table,
+    .tabla-responsive thead,
+    .tabla-responsive tbody,
+    .tabla-responsive th,
+    .tabla-responsive td,
+    .tabla-responsive tr {
+        display: block;
+        width: 100%;
+    }
+
+    .tabla-responsive td[data-label="Fecha"] {
+        font-size: 14px;
+        word-break: break-word;
+        white-space: normal;
+    }
+
+    .main-container {
+        padding: 20px 10px;
+        align-items: stretch;
+    }
+
+    .main-container h2 {
+        font-size: 24px;
+    }
+
+    .saldo-info p {
+        font-size: 20px;
+        text-align: center;
+    }
+
+
+    
+
+    .tabla-responsive thead {
+        display: none;
+    }
+
+    .tabla-responsive tr {
+        background: #1e1e1e;
+        margin: 18px auto;
+        width: 80%;
+        border-radius: 12px;
+        padding: 16px;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+    }
+
+    .tabla-responsive td {
+        position: relative;
+        padding: 12px 16px 12px 50%;
+        text-align: left;
+        border: none;
+        font-size: 15px;
+        border-bottom: 1px solid #3a3a3a;
+        word-wrap: break-word;
+        white-space: normal;
+        line-height: 1.4;
+    }
+
+    .tabla-responsive td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 16px;
+        top: 12px;
+        font-weight: 600;
+        color: #aaaaaa;
+        font-size: 13px;
+        text-transform: uppercase;
+    }
+
+    .tabla-responsive td:last-child {
+        border-bottom: none;
+    }
+}
+
+
 /* Colores para el estado de los pedidos */
 span.pendiente {
     background-color: #f39c12; /* Naranja fuerte */

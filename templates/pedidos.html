@@ -58,38 +58,39 @@
         </div>
 
         <!-- Mostrar la tabla de pedidos -->
-        <table>
-            <thead>
-                <tr>
-                    <th>ID Pedido</th>
-                    <th>Cantidad</th>
-                    <th>Monto</th>
-                    <th>Estado</th>
-                    <th>Fecha</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for pedido in pedidos %}
+        <div class="tabla-responsive">
+            <table>
+                <thead>
                     <tr>
-                        <!-- Mostrar el order_id del pedido -->
-                        <td>{{ pedido.order_id }}</td>  <!-- Cambiado de loop.index a order_id -->
-                        <td>{{ pedido.cantidad }}</td>
-                        <td>${{ pedido.monto }}</td>
-                        <td>
-                            <!-- Mostrar el estado con un color dependiendo de su valor -->
-                            <span class="{% if pedido.estado == 'Completed' %}Completed{% elif pedido.estado == 'Canceled' %}Canceled{% else %}pendiente{% endif %}">
-                                {{ pedido.estado | capitalize }}
-                            </span>
-                        </td>
-                        <td>{{ pedido.fecha }}</td>
+                        <th>ID Pedido</th>
+                        <th>Cantidad</th>
+                        <th>Monto</th>
+                        <th>Estado</th>
+                        <th>Fecha</th>
                     </tr>
-                {% else %}
-                    <tr>
-                        <td colspan="5">No tienes pedidos registrados.</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    {% for pedido in pedidos %}
+                        <tr>
+                            <td data-label="ID Pedido">{{ pedido.order_id }}</td>
+                            <td data-label="Cantidad">{{ pedido.cantidad }}</td>
+                            <td data-label="Monto">${{ pedido.monto }}</td>
+                            <td data-label="Estado">
+                                <span class="{% if pedido.estado == 'Completed' %}Completed{% elif pedido.estado == 'Canceled' %}Canceled{% else %}pendiente{% endif %}">
+                                    {{ pedido.estado | capitalize }}
+                                </span>
+                            </td>
+                            <td data-label="Fecha">{{ pedido.fecha }}</td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="5">No tienes pedidos registrados.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
     </main>
 
     <footer>

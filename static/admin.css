@@ -35,7 +35,7 @@ body {
     background-color: #1d1d1d;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    padding: 20px;
+    padding: 2rem;
     box-sizing: border-box;
 }
 
@@ -44,17 +44,17 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 1.5rem;
 }
 
 .admin-header h1 {
-    font-size: 24px;
+    font-size: 1.5rem;
     color: #fff;
     text-transform: uppercase;
 }
 
 .admin-header .admin-link {
-    font-size: 14px;
+    font-size: 0.875rem;
     color: #ff0033;
     text-decoration: none;
     font-weight: bold;
@@ -70,13 +70,13 @@ body {
     max-width: 300px;
     display: flex;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 1.5rem;
 }
 
 .search-bar input {
     width: 100%;
-    padding: 10px 12px;
-    font-size: 14px;
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
     border: 1px solid #444;
     border-radius: 6px;
     outline: none;
@@ -89,14 +89,14 @@ body {
 }
 
 .search-bar button {
-    padding: 10px;
-    font-size: 14px;
+    padding: 0.75rem;
+    font-size: 0.875rem;
     background-color: #ff0033;
     border: none;
     border-radius: 6px;
     color: white;
     cursor: pointer;
-    margin-left: 10px;
+    margin-left: 0.625rem;
     transition: background-color 0.3s ease;
 }
 
@@ -108,14 +108,14 @@ body {
 .table-container {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
+    margin-top: 2rem;
 }
 
 .table-container th, .table-container td {
-    padding: 8px 12px;
+    padding: 1rem 1.25rem;
+    border: 1px solid #444;
     text-align: left;
-    font-size: 14px;
-    border-bottom: 1px solid #444;
+    font-size: 0.875rem;
 }
 
 .table-container th {
@@ -132,17 +132,68 @@ body {
     background-color: #333;
 }
 
+/* Hacer que las tablas sean responsivas */
+.table-container {
+    display: block;
+    overflow-x: auto;
+}
+
+.table-container thead {
+    display: none;
+}
+
+.table-container tr {
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.table-container td {
+    display: block;
+    text-align: right;
+    font-size: 0.875rem;
+    border: none;
+    padding-left: 50%;
+    position: relative;
+}
+
+.table-container td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 0;
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+@media (min-width: 768px) {
+    .table-container thead {
+        display: table-header-group;
+    }
+
+    .table-container tr {
+        display: table-row;
+    }
+
+    .table-container td {
+        display: table-cell;
+        padding-left: 1rem;
+    }
+
+    .table-container td::before {
+        display: none;
+    }
+}
+
 /* Form Styling */
 .form-inline {
     display: flex;
     flex-direction: column;
-    margin-top: 10px;
+    margin-top: 1rem;
 }
 
 .form-inline select, .form-inline input {
-    padding: 8px;
-    margin-bottom: 10px;
-    font-size: 14px;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    font-size: 0.875rem;
     border-radius: 6px;
     border: 1px solid #444;
     background-color: #222;
@@ -151,8 +202,8 @@ body {
 }
 
 .form-inline button {
-    padding: 10px 20px;
-    font-size: 14px;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.875rem;
     background-color: #ff0033;
     border: none;
     border-radius: 6px;
@@ -169,18 +220,18 @@ body {
 .messages-container {
     width: 100%;
     max-width: 900px;
-    margin: 20px 0;
+    margin: 1.5rem 0;
 }
 
 .message {
     background-color: #ff0033; /* Rojo brillante para mensajes */
     color: white;
-    padding: 10px;
+    padding: 0.75rem;
     border-radius: 6px;
-    margin-bottom: 15px;
+    margin-bottom: 1rem;
     text-align: center;
     font-weight: bold;
-    font-size: 16px;
+    font-size: 1rem;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
@@ -189,43 +240,43 @@ body {
 /* Tablet and Mobile adjustments */
 @media (max-width: 1024px) {
     .admin-container {
-        width: 95%; /* Asegura que el contenedor se ajuste mejor en pantallas más pequeñas */
-        padding: 15px; /* Reducir el padding */
+        width: 95%;
+        padding: 1rem;
     }
 
     .admin-header h1 {
-        font-size: 20px; /* Reducir tamaño de fuente en pantallas más pequeñas */
+        font-size: 1.25rem;
     }
 
     .search-bar {
         flex-direction: column;
-        margin-bottom: 10px;
+        margin-bottom: 0.75rem;
     }
 
     .search-bar input, .search-bar button {
-        width: 100%; /* Hacer que los elementos de la barra de búsqueda ocupen el 100% */
-        margin-bottom: 10px;
+        width: 100%;
+        margin-bottom: 0.75rem;
     }
 
     .table-container th, .table-container td {
-        font-size: 12px; /* Reducir tamaño de fuente en tablas */
+        font-size: 0.75rem;
     }
 
     .form-inline select, .form-inline input {
-        font-size: 12px; /* Reducir tamaño de fuente en formularios */
+        font-size: 0.75rem;
     }
 
     .form-inline button {
-        font-size: 12px; /* Reducir tamaño del botón */
-        padding: 8px 16px; /* Ajustar padding */
+        font-size: 0.75rem;
+        padding: 0.625rem 1rem;
     }
 
     .messages-container {
-        margin: 10px 0; /* Reducir márgenes */
+        margin: 1rem 0;
     }
 
     .message {
-        font-size: 14px; /* Reducir tamaño del texto en mensajes */
+        font-size: 0.875rem;
     }
 }
 
@@ -233,87 +284,135 @@ body {
 @media (max-width: 768px) {
     .admin-container {
         width: 100%;
-        padding: 10px; /* Reducir padding aún más para pantallas pequeñas */
+        padding: 0.625rem;
     }
 
     .admin-header {
         flex-direction: column;
-        text-align: center; /* Centrar contenido en pantallas pequeñas */
+        text-align: center;
     }
 
     .admin-header h1 {
-        font-size: 18px; /* Reducir tamaño de fuente */
+        font-size: 1.125rem;
     }
 
     .admin-header .admin-link {
-        font-size: 12px; /* Ajustar el tamaño de los enlaces */
+        font-size: 0.75rem;
     }
 
     .search-bar {
         width: 100%;
         flex-direction: column;
-        margin-bottom: 10px;
+        margin-bottom: 0.75rem;
     }
 
     .search-bar input, .search-bar button {
-        width: 100%; /* Asegurar que los elementos ocupen el 100% del espacio */
-        margin-bottom: 10px;
+        width: 100%;
+        margin-bottom: 0.75rem;
     }
 
     .table-container th, .table-container td {
-        font-size: 12px; /* Reducir tamaño de fuente en tablas */
+        font-size: 0.75rem;
     }
 
     .form-inline select, .form-inline input {
-        font-size: 12px; /* Reducir tamaño de fuente en formularios */
+        font-size: 0.75rem;
     }
 
     .form-inline button {
-        font-size: 12px; /* Reducir tamaño del botón */
-        padding: 8px 16px; /* Ajustar padding */
+        font-size: 0.75rem;
+        padding: 0.625rem 1rem;
     }
 
     .messages-container {
-        margin: 10px 0;
+        margin: 1rem 0;
     }
 
     .message {
-        font-size: 14px;
+        font-size: 0.875rem;
     }
 }
 
 /* For very small smartphones */
 @media (max-width: 480px) {
     .admin-container {
-        padding: 5px;
+        padding: 0.5rem;
     }
 
     .admin-header h1 {
-        font-size: 16px;
+        font-size: 1rem;
     }
 
     .search-bar input, .search-bar button {
-        font-size: 12px; /* Ajustar aún más el tamaño de la fuente */
+        font-size: 0.75rem;
     }
 
     .table-container th, .table-container td {
-        font-size: 12px;
+        font-size: 0.75rem;
     }
 
     .form-inline select, .form-inline input {
-        font-size: 12px;
+        font-size: 0.75rem;
     }
 
     .form-inline button {
-        font-size: 12px;
-        padding: 6px 12px; /* Ajustar el padding */
+        font-size: 0.75rem;
+        padding: 0.5rem 1rem;
     }
 
     .messages-container {
-        margin: 5px 0;
+        margin: 0.5rem 0;
     }
 
     .message {
-        font-size: 12px;
+        font-size: 0.75rem;
+    }
+}
+
+/* Estilo para la imagen de perfil de cada usuario */
+.user-profile-pic {
+    border-radius: 50%;
+    width: 5rem; /* Tamaño más grande en móvil */
+    height: 5rem; /* Tamaño más grande en móvil */
+    object-fit: cover;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Añadir sombra suave */
+    transition: transform 0.3s ease;
+}
+
+/* Estilo para las celdas de la tabla */
+.table-container td {
+    vertical-align: middle;
+}
+
+/* Estilos para dispositivos móviles: La foto de perfil va arriba de los datos y no se muestra el texto "Foto de perfil" */
+@media (max-width: 768px) {
+
+    
+
+    .table-container td[data-label="Foto de perfil"] {
+        text-align: center;
+        padding-bottom: 0.625rem;
+    }
+
+    .table-container td[data-label="Foto de perfil"]::before {
+        display: none; /* Elimina el texto "Foto de perfil" */
+    }
+
+    .user-profile-pic {
+        margin: 0 auto; /* Centra la imagen */
+    }
+
+    .table-container td[data-label="Usuario"],
+    .table-container td[data-label="Email"],
+    .table-container td[data-label="Saldo"],
+    .table-container td[data-label="Estado"],
+    .table-container td[data-label="Razón de Baneo"],
+    .table-container td[data-label="Acciones"] {
+        display: block;
+        text-align: left;
+    }
+
+    .table-container td[data-label="Acciones"] {
+        padding-top: 1rem;
     }
 }

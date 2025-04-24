@@ -13,46 +13,46 @@
         <h1>Instrucciones para {{ sistema|capitalize }}</h1>
     </header>
 
+    <p>Tu archivo ya fue generado. Si no se descargó automáticamente, 
+        <a href="{{ url_for('descargar', sistema=sistema) }}">haz clic aquí para descargarlo</a>.
+    </p>
 
-    <p>Tu archivo ya fue generado. Si no se descargó automáticamente, <a href="{{ url_for('descargar', sistema=sistema) }}">haz clic aquí para descargarlo</a>.</p>
-
-    <section  class="container">
+    <section class="container">
         <article class="post">
             {% if sistema == 'pc' %}
             <h3>Pasos en PC (Windows):</h3>
             <ol>
-                <li>Haz clic derecho en <strong>PC.bat</strong> y selecciona <strong>"Ejecutar como administrador"</strong>.</li>
-                <li>Se agregarán las páginas al archivo <code>hosts</code> del sistema.</li>
-                <li>Reinicia tu navegador o PC si es necesario.</li>
-            </ol> 
-        </article>
-        <article class="post">
+                <li>Haz clic derecho sobre el archivo <strong>PC.bat</strong> y selecciona <strong>"Ejecutar como administrador"</strong>.</li>
+                <li>Se agregarán las entradas al archivo del sistema <code>hosts</code>.</li>
+                <li>Reinicia tu navegador o el equipo si no ves cambios inmediatamente.</li>
+            </ol>
             {% elif sistema == 'android' %}
             <h3>Pasos en Android:</h3>
             <ol>
-                <li>Usa AdGuard, NextDNS o Pi-hole e importa el archivo <strong>Android.conf</strong>.</li>
-                <li>Abre tu app de DNS y carga la lista.</li>
-                <li>Activa el filtrado.</li>
+                <li>Instala una app de DNS como <strong>NextDNS</strong>, <strong>RethinkDNS</strong> o <strong>DNSChanger</strong> desde Google Play.</li>
+                <li>Abre la app y busca una opción para cargar configuración personalizada o listas.</li>
+                <li>Importa el archivo <strong>Android.conf</strong> desde la carpeta de descargas.</li>
+                <li>Activa el servicio de DNS personalizado o filtrado según la app.</li>
+                <li>Reinicia la conexión o dispositivo si no se aplican los cambios de inmediato.</li>
             </ol>
-        </article>
-        <article class="post">
             {% elif sistema == 'iphone' %}
             <h3>Pasos en iPhone:</h3>
             <ol>
-                <li>Requiere un perfil de configuración (MDM). Por ahora, este archivo es una simulación.</li>
-                <li>Puedes usar apps como AdGuard para bloquear usando DNS.</li>
+                <li>Descarga el archivo <strong>iPhone.mobileconfig</strong>.</li>
+                <li>Abre el archivo desde la app <strong>Archivos</strong> o desde Safari.</li>
+                <li>Se abrirán los <strong>Ajustes</strong> automáticamente para instalar el perfil.</li>
+                <li>Toca <strong>"Instalar"</strong>, ingresa tu código si se solicita y acepta los permisos.</li>
+                <li>Verifica que el perfil esté instalado en <strong>Ajustes > General > Perfiles</strong>.</li>
             </ol>
-        </article> 
+            {% endif %}
+        </article>
     </section>
-   
-    {% endif %}
 
     <script>
         // Descarga automática
-window.onload = () => {
- window.location.href = "/descargar/{{ sistema }}";
-};
-  
+        window.onload = () => {
+            window.location.href = "/descargar/{{ sistema }}";
+        };
     </script>
     <script src="../static/instrucciones.js"></script>
 </body>

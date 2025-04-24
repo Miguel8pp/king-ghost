@@ -44,7 +44,7 @@ h1 {
     justify-content: space-between;
     align-items: center;
     background-color: #000000; /* Fondo negro */
-    padding: 8px 8px 8px 0;
+    padding: 8px 20px 8px 0;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
     position: sticky;
     top: 0;

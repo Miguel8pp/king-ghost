@@ -7,6 +7,9 @@
     <title>Panel de Administración</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+    <style>
+
+    </style>
 </head>
 <body>
     <div id="particles-js"></div> <!-- Animación de partículas -->
@@ -38,87 +41,90 @@
 
         <!-- Tabla de Usuarios -->
         <h2>Usuarios Registrados</h2>
-        <table class="table-container">
-            <thead>
-                <tr>
-                    <th>Usuario</th>
-                    <th>Email</th>
-                    <th>Saldo</th>
-                    <th>Total de Pedidos</th>
-                    <th>Estado</th> <!-- Nueva columna Estado -->
-                    <th>Razón de Baneo</th> <!-- Nueva columna Razón de Baneo -->
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for user in usuarios %}
-                <tr>
-                    <td>{{ user['usuario'] }}</td>
-                    <td>{{ user['email'] }}</td>
-                    <td>{{ user['saldo'] }}</td>
-                    <td>{{ user['total_pedidos'] }}</td>
-                    <td>{{ user['ban'] }}</td> <!-- Estado del usuario -->
-                    <td>{{ user['razon_ban'] if user['ban'] == 'ban' else 'No Baneado' }}</td> <!-- Razón de baneo si aplica -->
-                    <td>
-                        <!-- Formulario para seleccionar acción -->
-                        <form method="post" class="form-inline">
-                            <input type="hidden" name="usuario" value="{{ user['usuario'] }}">
-                            
-
-                            <select name="accion" id="accion-{{ user['usuario'] }}" required onchange="changeForm('{{ user['usuario'] }}')">
-                                <option value="">Selecciona una acción</option>
-                                <option value="cambiar_usuario">Cambiar Usuario</option>
-                                <option value="cambiar_email">Cambiar Email</option>
-                                <option value="agregar_saldo">Agregar Saldo</option>
-                                <option value="quitar_saldo">Quitar Saldo</option>
-                                <option value="cambiar_contrasena">Cambiar Contraseña</option>
-                                <option value="banear_usuario">Banear Usuario</option>
-                                <option value="desbanear_usuario">Desbanear Usuario</option>
-                            </select>
-
-                            <div id="input-container-{{ user['usuario'] }}"></div>
-
-                            <button type="submit" class="btn">Actualizar</button>
-                        </form>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <div class="table-responsive">
+            <table class="table-container">
+                <thead>
+                    <tr>
+                        <th>Usuario</th>
+                        <th>Email</th>
+                        <th>Saldo</th>
+                        <th>Estado</th> <!-- Nueva columna Estado -->
+                        <th>Razón de Baneo</th> <!-- Nueva columna Razón de Baneo -->
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in usuarios %}
+                    <tr>
+                        <td data-label="Foto de perfil">
+                            <img src="{{ url_for('foto_perfil', foto_id=user['foto_id']) if user['foto_id'] else url_for('static', filename='fotos_perfil/default.png') }}" 
+                                 alt="Foto de perfil de {{ user['usuario'] }}" 
+                                 class="user-profile-pic">
+                        </td>
+                        <td data-label="Usuario">{{ user['usuario'] }}</td>
+                        <td data-label="Email">{{ user['email'] }}</td>
+                        <td data-label="Saldo">{{ user['saldo'] }}</td>
+                        <td data-label="Estado">{{ user['ban'] }}</td> <!-- Estado del usuario -->
+                        <td data-label="Razón de Baneo">{{ user['razon_ban'] if user['ban'] == 'ban' else 'No Baneado' }}</td> <!-- Razón de baneo si aplica -->
+                        <td data-label="Acciones">
+                            <!-- Formulario para seleccionar acción -->
+                            <form method="post" class="form-inline">
+                                <input type="hidden" name="usuario" value="{{ user['usuario'] }}">
+                                <select name="accion" id="accion-{{ user['usuario'] }}" required onchange="changeForm('{{ user['usuario'] }}')">
+                                    <option value="">Selecciona una acción</option>
+                                    <option value="cambiar_usuario">Cambiar Usuario</option>
+                                    <option value="cambiar_email">Cambiar Email</option>
+                                    <option value="agregar_saldo">Agregar Saldo</option>
+                                    <option value="quitar_saldo">Quitar Saldo</option>
+                                    <option value="cambiar_contrasena">Cambiar Contraseña</option>
+                                    <option value="banear_usuario">Banear Usuario</option>
+                                    <option value="desbanear_usuario">Desbanear Usuario</option>
+                                </select>
+                                <div id="input-container-{{ user['usuario'] }}"></div>
+                                <button type="submit" class="btn">Actualizar</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
 
         <!-- Tabla de Pagos Pendientes -->
-<h2>Pagos Pendientes</h2>
-<table class="table-container">
-    <thead>
-        <tr>
-            <th>Usuario</th>
-            <th>Monto</th>
-            <th>Estado del Pago</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for pago in pagos %}
-        <tr>
-            <td>{{ pago['usuario'] }}</td>
-            <td>{{ pago['monto'] }}</td>
-            <td>{{ pago['estado'] }}</td>
-            <td>
-                <!-- Formulario para cambiar el estado del pago -->
-                <form method="post" action="{{ url_for('actualizar_pago') }}">
-                    <input type="hidden" name="pago_id" value="{{ pago['_id'] }}"> <!-- Utilizamos _id para actualizar -->
-                    <select name="nuevo_estado" required>
-                        <option value="pendiente" {% if pago['estado'] == 'pendiente' %}selected{% endif %}>Pendiente</option>
-                        <option value="completado" {% if pago['estado'] == 'completado' %}selected{% endif %}>Completado</option>
-                        <option value="cancelado" {% if pago['estado'] == 'cancelado' %}selected{% endif %}>Cancelado</option>
-                    </select>
-                    <button type="submit" class="btn">Actualizar Estado</button>
-                </form>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+        <h2>Pagos Pendientes</h2>
+        <div class="table-responsive">
+            <table class="table-container">
+                <thead>
+                    <tr>
+                        <th>Usuario</th>
+                        <th>Monto</th>
+                        <th>Estado del Pago</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pago in pagos %}
+                    <tr>
+                        <td data-label="Usuario">{{ pago['usuario'] }}</td>
+                        <td data-label="Monto">{{ pago['monto'] }}</td>
+                        <td data-label="Estado del Pago">{{ pago['estado'] }}</td>
+                        <td data-label="Acciones">
+                            <!-- Formulario para cambiar el estado del pago -->
+                            <form method="post" action="{{ url_for('actualizar_pago') }}">
+                                <input type="hidden" name="pago_id" value="{{ pago['_id'] }}"> <!-- Utilizamos _id para actualizar -->
+                                <select name="nuevo_estado" required>
+                                    <option value="pendiente" {% if pago['estado'] == 'pendiente' %}selected{% endif %}>Pendiente</option>
+                                    <option value="completado" {% if pago['estado'] == 'completado' %}selected{% endif %}>Completado</option>
+                                    <option value="cancelado" {% if pago['estado'] == 'cancelado' %}selected{% endif %}>Cancelado</option>
+                                </select>
+                                <button type="submit" class="btn">Actualizar Estado</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
 
     </div>
 
@@ -213,11 +219,7 @@
                 inputField = `
                     <label for="monto">Monto</label>
                     <input type="number" name="monto" placeholder="Monto a agregar o quitar" required>
-                    <label for="tipo_saldo">Tipo</label>
-                    <select name="tipo_saldo" required>
-                        <option value="agregar">Agregar</option>
-                        <option value="quitar">Quitar</option>
-                    </select>`;
+                    <label for="tipo_saldo">Tipo</label>`;
             } else if (selectedAction === 'cambiar_email') {
                 inputField = '<input type="email" name="nuevo_valor" placeholder="Nuevo correo" required>';
             } else if (selectedAction === 'cambiar_contrasena') {

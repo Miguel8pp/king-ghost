@@ -1,109 +1,169 @@
-html{
+html {
   font-family: "Montserrat", sans-serif;
 }
 
 body {
-  /*para el fondo de todo se usa la etiqueta de body*/
   background-color: #efefef;
   margin: 0;
+  font-size: 16px;
+  line-height: 1.6;
 }
 
 img {
-  /*width es el ancho
-  y heigth es el alto*/
   width: 100%;
-  max-width: 400px;
+  max-width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-header{
-  /*background-color sirve para el color 
-  de una etiqueta*/
-background-color: #364552;
-color: white;
-padding: 30px 20px;
+header {
+  background-color: #364552;
+  color: #fff;
+  padding: 40px 20px;
 }
 
 header h1 {
-  font-size: 35px;
-  /*text align sirve para centrar el texto*/
+  font-size: 36px;
   text-align: center;
+  letter-spacing: 1px;
 }
 
 .container {
-  width: 100%;
-  max-width: 400px;
+  width: 80%;
+  max-width: 1200px;
   margin: 0 auto;
+  padding: 20px;
 }
 
 section article {
-  /* trasnsition es para indicar que 
-  propiedades de css queremos que sean animadas*/
-  transition: all 0.3s ease;
-  background-color: #fff;
-  margin: 15px auto;
-  border-radius: 10px;
-  padding: 5px 0;
-  /* cursor pointer sirve para mostrar la manito*/
+  transition: all 0.3s ease-in-out;
+  background-color: #00c2f31c;
+  margin: 20px 0;
+  border-radius: 15px;
+  padding: 20px;
   cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
-
-
 
 section article:hover {
-  box-shadow: 0 4px 7px rgba(0, 0, 0,0.3);
-  transform: translateY(-1%); 
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  transform: translateY(-5px);
 }
 
-section article h2, section article p {
-margin: 10px;
+section article h2 {
+  font-size: 28px;
+  color: #000000;
+  margin-bottom: 10px;
 }
 
+section article p {
+  font-size: 16px;
+  color: #000000;
+  margin-bottom: 20px;
+}
+
+section article .ab {
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  display: inline-block;
+  padding: 12px 25px;
+  background-color: #364552;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 50px;
+  text-align: center;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-top: 10px;
+}
+
+section article .ab:hover {
+  background-color: #20262b;
+  transform: scale(1.05);
+}
 
 footer {
-  background-color: #222 ;
-  padding: 30px;
-  color: aliceblue;
+  background-color: #222;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
 }
 
-footer section{
-  float: right;
+footer section {
+  margin-bottom: 10px;
 }
 
-footer p{
-  margin: 0;
-}
-footer a{
-  /*transition sirve para darle una animacion
-  y seleccione la propiedad de color*/
+footer a {
   transition: color 0.3s ease;
   color: #ffffff;
-  /*text-decoration sirve para quitar la linea debajo
-  ya que es un link y siempre pone una linea abajo*/
   text-decoration: none;
+  font-weight: bold;
 }
 
-/*el hover sirve cuando paso el mouse cambie de color*/
-footer a:hover{
+footer a:hover {
   color: cornflowerblue;
 }
 
-.section{
-      background-color: #222;
-  text-align: left;
+button#toggleMode {
+  background-color: #364552;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  transition: background-color 0.3s ease;
 }
 
-.ab {
-  transition: all 0.3s ease;
-  display: block;
-  margin: 10px auto;
-  text-align: center;
-  padding: 3px;
-  background-color: #364552; 
-  color: rgb(255, 255, 255);
-  text-decoration: none;
-  border-radius: 8px; 
-}
-
-.ab:hover {
+button#toggleMode:hover {
   background-color: #20262b;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 28px;
+  }
+
+  section article {
+    margin: 15px auto;
+    padding: 15px;
+  }
+
+  .container {
+    padding: 10px;
+  }
+
+  section article h2 {
+    font-size: 24px;
+  }
+
+  section article p {
+    font-size: 14px;
+  }
+
+  footer {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  header {
+    padding: 20px 10px;
+  }
+
+  section article {
+    margin: 10px 0;
+    padding: 10px;
+  }
+
+  section article .ab {
+    padding: 10px 20px;
+  }
+
+  footer {
+    padding: 10px;
+  }
 }

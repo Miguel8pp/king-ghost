@@ -227,11 +227,11 @@ def saldo():
     # Obtener el usuario desde la sesión
     usuario = session['usuario']
 
-    # Obtener el saldo del usuario
-    saldo = obtener_saldo(usuario)
+    # Obtener datos actualizados del usuario desde MongoDB
+    user_data = collection.find_one({'usuario': usuario})
+    foto_id = user_data.get('foto_id')
 
-    # Obtener el foto_id desde la sesión
-    foto_id = session.get('foto_id')
+    saldo = obtener_saldo(usuario)
 
     if request.method == 'POST':
         # Aquí manejamos el pago
@@ -298,11 +298,12 @@ def movimientos():
     # Obtener el usuario desde la sesión
     usuario = session['usuario']
 
+    user_data = collection.find_one({'usuario': usuario})
+    foto_id = user_data.get('foto_id')
+
     # Obtener los movimientos de pagos del usuario desde la base de datos
     movimientos_usuario = pagos_collection.find({'usuario': usuario})
 
-    # Obtener el foto_id desde la sesión
-    foto_id = session.get('foto_id')
 
     # Convertir los movimientos de MongoDB en una lista de diccionarios
     pagos = []

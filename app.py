@@ -55,6 +55,7 @@ db = client['db1']
 collection = db['usuarios']
 pedidos_collection = db['Pedidos']
 pagos_collection = db['Pagos'] 
+posts = db["articulos"]
 
 # GridFS
 fs = gridfs.GridFS(db)      
@@ -98,9 +99,10 @@ def obtener_saldo(usuario):
         saldo = float(saldo)
     return saldo
 
-@app.route('/')
+@app.route("/")
 def inicios():
-    return send_from_directory('templates', 'inicio.html')
+    posts_list = posts.find()  # Obtén los artículos desde la base de datos
+    return render_template('inicio.html', posts=posts_list)
 
 # Extensiones de archivo permitidas
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
@@ -467,7 +469,7 @@ def login():
             
             # Redirigimos según el rol del usuario
             if user_data.get('rol') == 'admin':
-                return redirect(url_for('admin_dashboard'))
+                return redirect(url_for('admin_inicio'))
             return redirect(url_for('pagina_principal'))
         else:
             flash("Usuario o contraseña incorrectos. Intenta de nuevo.", "error")
@@ -912,6 +914,68 @@ def tiktok_download():
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
+
+@app.route("/admin_post")
+def admin_post():
+    # Verificar si el usuario está logueado
+    if 'usuario' not in session:
+        return redirect(url_for('login'))  # Redirige al login si no está logueado
+    
+    # Obtener los datos del usuario logueado
+    user_data = collection.find_one({'usuario': session['usuario']})
+
+    # Verificar si el usuario tiene el rol de administrador
+    if user_data.get('rol') != 'admin':
+        return redirect(url_for('pagina_principal'))  # Redirige a la página principal si no es admin
+
+    # Si es admin, mostrar el panel de administración de posts
+    return render_template("admin_post.html", posts=posts.find())  # Renderiza la plantilla con los posts
+
+@app.route("/admin_post/nuevo", methods=["POST"])
+def nuevo():
+    posts.insert_one({
+        "titulo": request.form["titulo"],
+        "parrafo": request.form["parrafo"],
+        "img": request.form["img"],
+        "alt": request.form["alt"],
+        "enlace_href": request.form["enlace_href"],
+        "enlace_texto": request.form["enlace_texto"]
+    })
+    return redirect("/admin_post")
+
+@app.route("/admin_post/editar/<id>", methods=["POST"])
+def editar(id):
+    posts.update_one(
+        {"_id": ObjectId(id)},
+        {"$set": {
+            "titulo": request.form["titulo"],
+            "parrafo": request.form["parrafo"],
+            "img": request.form["img"],
+            "alt": request.form["alt"],
+            "enlace_href": request.form["enlace_href"],
+            "enlace_texto": request.form["enlace_texto"]
+        }}
+    )
+    return redirect("/admin_post")
+
+@app.route("/admin_post/eliminar/<id>", methods=["POST"])
+def eliminar(id):
+    posts.delete_one({"_id": ObjectId(id)})
+    return redirect("/admin_post")
+
+@app.route('/admin_inicio')
+def admin_inicio():
+    # Verificar si el usuario está autenticado
+    if 'usuario' not in session:
+        return redirect(url_for('login'))  # Redirigir al login si no está logueado
+    
+    # Obtener los datos del usuario para asegurarse de que es un admin
+    user_data = collection.find_one({'usuario': session['usuario']})
+    if user_data.get('rol') != 'admin':
+        return redirect(url_for('pagina_principal'))  # Redirigir a la página principal si no es admin
+    
+    return render_template('admin_inicio.html')  # Mostrar la página con los botones
+
     
 # Ejecutar la aplicación
 if __name__ == '__main__':

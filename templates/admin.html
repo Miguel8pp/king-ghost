@@ -18,6 +18,9 @@
         <header class="admin-header">
             <h1>Panel de Administración</h1>
             <a href="{{ url_for('logout') }}" class="admin-link">Salir</a>
+            <form action="{{ url_for('admin_inicio') }}" method="get">
+                <button type="submit" class="back-btn">Regresar al Panel de Administración</button>
+            </form>
         </header>
 
         <!-- Mostrar los mensajes de Flask -->

@@ -22,53 +22,15 @@
     </header>
 
     <section class="container">
+        {% for post in posts %}
         <article class="post">
-            <h2>Descarga videos de TikTok sin marca de agua al instante</h2>
-            <p>Descarga cualquier video de <strong>TikTok en alta calidad sin marca de agua.</strong> Solo pega el enlace y consigue tu video en segundos, gratis y sin registros.</p>
-            <img src="https://www.marketingdirecto.com/wp-content/uploads/2023/01/Untitled-design-56.jpg" alt="TikTok Video" />
-            <p>¿Quieres guardar tus videos favoritos de <strong>TikTok sin esa molesta marca de agua?</strong> Con nuestra herramienta, puedes descargar <strong>videos en HD</strong> con solo pegar el enlace. Es rápido, seguro y completamente <strong>gratis.</strong> Ideal para creadores de contenido, editores o simplemente para compartir sin marcas.</p>
-            <a class="ab" href="/tiktok">Descargar Videos</a>
+            <h2>{{ post.titulo }}</h2>
+            <p>{{ post.parrafo }}</p>  <!-- Usar 'parrafo' en lugar de 'descripcion' -->
+            <img src="{{ post.img }}" alt="{{ post.alt }}" />  <!-- Usar 'img' en lugar de 'imagen_url' -->
+            <p>{{ post.parrafo }}</p>  <!-- Si quieres mostrar detalles, puedes usar 'parrafo' u otra clave -->
+            <a class="ab" href="{{ post.enlace_href }}">{{ post.enlace_texto }}</a>  <!-- Usar 'enlace_href' y 'enlace_texto' -->
         </article>
-
-        <article class="post">
-            <h2>¡Visita nuestro Panel de Seguidores!</h2>
-            <p>Gana más seguidores fácilmente con nuestras herramientas.</p>
-            <img src="../static/img/panel.jpeg" alt="Panel de Seguidores" />
-            <p>Entra a nuestro <strong>Panel de Seguidores</strong> donde puedes comprar seguidores, likes, vistas y más para tus redes sociales. Es rápido, seguro y fácil de usar. Si ya tienes cuenta, inicia sesión. Si no, puedes registrarte gratis.</p>
-            <a class="ab" href="/login">Ir al Panel de Seguidores</a>
-        </article>
-
-        <article class="post">
-            <h2>Ev Loader</h2>
-            <p>¡Descarga el hack para 8 Ball Pool ahora!</p>
-            <img src="https://coimobile.io/uploads/2024/12/ev-loader-apk-coimobile.jpg" alt="EV Loader" />
-            <p>Primero descarga el <strong>EV Loader</strong>, que es el cargador principal del hack. Luego, descarga el <strong>8 Ball Pool modificado</strong> para que funcione correctamente con el EV Loader. Sigue las instrucciones y empieza a ganar cada partida.</p>
-            <a class="ab" href="https://www.mediafire.com/file/38hte2y5sdnb67h/EVLoader_1.2.02.apk/file">Descargar EV Loader</a>
-        </article>
-
-        <article class="post">
-            <h2>8 Ball Pool</h2>
-            <p>Descarga el 8 Ball Pool modificado</p>
-            <img src="https://i.pinimg.com/originals/04/1b/4e/041b4e515b08060ce6545acb0c5b1168.jpg" alt="8 Ball Pool modificado" />
-            <p>Este es el archivo modificado de <strong>8 Ball Pool</strong> que necesitas para que el <strong>EV Loader</strong> funcione correctamente. Instálalo después de tener el <strong>EV Loader</strong> y asegúrate de permitir la instalación desde orígenes desconocidos en tu dispositivo Android.</p>
-            <a class="ab" href="https://www.mediafire.com/file/ibeqwrbjb0096fh/com.miniclip.eightballpool_56.5.0-3738.apk/file">Descargar 8 Ball Pool Modificado</a>
-        </article>
-
-        <article class="post">
-            <h2>Bloqueador de Páginas</h2>
-            <p>Protege tu navegación bloqueando contenido no deseado</p>
-            <img src="https://tiolne.com/wp-content/uploads/2022/02/BLOQUEAR_PAGINAS_PARA_ADULTOS.webp" alt="Bloqueador de páginas" />
-            <p>Este es un <strong>bloqueador de páginas</strong> eficiente que te ayuda a evitar sitios no deseados, distracciones o contenido inapropiado.</p>
-            <a class="ab" href="/bloqp">Bloqueador de Páginas</a>
-        </article>
-
-        <article class="post">
-            <h2>Descargar Videos de YouTube en Segundos</h2>
-            <p>Convierte y descarga tus vídeos favoritos de YouTube rápida y fácilmente.</p>
-            <img src="../static/img/yt.jpeg" alt="Descargar videos YouTube" />
-            <p>Bienvenido a nuestra herramienta en línea para descargar vídeos de <strong>YouTube.</strong> Solo necesitas copiar el enlace del video, pegarlo en el campo de entrada y hacer clic en <strong>"Descargar".</strong> Compatible con la mayoría de los dispositivos y navegadores, sin necesidad de instalar programas. Disfruta tus videos favoritos donde y cuando quieras. <strong>Esto está en mantenimiento.</strong></p>
-            <a class="ab" href="/youtube">Descargar Videos</a>
-        </article>
+        {% endfor %}
     </section>
 
     <footer>

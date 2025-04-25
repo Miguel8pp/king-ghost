@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+        }
+
+.admin-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+}
+
+.button {
+    background-color: #ff0000;  /* Color de fondo verde */
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10px;
+    border-radius: 15px;
+    transition: background-color 0.3s;
+}
+
+.button:hover {
+    background-color: #fa2626;  /* Cambio de color al pasar el cursor */
+}
+
+    </style>    
+</head>
+<body>
+    <header>
+        <h1>Bienvenido al Panel de Administración</h1>
+    </header>
+
+    <section class="admin-buttons">
+        <h2>Selecciona el panel al que deseas acceder:</h2>
+        
+        <div>
+            <a href="{{ url_for('admin_dashboard') }}" class="button">Admin de Panel SMM</a>
+        </div>
+        
+        <div>
+            <a href="{{ url_for('admin_post') }}" class="button">Admin de articulos</a>
+        </div>
+    </section>
+    
+
+</body>
+</html>

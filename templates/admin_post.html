@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración</title>
+    <style>
+        body { font-family: 'Arial', sans-serif; margin: 20px; background: #f0f0f0; }
+        h1 { color: #333; }
+        .post { background: white; padding: 15px; margin-bottom: 20px; border: 1px solid #ccc; }
+        form { margin-top: 10px; }
+        input, textarea { width: 100%; padding: 8px; margin-bottom: 8px; }
+        button { padding: 8px 12px; margin-right: 5px; cursor: pointer; }
+        .edit-btn {background: #9e9b9b; color: white; border: solid 1px black;  }
+        .delete-btn { background: #9e9b9b; color: white; border: solid 1px black; }
+        .save-btn {background: #9e9b9b; color: white; border: solid 1px black;  }
+        .logout-btn { background: #9e9b9b; color: white; border: solid 1px black;  }
+        .back-btn { background: #9e9b9b; color: white; border: solid 1px black; }
+    </style>
+</head>
+<body>
+    <header class="admin-header">
+        <a href="{{ url_for('logout') }}" class="admin-link">cerrar secion</a>
+    </header>
+
+<h1>Panel de Administración</h1>
+
+<!-- Botón de regresar -->
+<form action="{{ url_for('admin_inicio') }}" method="get">
+    <button type="submit" class="back-btn">Regresar al Panel de Administración</button>
+</form>
+
+<!-- Crear nuevo artículo -->
+<h2>➕ Crear nuevo artículo</h2>
+<form action="/admin_post/nuevo" method="post">
+    <input type="text" name="titulo" placeholder="Título" required>
+    <textarea name="parrafo" placeholder="Contenido del párrafo principal" required></textarea>
+    <input type="text" name="img" placeholder="URL de la imagen">
+    <input type="text" name="alt" placeholder="Texto alternativo de la imagen">
+    <input type="text" name="enlace_href" placeholder="URL del enlace">
+    <input type="text" name="enlace_texto" placeholder="Texto del enlace">
+    <button type="submit" class="save-btn">Guardar nuevo artículo</button>
+</form>
+
+<hr>
+
+<!-- Lista de artículos existentes -->
+{% for post in posts %}
+<div class="post">
+    <h3>{{ post.titulo }}</h3>
+    <form action="/admin_post/editar/{{ post._id }}" method="post">
+        <input type="text" name="titulo" value="{{ post.titulo }}" required>
+        <textarea name="parrafo" required>{{ post.parrafo }}</textarea>
+        <input type="text" name="img" value="{{ post.img }}">
+        <input type="text" name="alt" value="{{ post.alt }}">
+        <input type="text" name="enlace_href" value="{{ post.enlace_href }}">
+        <input type="text" name="enlace_texto" value="{{ post.enlace_texto }}">
+        <button type="submit" class="edit-btn">Guardar cambios</button>
+    </form>
+    <form action="/admin_post/eliminar/{{ post._id }}" method="post" style="margin-top:5px;">
+        <button type="submit" class="delete-btn" onclick="return confirm('¿Eliminar este artículo?')"> 🗑️ Eliminar artículo</button>
+    </form>
+</div>
+{% endfor %}
+
+
+
+</body>
+</html>

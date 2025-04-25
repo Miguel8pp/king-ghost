@@ -27,7 +27,7 @@
             <h2>{{ post.titulo }}</h2>
             <p>{{ post.parrafo }}</p>  <!-- Usar 'parrafo' en lugar de 'descripcion' -->
             <img src="{{ post.img }}" alt="{{ post.alt }}" />  <!-- Usar 'img' en lugar de 'imagen_url' -->
-            <p>{{ post.parrafo }}</p>  <!-- Si quieres mostrar detalles, puedes usar 'parrafo' u otra clave -->
+            <p>{{ post.descripcion }}</p>  <!-- Si quieres mostrar detalles, puedes usar 'parrafo' u otra clave -->
             <a class="ab" href="{{ post.enlace_href }}">{{ post.enlace_texto }}</a>  <!-- Usar 'enlace_href' y 'enlace_texto' -->
         </article>
         {% endfor %}

@@ -938,6 +938,7 @@ def nuevo():
         "parrafo": request.form["parrafo"],
         "img": request.form["img"],
         "alt": request.form["alt"],
+        "descripcion": request.form["descripcion"],
         "enlace_href": request.form["enlace_href"],
         "enlace_texto": request.form["enlace_texto"]
     })
@@ -952,6 +953,7 @@ def editar(id):
             "parrafo": request.form["parrafo"],
             "img": request.form["img"],
             "alt": request.form["alt"],
+            "descripcion": request.form["descripcion"],
             "enlace_href": request.form["enlace_href"],
             "enlace_texto": request.form["enlace_texto"]
         }}

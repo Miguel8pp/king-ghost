@@ -37,6 +37,7 @@
     <textarea name="parrafo" placeholder="Contenido del párrafo principal" required></textarea>
     <input type="text" name="img" placeholder="URL de la imagen">
     <input type="text" name="alt" placeholder="Texto alternativo de la imagen">
+    <textarea name="descripcion" placeholder="Descripcion corta" required></textarea>
     <input type="text" name="enlace_href" placeholder="URL del enlace">
     <input type="text" name="enlace_texto" placeholder="Texto del enlace">
     <button type="submit" class="save-btn">Guardar nuevo artículo</button>
@@ -53,6 +54,7 @@
         <textarea name="parrafo" required>{{ post.parrafo }}</textarea>
         <input type="text" name="img" value="{{ post.img }}">
         <input type="text" name="alt" value="{{ post.alt }}">
+        <textarea name="descripcion" required>{{ post.descripcion }} </textarea>
         <input type="text" name="enlace_href" value="{{ post.enlace_href }}">
         <input type="text" name="enlace_texto" value="{{ post.enlace_texto }}">
         <button type="submit" class="edit-btn">Guardar cambios</button>

@@ -17,6 +17,31 @@
         .logout-btn { background: #9e9b9b; color: white; border: solid 1px black;  }
         .back-btn { background: #9e9b9b; color: white; border: solid 1px black; }
     </style>
+<style>
+    .flash-messages {
+      list-style-type: none;
+      padding: 0;
+    }
+  
+    .flash-messages li {
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 5px;
+      color: white;  /* El texto será blanco para que sea legible */
+    }
+  
+    .flash-messages .post_created {
+      background-color: #4CAF50;  /* Verde para el mensaje de creación */
+    }
+  
+    .flash-messages .post_deleted {
+      background-color: #2196F3;  /* Azul para el mensaje de eliminación */
+    }
+  
+    .flash-messages .error {
+      background-color: #f44336;  /* Rojo para los mensajes de error */
+    }
+  </style>
 </head>
 <body>
     <header class="admin-header">
@@ -29,6 +54,17 @@
 <form action="{{ url_for('admin_inicio') }}" method="get">
     <button type="submit" class="back-btn">Regresar al Panel de Administración</button>
 </form>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <ul class="flash-messages">
+      {% for message, category in messages %}
+        <li class="{{ category }}">{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
 
 <!-- Crear nuevo artículo -->
 <h2>➕ Crear nuevo artículo</h2>

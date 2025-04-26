@@ -928,21 +928,26 @@ def admin_post():
     if user_data.get('rol') != 'admin':
         return redirect(url_for('pagina_principal'))  # Redirige a la página principal si no es admin
 
-    # Si es admin, mostrar el panel de administración de posts
     return render_template("admin_post.html", posts=posts.find())  # Renderiza la plantilla con los posts
 
 @app.route("/admin_post/nuevo", methods=["POST"])
 def nuevo():
-    posts.insert_one({
-        "titulo": request.form["titulo"],
-        "parrafo": request.form["parrafo"],
-        "img": request.form["img"],
-        "alt": request.form["alt"],
-        "descripcion": request.form["descripcion"],
-        "enlace_href": request.form["enlace_href"],
-        "enlace_texto": request.form["enlace_texto"]
-    })
+    try:
+        posts.insert_one({
+            "titulo": request.form["titulo"],
+            "parrafo": request.form["parrafo"],
+            "img": request.form["img"],
+            "alt": request.form["alt"],
+            "descripcion": request.form["descripcion"],
+            "enlace_href": request.form["enlace_href"],
+            "enlace_texto": request.form["enlace_texto"]
+        })
+        flash("post_created", "Post creado con éxito")  # Clase 'post_created' para mensajes de éxito de creación
+    except:
+        flash("Error al crear el post", "error")  # Clase 'error' para mensajes de error
+
     return redirect("/admin_post")
+
 
 @app.route("/admin_post/editar/<id>", methods=["POST"])
 def editar(id):
@@ -962,7 +967,12 @@ def editar(id):
 
 @app.route("/admin_post/eliminar/<id>", methods=["POST"])
 def eliminar(id):
-    posts.delete_one({"_id": ObjectId(id)})
+    try:
+        posts.delete_one({"_id": ObjectId(id)})
+        flash("post_deleted", "Artículo eliminado con éxito")  # Clase 'post_deleted' para mensajes de éxito de eliminación
+    except:
+        flash("Error al eliminar el artículo", "error")  # Clase 'error' para mensajes de error
+
     return redirect("/admin_post")
 
 @app.route('/admin_inicio')

@@ -1,44 +1,59 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
+  <head>
     <title>INICIO</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Descarga videos de TikTok, YouTube y mucho más, sin marcas de agua. Visita nuestro panel para ganar seguidores y más!">
-    <meta name="keywords" content="descargar videos de tik tok sin marca de agua,descargar videos de YouTube, seguidores, hack, EV loader, 8 ball pool, bloqueador páginas, panel smm, seguidores baratos, ">
-    <meta name="author" content="Miguel">
-    <link rel="icon" href="../static/fav/fav.jpeg">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../static/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-</head>
-<body>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Descarga videos de TikTok, YouTube y mucho más, sin marcas de agua. Visita nuestro panel para ganar seguidores y más!"
+    />
+    <meta
+      name="keywords"
+      content="descargar videos de tik tok sin marca de agua,descargar videos de YouTube, seguidores, hack, EV loader, 8 ball pool, bloqueador páginas, panel smm, seguidores baratos, "
+    />
+    <meta name="author" content="Miguel" />
+    <link rel="icon" href="../static/fav/fav.jpeg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../static/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+  </head>
+
+  <body>
     <button id="toggleMode">Cambiar modo</button>
 
     <header>
-        <h1 class="titulo">Página de Inicio</h1>
+      <h1 class="titulo">Página de Inicio</h1>
     </header>
 
     <section class="container">
-        {% for post in posts %}
-        <article class="post">
-            <h2>{{ post.titulo }}</h2>
-            <p>{{ post.parrafo }}</p>  <!-- Usar 'parrafo' en lugar de 'descripcion' -->
-            <img src="{{ post.img }}" alt="{{ post.alt }}" />  <!-- Usar 'img' en lugar de 'imagen_url' -->
-            <p>{{ post.descripcion }}</p>  <!-- Si quieres mostrar detalles, puedes usar 'parrafo' u otra clave -->
-            <a class="ab" href="{{ post.enlace_href }}">{{ post.enlace_texto }}</a>  <!-- Usar 'enlace_href' y 'enlace_texto' -->
-        </article>
-        {% endfor %}
+      {% for post in posts %}
+      <article class="post">
+        <h2>{{ post.titulo }}</h2>
+        <p>{{ post.parrafo }}</p>
+        <img src="{{ post.img }}" alt="{{ post.alt }}" />
+        <p>{{ post.descripcion }}</p>
+        <a class="ab" href="{{ post.enlace_href }}">{{ post.enlace_texto }}</a>
+      </article>
+      {% endfor %}
     </section>
 
     <footer>
-        <section>
-            <a href="https://wa.me/524661002589?text=Hola%2C%20vengo%20desde%20tu%20página%20web%20y%20quiero%20más%20información">Contacto</a>
-        </section>
-        <p>&copy; 2025 KingShop. Todos los derechos reservados.</p>
+      <section>
+        <a
+          href="https://wa.me/524661002589?text=Hola%2C%20vengo%20desde%20tu%20página%20web%20y%20quiero%20más%20información"
+          >Contacto</a
+        >
+      </section>
+      <p>&copy; 2025 KingShop. Todos los derechos reservados.</p>
     </footer>
-
-</body>
+  </body>
 </html>

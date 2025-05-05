@@ -28,41 +28,44 @@ header h1 {
   letter-spacing: 1px;
 }
 
+/* GRID DE 4 COLUMNAS */
 .container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
   width: 80%;
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
 }
 
-section article {
+.container .post {
   transition: all 0.3s ease-in-out;
   background-color: #00c2f31c;
-  margin: 20px 0;
   border-radius: 15px;
   padding: 20px;
   cursor: pointer;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-section article:hover {
+.container .post:hover {
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
   transform: translateY(-5px);
 }
 
-section article h2 {
+.container .post h2 {
   font-size: 28px;
   color: #000000;
   margin-bottom: 10px;
 }
 
-section article p {
+.container .post p {
   font-size: 16px;
   color: #000000;
   margin-bottom: 20px;
 }
 
-section article .ab {
+.container .post .ab {
   transition: background-color 0.3s ease, transform 0.2s ease;
   display: inline-block;
   padding: 12px 25px;
@@ -76,7 +79,7 @@ section article .ab {
   margin-top: 10px;
 }
 
-section article .ab:hover {
+.container .post .ab:hover {
   background-color: #20262b;
   transform: scale(1.05);
 }
@@ -121,45 +124,44 @@ button#toggleMode:hover {
   background-color: #20262b;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
+/* Responsive: Tablets (2 columnas) */
+@media (max-width: 1024px) {
+  .container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   header h1 {
     font-size: 28px;
   }
 
-  section article {
-    margin: 15px auto;
-    padding: 15px;
+  .container .post h2 {
+    font-size: 24px;
+  }
+
+  .container .post p {
+    font-size: 14px;
   }
 
   .container {
     padding: 10px;
   }
-
-  section article h2 {
-    font-size: 24px;
-  }
-
-  section article p {
-    font-size: 14px;
-  }
-
-  footer {
-    padding: 15px;
-  }
 }
 
-@media (max-width: 480px) {
+/* Responsive: Móviles (1 columna) */
+@media (max-width: 600px) {
+  .container {
+    grid-template-columns: 1fr;
+  }
+
   header {
     padding: 20px 10px;
   }
 
-  section article {
-    margin: 10px 0;
+  .container .post {
     padding: 10px;
   }
 
-  section article .ab {
+  .container .post .ab {
     padding: 10px 20px;
   }
 

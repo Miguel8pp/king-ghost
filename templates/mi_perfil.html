@@ -115,7 +115,6 @@
     </div>
 
     <script>
-        // Toggle mobile menu visibility
         const hamburger = document.querySelector('.hamburger');
         const mobileMenu = document.querySelector('.dropdown-content');
         hamburger.addEventListener('click', () => {
@@ -131,7 +130,7 @@
                 reader.onload = function(e) {
                     previewContainer.innerHTML = `
                         <img src="${e.target.result}" alt="Preview"
-                             style="max-width: 120px; max-height: 120px; border-radius: 8px; border: 2px solid #fff; box-shadow: 0 0 8px rgba(0,0,0,0.5); margin-top: 10px;">
+                             style="max-width: 120px; max-height: 120px; border-radius: 8px; border: 1px solid #fff; box-shadow: 0 0 8px rgba(0,0,0,0.5); margin-top: 10px;">
                     `;
                 }
                 reader.readAsDataURL(file);

@@ -41,7 +41,7 @@ header h1 {
 
 .container .post {
   transition: all 0.3s ease-in-out;
-  background-color: #00c2f31c;
+  background-color: #a5f9ff2d;
   border-radius: 15px;
   padding: 20px;
   cursor: pointer;
@@ -120,9 +120,7 @@ button#toggleMode {
   transition: background-color 0.3s ease;
 }
 
-button#toggleMode:hover {
-  background-color: #20262b;
-}
+
 
 /* Responsive: Tablets (2 columnas) */
 @media (max-width: 1024px) {

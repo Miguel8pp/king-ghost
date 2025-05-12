@@ -28,13 +28,29 @@
   </head>
 
   <body>
-    <button id="toggleMode">Cambiar modo</button>
-
     <header>
       <h1 class="titulo">Página de Inicio</h1>
     </header>
 
     <section class="container">
+      <article class="post">
+        <h2>Efecto maquina de escribir con python</h2>
+        <p>
+          En este archivo esta documentato el paso a paso para lograr este
+          efecto
+        </p>
+        <img
+          src="https://th.bing.com/th/id/OIP.KnOS3vOcNhLla8LSZw4TugHaHa?w=174&h=180&c=7&r=0&o=5&pid=1.7"
+          alt="logo de python"
+        />
+        <p>
+          solo descarga el siguiente archivo y abrelo en un editor de codigo y
+          listo
+        </p>
+        <a class="ab" href="#" onclick="descargarArchivo(); return false;"
+          >Descarga aquí</a
+        >
+      </article>
       {% for post in posts %}
       <article class="post">
         <h2>{{ post.titulo }}</h2>
@@ -56,4 +72,15 @@
       <p>&copy; 2025 KingShop. Todos los derechos reservados.</p>
     </footer>
   </body>
+ 
+<script>
+function descargarArchivo() {
+  const enlace = document.createElement('a');
+  enlace.href = '/static/tutorial/tutorial.py';  // ajusta la ruta si es necesario
+  enlace.download = 'tutorial.py';  // puedes incluir la extensión
+  document.body.appendChild(enlace);
+  enlace.click();
+  document.body.removeChild(enlace);
+}
+</script>
 </html>

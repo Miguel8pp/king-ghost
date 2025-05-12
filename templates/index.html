@@ -46,21 +46,18 @@
             </button>
         </nav>
 
-        <!-- Sección de saldo debajo de la bienvenida -->
         <div class="saldo-info">
             <h3>Saldo Disponible:</h3>
-            <p>${{ saldo }}</p> <!-- Mostrar el saldo obtenido desde la base de datos -->
+            <p>${{ saldo }}</p> 
         </div>
     </header>
 
-    <!-- Mensaje debajo del header -->
     <div class="welcome-message">
         <h2>¡Bienvenido al Mejor Panel SMM!</h2>
     </div>
 
     <main class="main-container">
 
-        <!-- Agregamos el botón "Panel Seguidores" -->
         <section class="panel-seguidores">
             <a href="{{ url_for('agregar_orden') }}" class="btn-panel-seguidores">
                 <i class="fas fa-users"></i> Panel Seguidores
@@ -79,7 +76,6 @@
     </footer>
 
     <script>
-        // Toggle mobile menu visibility
         const hamburger = document.querySelector('.hamburger');
         const mobileMenu = document.querySelector('.mobile-menu');
 
@@ -88,7 +84,7 @@
         });
 
         document.addEventListener('DOMContentLoaded', function() {
-            const saldo = parseFloat("{{ saldo }}"); // Esto obtiene el saldo del backend
+            const saldo = parseFloat("{{ saldo }}"); 
             const saldoElement = document.querySelector('.saldo-info p');
 
             if (saldo < 5) {

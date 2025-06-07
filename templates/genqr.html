@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Generador de Código QR</title>
+  <link rel="stylesheet" href="../static/genqr.css" />
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/159/159469.png" />
+</head>
+<body>
+  <div class="container">
+    <h1>🔗 Generador de Código QR</h1>
+    
+    <p class="description">Convierte tu enlace en un código QR que puedes escanear o compartir.</p>
+    
+    <form method="POST" autocomplete="off">
+      <input
+        type="url"
+        name="url"
+        placeholder="https://tu-enlace.com"
+        required
+      />
+      <button type="submit">Generar QR</button>
+    </form>
+
+    <p id="note">🛈 El código QR generado se descargará automáticamente.</p>
+
+
+  </div>
+</body>
+</html>

@@ -991,9 +991,6 @@ def admin_inicio():
     return render_template('admin_inicio.html')  # Mostrar la página con los botones
 
 
-
-
-
 @app.route('/qrcode', methods=['GET', 'POST'])
 def generate_qrcode():
     if request.method == 'POST':
@@ -1005,9 +1002,6 @@ def generate_qrcode():
             buffer.seek(0)
             return send_file(buffer, mimetype='image/png', as_attachment=True, download_name='qrcode.png')
     return render_template('genqr.html')
-
-if __name__ == '__main__':
-    app.run(debug=True)
 
 # Ejecutar la aplicación
 if __name__ == '__main__':

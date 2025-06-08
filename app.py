@@ -991,18 +991,26 @@ def admin_inicio():
     return render_template('admin_inicio.html')  # Mostrar la página con los botones
 
 
+import sys
+
 @app.route('/qrcode', methods=['GET', 'POST'])
 def generate_qrcode():
     if request.method == 'POST':
         url = request.form.get('url')
+        print(f"URL recibida: {url}", file=sys.stderr)  # Log visible en Render
         if url:
-            img = qrcode.make(url)
-            buffer = io.BytesIO()
-            img.save(buffer, format='PNG')
-            buffer.seek(0)
-            return send_file(buffer, mimetype='image/png', as_attachment=True, download_name='qrcode.png')
+            try:
+                img = qrcode.make(url)
+                buffer = io.BytesIO()
+                img.save(buffer, format='PNG')
+                buffer.seek(0)
+                return send_file(buffer, mimetype='image/png', as_attachment=True, download_name='qrcode.png')
+            except Exception as e:
+                print(f"Error generando el QR: {e}", file=sys.stderr)
+                return "Error generando el código QR", 500
     return render_template('genqr.html')
+
 
 # Ejecutar la aplicación
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()

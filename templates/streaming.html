@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Premium Para Todos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f8f9fa;
+      color: #212529;
+      line-height: 1.6;
+    }
+    header {
+      background: #0d6efd;
+      color: white;
+      padding: 40px 20px;
+      text-align: center;
+    }
+    header h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+    .card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      padding: 25px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+    }
+    .card img {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 15px;
+    }
+    .card h2 {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+      color: #0d6efd;
+    }
+    .card p {
+      margin-bottom: 12px;
+    }
+    .price {
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: #198754;
+    }
+    .btn {
+      display: inline-block;
+      padding: 12px 20px;
+      background: #0d6efd;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      margin-top: 15px;
+      transition: background 0.3s ease;
+    }
+    .btn:hover {
+      background: #0b5ed7;
+    }
+    footer {
+      text-align: center;
+      padding: 30px;
+      background: #f1f3f5;
+      font-size: 0.95rem;
+      color: #6c757d;
+    }
+    .icons {
+      font-size: 1.2rem;
+      margin-top: 10px;
+      color: #495057;
+    }
+    .icons i {
+      margin: 0 10px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1><i class="fas fa-gem"></i> Premium Para Todos <i class="fas fa-star"></i></h1>
+    {% if logueado %}
+  <p style="margin-top: 10px;">Bienvenido, {{ usuario }} | Saldo: <strong>${{ saldo }} USD</strong></p>
+{% endif %}
+
+  </header>
+
+  <div class="container">
+    <div class="card">
+      <img src="data:image/webp;base64,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" alt="Canva Pro">
+      <h2>🎨 Canva Pro</h2>
+      <p>Accede a miles de plantillas, imágenes y herramientas premium. Ideal para diseñadores, emprendedores y estudiantes.</p>
+      <p class="price">Desde $4 USD/mes</p>
+{% if logueado %}
+  <form method="POST" action="/comprar">
+    <input type="hidden" name="servicio" value="Canva Pro">
+    <input type="hidden" name="precio" value="4">
+    <button type="submit" class="btn">Comprar con saldo</button>
+  </form>
+{% else %}
+  <a href="#" class="btn" onclick="contactar('Canva Pro')">¡Lo quiero por WhatsApp!</a>
+{% endif %}
+    </div>
+
+    <div class="card">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg" alt="YouTube Premium">
+      <h2>🎵 YouTube Premium</h2>
+      <p>Disfruta de YouTube sin anuncios, descarga videos y escucha música en segundo plano.</p>
+      <p class="price">Desde $4 USD/mes</p>
+      {% if logueado %}
+  <form method="POST" action="/comprar">
+    <input type="hidden" name="servicio" value="You Tube premium">
+    <input type="hidden" name="precio" value="4">
+    <button type="submit" class="btn">Comprar con saldo</button>
+  </form>
+{% else %}
+      <a href="#" class="btn" onclick="contactar('YouTube Premium')">¡Lo quiero!</a>
+{% endif %}
+    </div>
+  </div>
+
+  <footer>
+    Hecho con ❤️ para ofrecerte lo mejor. <br>
+    <div class="icons">
+      <i class="fab fa-whatsapp"></i> <i class="fab fa-instagram"></i> <i class="fas fa-envelope"></i>
+    </div>
+  </footer>
+
+  <script>
+    function contactar(servicio) {
+      const mensaje = `Hola! Estoy interesado en contratar ${servicio} 😄`;
+      const url = `https://wa.me/524661002589?text=${encodeURIComponent(mensaje)}`;
+      window.open(url, '_blank');
+    }
+  </script>
+</body>
+</html>

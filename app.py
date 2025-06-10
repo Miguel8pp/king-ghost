@@ -29,6 +29,9 @@ import gridfs
 from io import BytesIO
 import qrcode
 import io
+from bson.decimal128 import Decimal128
+
+
 
 
 
@@ -1010,7 +1013,65 @@ def generate_qrcode():
                 return "Error generando el código QR", 500
     return render_template('genqr.html')
 
+@app.route('/streaming', methods=['GET', 'POST'])
+def streaming():
+    if 'usuario' in session:
+        user_data = collection.find_one({'usuario': session['usuario']})
+        if user_data:
+            if user_data.get('ban') == 'ban':
+                return render_template('ban.html', razon_ban=user_data.get('razon_ban', 'Sin razón'))
+            # Usuario logueado y no baneado
+            return render_template('streaming.html', logueado=True, usuario=user_data['usuario'], saldo=user_data.get('saldo', 0))
+        else:
+            # No encontró datos del usuario en BD (por si la sesión está corrupta)
+            session.pop('usuario', None)
+            return render_template('streaming.html', logueado=False)
+    else:
+        # No hay usuario en sesión
+        return render_template('streaming.html', logueado=False)
+
+
+
+@app.route('/comprar', methods=['POST'])
+def comprar():
+    try:
+        if 'usuario' not in session:
+            return redirect('/login')
+
+        servicio = request.form['servicio']
+        # Convertimos precio a Decimal para precisión
+        precio = Decimal(request.form['precio'])
+
+        user_data = collection.find_one({'usuario': session['usuario']})
+        saldo_decimal128 = user_data.get('saldo', Decimal128('0'))
+
+        # Convertimos saldo de Decimal128 a Decimal de Python
+        if isinstance(saldo_decimal128, Decimal128):
+            saldo_actual = saldo_decimal128.to_decimal()
+        else:
+            saldo_actual = Decimal(str(saldo_decimal128))
+
+        if saldo_actual >= precio:
+            nuevo_saldo = saldo_actual - precio
+            # Guardamos saldo actualizado como Decimal128 en Mongo
+            collection.update_one(
+                {'usuario': session['usuario']},
+                {'$set': {'saldo': Decimal128(str(nuevo_saldo))}}
+            )
+
+            mensaje = f"Hola! He comprado {servicio} desde la web. Mi usuario es {session['usuario']} y pagué ${precio} con saldo 😄"
+            url = f"https://wa.me/524661002589?text={mensaje}"
+            return redirect(url)
+        else:
+            return "Saldo insuficiente", 400
+
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return "Error interno del servidor", 500
+
+
 
 # Ejecutar la aplicación
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)

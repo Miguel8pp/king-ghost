@@ -1070,6 +1070,10 @@ def comprar():
         traceback.print_exc()
         return "Error interno del servidor", 500
 
+@app.route("/imgcode")
+def imgcode():
+    return render_template('gencode.html')
+
 
 
 # Ejecutar la aplicación

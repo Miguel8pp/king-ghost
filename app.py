@@ -1074,6 +1074,10 @@ def comprar():
 def imgcode():
     return render_template('gencode.html')
 
+@app.route("/ajedrez")
+def ajedrez():
+    return render_template('ajedres.html')
+
 
 
 # Ejecutar la aplicación

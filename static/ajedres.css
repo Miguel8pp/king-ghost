@@ -1,0 +1,485 @@
+/* === Estilos Generales === */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+    background-color: #1a1a2e; /* Un azul oscuro profundo */
+    color: #e0e6eb;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    background-color: #0f0f1f; /* Una versión aún más oscura del fondo */
+    padding: 15px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+    margin-bottom: 20px;
+}
+
+h1 {
+    margin: 0;
+    font-size: 2.8em;
+    letter-spacing: 2px;
+    color: #e0e6eb;
+}
+
+/* === Marcador de Ganadas === */
+#scorecard {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin: 10px 0 20px;
+    color: #e0e6eb;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+#player1Score {
+    color: #007bff; /* Azul para el Jugador 1 */
+}
+
+#player2Score {
+    color: #e63946; /* Rojo para el Jugador 2 */
+}
+
+/* === Turno y Mensajes === */
+#turnoActual {
+    font-size: 1.6em;
+    font-weight: bold;
+    margin: 15px 0;
+    color: #ffcc00; /* Amarillo vibrante para el turno */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+#mensajeJuego {
+    font-size: 1.3em;
+    font-weight: bold;
+    min-height: 30px;
+    margin-bottom: 10px;
+}
+
+/* Mensajes de error en rojo */
+.mensaje-error {
+    color: #e74c3c; /* Rojo intenso para errores generales */
+    animation: fadeIn 0.5s forwards;
+}
+
+.mensaje-jaque {
+    color: #c0392b; /* Rojo más oscuro para jaque */
+    animation: pulseRed 1s infinite alternate;
+}
+
+.mensaje-jaque-mate {
+    color: #8c0000; /* Rojo aún más profundo para jaque mate */
+    font-size: 1.8em;
+    animation: fadeInOut 2s forwards;
+}
+
+.mensaje-ahogado {
+    color: #007bff; /* Azul para ahogado, diferente del rojo de error */
+    animation: fadeInOut 2s forwards;
+}
+
+/* === Animaciones === */
+@keyframes pulseRed {
+    from { transform: scale(1); opacity: 1; }
+    to { transform: scale(1.05); opacity: 0.8; }
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+@keyframes pulseTimer {
+    from { transform: scale(1); opacity: 1; }
+    to { transform: scale(1.05); opacity: 0.9; }
+}
+
+@keyframes pulsateKing {
+    0% { box-shadow: 0 0 0px #e74c3c; }
+    50% { box-shadow: 0 0 20px #e74c3c; }
+    100% { box-shadow: 0 0 0px #e74c3c; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* === Temporizador === */
+#timerContainer {
+    display: flex; /* Añadido para centrar */
+    justify-content: center; /* Añadido para centrar horizontalmente */
+    align-items: center; /* Añadido para centrar verticalmente */
+    font-size: 1.8em;
+    font-weight: bold;
+    margin: 15px 0;
+    color: #00bcd4; /* Azul claro para el temporizador */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+#timerPlayer1, #timerPlayer2 {
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: #2b2b40; /* Un azul oscuro que contrasta */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+#timerSeparator {
+    color: #e0e6eb;
+    margin: 0 10px;
+}
+
+.active-timer {
+    color: #ffcc00;
+    animation: pulseTimer 1s infinite alternate;
+}
+
+/* === Secciones de Piezas Eliminadas === */
+.eliminated-pieces-section {
+    margin: 15px auto;
+    width: 90%;
+    max-width: 500px;
+    background-color: #2b2b40; /* Mismo azul oscuro que los temporizadores */
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.eliminated-pieces-section p {
+    margin: 5px 0;
+    font-size: 1.1em;
+    color: #bdc3c7;
+}
+
+.eliminadas {
+    background-color: #1a1a2e; /* Fondo del body */
+    min-height: 40px;
+    padding: 8px;
+    border-radius: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    border: 1px solid #3c3c5a; /* Un borde azul más claro */
+}
+
+/* Estilos para las piezas eliminadas */
+#piezasJ1, #piezasJ2 {
+    font-size: 1.8em;
+    line-height: 1;
+    /* Diferenciación de colores para las piezas */
+    color: #e0e6eb; /* Blanco por defecto */
+}
+
+/* Puedes añadir una clase adicional a las piezas para diferenciarlas */
+.pieza-blanca {
+    color: #f0f0f0; /* Blanco más puro */
+}
+
+.pieza-negra {
+    color: #3b3b3b; /* Negro oscuro */
+}
+
+/* === Tablero de Ajedrez === */
+#tablero {
+    display: grid;
+    grid-template-columns: repeat(8, 60px);
+    grid-template-rows: repeat(8, 60px);
+    width: 480px;
+    height: 480px;
+    margin: 20px auto;
+    border: 5px solid #0f0f1f; /* Borde oscuro como el header */
+    border-radius: 8px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.7);
+    overflow: hidden;
+}
+
+.cuadro {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.blanco {
+    background-color: #f0d9b5; /* Se mantienen tus colores originales */
+    color: #3b3b3b;
+}
+
+.negro {
+    background-color: #b58863; /* Se mantienen tus colores originales */
+    color: #f0f0f0;
+}
+
+.cuadro:hover {
+    transform: scale(1.02);
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.4);
+}
+
+.seleccionado {
+    background-color: #e63946; /* Rojo vibrante para seleccionado */
+    box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.6);
+    border: 2px solid #b70909; /* Borde más oscuro */
+}
+
+.movimiento-valido {
+    background-color: rgba(69, 179, 157, 0.7); /* Un verde azulado agradable */
+    border: 2px solid #2d7f6d;
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.5);
+}
+
+.movimiento-invalido-check {
+    background-color: rgba(231, 76, 60, 0.7); /* Rojo para movimiento inválido que deja en jaque */
+    border: 2px solid #c0392b;
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.5);
+}
+
+.en-jaque {
+    background-color: #e74c3c !important; /* Rojo fuerte para rey en jaque */
+    animation: pulsateKing 1.5s infinite alternate;
+}
+
+/* === Modales === */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(8px);
+}
+
+.modal-content {
+    background-color: #2b2b40; /* Color azul oscuro unificado para modales */
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+    width: 90%;
+    max-width: 400px;
+    color: #e0e6eb;
+    position: relative;
+}
+
+.modal-content h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 2em;
+    color: #ffcc00; /* Amarillo para títulos importantes */
+}
+
+.modal-content p {
+    font-size: 1.1em;
+    margin-bottom: 15px;
+}
+
+.input-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #bdc3c7;
+}
+
+.input-group input[type="text"],
+.input-group input[type="number"] { /* Añadido input type="number" */
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #3c3c5a; /* Borde azul para inputs */
+    border-radius: 5px;
+    background-color: #1a1a2e; /* Fondo del body para inputs */
+    color: #e0e6eb;
+    font-size: 1em;
+    box-sizing: border-box;
+    transition: box-shadow 0.3s ease; /* Transición para el efecto neon */
+}
+
+/* Borde neón al enfocar */
+.input-group input[type="text"]:focus,
+.input-group input[type="number"]:focus {
+    outline: none;
+    box-shadow: 0 0 10px 3px rgba(0, 123, 255, 0.7), 0 0 5px 1px rgba(255, 0, 0, 0.5); /* Azul y Rojo */
+}
+
+.input-group input[type="text"]::placeholder,
+.input-group input[type="number"]::placeholder {
+    color: #95a5a6;
+}
+
+.time-help-text {
+    font-size: 0.9em;
+    color: #bdc3c7;
+    margin-top: 5px;
+}
+
+/* === Botones del Modal === */
+.modal-actions {
+    display: flex;
+    justify-content: space-around;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.modal-actions button {
+    padding: 12px 25px;
+    font-size: 1.1em;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    flex: 1;
+}
+
+#startButton {
+    background-color: #1a759f; /* Un azul más oscuro */
+    color: white;
+}
+#startButton:hover {
+    background-color: #16698f;
+    transform: translateY(-2px);
+}
+
+#skipButton {
+    background-color: #c44536; /* Rojo ligeramente más apagado */
+    color: white;
+}
+#skipButton:hover {
+    background-color: #a3382c;
+    transform: translateY(-2px);
+}
+
+#rematchButton {
+    background-color: #007bff; /* Mantenemos este azul */
+    color: white;
+}
+#rematchButton:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+#newGameButton {
+    background-color: #ffc107; /* Amarillo para reset */
+    color: #212529;
+}
+#newGameButton:hover {
+    background-color: #e0a800;
+    transform: translateY(-2px);
+}
+
+/* === Fin del Juego === */
+#gameOverMessage {
+    font-size: 2.2em;
+    color: #ffcc00; /* Amarillo para el mensaje final */
+    margin-bottom: 15px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+#scoreDisplay {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #7b92a8;
+    margin-bottom: 25px;
+}
+
+/* === Responsividad === */
+@media (max-width: 600px) {
+    #tablero {
+        width: 320px;
+        height: 320px;
+        grid-template-columns: repeat(8, 40px);
+        grid-template-rows: repeat(8, 40px);
+    }
+
+    .cuadro {
+        width: 40px;
+        height: 40px;
+        font-size: 28px;
+    }
+
+    h1 {
+        font-size: 2em;
+    }
+
+    #turnoActual {
+        font-size: 1.4em;
+    }
+
+    .eliminated-pieces-section {
+        width: 95%;
+        padding: 8px;
+    }
+
+    .eliminated-pieces-section p {
+        font-size: 1em;
+    }
+
+    #piezasJ1, #piezasJ2 {
+        font-size: 1.5em;
+    }
+
+    .modal-content {
+        padding: 20px;
+        width: 95%;
+    }
+
+    .modal-content h2 {
+        font-size: 1.8em;
+    }
+
+    .modal-actions button {
+        padding: 10px 15px;
+        font-size: 1em;
+    }
+
+    #gameOverMessage {
+        font-size: 1.8em;
+    }
+
+    #scoreDisplay {
+        font-size: 1.3em;
+    }
+
+    #timerContainer {
+        font-size: 1.4em;
+    }
+
+    #scorecard {
+        font-size: 1.3em;
+    }
+}
+
+@media (max-width: 400px) {
+    #tablero {
+        width: 280px;
+        height: 280px;
+        grid-template-columns: repeat(8, 35px);
+        grid-template-rows: repeat(8, 35px);
+    }
+
+    .cuadro {
+        width: 35px;
+        height: 35px;
+        font-size: 24px;
+    }
+
+    #timerContainer {
+        font-size: 1.2em;
+    }
+}

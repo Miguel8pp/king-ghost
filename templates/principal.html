@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Impulsa tus redes sociales con nuestros servicios de marketing digital de alta calidad"
+    />
+
+    <title>PANEL GHOST</title>
+    <link
+      rel="preload"
+      as="style"
+      href="https://socialvirtu.com/build/assets/app-82912516.css"
+    />
+    <link
+      rel="preload"
+      as="style"
+      href="https://socialvirtu.com/build/assets/app-b6a82ad0.css"
+    />
+    <link
+      rel="modulepreload"
+      href="https://socialvirtu.com/build/assets/app-1bab035d.js"
+    />
+    <link
+      rel="stylesheet"
+      href="https://socialvirtu.com/build/assets/app-82912516.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://socialvirtu.com/build/assets/app-b6a82ad0.css"
+    />
+    <script
+      type="module"
+      src="https://socialvirtu.com/build/assets/app-1bab035d.js"
+    ></script>
+           
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Poppins", sans-serif;
+        scroll-behavior: smooth;
+      }
+
+      .hero-gradient {
+        background: transparent;
+      }
+
+      .feature-card {
+        transition: all 0.3s ease;
+        border: 1px solid transparent;
+      }
+
+      .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+      }
+
+      .btn-primary {
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+        transition: all 0.3s ease;
+      }
+
+      .btn-primary:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: all 0.6s ease;
+        z-index: -1;
+      }
+
+      .btn-primary:hover:before {
+        left: 100%;
+      }
+
+      .floating {
+        animation: float 3s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+
+      .scale-in {
+        animation: scaleIn 0.5s ease-out forwards;
+        opacity: 0;
+        transform: scale(0.9);
+      }
+
+      @keyframes scaleIn {
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      .fade-in {
+        animation: fadeIn 0.8s ease-out forwards;
+        opacity: 0;
+      }
+
+      @keyframes fadeIn {
+        to {
+          opacity: 1;
+        }
+      }
+
+      .slide-up {
+        animation: slideUp 0.8s ease-out forwards;
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      @keyframes slideUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Custom scrollbar for dark theme */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: #1a1a1a;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: #333;
+        border-radius: 4px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: #444;
+      }
+
+      /* Glow effects for dark theme */
+      .glow {
+        box-shadow: 0 0 15px var(--socialmentorify-dark);
+      }
+
+      .text-glow {
+        text-shadow: 0 0 10px var(--socialmentorify-dark);
+      }
+      .text-blue-glow {
+  text-shadow: 0 0 10px #020a52; /* El mismo azul que text-blue-400 o el que prefieras */
+}
+    </style>
+</head>
+<body class="antialiased bg-gray-900 text-gray-100">
+  <div id="particles-js" class="fixed inset-0 z-0"></div>
+
+  <nav
+    class="bg-gray-800 border-b border-gray-700 sticky top-0 z-50 shadow-md relative"
+  >
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16">
+        <div class="flex items-center">
+          <div class="flex items-center">
+            <img
+              src="../static/img/MIghost.png"
+              alt="GHOST SMM"
+              class="h-8 w-auto mr-2"
+            />
+            <h1 class="text-lg sm:text-xl font-bold text-white">GHOST SMM</h1>
+          </div>
+        </div>
+
+        <div class="flex items-center space-x-3 sm:space-x-6">
+          <a
+            href="/"
+            class="text-sm sm:text-base text-gray-300 hover:text-blue-400 transition-colors duration-200 font-medium"
+          >
+            <i class="fas fa-list-ul mr-1 hidden sm:inline-block"></i>
+            mas opciones
+          </a>
+          <a
+            href="/login"
+            class="text-sm sm:text-base text-gray-300 hover:text-blue-400 transition-colors duration-200 font-medium"
+          >
+            <i class="fas fa-sign-in-alt mr-1 hidden sm:inline-block"></i>
+            Login
+          </a>
+          <a
+            href="/registro"
+            class="btn-primary text-sm sm:text-base bg-[#1a73e8] hover:bg-[#1764cc] transition-all duration-300 shadow-lg"
+          >
+            <i class="fas fa-user-plus mr-1 hidden sm:inline-block"></i>
+            Register
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="relative z-10">
+    <div class="max-w-7xl mx-auto py-4 sm:py-8 px-4 sm:px-6 lg:px-8">
+      <div
+        class="text-left px-6 sm:px-10 py-16 sm:py-24 min-h-[80vh] flex items-center rounded-2xl relative overflow-hidden"
+      >
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center w-full">
+          <div class="scale-in" style="animation-delay: 0.2s">
+            <h2
+              class="text-4xl sm:text-5xl md:text-6xl tracking-tight font-extrabold text-white leading-tight"
+            >
+              <span class="block mb-2">GHOST SMM</span>
+              <span class="block mb-2">Impulsa Tus Redes</span>
+              <span class="block text-blue-400 text-blue-glow"
+                >en Minutos</span
+              >
+            </h2>
+            <p
+              class="mt-5 max-w-2xl text-base sm:text-lg md:text-xl text-gray-300"
+            >
+              Potencia tu presencia digital con nuestros servicios premium de
+              marketing para redes sociales. Resultados rápidos y efectivos.
+            </p>
+            <div class="mt-8 flex flex-col sm:flex-row gap-4">
+              <a
+                href="/registro"
+                class="btn-primary w-full sm:w-auto flex items-center justify-center px-8 py-4 text-base font-medium rounded-md text-black bg-blue-500 hover:bg-blue-600 transition-all duration-300 shadow-lg"
+              >
+                <i class="fas fa-rocket mr-2"></i> Comenzar Ahora
+              </a>
+              <a
+                href="/login"
+                class="w-full sm:w-auto flex items-center justify-center px-8 py-4 text-base font-medium rounded-md text-white bg-gray-800 hover:bg-gray-700 transition-all duration-300 border border-gray-600"
+              >
+                <i class="fas fa-sign-in-alt mr-2"></i> Iniciar Sesión
+              </a>
+              <a
+                href="/"
+                class="w-full sm:w-auto flex items-center justify-center px-8 py-4 text-base font-medium rounded-md text-white bg-transparent hover:bg-gray-800/50 transition-all duration-300 border border-gray-600"
+              >
+                <i class="fas fa-list-ul mr-2"></i> mas opciones
+              </a>
+            </div>
+          </div>
+
+          <div class="hidden md:flex flex-col justify-center items-center">
+            <div class="text-center mb-8">
+              <h3 class="text-3xl font-bold text-white">
+                Más
+                <span
+                  id="servicio-dinamico"
+                  class="text-blue-400 text-blue-glow transition-all duration-300 ease-in-out"
+                  >Seguidores</span
+                >
+                en Minutos
+              </h3>
+            </div>
+
+            <div class="relative">
+              <div
+                class="absolute inset-0 bg-blue-500/10 rounded-3xl blur-2xl"
+              ></div>
+              <div class="relative z-10 grid grid-cols-3 gap-6 p-8">
+                <div
+                  class="flex justify-center floating"
+                  style="animation-delay: 0.1s"
+                >
+                  <button
+                    class="bg-[#E4405F] backdrop-blur-sm hover:border-[#E4405F] hover:shadow-xl hover:shadow-[#E4405F]/50 hover:brightness-110 p-4 rounded-xl border border-[#E4405F] transition-all duration-300 flex items-center justify-center w-20 h-20 hover:scale-110 group"
+                  >
+                    <i
+                      class="fab fa-instagram text-3xl text-white group-hover:scale-110 transition-transform duration-300"
+                    ></i>
+                  </button>
+                </div>
+                <div
+                  class="flex justify-center floating"
+                  style="animation-delay: 0.2s"
+                >
+                  <button
+                    class="bg-black backdrop-blur-sm hover:border-black hover:shadow-xl hover:shadow-black/50 hover:brightness-110 p-4 rounded-xl border border-gray-700 transition-all duration-300 flex items-center justify-center w-20 h-20 hover:scale-110 group"
+                  >
+                    <svg
+                      class="w-8 h-8 text-white group-hover:scale-110 transition-transform duration-300"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 448 512"
+                      fill="currentColor"
+                    >
+                      <path
+                        d="M448,209.91a210.06,210.06,0,0,1-122.77-39.25V349.38A162.55,162.55,0,1,1,185,188.31V278.2a74.62,74.62,0,1,0,52.23,71.18V0l88,0a121.18,121.18,0,0,0,1.86,22.17h0A122.18,122.18,0,0,0,381,102.39a121.43,121.43,0,0,0,67,20.14Z"
+                      />
+                    </svg>
+                  </button>
+                </div>
+                <div
+                  class="flex justify-center floating"
+                  style="animation-delay: 0.3s"
+                >
+                  <button
+                    class="bg-[#FF0000] backdrop-blur-sm hover:border-[#FF0000] hover:shadow-xl hover:shadow-[#FF0000]/50 hover:brightness-110 p-4 rounded-xl border border-[#FF0000] transition-all duration-300 flex items-center justify-center w-20 h-20 hover:scale-110 group"
+                  >
+                    <i
+                      class="fab fa-youtube text-3xl text-white group-hover:scale-110 transition-transform duration-300"
+                    ></i>
+                  </button>
+                </div>
+
+                <div
+                  class="flex justify-center floating"
+                  style="animation-delay: 0.4s"
+                >
+                  <button
+                    class="bg-[#1877F2] backdrop-blur-sm hover:border-[#1877F2] hover:shadow-xl hover:shadow-[#1877F2]/50 hover:brightness-110 p-4 rounded-xl border border-[#1877F2] transition-all duration-300 flex items-center justify-center w-20 h-20 hover:scale-110 group"
+                  >
+                    <i
+                      class="fab fa-facebook text-3xl text-white group-hover:scale-110 transition-transform duration-300"
+                    ></i>
+                  </button>
+                </div>
+                <div
+                  class="flex justify-center floating"
+                  style="animation-delay: 0.5s"
+                >
+                  <button
+                    class="bg-[#1DA1F2] backdrop-blur-sm hover:border-[#1DA1F2] hover:shadow-xl hover:shadow-[#1DA1F2]/50 hover:brightness-110 p-4 rounded-xl border border-[#1DA1F2] transition-all duration-300 flex items-center justify-center w-20 h-20 hover:scale-110 group"
+                  >
+                    <svg
+                      class="w-8 h-8 text-white group-hover:scale-110 transition-transform duration-300"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                    >
+                      <path
+                        d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
+                      />
+                    </svg>
+                  </button>
+                </div>
+                <div
+                  class="flex justify-center floating"
+                  style="animation-delay: 0.6s"
+                >
+                  <button
+                    class="bg-[#9146FF] backdrop-blur-sm hover:border-[#9146FF] hover:shadow-xl hover:shadow-[#9146FF]/50 hover:brightness-110 p-4 rounded-xl border border-[#9146FF] transition-all duration-300 flex items-center justify-center w-20 h-20 hover:scale-110 group"
+                  >
+                    <i
+                      class="fab fa-twitch text-3xl text-white group-hover:scale-110 transition-transform duration-300"
+                    ></i>
+                  </button>
+                </div>
+
+                <div
+                  class="flex justify-center floating"
+                  style="animation-delay: 0.7s"
+                >
+                  <button
+                    class="bg-[#0088CC] backdrop-blur-sm hover:border-[#0088CC] hover:shadow-xl hover:shadow-[#0088CC]/50 hover:brightness-110 p-4 rounded-xl border border-[#0088CC] transition-all duration-300 flex items-center justify-center w-20 h-20 hover:scale-110 group"
+                  >
+                    <i
+                      class="fab fa-telegram text-3xl text-white group-hover:scale-110 transition-transform duration-300"
+                    ></i>
+                  </button>
+                </div>
+                <div
+                  class="flex justify-center floating"
+                  style="animation-delay: 0.8s"
+                >
+                  <button
+                    class="bg-[#25D366] backdrop-blur-sm hover:border-[#25D366] hover:shadow-xl hover:shadow-[#25D366]/50 hover:brightness-110 p-4 rounded-xl border border-[#25D366] transition-all duration-300 flex items-center justify-center w-20 h-20 hover:scale-110 group"
+                  >
+                    <i
+                      class="fab fa-whatsapp text-3xl text-white group-hover:scale-110 transition-transform duration-300"
+                    ></i>
+                  </button>
+                </div>
+                <div
+                  class="flex justify-center floating"
+                  style="animation-delay: 0.9s"
+                >
+                  <button
+                    class="bg-[#53FC18] backdrop-blur-sm hover:border-[#53FC18] hover:shadow-xl hover:shadow-[#53FC18]/50 hover:brightness-110 p-4 rounded-xl border border-[#53FC18] transition-all duration-300 flex items-center justify-center w-20 h-20 hover:scale-110 group"
+                  >
+                    <i
+                      class="fab fa-kickstarter-k text-3xl text-white group-hover:scale-110 transition-transform duration-300"
+                    ></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white animate-bounce"
+        >
+          <i class="fas fa-chevron-down"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8">
+        <div
+          class="bg-gray-800 p-6 rounded-lg shadow-md text-center slide-up"
+          style="animation-delay: 0.1s"
+        >
+          <div class="text-blue-400 text-3xl sm:text-4xl font-bold mb-2">
+            10K+
+          </div>
+          <div class="text-gray-400 text-sm sm:text-base">
+            Clientes Satisfechos
+          </div>
+        </div>
+        <div
+          class="bg-gray-800 p-6 rounded-lg shadow-md text-center slide-up"
+          style="animation-delay: 0.2s"
+        >
+          <div class="text-blue-400 text-3xl sm:text-4xl font-bold mb-2">
+            50M+
+          </div>
+          <div class="text-gray-400 text-sm sm:text-base">
+            Interacciones Entregadas
+          </div>
+        </div>
+        <div
+          class="bg-gray-800 p-6 rounded-lg shadow-md text-center slide-up"
+          style="animation-delay: 0.3s"
+        >
+          <div class="text-blue-400 text-3xl sm:text-4xl font-bold mb-2">
+            100+
+          </div>
+          <div class="text-gray-400 text-sm sm:text-base">
+            Servicios Disponibles
+          </div>
+        </div>
+        <div
+          class="bg-gray-800 p-6 rounded-lg shadow-md text-center slide-up"
+          style="animation-delay: 0.4s"
+        >
+          <div class="text-blue-400 text-3xl sm:text-4xl font-bold mb-2">
+            24/7
+          </div>
+          <div class="text-gray-400 text-sm sm:text-base">
+            Soporte Técnico
+          </div>
+        </div>
+      </div>
+    </div>
+
+      <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-10 fade-in">
+          <h2 class="text-3xl font-bold text-white">
+            Plataformas que Impulsamos
+          </h2>
+          <p class="mt-4 text-lg text-gray-400">
+            Ofrecemos servicios para todas las principales redes sociales
+          </p>
+        </div>
+
+        <div class="flex flex-wrap justify-center gap-4 md:gap-6">
+          <div
+            class="flex flex-col items-center slide-up"
+            style="animation-delay: 0.1s"
+          >
+            <button
+              class="bg-white dark:bg-gray-800 hover:border-[#E4405F] hover:bg-[#E4405F]/10 hover:shadow-lg hover:shadow-[#E4405F]/20 p-3 rounded-lg text-sm font-medium border border-gray-200 dark:border-gray-700 transition-all duration-300 flex items-center justify-center w-16 h-16 hover:scale-110 group"
+            >
+              <i
+                class="fab fa-instagram text-2xl text-[#E4405F] group-hover:scale-110 transition-transform duration-300"
+              ></i>
+            </button>
+            <span class="text-gray-300 text-sm mt-2">Instagram</span>
+          </div>
+          <div
+            class="flex flex-col items-center slide-up"
+            style="animation-delay: 0.2s"
+          >
+            <button
+              class="bg-white dark:bg-gray-800 hover:border-[#000000] hover:bg-[#000000]/10 hover:shadow-lg hover:shadow-black/20 p-3 rounded-lg text-sm font-medium border border-gray-200 dark:border-gray-700 transition-all duration-300 flex items-center justify-center w-16 h-16 hover:scale-110 group"
+            >
+              <svg
+                class="w-7 h-7 text-black dark:text-white group-hover:scale-110 transition-transform duration-300"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 448 512"
+                fill="currentColor"
+              >
+                <path
+                  d="M448,209.91a210.06,210.06,0,0,1-122.77-39.25V349.38A162.55,162.55,0,1,1,185,188.31V278.2a74.62,74.62,0,1,0,52.23,71.18V0l88,0a121.18,121.18,0,0,0,1.86,22.17h0A122.18,122.18,0,0,0,381,102.39a121.43,121.43,0,0,0,67,20.14Z"
+                />
+              </svg>
+            </button>
+            <span class="text-gray-300 text-sm mt-2">TikTok</span>
+          </div>
+          <div
+            class="flex flex-col items-center slide-up"
+            style="animation-delay: 0.3s"
+          >
+            <button
+              class="bg-white dark:bg-gray-800 hover:border-[#FF0000] hover:bg-[#FF0000]/10 hover:shadow-lg hover:shadow-[#FF0000]/20 p-3 rounded-lg text-sm font-medium border border-gray-200 dark:border-gray-700 transition-all duration-300 flex items-center justify-center w-16 h-16 hover:scale-110 group"
+            >
+              <i
+                class="fab fa-youtube text-2xl text-[#FF0000] group-hover:scale-110 transition-transform duration-300"
+              ></i>
+            </button>
+            <span class="text-gray-300 text-sm mt-2">YouTube</span>
+          </div>
+          <div
+            class="flex flex-col items-center slide-up"
+            style="animation-delay: 0.4s"
+          >
+            <button
+              class="bg-white dark:bg-gray-800 hover:border-[#1877F2] hover:bg-[#1877F2]/10 hover:shadow-lg hover:shadow-[#1877F2]/20 p-3 rounded-lg text-sm font-medium border border-gray-200 dark:border-gray-700 transition-all duration-300 flex items-center justify-center w-16 h-16 hover:scale-110 group"
+            >
+              <i
+                class="fab fa-facebook text-2xl text-[#1877F2] group-hover:scale-110 transition-transform duration-300"
+              ></i>
+            </button>
+            <span class="text-gray-300 text-sm mt-2">Facebook</span>
+          </div>
+          <div
+            class="flex flex-col items-center slide-up"
+            style="animation-delay: 0.5s"
+          >
+            <button
+              class="bg-white dark:bg-gray-800 hover:border-[#1DA1F2] hover:bg-[#1DA1F2]/10 hover:shadow-lg hover:shadow-[#1DA1F2]/20 p-3 rounded-lg text-sm font-medium border border-gray-200 dark:border-gray-700 transition-all duration-300 flex items-center justify-center w-16 h-16 hover:scale-110 group"
+            >
+              <svg
+                class="w-7 h-7 text-[#1DA1F2] group-hover:scale-110 transition-transform duration-300"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path
+                  d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
+                />
+              </svg>
+            </button>
+            <span class="text-gray-300 text-sm mt-2">X (Twitter)</span>
+          </div>
+          <div
+            class="flex flex-col items-center slide-up"
+            style="animation-delay: 0.6s"
+          >
+            <button
+              class="bg-white dark:bg-gray-800 hover:border-[#9146FF] hover:bg-[#9146FF]/10 hover:shadow-lg hover:shadow-[#9146FF]/20 p-3 rounded-lg text-sm font-medium border border-gray-200 dark:border-gray-700 transition-all duration-300 flex items-center justify-center w-16 h-16 hover:scale-110 group"
+            >
+              <i
+                class="fab fa-twitch text-2xl text-[#9146FF] group-hover:scale-110 transition-transform duration-300"
+              ></i>
+            </button>
+            <span class="text-gray-300 text-sm mt-2">Twitch</span>
+          </div>
+          <div
+            class="flex flex-col items-center slide-up"
+            style="animation-delay: 0.7s"
+          >
+            <button
+              class="bg-white dark:bg-gray-800 hover:border-[#0088CC] hover:bg-[#0088CC]/10 hover:shadow-lg hover:shadow-[#0088CC]/20 p-3 rounded-lg text-sm font-medium border border-gray-200 dark:border-gray-700 transition-all duration-300 flex items-center justify-center w-16 h-16 hover:scale-110 group"
+            >
+              <i
+                class="fab fa-telegram text-2xl text-[#0088CC] group-hover:scale-110 transition-transform duration-300"
+              ></i>
+            </button>
+            <span class="text-gray-300 text-sm mt-2">Telegram</span>
+          </div>
+          <div
+            class="flex flex-col items-center slide-up"
+            style="animation-delay: 0.8s"
+          >
+            <button
+              class="bg-white dark:bg-gray-800 hover:border-[#25D366] hover:bg-[#25D366]/10 hover:shadow-lg hover:shadow-[#25D366]/20 p-3 rounded-lg text-sm font-medium border border-gray-200 dark:border-gray-700 transition-all duration-300 flex items-center justify-center w-16 h-16 hover:scale-110 group"
+            >
+              <i
+                class="fab fa-whatsapp text-2xl text-[#25D366] group-hover:scale-110 transition-transform duration-300"
+              ></i>
+            </button>
+            <span class="text-gray-300 text-sm mt-2">WhatsApp</span>
+          </div>
+          <div
+            class="flex flex-col items-center slide-up"
+            style="animation-delay: 0.9s"
+          >
+            <button
+              class="bg-white dark:bg-gray-800 hover:border-[#53FC18] hover:bg-[#53FC18]/10 hover:shadow-lg hover:shadow-[#53FC18]/20 p-3 rounded-lg text-sm font-medium border border-gray-200 dark:border-gray-700 transition-all duration-300 flex items-center justify-center w-16 h-16 hover:scale-110 group"
+            >
+              <i
+                class="fab fa-kickstarter-k text-2xl text-[#53FC18] group-hover:scale-110 transition-transform duration-300"
+              ></i>
+            </button>
+            <span class="text-gray-300 text-sm mt-2">Kick</span>
+          </div>
+        </div>
+      </div>
+
+    <div class="max-w-7xl mx-auto py-12 sm:py-16 px-4 sm:px-6 lg:px-8">
+  <div class="text-center mb-12 fade-in">
+    <h2
+      class="text-base text-blue-400 font-semibold tracking-wide uppercase text-glow"
+    >
+      Características
+    </h2>
+    <p
+      class="mt-2 text-3xl sm:text-4xl leading-8 font-extrabold tracking-tight text-white"
+    >
+      ¿Por Qué Elegirnos?
+    </p>
+    <p class="mt-4 max-w-2xl text-xl text-gray-400 mx-auto">
+      Ofrecemos servicios de marketing para redes sociales de alta calidad para
+      impulsar tu presencia online.
+    </p>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+    <div
+      class="feature-card bg-gray-800 p-6 rounded-xl shadow-md slide-up"
+      style="animation-delay: 0.1s"
+    >
+      <div
+        class="flex items-center justify-center h-14 w-14 rounded-full bg-blue-500/20 text-blue-400 mb-4"
+      >
+        <i class="fas fa-bolt text-2xl"></i>
+      </div>
+      <h3 class="text-xl font-semibold text-white mb-2">Entrega Rápida</h3>
+      <p class="text-gray-400">
+        Recibe tus pedidos de forma rápida y eficiente. La mayoría comienzan en
+        minutos.
+      </p>
+    </div>
+
+    <div
+      class="feature-card bg-gray-800 p-6 rounded-xl shadow-md slide-up"
+      style="animation-delay: 0.2s"
+    >
+      <div
+        class="flex items-center justify-center h-14 w-14 rounded-full bg-blue-500/20 text-blue-400 mb-4"
+      >
+        <i class="fas fa-tags text-2xl"></i>
+      </div>
+      <h3 class="text-xl font-semibold text-white mb-2">Precios Competitivos</h3>
+      <p class="text-gray-400">
+        Obtén el mejor valor por tu dinero con nuestros precios competitivos y
+        servicios de alta calidad.
+      </p>
+    </div>
+
+    <div
+      class="feature-card bg-gray-800 p-6 rounded-xl shadow-md slide-up"
+      style="animation-delay: 0.3s"
+    >
+      <div
+        class="flex items-center justify-center h-14 w-14 rounded-full bg-blue-500/20 text-blue-400 mb-4"
+      >
+        <i class="fas fa-headset text-2xl"></i>
+      </div>
+      <h3 class="text-xl font-semibold text-white mb-2">Soporte 24/7</h3>
+      <p class="text-gray-400">
+        Nuestro equipo de soporte está siempre disponible para ayudarte con
+        cualquier pregunta o problema.
+      </p>
+    </div>
+
+    <div
+      class="feature-card bg-gray-800 p-6 rounded-xl shadow-md slide-up"
+      style="animation-delay: 0.4s"
+    >
+      <div
+        class="flex items-center justify-center h-14 w-14 rounded-full bg-blue-500/20 text-blue-400 mb-4"
+      >
+        <i class="fas fa-shield-alt text-2xl"></i>
+      </div>
+      <h3 class="text-xl font-semibold text-white mb-2">Pagos Seguros</h3>
+      <p class="text-gray-400">
+        Tus transacciones están seguras con nuestro sistema de pago protegido.
+      </p>
+    </div>
+  </div>
+</div>
+
+<div
+  class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8 bg-gray-800/50 rounded-2xl my-12"
+>
+  <div class="text-center mb-10 fade-in">
+    <h2 class="text-3xl font-bold text-white">Lo que Dicen Nuestros Clientes</h2>
+    <p class="mt-4 text-lg text-gray-400">
+      Miles de clientes confían en nuestros servicios
+    </p>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div
+      class="bg-gray-800 p-6 rounded-xl shadow-md slide-up"
+      style="animation-delay: 0.1s"
+    >
+      <div class="flex items-center mb-4">
+        <div class="text-yellow-400 flex">
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+        </div>
+      </div>
+      <p class="text-gray-300 mb-4">
+        "Increíble servicio. Mis seguidores aumentaron rápidamente y el soporte
+        al cliente fue excelente cuando tuve preguntas."
+      </p>
+      <div class="flex items-center">
+        <div
+          class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center mr-3"
+        >
+          <span class="text-gray-300 font-medium">MR</span>
+        </div>
+        <div>
+          <p class="text-white font-semibold">María R.</p>
+          <p class="text-gray-400 text-sm">Cliente Satisfecho</p>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="bg-gray-800 p-6 rounded-xl shadow-md slide-up"
+      style="animation-delay: 0.2s"
+    >
+      <div class="flex items-center mb-4">
+        <div class="text-yellow-400 flex">
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star-half-alt"></i>
+        </div>
+      </div>
+      <p class="text-gray-300 mb-4">
+        "Los precios son inmejorables y la calidad de los servicios es
+        fantástica. Recomiendo GHOST SMM a todos."
+      </p>
+      <div class="flex items-center">
+        <div
+          class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center mr-3"
+        >
+          <span class="text-gray-300 font-medium">JD</span>
+        </div>
+        <div>
+          <p class="text-white font-semibold">Juan D.</p>
+          <p class="text-gray-400 text-sm">Emprendedor Digital</p>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="bg-gray-800 p-6 rounded-xl shadow-md slide-up"
+      style="animation-delay: 0.3s"
+    >
+      <div class="flex items-center mb-4">
+        <div class="text-yellow-400 flex">
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+        </div>
+      </div>
+      <p class="text-gray-300 mb-4">
+        "Finalmente encontré una plataforma confiable para aumentar mi presencia
+        en redes. ¡Muy contento con los resultados!"
+      </p>
+      <div class="flex items-center">
+        <div
+          class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center mr-3"
+        >
+          <span class="text-gray-300 font-medium">AG</span>
+        </div>
+        <div>
+          <p class="text-white font-semibold">Ana G.</p>
+          <p class="text-gray-400 text-sm">Influencer</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 mb-12">
+  <div class="bg-blue-500 rounded-2xl shadow-xl overflow-hidden glow">
+    <div class="relative px-6 py-10 sm:px-12 sm:py-16">
+      <div
+        class="absolute inset-0 bg-[url('/placeholder.svg?height=500&width=1000')] opacity-10 mix-blend-overlay"
+      ></div>
+      <div class="relative max-w-3xl mx-auto text-center">
+        <h2
+          class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-black mb-4"
+        >
+          ¿Listo para impulsar tu presencia social?
+        </h2>
+        <p class="text-base sm:text-lg md:text-xl text-gray-800 mb-8">
+          Únete a miles de clientes satisfechos que confían en nosotros para sus
+          necesidades de marketing en redes sociales.
+        </p>
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
+          <a
+            href="/registro"
+            class="px-8 py-4 bg-black text-white font-medium rounded-md hover:bg-gray-900 transition-all duration-300 shadow-lg flex items-center justify-center"
+          >
+            <i class="fas fa-rocket mr-2"></i> Comenzar Ahora
+          </a>
+          <a
+            href="/inicio"
+            class="px-8 py-4 bg-gray-900 text-white font-medium rounded-md hover:bg-gray-800 transition-all duration-300 shadow-lg flex items-center justify-center border border-gray-700"
+          >
+            <i class="fas fa-list-ul mr-2"></i> mas servicios
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <!-- WhatsApp Button -->
+      <a
+        href="https://wa.me/+525654936049"
+        target="_blank"
+        class="fixed bottom-4 right-4 bg-[#25D366] text-white rounded-full w-14 h-14 flex items-center justify-center shadow-[4px_4px_10px_rgba(0,0,0,0.5)] hover:shadow-[6px_6px_15px_rgba(0,0,0,0.6)] hover:translate-y-[-2px] transition-all duration-300 z-50"
+      >
+        <i class="fab fa-whatsapp text-2xl"></i>
+      </a>
+    </main>
+
+    <footer class="bg-gray-800 border-t border-gray-700 relative z-10">
+      <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div class="col-span-1 md:col-span-2">
+            <div class="flex items-center mb-4">
+              <img
+                src="../static/img/MIghost.png"
+                alt="VIRTU MALL LLC"
+                class="h-10 w-auto mr-3"
+              />
+              <h3 class="text-xl font-bold text-white">GHOST SMM</h3>
+            </div>
+            <p class="text-gray-400 mb-4 max-w-md">
+              Ofrecemos servicios de marketing para redes sociales de alta
+              calidad para ayudarte a crecer tu presencia online.
+            </p>
+            <div class="flex space-x-4"></div>
+          </div>
+        </div>
+
+        <div class="mt-8 pt-8 border-t border-gray-700 text-center">
+          <div class="max-w-7xl mx-auto flex flex-col items-center">
+            <p class="text-gray-400">
+              &copy; 2025 GHOST SMM. Todos los derechos reservados.
+            </p>
+            <div class="flex space-x-4 mt-4">
+              <a
+                href="#"
+                class="hover:text-white transition-colors duration-200"
+                ><i class="fab fa-instagram text-xl"></i
+              ></a>
+              <a
+                href="#"
+                class="hover:text-white transition-colors duration-200"
+                ><i class="fab fa-facebook-f text-xl"></i
+              ></a>
+              <a
+                href="#"
+                class="hover:text-white transition-colors duration-200"
+                ><i class="fab fa-twitter text-xl"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Initialize particles.js with darker colors for dark theme
+      particlesJS("particles-js", {
+        particles: {
+          number: {
+            value: 60,
+            density: {
+              enable: true,
+              value_area: 1200,
+            },
+          },
+          color: {
+            value: "#50f708",
+          },
+          shape: {
+            type: "circle",
+          },
+          opacity: {
+            value: 0.3,
+            random: true,
+            animation: {
+              enable: true,
+              speed: 1,
+              opacity_min: 0.1,
+              sync: false,
+            },
+          },
+          size: {
+            value: 4,
+            random: true,
+            animation: {
+              enable: true,
+              speed: 2,
+              size_min: 1,
+              sync: false,
+            },
+          },
+          line_linked: {
+            enable: true,
+            distance: 150,
+            color: "#50f708",
+            opacity: 0.25,
+            width: 1,
+          },
+          move: {
+            enable: true,
+            speed: 0.8,
+            direction: "none",
+            random: false,
+            straight: false,
+            out_mode: "out",
+            bounce: false,
+          },
+        },
+        interactivity: {
+          detect_on: "canvas",
+          events: {
+            onhover: {
+              enable: true,
+              mode: "grab",
+            },
+            onclick: {
+              enable: true,
+              mode: "push",
+            },
+            resize: true,
+          },
+          modes: {
+            grab: {
+              distance: 120,
+              line_linked: {
+                opacity: 0.6,
+              },
+            },
+            push: {
+              particles_nb: 2,
+            },
+          },
+        },
+        retina_detect: true,
+      });
+
+      // Animate elements when they come into view
+      const animateOnScroll = function () {
+        const elements = document.querySelectorAll(
+          ".fade-in, .slide-up, .scale-in"
+        );
+
+        elements.forEach((element) => {
+          const elementTop = element.getBoundingClientRect().top;
+          const elementVisible = 150;
+
+          if (elementTop < window.innerHeight - elementVisible) {
+            element.style.animationPlayState = "running";
+          }
+        });
+      };
+
+      // Run on load
+      animateOnScroll();
+
+      // Run on scroll
+      window.addEventListener("scroll", animateOnScroll);
+
+      // Texto dinámico para servicios
+      const servicios = [
+        "Seguidores",
+        "Viewers",
+        "Likes",
+        "Comentarios",
+        "Vistas",
+      ];
+      let servicioIndex = 0;
+      const servicioElement = document.getElementById("servicio-dinamico");
+
+      function cambiarServicio() {
+        if (servicioElement) {
+          // Fade out
+          servicioElement.style.opacity = "0";
+          servicioElement.style.transform = "translateY(-10px)";
+
+          setTimeout(() => {
+            servicioIndex = (servicioIndex + 1) % servicios.length;
+            servicioElement.textContent = servicios[servicioIndex];
+
+            // Fade in
+            servicioElement.style.opacity = "1";
+            servicioElement.style.transform = "translateY(0)";
+          }, 300);
+        }
+      }
+
+      // Cambiar cada 2 segundos
+      setInterval(cambiarServicio, 1000);
+    });
+  </script>
+</html>

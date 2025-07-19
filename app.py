@@ -1078,6 +1078,10 @@ def imgcode():
 def ajedrez():
     return render_template('ajedres.html')
 
+@app.route("/principal")
+def smmprincipal():
+    return render_template('principal.html')
+
 
 
 # Ejecutar la aplicación

@@ -522,307 +522,35 @@
 
                         <!-- Page Content -->
                         <main class="py-6 px-4 sm:px-6 bg-gray-50 dark:bg-gray-900">
-                        
-<main class="sm:pl-64 flex flex-col min-h-full bg-gray-50 dark:bg-gray-900 p-4 sm:p-6 lg:p-8">
-    <div class="max-w-xl mx-auto w-full bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 space-y-6 sm:p-8">
+<section class="max-w-xl mx-auto p-4 bg-white dark:bg-gray-800 rounded-lg shadow-xl my-8">
+    <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6 flex items-center justify-center sm:justify-start">
+        <i class="fas fa-headset mr-3 text-blue-600 dark:text-blue-400"></i> Soporte Técnico
+    </h2>
 
+    {% if mensaje %}
+    <div class="bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-200 p-4 mb-6 rounded-md shadow-sm flex items-center justify-center text-center">
+        <i class="fas fa-check-circle mr-3"></i> {{ mensaje }}
+    </div>
+    {% endif %}
 
-             <div x-data="{ show: true }" x-show="show" x-transition
-                                     class="bg-orange-500 text-white p-4 text-sm font-semibold rounded-lg mb-6 shadow animate-wave flex items-center justify-between gap-4">
-                                    <p class="flex-grow">💥mandar comprobante de pago para recargar tu saldo en la pagina</p>
-                                    <button @click="show = false" class="flex-shrink-0 text-white hover:text-opacity-75">
-                                        <i class="fas fa-times"></i>
-                                    </button>
-                                </div>
-        <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6 text-center">Saldo Actual: <span id="saldo" class="text-green-600 dark:text-green-400">${{ saldo }}</span></h2>
-
-        <div class="payment-container space-y-5">
-            <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200 text-center mb-4">¿Cuánto deseas agregar? 🤔</h3>
-            <input type="number" id="montoInput" placeholder="Monto a agregar" min="1" required class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 text-lg text-center">
-
-            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <div class="btn paypal-btn flex items-center justify-center px-6 py-3 bg-blue-700 hover:bg-blue-800 text-white font-semibold rounded-lg shadow-md transition duration-200 ease-in-out cursor-pointer" id="paypalBtn">
-                    <i class="fab fa-paypal mr-3 text-xl"></i> Pagar con PayPal
-                </div>
-
-                <div class="btn binance-btn flex items-center justify-center px-6 py-3 bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-semibold rounded-lg shadow-md transition duration-200 ease-in-out cursor-pointer" id="binanceBtn">
-                    <i class="fab fa-btc mr-3 text-xl"></i> Pagar con Binance
-                </div>
-
-                <div class="btn transfer-btn flex items-center justify-center px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg shadow-md transition duration-200 ease-in-out cursor-pointer" id="transferBtn">
-                    <i class="fas fa-exchange-alt mr-3 text-xl"></i> Transferencia Bancaria
-                </div>
-
-                <div class="btn oxxo-btn flex items-center justify-center px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg shadow-md transition duration-200 ease-in-out cursor-pointer" id="oxxoBtn">
-                    Depositar en OXXO <i class="fas fa-store ml-3 text-xl"></i>
-                </div>
-            </div>
+    <form method="POST" class="space-y-6">
+        <div class="mb-4">
+            <label for="asunto" class="block text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">Asunto</label>
+            <input type="text" name="asunto" id="asunto" required
+                   class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 transition duration-150 ease-in-out">
         </div>
-    </div>
-</main>
 
-<div id="paypalModal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
-    <div class="modal-content bg-white dark:bg-gray-800 rounded-lg shadow-2xl p-6 w-full max-w-md mx-auto relative transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full" id="p">
-        <span class="close absolute top-3 right-3 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 text-3xl font-bold cursor-pointer">&times;</span>
-        <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4 text-center">Mandar Comprobante de pago por WhatsApp 📲</h2>
-        <p class="text-gray-700 dark:text-gray-300 mb-2 text-center text-sm">Las comisiones de PayPal serán descontadas al actualizar su saldo.</p>
-        <p class="text-gray-700 dark:text-gray-300 mb-4 text-center font-semibold">El correo de PayPal es: <span class="text-blue-600 dark:text-blue-400 break-all">33hackeryt@gmail.com</span></p>
-        <button id="createOrderBtn" class="btn paypal-btn w-full flex items-center justify-center px-6 py-3 bg-blue-700 hover:bg-blue-800 text-white font-semibold rounded-lg shadow-md transition duration-200 ease-in-out">
-            <i class="fas fa-money-check-alt mr-2"></i> Crear Orden de Pago
-        </button>
-    </div>
-</div>
-
-<div id="binanceModal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
-    <div class="modal-content bg-white dark:bg-gray-800 rounded-lg shadow-2xl p-6 w-full max-w-md mx-auto relative transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full" id="b">
-        <span class="close absolute top-3 right-3 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 text-3xl font-bold cursor-pointer">&times;</span>
-        <p class="exito copyed bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-200 py-2 px-4 rounded-md text-center mb-4 transition-opacity duration-300" id="idcopy" style="display: none;">ID copiado exitosamente 🎉</p>
-        <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4 text-center">Paga mediante Binance Pay 💰</h2>
-        <p class="text-gray-700 dark:text-gray-300 mb-3 text-center">Por favor, paga al siguiente ID:</p>
-        <div class="flex items-center justify-center space-x-2 mb-6">
-            <input type="text" value="1051744842" readonly id="binanceID" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-center font-mono select-all">
-            <i class="fa-solid fa-copy text-gray-500 hover:text-blue-500 cursor-pointer text-xl" onclick="copiarBinanceID()" title="Copiar ID"></i>
+        <div class="mb-4">
+            <label for="mensaje" class="block text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">Mensaje</label>
+            <textarea name="mensaje" id="mensaje" rows="6" required
+                      class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 transition duration-150 ease-in-out"></textarea>
         </div>
-        <button id="createOrderBinanceBtn" class="btn binance-btn w-full flex items-center justify-center px-6 py-3 bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-semibold rounded-lg shadow-md transition duration-200 ease-in-out">
-            <i class="fas fa-clipboard-check mr-2"></i> Crear Orden de Pago
+
+        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-md shadow-lg transition duration-200 ease-in-out flex items-center justify-center text-lg">
+            <i class="fas fa-paper-plane mr-2"></i> Enviar Mensaje
         </button>
-    </div>
-</div>
-
-<div id="transferModal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
-    <div class="modal-content bg-white dark:bg-gray-800 rounded-lg shadow-2xl p-6 w-full max-w-md mx-auto relative transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full" id="t">
-        <span class="close absolute top-3 right-3 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 text-3xl font-bold cursor-pointer">&times;</span>
-        <p class="exito copyed bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-200 py-2 px-4 rounded-md text-center mb-4 transition-opacity duration-300" id="clcopy" style="display: none;">Clave copiada exitosamente 🎉</p>
-        <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4 text-center">Paga mediante Transferencia 🏦</h2>
-        <p class="text-gray-700 dark:text-gray-300 mb-3 text-center">Clave:</p>
-        <div class="flex items-center justify-center space-x-2 mb-6">
-            <input type="text" value="728969000023825614" readonly id="claveTransfer" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-center font-mono select-all">
-            <i class="fa-solid fa-copy text-gray-500 hover:text-blue-500 cursor-pointer text-xl" onclick="copiarNumeroTransfer()" title="Copiar Clave"></i>
-        </div>
-        <p class="text-gray-700 dark:text-gray-300 mb-6 text-center text-sm font-medium">Concepto: <span class="font-bold text-blue-600 dark:text-blue-400">Pago "{{ usuario }}"</span></p>
-        <button id="createOrderTransferBtn" class="btn transfer-btn w-full flex items-center justify-center px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg shadow-md transition duration-200 ease-in-out">
-            <i class="fas fa-paper-plane mr-2"></i> Crear Orden de Pago
-        </button>
-    </div>
-</div>
-
-<div id="oxxoModal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
-    <div class="modal-content bg-white dark:bg-gray-800 rounded-lg shadow-2xl p-6 w-full max-w-md mx-auto relative transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full" id="o">
-        <span class="close absolute top-3 right-3 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 text-3xl font-bold cursor-pointer">&times;</span>
-        <p class="exito copyed bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-200 py-2 px-4 rounded-md text-center mb-4 transition-opacity duration-300" id="oxxocopy" style="display: none;">Clave OXXO copiada exitosamente 🎉</p>
-        <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4 text-center">Deposita en OXXO 🏪</h2>
-        <p class="text-gray-700 dark:text-gray-300 mb-3 text-center">Número de Tarjeta OXXO:</p>
-        <div class="flex items-center justify-center space-x-2 mb-6">
-            <input type="text" value="2242 1702 1012 1364" readonly id="claveOxxo" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-center font-mono select-all">
-            <i class="fa-solid fa-copy text-gray-500 hover:text-blue-500 cursor-pointer text-xl" onclick="copiarNumeroOxxo()" title="Copiar Clave OXXO"></i>
-        </div>
-        <button id="createOrderOxxoBtn" class="btn oxxo-btn w-full flex items-center justify-center px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg shadow-md transition duration-200 ease-in-out">
-            <i class="fas fa-cash-register mr-2"></i> Crear Orden de Pago
-        </button>
-    </div>
-</div>
-
-<div id="thankYouModal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
-    <div class="modal-content bg-white dark:bg-gray-800 rounded-lg shadow-2xl p-6 w-full max-w-md mx-auto relative transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-        <span class="close absolute top-3 right-3 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 text-3xl font-bold cursor-pointer">&times;</span>
-        <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4 text-center">¡Gracias por tu pago! 🎉</h2>
-        <p class="text-gray-700 dark:text-gray-300 mb-6 text-center">Tu pago ha sido procesado exitosamente. Recibirás una notificación cuando tu saldo se actualice. ¡Agradecemos tu paciencia!</p>
-        <button id="whatsappButton" class="btn whatsapp-btn w-full flex items-center justify-center px-6 py-3 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg shadow-md transition duration-200 ease-in-out">
-            <i class="fab fa-whatsapp mr-2"></i> Enviar Comprobante por WhatsApp
-        </button>
-    </div>
-</div>
-
-<script>
-    // Variables de usuario dinámico desde Flask
-    var usuario = "{{ usuario }}"; // Esto se obtiene del backend (Flask)
-    var monto = 0; // Monto que el usuario desea agregar
-    var metodoPago = ""; // Método de pago seleccionado
-    var modalActual = null; // Modal que se muestra en este momento
-
-    // Función para guardar el pago en la base de datos (simulado)
-    function guardarPago(usuario, monto, metodoPago) {
-        fetch('/guardar_pago', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                usuario: usuario,
-                monto: monto,
-                metodo_pago: metodoPago,
-                estado: 'pendiente'
-            })
-        }).then(response => response.json())
-          .then(data => {
-              if (data.success) {
-                  console.log('Pago guardado exitosamente');
-              } else {
-                  console.log('Error al guardar el pago:', data.error);
-              }
-          }).catch(error => {
-              console.log('Error en la solicitud:', error);
-          });
-    }
-
-    // Crear orden de pago y mostrar el modal de gracias
-    function crearOrdenDePago() {
-        // Guardar el pago en la base de datos
-        guardarPago(usuario, monto, metodoPago);
-
-        // Cerrar el modal de instrucciones actual
-        if (modalActual) {
-            modalActual.style.display = "none";
-        }
-
-        // Mostrar modal de gracias
-        document.getElementById("thankYouModal").style.display = "block";
-    }
-
-    // Mostrar modal correspondiente dependiendo del botón que se haya presionado
-    document.getElementById("paypalBtn").onclick = function() {
-        monto = document.getElementById("montoInput").value;
-        if (monto && monto > 0) { // Validar que el monto sea un número positivo
-            metodoPago = "PayPal";
-            modalActual = document.getElementById("paypalModal");
-            modalActual.style.display = "flex"; // Usar flex para centrado con Tailwind
-        } else {
-            alert("Por favor, ingresa un monto válido y mayor que cero.");
-        }
-    }
-
-    // Crear orden para PayPal
-    document.getElementById("createOrderBtn").onclick = function() {
-        crearOrdenDePago();
-    }
-
-    // Mostrar modal para Binance
-    document.getElementById("binanceBtn").onclick = function() {
-        monto = document.getElementById("montoInput").value;
-        if (monto && monto > 0) {
-            metodoPago = "Binance";
-            modalActual = document.getElementById("binanceModal");
-            modalActual.style.display = "flex";
-        } else {
-            alert("Por favor, ingresa un monto válido y mayor que cero.");
-        }
-    }
-
-    // Crear orden para Binance
-    document.getElementById("createOrderBinanceBtn").onclick = function() {
-        crearOrdenDePago();
-    }
-
-    // Mostrar modal para Transferencia
-    document.getElementById("transferBtn").onclick = function() {
-        monto = document.getElementById("montoInput").value;
-        if (monto && monto > 0) {
-            metodoPago = "Transferencia";
-            modalActual = document.getElementById("transferModal");
-            modalActual.style.display = "flex";
-        } else {
-            alert("Por favor, ingresa un monto válido y mayor que cero.");
-        }
-    }
-
-    // Crear orden para Transferencia
-    document.getElementById("createOrderTransferBtn").onclick = function() {
-        crearOrdenDePago();
-    }
-
-    // Mostrar modal para OXXO
-    document.getElementById("oxxoBtn").onclick = function() {
-        monto = document.getElementById("montoInput").value;
-        if (monto && monto > 0) {
-            metodoPago = "OXXO";
-            modalActual = document.getElementById("oxxoModal");
-            modalActual.style.display = "flex";
-        } else {
-            alert("Por favor, ingresa un monto válido y mayor que cero.");
-        }
-    }
-
-    // Crear orden para OXXO
-    document.getElementById("createOrderOxxoBtn").onclick = function() {
-        crearOrdenDePago();
-    }
-
-    // Cerrar modales cuando se hace clic en la "X"
-    var modals = document.querySelectorAll(".modal");
-    var spans = document.querySelectorAll(".close");
-    for (var i = 0; i < spans.length; i++) {
-        spans[i].onclick = function() {
-            for (var j = 0; j < modals.length; j++) {
-                modals[j].style.display = "none";
-            }
-            // También ocultar el mensaje de copiado si estaba visible
-            const copyMessages = document.querySelectorAll('.copyed');
-            copyMessages.forEach(msg => msg.style.display = 'none');
-        };
-    }
-
-    // Cerrar modales al hacer clic fuera del contenido del modal
-    window.onclick = function(event) {
-        modals.forEach(modal => {
-            if (event.target == modal) {
-                modal.style.display = "none";
-                const copyMessages = document.querySelectorAll('.copyed');
-                copyMessages.forEach(msg => msg.style.display = 'none');
-            }
-        });
-    }
-
-
-    // Abrir WhatsApp con el mensaje predefinido
-    document.getElementById("whatsappButton").onclick = function() {
-        var mensaje = `¡Hola! acabo de recargar saldo en el Panel Ghost, Mi usuario es ${usuario} y en un momento envío mi comprobante de pago. He añadido $${monto} por el método de ${metodoPago}.`;
-        var whatsappUrl = `https://wa.me/524661002589?text=${encodeURIComponent(mensaje)}`;
-        window.open(whatsappUrl, '_blank');
-    }
-
-    function copiarBinanceID() {
-        const input = document.getElementById('binanceID');
-        input.select();
-        input.setSelectionRange(0, 99999); // Para móviles
-        document.execCommand('copy');
-
-        const mensaje = document.getElementById('idcopy');
-        mensaje.style.display = 'block';
-
-        setTimeout(() => {
-            mensaje.style.display = 'none';
-        }, 2000);
-    }
-
-    function copiarNumeroTransfer() {
-        const input = document.getElementById('claveTransfer');
-        input.select();
-        input.setSelectionRange(0, 99999); // Para móviles
-        document.execCommand('copy');
-
-        const mensaje = document.getElementById('clcopy');
-        mensaje.style.display = 'block';
-
-        setTimeout(() => {
-            mensaje.style.display = 'none';
-        }, 2000);
-    }
-
-    function copiarNumeroOxxo() {
-        const input = document.getElementById('claveOxxo');
-        input.select();
-        input.setSelectionRange(0, 99999); // Para móviles
-        document.execCommand('copy');
-
-        const mensaje = document.getElementById('oxxocopy');
-        mensaje.style.display = 'block';
-
-        setTimeout(() => {
-            mensaje.style.display = 'none';
-        }, 2000);
-    }
-</script>
-
+    </form>
+</section>
 
         <!-- Alpine Dark Mode Store -->
         <script>

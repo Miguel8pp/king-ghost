@@ -1,165 +1,45 @@
 <!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="../fav/login.jpeg">
-    <title>Iniciar Sesión</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../static/styles.css">
-    <script defer src="../static/app.js"></script>
-    <style>
-        /* Estilos para las partículas (Canvas) */
-        .particle-animation canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-            z-index: -1; /* Aseguramos que las partículas estén al fondo */
-        }
+<html lang="en" class="dark">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="QuDvebfdKRKhvW8d4UkOUWi1fPEINxUsIQdxXxEc">
 
-        /* Estilos para el carrusel de redes sociales */
-        .social-slider {
-            margin-top: 20px;
-            overflow: hidden;
-            width: 100%;
-            text-align: center;
-        }
+        <title>LOGIN</title>
 
-        .social-items-container {
-            display: flex;
-            flex-wrap: nowrap;
-            justify-content: center;
-            animation: scroll 20s linear infinite;
-        }
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.bunny.net">
+        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        <!-- Particles.js -->
+        <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 
-        .social-item {
-            margin: 0 20px;
-            display: flex;
-            align-items: center;
-            position: relative;
-            font-size: 18px;
-            transition: transform 0.3s ease;
-        }
+        <!-- Scripts -->
+        <link rel="preload" as="style" href="https://socialvirtu.com/build/assets/app-82912516.css" /><link rel="preload" as="style" href="https://socialvirtu.com/build/assets/app-b6a82ad0.css" /><link rel="modulepreload" href="https://socialvirtu.com/build/assets/app-1bab035d.js" /><link rel="stylesheet" href="https://socialvirtu.com/build/assets/app-82912516.css" /><link rel="stylesheet" href="https://socialvirtu.com/build/assets/app-b6a82ad0.css" /><script type="module" src="https://socialvirtu.com/build/assets/app-1bab035d.js"></script>    </head>
+    <body class="font-sans text-gray-900 dark:text-white antialiased">
+        <div class="min-h-screen flex flex-col sm:justify-center items-center px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-900 relative">
+            <div id="particles-js" class="absolute inset-0 z-0 opacity-50 dark:opacity-100"></div>
+            
+            <div class="relative z-10 w-full pt-6 sm:pt-0">
+                <div class="flex justify-center mb-8">
+                    <a href="/" class="flex items-center space-x-2">
+                        <img src="../static/img/MIghost.png" 
+         alt="VIRTU MALL LLC" 
+         class="h-8 w-auto">
+                        <span class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
+                            GHOST SMM
+                        </span>
+                    </a>
+                </div>
 
-        /* Estilo de los íconos y los nombres */
-        .social-item span {
-            margin-left: 10px;
-            font-size: 14px;
-            color: #fff;
-            font-weight: bold;
-        }
-
-        .social-item i {
-            font-size: 40px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        /* Colores de redes sociales con efecto Neon más moderado */
-        .social-item.vimeo i {
-            color: #1ab7ea;
-            text-shadow: 0 0 8px rgba(26, 183, 234, 0.8), 0 0 15px rgba(26, 183, 234, 0.8);
-        }
-
-        .social-item.twitch i {
-            color: #9146ff;
-            text-shadow: 0 0 8px rgba(145, 70, 255, 0.8), 0 0 15px rgba(145, 70, 255, 0.8);
-        }
-
-        .social-item.reddit i {
-            color: #ff4500;
-            text-shadow: 0 0 8px rgba(255, 69, 0, 0.8), 0 0 15px rgba(255, 69, 0, 0.8);
-        }
-
-        .social-item.telegram i {
-            color: #0088cc;
-            text-shadow: 0 0 8px rgba(0, 136, 204, 0.8), 0 0 15px rgba(0, 136, 204, 0.8);
-        }
-
-        .social-item.tiktok i {
-            background: linear-gradient(45deg, #69c9d0, #fe2a55);
-            -webkit-background-clip: text;
-            color: transparent;
-            text-shadow: 0 0 8px rgba(105, 201, 208, 0.8), 0 0 15px rgba(105, 201, 208, 0.8);
-        }
-
-        .social-item.instagram i {
-            background: linear-gradient(45deg, #e4405f, #f58529);
-            -webkit-background-clip: text;
-            color: transparent;
-            text-shadow: 0 0 8px rgba(228, 64, 95, 0.8), 0 0 15px rgba(228, 64, 95, 0.8);
-        }
-
-        .social-item.twitter i {
-            color: #1da1f2;
-            text-shadow: 0 0 8px rgba(29, 161, 242, 0.8), 0 0 15px rgba(29, 161, 242, 0.8);
-        }
-
-        .social-item.spotify i {
-            color: #1db954;
-            text-shadow: 0 0 8px rgba(29, 185, 84, 0.8), 0 0 15px rgba(29, 185, 84, 0.8);
-        }
-
-        .social-item.discord i {
-            color: #7289da;
-            text-shadow: 0 0 8px rgba(114, 137, 218, 0.8), 0 0 15px rgba(114, 137, 218, 0.8);
-        }
-
-        .social-item.dailymotion i {
-            color: #00a0d1;
-            text-shadow: 0 0 8px rgba(0, 160, 209, 0.8), 0 0 15px rgba(0, 160, 209, 0.8);
-        }
-
-        .social-item.tumblr i {
-            color: #35465c;
-            text-shadow: 0 0 8px rgba(53, 70, 92, 0.8), 0 0 15px rgba(53, 70, 92, 0.8);
-        }
-
-        .social-item.youtube i {
-            color: #ff0000;
-            text-shadow: 0 0 8px rgba(255, 0, 0, 0.8), 0 0 15px rgba(255, 0, 0, 0.8);
-        }
-
-        .social-item.pinterest i {
-            color: #e60023;
-            text-shadow: 0 0 8px rgba(230, 0, 35, 0.8), 0 0 15px rgba(230, 0, 35, 0.8);
-        }
-
-        /* Efecto hover para el carrusel */
-        .social-item:hover {
-            transform: scale(1.1);
-        }
-
-        /* Animación de desplazamiento para el carrusel */
-        @keyframes scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-
-        /* Estilo del formulario */
-        .login-container {
-            position: relative;
-            z-index: 10;
-        }
-    </style>
-</head>
-<body>
-    <!-- Aquí va el div de espacio encima -->
-<div class="spacer"></div>
-
-<div class="spacer"></div>
-
-    <!-- Partículas -->
-    <div class="particle-animation">
-        <canvas data-particle-animation></canvas>
+                <div class="w-full sm:max-w-md mx-auto px-6 py-8 bg-white dark:bg-gray-800/50 shadow-xl dark:shadow-gray-800/20 overflow-hidden sm:rounded-lg backdrop-blur-sm relative z-10">
+                    <div class="mb-6 sm:mb-8 text-center">
+        <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">Bienvenido de nuevo</h2>
+        <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400">Ingresa a tu cuenta para continuar</p>
     </div>
-
-    <!-- Formulario de Inicio de Sesión -->
-    <div class="login-container">
-        <form class="login-form" action="/login" method="POST">
-            <h2>Iniciar Sesión</h2>
-
-            <!-- Mostrar mensaje de error o éxito -->
+ <!-- Mostrar mensaje de error o éxito -->
             {% with messages = get_flashed_messages() %}
             {% if messages %}
                 <div class="flash-message {{ 'success-message' if 'Tu contraseña ha sido restablecida con éxito' in messages[0] else 'error-message' }}">
@@ -169,248 +49,142 @@
                 </div>
             {% endif %}
             {% endwith %}
-
-            <div class="form-group">
-                <i class="fas fa-user icon"></i>
-                <input type="text" name="usuario" placeholder="Usuario" required>
-            </div>
-
-            <div class="form-group password-group">
-                <i class="fas fa-lock icon"></i>
-                <input type="password" name="contrasena" placeholder="Contraseña" id="password" required>
-                <i class="toggle-password" id="togglePassword"></i>
-            </div>
-
-            <button type="submit" class="btn">Iniciar Sesión</button>
-
-            <p class="forgot-password"><a href="/recuperar_contrasena">¿Olvidaste tu contraseña?</a></p>
-
-            <div class="signup-link">
-                <p>¿No tienes cuenta? <a href="/registro" class="signup-text">¡Crea una ahora aquí!</a></p>
-            </div>
-        </form>
-    </div>
-
-    <!-- Carrusel de imágenes social slider (debajo del formulario) -->
-    <div class="social-slider">
-        <div class="social-items-container">
-            <!-- Se repiten los elementos para lograr el efecto de carrusel infinito -->
-            <div class="social-item vimeo"><i class="fab fa-vimeo-v"></i><span>Vimeo</span></div>
-            <div class="social-item twitch"><i class="fab fa-twitch"></i><span>Twitch</span></div>
-            <div class="social-item reddit"><i class="fab fa-reddit"></i><span>Reddit</span></div>
-            <div class="social-item telegram"><i class="fab fa-telegram"></i><span>Telegram</span></div>
-            <div class="social-item tiktok"><i class="fab fa-tiktok"></i><span>TikTok</span></div>
-            <div class="social-item instagram"><i class="fab fa-instagram"></i><span>Instagram</span></div>
-            <div class="social-item twitter"><i class="fab fa-twitter"></i><span>Twitter</span></div>
-            <div class="social-item spotify"><i class="fab fa-spotify"></i><span>Spotify</span></div>
-            <div class="social-item discord"><i class="fab fa-discord"></i><span>Discord</span></div>
-            <div class="social-item dailymotion"><i class="fab fa-dailymotion"></i><span>Dailymotion</span></div>
-            <div class="social-item tumblr"><i class="fab fa-tumblr"></i><span>Tumblr</span></div>
-            <div class="social-item youtube"><i class="fab fa-youtube"></i><span>YouTube</span></div>
-            <div class="social-item pinterest"><i class="fab fa-pinterest"></i><span>Pinterest</span></div>
-            
-            <!-- Se repiten los mismos elementos aquí para crear el efecto infinito -->
-            <div class="social-item vimeo"><i class="fab fa-vimeo-v"></i><span>Vimeo</span></div>
-            <div class="social-item twitch"><i class="fab fa-twitch"></i><span>Twitch</span></div>
-            <div class="social-item reddit"><i class="fab fa-reddit"></i><span>Reddit</span></div>
-            <div class="social-item telegram"><i class="fab fa-telegram"></i><span>Telegram</span></div>
-            <div class="social-item tiktok"><i class="fab fa-tiktok"></i><span>TikTok</span></div>
-            <div class="social-item instagram"><i class="fab fa-instagram"></i><span>Instagram</span></div>
-            <div class="social-item twitter"><i class="fab fa-twitter"></i><span>Twitter</span></div>
-            <div class="social-item spotify"><i class="fab fa-spotify"></i><span>Spotify</span></div>
-            <div class="social-item discord"><i class="fab fa-discord"></i><span>Discord</span></div>
-            <div class="social-item dailymotion"><i class="fab fa-dailymotion"></i><span>Dailymotion</span></div>
-            <div class="social-item tumblr"><i class="fab fa-tumblr"></i><span>Tumblr</span></div>
-            <div class="social-item youtube"><i class="fab fa-youtube"></i><span>YouTube</span></div>
-            <div class="social-item pinterest"><i class="fab fa-pinterest"></i><span>Pinterest</span></div>
-        </div>
-    </div>
-
+    <!-- Session Status -->
     
-    <!-- Sección de características -->
-    <section class="feature-list">
-        <div class="container">
-            <div class="grid-container">
-                <div class="main-page-title col-span-12"><i class="fa fa-bolt"></i> Por qué Panel GHOST</div>
-                <div class="feature-box col-span-4">
-                    <div class="feature-icon"><i class="fas fa-certificate"></i></div>
-                    <h2 class="feature-title">Procesos de pedidos rápidos y seguros</h2>
-                    <p class="feature-text">Sus pedidos se procesarán en el menor tiempo posible y se completarán de manera segura.</p>
-                </div>
-                <div class="feature-box col-span-4">
-                    <div class="feature-icon"><i class="fas fa-users"></i></div>
-                    <h2 class="feature-title">Seguidores de alta calidad</h2>
-                    <p class="feature-text">Los seguidores ofrecidos provienen de cuentas reales e interactivas.</p>
-                </div>
-                <div class="feature-box col-span-4">
-                    <div class="feature-icon"><i class="fas fa-money-bill-wave"></i></div>
-                    <h2 class="feature-title">Precios asequibles</h2>
-                    <p class="feature-text">Ofrecemos servicios de alta calidad a precios asequibles para proteger el presupuesto de nuestros clientes.</p>
-                </div>
-                <div class="feature-box col-span-6">
-                    <div class="feature-icon"><i class="fas fa-headset"></i></div>
-                    <h2 class="feature-title">Soporte rápido</h2>
-                    <p class="feature-text">Tenemos un equipo de atención al cliente rápido que siempre está disponible para apoyar a nuestros clientes.</p>
-                </div>
-                <div class="feature-box col-span-6">
-                    <div class="feature-icon"><i class="fas fa-layer-group"></i></div>
-                    <h2 class="feature-title">Amplia gama de servicios</h2>
-                    <p class="feature-text">Ofrecemos varios servicios para Instagram, Twitter, Facebook, YouTube y otras plataformas de redes sociales.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
- <!-- Sección de ¿Cómo funciona? -->
- <section class="why-work">
-    <div class="container">
-        <div class="grid-container">
-            <div class="main-page-title col-span-12"><i class="fas fa-cog"></i> ¿Cómo funciona?</div>
-            <div class="step-box col-span-3">
-                <div class="step-icon"><i class="fa fa-user-plus" aria-hidden="true"></i></div>
-                <div class="step-text">
-                    <h3>Crear cuenta</h3>
-                    <p>Cree rápidamente un nuevo perfil de usuario con su correo electrónico y contraseña. Comience a comprar de inmediato con un proceso de registro simple.</p>
-                </div>
-                <div class="step-number">1</div>
-            </div>
-            <div class="step-box col-span-3">
-                <div class="step-icon"><i class="fa fa-wallet" aria-hidden="true"></i></div>
-                <div class="step-text">
-                    <h3>Agregar saldo</h3>
-                    <p>Agregue saldo a su cuenta con métodos de pago seguros. Agregue saldo de manera rápida y fácil con nuestras opciones de tarjeta de crédito o transferencia bancaria.</p>
-                </div>
-                <div class="step-number">2</div>
-            </div>
-            <div class="step-box col-span-3">
-                <div class="step-icon"><i class="fa fa-shopping-cart" aria-hidden="true"></i></div>
-                <div class="step-text">
-                    <h3>Realizar pedido</h3>
-                    <p>Descubra los servicios más adecuados para sus necesidades y seleccione según su presupuesto para realizar su pedido. Elija entre varias opciones y complete la transacción.</p>
-                </div>
-                <div class="step-number">3</div>
-            </div>
-            <div class="step-box col-span-3">
-                <div class="step-icon"><i class="fa fa-check-circle" aria-hidden="true"></i></div>
-                <div class="step-text">
-                    <h3>Pedido completado</h3>
-                    <p>Una vez confirmado su pedido, solo queda esperar los resultados. Disfrute de nuestros servicios y ahorre tiempo con nuestras soluciones a medida.</p>
-                </div>
-                <div class="step-number">4</div>
-            </div>
-        </div>
+   <form method="POST" action="/login" class="space-y-4 sm:space-y-6">
+    <input type="hidden" name="_token" value="QuDvebfdKRKhvW8d4UkOUWi1fPEINxUsIQdxXxEc" autocomplete="off">
+    <div>
+        <label class="block font-medium text-sm text-gray-700 text-gray-900 dark:text-white text-sm sm:text-base" for="email">
+            Usuario
+        </label>
+        <input class="border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded-md shadow-sm block mt-1.5 w-full text-sm sm:text-base bg-white dark:bg-gray-700/50 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-blue-600 dark:focus:border-blue-600 focus:ring-blue-600 dark:focus:ring-blue-600 transition-colors duration-200"  type="text" name="usuario" placeholder="ejemplo333" required>
     </div>
-</section>
 
-<!-- Preguntas más frecuentes -->
-<div class="faq-container">
-    <div class="circle-icon">?</div>
-    <h2>Preguntas Más Frecuentes</h2>
+    <div>
+        <label class="block font-medium text-sm text-gray-700 text-gray-900 dark:text-white text-sm sm:text-base" for="password">
+            Password
+        </label>
 
-    <div class="faq-section">
-        <!-- Pregunta 1 -->
-        <div class="faq-question">¿Qué es un panel SMM?</div>
-        <div class="faq-answer">
-            Un panel SMM es una herramienta para gestionar campañas de marketing en redes sociales, que te permite comprar servicios como seguidores, likes, y otras interacciones.
-        </div>
-
-        <!-- Pregunta 2 -->
-        <div class="faq-question">¿Cómo pueden ayudar los paneles SMM?</div>
-        <div class="faq-answer">
-            Los paneles SMM ayudan a aumentar la visibilidad en redes sociales, mejorar el alcance de las publicaciones y mejorar la presencia online de manera rápida y eficiente.
-        </div>
-
-        <!-- Pregunta 3 -->
-        <div class="faq-question">¿Cómo usar un panel SMM?</div>
-        <div class="faq-answer">
-            Para usar un panel SMM, solo necesitas registrarte, seleccionar los servicios que deseas comprar y pagarlos. Luego, se entregarán en tus cuentas de redes sociales.
-        </div>
-
-        <!-- Pregunta 4 -->
-        <div class="faq-question">¿Qué plataformas de redes sociales admiten los paneles SMM?</div>
-        <div class="faq-answer">
-            Los paneles SMM generalmente funcionan con plataformas como Instagram, Facebook, YouTube, Twitter, TikTok, y otras redes sociales populares.
-        </div>
+        <input class="border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded-md shadow-sm block mt-1.5 w-full text-sm sm:text-base bg-white dark:bg-gray-700/50 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-blue-600 dark:focus:border-blue-600 focus:ring-blue-600 dark:focus:ring-blue-600 transition-colors duration-200" type="password" name="contrasena"  placeholder="••••••••" id="password" required>
     </div>
-    <div class="spacer"></div>
-    <div class="spacer"></div>
-    <div class="spacer"></div>
-    <div class="spacer"></div>
-    <div class="spacer"></div>
-    <div class="spacer"></div>
 
-</div>
+    <div class="flex items-center justify-between">
+        <label for="remember_me" class="inline-flex items-center">
+            <input id="remember_me" type="checkbox" name="remember" {% if session.permanent %}checked{% endif %} 
+            class="rounded border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700/50 text-blue-600 focus:ring-blue-600 dark:focus:ring-offset-gray-800 transition-colors duration-200" >
+            <span class="ml-2 text-sm text-gray-600 dark:text-gray-300">Remember me</span>
+        </label>
 
-    <script>
-        // Animación de las partículas
-        const canvas = document.querySelector('canvas');
-        const ctx = canvas.getContext('2d');
+        <a class="text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-600 transition-colors duration-200" 
+            href="/recuperar_contrasena">
+            ¿Olvidaste tu contraseña?
+        </a>
+    </div>
 
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+    <div class="mt-6">
+        <button type="submit" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150 w-full justify-center bg-blue-600 hover:bg-blue-700/90 active:bg-blue-800 text-white transition-colors duration-200">
+            Log in
+        </button>
+    </div>
 
-        let particlesArray = [];
+    <div class="text-center mt-6">
+        <span class="text-sm text-gray-600 dark:text-gray-400">¿No tienes una cuenta? </span>
+        <a href="/registro" 
+            class="text-sm font-medium text-blue-600 hover:text-blue-700/90 transition-colors duration-200">
+            Regístrate
+        </a>
+    </div>
+</form>
 
-        function Particle(x, y) {
-            this.x = x;
-            this.y = y;
-            this.size = Math.random() * 5 + 1;
-            this.speedX = Math.random() * 3 - 1.5;
-            this.speedY = Math.random() * 3 - 1.5;
-            this.color = 'rgba(255, 255, 255, 0.7)';
-        }
-
-        Particle.prototype.draw = function() {
-            ctx.fillStyle = this.color;
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            ctx.fill();
-        };
-
-        Particle.prototype.update = function() {
-            this.x += this.speedX;
-            this.y += this.speedY;
-
-            if (this.size > 0.2) this.size -= 0.1;
-            if (this.x > canvas.width || this.x < 0 || this.y > canvas.height || this.y < 0) {
-                this.size = 0;
-            }
-
-            this.draw();
-        };
-
-        function animateParticles() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            if (Math.random() < 0.15) {
-                particlesArray.push(new Particle(Math.random() * canvas.width, Math.random() * canvas.height));
-            }
-            particlesArray.forEach(particle => particle.update());
-            requestAnimationFrame(animateParticles);
-        }
-
-        animateParticles();
-
-         // Script para abrir y cerrar las preguntas
-         document.querySelectorAll('.faq-question').forEach(question => {
-            question.addEventListener('click', () => {
-                // Cerramos todas las preguntas abiertas
-                document.querySelectorAll('.faq-question').forEach(q => {
-                    if (q !== question) {
-                        q.classList.remove('open');
-                        q.nextElementSibling.style.display = 'none';
+        <!-- WhatsApp Button -->
+                <a href="https://wa.me/+525654936049" 
+           target="_blank"
+           class="fixed bottom-4 right-4 bg-[#25D366] text-white rounded-full w-14 h-14 flex items-center justify-center shadow-[4px_4px_10px_rgba(0,0,0,0.5)] hover:shadow-[6px_6px_15px_rgba(0,0,0,0.6)] hover:translate-y-[-2px] transition-all duration-300 z-50">
+            <i class="fab fa-whatsapp text-2xl"></i>
+        </a>
+        
+        <script>
+            const isDarkMode = document.documentElement.classList.contains('dark');
+            
+            particlesJS('particles-js', {
+                particles: {
+                    number: {
+                        value: window.innerWidth < 768 ? 40 : 80,
+                        density: {
+                            enable: true,
+                            value_area: 800
+                        }
+                    },
+                    color: {
+                        value: isDarkMode ? '#96F92D' : '#96F92D'
+                    },
+                    shape: {
+                        type: 'circle'
+                    },
+                    opacity: {
+                        value: isDarkMode ? 0.5 : 0.3,
+                        random: false,
+                        animation: {
+                            enable: true,
+                            speed: 1,
+                            opacity_min: isDarkMode ? 0.1 : 0.05,
+                            sync: false
+                        }
+                    },
+                    size: {
+                        value: window.innerWidth < 768 ? 2 : 3,
+                        random: true,
+                        animation: {
+                            enable: true,
+                            speed: 2,
+                            size_min: 0.1,
+                            sync: false
+                        }
+                    },
+                    line_linked: {
+                        enable: true,
+                        distance: window.innerWidth < 768 ? 100 : 150,
+                        color: isDarkMode ? '#96F92D' : '#96F92D',
+                        opacity: isDarkMode ? 0.2 : 0.1,
+                        width: 1
+                    },
+                    move: {
+                        enable: true,
+                        speed: window.innerWidth < 768 ? 1.5 : 2,
+                        direction: 'none',
+                        random: false,
+                        straight: false,
+                        out_mode: 'out',
+                        bounce: false,
                     }
-                });
-
-                // Abrir la pregunta actual
-                question.classList.toggle('open');
-                const answer = question.nextElementSibling;
-                if (question.classList.contains('open')) {
-                    answer.style.display = 'block';
-                } else {
-                    answer.style.display = 'none';
-                }
+                },
+                interactivity: {
+                    detect_on: 'canvas',
+                    events: {
+                        onhover: {
+                            enable: true,
+                            mode: 'grab'
+                        },
+                        onclick: {
+                            enable: true,
+                            mode: 'push'
+                        },
+                        resize: true
+                    },
+                    modes: {
+                        grab: {
+                            distance: window.innerWidth < 768 ? 100 : 140,
+                            line_linked: {
+                                opacity: isDarkMode ? 0.5 : 0.3
+                            }
+                        },
+                        push: {
+                            particles_nb: window.innerWidth < 768 ? 2 : 4
+                        }
+                    }
+                },
+                retina_detect: true
             });
-        });
-    </script>
-</body>
+        </script>
+    </body>
 </html>

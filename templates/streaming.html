@@ -1,162 +1,1110 @@
 <!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Premium Para Todos</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      font-family: 'Inter', sans-serif;
-      background: #f8f9fa;
-      color: #212529;
-      line-height: 1.6;
-    }
-    header {
-      background: #0d6efd;
-      color: white;
-      padding: 40px 20px;
-      text-align: center;
-    }
-    header h1 {
-      font-size: 2.5rem;
-      font-weight: 800;
-    }
-    .container {
-      max-width: 1000px;
-      margin: 40px auto;
-      padding: 0 20px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 30px;
-    }
-    .card {
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-      padding: 25px;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
-    }
-    .card img {
-      width: 80px;
-      height: 80px;
-      margin-bottom: 15px;
-    }
-    .card h2 {
-      font-size: 1.8rem;
-      margin-bottom: 10px;
-      color: #0d6efd;
-    }
-    .card p {
-      margin-bottom: 12px;
-    }
-    .price {
-      font-size: 1.4rem;
-      font-weight: bold;
-      color: #198754;
-    }
-    .btn {
-      display: inline-block;
-      padding: 12px 20px;
-      background: #0d6efd;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: 600;
-      margin-top: 15px;
-      transition: background 0.3s ease;
-    }
-    .btn:hover {
-      background: #0b5ed7;
-    }
-    footer {
-      text-align: center;
-      padding: 30px;
-      background: #f1f3f5;
-      font-size: 0.95rem;
-      color: #6c757d;
-    }
-    .icons {
-      font-size: 1.2rem;
-      margin-top: 10px;
-      color: #495057;
-    }
-    .icons i {
-      margin: 0 10px;
-    }
-  </style>
+<html lang="en" class="h-full">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="0NHWv5SjO5BZ9kADV4o7KWLTBfy9bLT1Eo2GGYFc">
+        <title>INICIO</title>
+
+        <!-- Favicon -->
+        <link rel="icon" type="image/x-icon" href="https://socialvirtu.com/storage/images/brand/favicons/bpcOHEfmC7Ye21lMJgzf1AM7BM4HQVxDMk4I04At.png">
+
+        <!-- Alpine.js (debe ir primero) -->
+        <!-- <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script> -->
+
+        
+        <!-- Dark Mode Script (debe ir primero) -->
+        <script>
+            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        </script>
+
+        <!-- Fonts -->
+        <!-- <link rel="preconnect" href="https://fonts.bunny.net">
+        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" /> -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+        <!-- SweetAlert2 -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        <!-- Scripts -->
+        <link rel="preload" as="style" href="https://socialvirtu.com/build/assets/app-82912516.css" /><link rel="preload" as="style" href="https://socialvirtu.com/build/assets/app-b6a82ad0.css" /><link rel="modulepreload" href="https://socialvirtu.com/build/assets/app-1bab035d.js" /><link rel="stylesheet" href="https://socialvirtu.com/build/assets/app-82912516.css" /><link rel="stylesheet" href="https://socialvirtu.com/build/assets/app-b6a82ad0.css" /><script type="module" src="https://socialvirtu.com/build/assets/app-1bab035d.js"></script>
+        <style>
+            @keyframes wave {
+                0%, 100% { transform: translateY(0); }
+                50% { transform: translateY(-5px); }
+            }
+            .animate-wave {
+                animation: wave 3s ease-in-out infinite;
+            }
+        </style>
+    </head>
+    <body class="font-sans antialiased bg-gray-50 dark:bg-gray-900 h-full">
+        
+        <div class="min-h-full">
+            <!-- Sidebar Navigation (Desktop) -->
+            <div class="hidden sm:flex sm:flex-col sm:w-64 sm:fixed sm:inset-y-0">
+                <nav x-data="{ open: false }" class="h-full">
+    <!-- Desktop Sidebar -->
+    <div class="hidden sm:flex h-full w-64 flex-col bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700">
+        <!-- Logo -->
+        <div class="px-6 py-5">
+            <a href="/pagina_principal" class="flex items-center space-x-2">
+                <img src="../static/img/MIghost.png" 
+         alt="GHOST SMM" 
+         class="h-8 w-auto">
+                <span class="text-gray-900 dark:text-white text-lg font-bold tracking-wider">GHOST SMM</span>
+            </a>
+        </div>
+
+        <!-- Navigation Links -->
+        <div class="flex-1 px-4 py-4">
+            <div class="space-y-2">
+                <!-- Dashboard -->
+                <a class="text-[#99FF00] flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 bg-socialmentorify dark:bg-socialmentorify-dark text-black" href="/pagina_principal">
+    <i class="fas fa-home w-5 h-5 mr-3"></i>
+                    <span>Dashboard</span>
+</a>
+
+
+                <!-- Free -->
+                <a class="text-gray-400 flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/free">
+    <i class="fas fa-gift w-5 h-5 mr-3"></i>
+                    <span>Free</span>
+</a>
+
+                <!-- Sección Streaming -->
+                <div x-data="{ open: false }" class="mt-4">
+                    <button @click="open = !open" 
+                        class="w-full flex items-center justify-between px-3 py-2.5 text-sm font-medium rounded-lg transition-all duration-300 ease-in-out text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white">
+                        <div class="flex items-center">
+                            <i class="fas fa-tv w-5 h-5 mr-3 text-socialmentorify dark:text-socialmentorify-dark"></i>
+                            <span>Streaming</span>
+                        </div>
+                        <i class="fas transition-transform duration-300 ease-in-out" :class="open ? 'fa-chevron-down transform rotate-180' : 'fa-chevron-right'"></i>
+                    </button>
+                    <div x-show="open" 
+                        x-collapse.duration.300ms
+                        x-collapse:enter="transition ease-out duration-300"
+                        x-collapse:enter-start="opacity-0 transform -translate-y-2"
+                        x-collapse:enter-end="opacity-100 transform translate-y-0"
+                        x-collapse:leave="transition ease-in duration-300"
+                        x-collapse:leave-start="opacity-100 transform translate-y-0"
+                        x-collapse:leave-end="opacity-0 transform -translate-y-2"
+                        class="mt-2 space-y-1">
+                        <a class="text-gray-400 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/streaming">
+    <i class="fas fa-store w-5 h-5 mr-3"></i>
+                            <span>Tienda</span>
+</a>
+
+
+
+                        <a class="text-gray-400 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/pedidosStreaming">
+    <i class="fas fa-shopping-cart w-5 h-5 mr-3"></i>
+                            <span>Mis compras</span>
+</a>
+
+                         <a class="text-gray-400 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/soporte">
+    <i class="fas fa-headset w-5 h-5 mr-3"></i>
+                            <span>Soporte Técnico</span>
+</a>
+
+                    </div>
+                </div>
+
+                <!-- Sección SMM -->
+                <div x-data="{ open: false }" class="mt-4">
+                    <button @click="open = !open" 
+                        class="w-full flex items-center justify-between px-3 py-2.5 text-sm font-medium rounded-lg transition-all duration-300 ease-in-out text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white">
+                        <div class="flex items-center">
+                            <i class="fas fa-bolt w-5 h-5 mr-3 text-socialmentorify dark:text-socialmentorify-dark"></i>
+                            <span>Redes Sociales</span>
+                        </div>
+                        <i class="fas transition-transform duration-300 ease-in-out" :class="open ? 'fa-chevron-down transform rotate-180' : 'fa-chevron-right'"></i>
+                    </button>
+                    <div x-show="open" 
+                        x-collapse.duration.300ms
+                        x-collapse:enter="transition ease-out duration-300"
+                        x-collapse:enter-start="opacity-0 transform -translate-y-2"
+                        x-collapse:enter-end="opacity-100 transform translate-y-0"
+                        x-collapse:leave="transition ease-in duration-300"
+                        x-collapse:leave-start="opacity-100 transform translate-y-0"
+                        x-collapse:leave-end="opacity-0 transform -translate-y-2"
+                        class="mt-2 space-y-1">
+                        <a class="text-gray-400 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/agregar_orden">
+    <i class="fas fa-plus w-5 h-5 mr-3"></i>
+                            <span>Nuevo orden</span>
+</a>
+
+
+
+                        <a class="text-gray-400 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/pedidos">
+    <i class="fas fa-list w-5 h-5 mr-3"></i>
+                            <span>Ordenes</span>
+</a>
+
+
+
+
+
+
+                    </div>
+                </div>
+
+                <!-- Sección Finanzas -->
+                <div x-data="{ open: false }" class="mt-4">
+                    <button @click="open = !open" 
+                        class="w-full flex items-center justify-between px-3 py-2.5 text-sm font-medium rounded-lg transition-all duration-300 ease-in-out text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white">
+                        <div class="flex items-center">
+                            <i class="fas fa-wallet w-5 h-5 mr-3 text-socialmentorify dark:text-socialmentorify-dark"></i>
+                            <span>Finanzas</span>
+                        </div>
+                        <i class="fas transition-transform duration-300 ease-in-out" :class="open ? 'fa-chevron-down transform rotate-180' : 'fa-chevron-right'"></i>
+                    </button>
+                    <div x-show="open" 
+                        x-collapse.duration.300ms
+                        x-collapse:enter="transition ease-out duration-300"
+                        x-collapse:enter-start="opacity-0 transform -translate-y-2"
+                        x-collapse:enter-end="opacity-100 transform translate-y-0"
+                        x-collapse:leave="transition ease-in duration-300"
+                        x-collapse:leave-start="opacity-100 transform translate-y-0"
+                        x-collapse:leave-end="opacity-0 transform -translate-y-2"
+                        class="mt-2 space-y-1">
+                        <a class="text-gray-400 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/saldo">
+    <i class="fas fa-credit-card w-5 h-5 mr-3"></i>
+                            <span>Agregar saldo</span>
+</a>
+
+                        <a class="text-gray-400 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/movimientos">
+    <i class="fas fa-history w-5 h-5 mr-3"></i>
+                            <span>Historial de Recargas</span>
+</a>
+
+                        <a class="text-gray-400 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/cartera">
+    <i class="fas fa-wallet w-5 h-5 mr-3"></i>
+                            <span>Cartera</span>
+</a>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Theme Toggle -->
+        <div class="px-4 py-2 border-t border-gray-200 dark:border-gray-700">
+            <button 
+                x-data
+                @click="$store.theme.toggle()"
+                class="w-full flex items-center px-3 py-2.5 text-sm font-medium rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white transition-colors duration-200"
+            >
+                <template x-if="!$store.theme.isDark">
+                    <i class="fas fa-moon w-5 h-5 mr-3 text-blue-400"></i>
+                </template>
+                <template x-if="$store.theme.isDark">
+                    <i class="fas fa-sun w-5 h-5 mr-3 text-amber-400"></i>
+                </template>
+                <span x-text="$store.theme.isDark ? 'Modo Claro' : 'Modo Oscuro'"></span>
+            </button>
+        </div>
+
+        <!-- Términos y Condiciones -->
+        <div class="px-4 py-2 border-t border-gray-200 dark:border-gray-700">
+            <a class="text-gray-400 flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/terminos">
+    <i class="fas fa-file-contract w-5 h-5 mr-3"></i>
+                <span>Términos y Condiciones</span>
+</a>
+        </div>
+
+        <!-- User Profile -->
+<div class="mt-auto border-t border-gray-200 dark:border-gray-700">
+    <div class="px-4 py-4">
+        <a href="/mi_perfil" 
+           class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white">
+
+            <!-- Foto de perfil dinámica -->
+            <img src="{{ url_for('foto_perfil', foto_id=foto_id) if foto_id else url_for('static', filename='fotos_perfil/default.png') }}"
+                 alt="Foto de perfil"
+                 class="h-9 w-9 rounded-full object-cover">
+
+            <!-- Nombre de usuario dinámico -->
+            <p class="text-sm font-medium">{{ usuario }}</p>
+
+            <!-- Ícono Profile -->
+            <i class="fas fa-user w-5 h-5 ml-auto"></i>
+        </a>
+
+
+
+                <!-- Authentication -->
+                <form method="POST" action="/logout">
+                                     <a class="text-gray-400 flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/logout" >
+    <i class="fas fa-power-off w-5 h-5 mr-3 text-red-600 dark:text-red-500"></i>
+                        <span>Log Out</span>
+</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</nav>
+            </div>
+
+            <!-- Mobile Header -->
+            <div class="sm:hidden fixed top-0 left-0 right-0 z-40 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                <div class="px-4 py-3 flex items-center justify-between">
+                    <a href="/pagina_principal" class="flex items-center space-x-2">
+                        <img src="../static/img/MIghost.png" 
+         alt="GHOST SMM" 
+         class="h-8 w-auto">
+                        <span class="text-gray-900 dark:text-white text-lg font-bold tracking-wider">GHOST SMM</span>
+                    </a>
+                    <!-- Mobile Navigation Menu -->
+<div x-data="{ open: false }" class="sm:hidden">
+    <!-- Mobile Menu Button -->
+    <button @click="open = true" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">
+        <i class="fas fa-bars text-xl"></i>
+    </button>
+
+    <!-- Mobile Menu Overlay -->
+    <div x-show="open" 
+        x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="transition ease-in duration-150"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        class="fixed inset-0 z-50 bg-gray-900/50 dark:bg-black/50 backdrop-blur-sm"
+        @click="open = false">
+    </div>
+
+    <!-- Mobile Menu Panel -->
+    <div x-show="open"
+        x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="-translate-x-full"
+        x-transition:enter-end="translate-x-0"
+        x-transition:leave="transition ease-in duration-400"
+        x-transition:leave-start="translate-x-0"
+        x-transition:leave-end="-translate-x-full"
+        @click.away="open = false"
+        class="fixed inset-y-0 left-0 z-50 w-full">
+        
+        <!-- Menu Content -->
+        <div class="relative mr-auto h-full w-[70%] max-w-xs bg-white dark:bg-gray-800 flex flex-col overflow-hidden">
+            <!-- Header -->
+            <div class="flex items-center justify-end px-4 py-3 border-b border-gray-200 dark:border-gray-700">
+                <button @click="open = false" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Navigation Links -->
+            <div class="flex-1 px-4 py-4 overflow-y-auto">
+                <div class="space-y-1">
+                    <!-- Dashboard -->
+                    <a class="text-[#99FF00] bg-[#99FF00]/10 hover:bg-[#99FF00]/20 flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 bg-socialmentorify dark:bg-socialmentorify-dark text-black" href="/pagina_principal">
+    <i class="fas fa-home w-5 h-5 mr-3"></i>
+                        <span>Dashboard</span>
+</a>
+
+
+                    <!-- Free -->
+                    <a class="text-gray-400 hover:text-gray-200 hover:bg-gray-700/50 flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/free">
+    <i class="fas fa-gift w-5 h-5 mr-3"></i>
+                        <span>Free</span>
+</a>
+
+                    <!-- Sección Streaming -->
+                    <div x-data="{ open: false }" class="mt-4">
+                        <button @click="open = !open" 
+                            class="w-full flex items-center justify-between px-3 py-2.5 text-sm font-medium rounded-lg transition-all duration-300 ease-in-out text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white">
+                            <div class="flex items-center">
+                                <i class="fas fa-tv w-5 h-5 mr-3 text-socialmentorify dark:text-socialmentorify-dark"></i>
+                                <span>Streaming</span>
+                            </div>
+                            <i class="fas transition-transform duration-300 ease-in-out" :class="open ? 'fa-chevron-down transform rotate-180' : 'fa-chevron-right'"></i>
+                        </button>
+                        <div x-show="open" 
+                            x-collapse.duration.300ms
+                            x-collapse:enter="transition ease-out duration-300"
+                            x-collapse:enter-start="opacity-0 transform -translate-y-2"
+                            x-collapse:enter-end="opacity-100 transform translate-y-0"
+                            x-collapse:leave="transition ease-in duration-300"
+                            x-collapse:leave-start="opacity-100 transform translate-y-0"
+                            x-collapse:leave-end="opacity-0 transform -translate-y-2"
+                            class="mt-2 space-y-1">
+                            <a class="text-gray-400 hover:text-gray-200 hover:bg-gray-700/50 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/streaming">
+    <i class="fas fa-store w-5 h-5 mr-3"></i>
+                                <span>Tienda</span>
+</a>
+
+
+                            <a class="text-gray-400 hover:text-gray-200 hover:bg-gray-700/50 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/pedidosStreaming">
+    <i class="fas fa-shopping-cart w-5 h-5 mr-3"></i>
+                                <span>Mis Compras</span>
+</a>
+
+                           <a class="text-gray-400 hover:text-gray-200 hover:bg-gray-700/50 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/soporte">
+    <i class="fas fa-headset w-5 h-5 mr-3"></i>
+                                <span>Soporte Técnico</span>
+</a>
+ 
+                        </div>
+                    </div>
+
+                    <!-- Sección SMM -->
+                    <div x-data="{ open: false }" class="mt-4">
+                        <button @click="open = !open" 
+                            class="w-full flex items-center justify-between px-3 py-2.5 text-sm font-medium rounded-lg transition-all duration-300 ease-in-out text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white">
+                            <div class="flex items-center">
+                                <i class="fas fa-bolt w-5 h-5 mr-3 text-socialmentorify dark:text-socialmentorify-dark"></i>
+                                <span>Redes Sociales</span>
+                            </div>
+                            <i class="fas transition-transform duration-300 ease-in-out" :class="open ? 'fa-chevron-down transform rotate-180' : 'fa-chevron-right'"></i>
+                        </button>
+                        <div x-show="open" 
+                            x-collapse.duration.300ms
+                            x-collapse:enter="transition ease-out duration-300"
+                            x-collapse:enter-start="opacity-0 transform -translate-y-2"
+                            x-collapse:enter-end="opacity-100 transform translate-y-0"
+                            x-collapse:leave="transition ease-in duration-300"
+                            x-collapse:leave-start="opacity-100 transform translate-y-0"
+                            x-collapse:leave-end="opacity-0 transform -translate-y-2"
+                            class="mt-2 space-y-1">
+                            <a class="text-gray-400 hover:text-gray-200 hover:bg-gray-700/50 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/agregar_orden">
+    <i class="fas fa-plus w-5 h-5 mr-3"></i>
+                                <span>Nuevo Orden</span>
+</a>
+
+
+
+                            <a class="text-gray-400 hover:text-gray-200 hover:bg-gray-700/50 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/pedidos">
+    <i class="fas fa-list w-5 h-5 mr-3"></i>
+                                <span>Historial de Ordenes</span>
+</a>
+
+                        </div>
+                    </div>
+
+                    <!-- Sección Finanzas -->
+                    <div x-data="{ open: false }" class="mt-4">
+                        <button @click="open = !open" 
+                            class="w-full flex items-center justify-between px-3 py-2.5 text-sm font-medium rounded-lg transition-all duration-300 ease-in-out text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white">
+                            <div class="flex items-center">
+                                <i class="fas fa-wallet w-5 h-5 mr-3 text-socialmentorify dark:text-socialmentorify-dark"></i>
+                                <span>Finanzas</span>
+                            </div>
+                            <i class="fas transition-transform duration-300 ease-in-out" :class="open ? 'fa-chevron-down transform rotate-180' : 'fa-chevron-right'"></i>
+                        </button>
+                        <div x-show="open" 
+                            x-collapse.duration.300ms
+                            x-collapse:enter="transition ease-out duration-300"
+                            x-collapse:enter-start="opacity-0 transform -translate-y-2"
+                            x-collapse:enter-end="opacity-100 transform translate-y-0"
+                            x-collapse:leave="transition ease-in duration-300"
+                            x-collapse:leave-start="opacity-100 transform translate-y-0"
+                            x-collapse:leave-end="opacity-0 transform -translate-y-2"
+                            class="mt-2 space-y-1">
+                            <a class="text-gray-400 hover:text-gray-200 hover:bg-gray-700/50 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/saldo">
+    <i class="fas fa-credit-card w-5 h-5 mr-3"></i>
+                                <span>Agregar saldo</span>
+</a>
+
+                            <a class="text-gray-400 hover:text-gray-200 hover:bg-gray-700/50 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/movimientos">
+    <i class="fas fa-history w-5 h-5 mr-3"></i>
+                                <span>Payment History</span>
+</a>
+
+                            <a class="text-gray-400 hover:text-gray-200 hover:bg-gray-700/50 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/cartera">
+    <i class="fas fa-wallet w-5 h-5 mr-3"></i>
+                                <span>Wallet</span>
+</a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Theme Toggle -->
+            <div class="px-4 py-2 border-t border-gray-200 dark:border-gray-700">
+                <button 
+                    x-data
+                    @click="$store.theme.toggle()"
+                    class="w-full flex items-center px-3 py-2.5 text-sm font-medium rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white transition-colors duration-200"
+                >
+                    <template x-if="!$store.theme.isDark">
+                        <i class="fas fa-moon w-5 h-5 mr-3 text-blue-400"></i>
+                    </template>
+                    <template x-if="$store.theme.isDark">
+                        <i class="fas fa-sun w-5 h-5 mr-3 text-amber-400"></i>
+                    </template>
+                    <span x-text="$store.theme.isDark ? 'Modo Claro' : 'Modo Oscuro'"></span>
+                </button>
+            </div>
+
+            <!-- Términos y Condiciones -->
+            <div class="px-4 py-2 border-t border-gray-200 dark:border-gray-700">
+                <a class="text-gray-400 hover:text-gray-200 hover:bg-gray-700/50 flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/terminos">
+    <i class="fas fa-file-contract w-5 h-5 mr-3"></i>
+                    <span>Términos y Condiciones</span>
+</a>
+            </div>
+
+            <!-- User Profile -->
+            <div class="border-t border-gray-200 dark:border-gray-700">
+                <div class="p-4">
+                    <a href="/mi_perfil" 
+                        class="flex items-center px-3 py-2.5 rounded-lg transition-colors duration-200 hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <div class="h-9 w-9 rounded-full bg-socialmentorify dark:bg-socialmentorify-dark flex items-center justify-center">
+                            <img src="{{ url_for('foto_perfil', foto_id=foto_id) if foto_id else url_for('static', filename='fotos_perfil/default.png') }}" 
+                 alt="Foto de perfil" 
+                 class="h-9 w-9 rounded-full object-cover">
+                        </div>
+                        <div class="ml-3 min-w-0">
+                            <div class="text-sm font-medium text-gray-900 dark:text-white truncate">{{ usuario }}</div>
+                        </div>
+                    </a>
+
+                    <div class="mt-3">
+                        <form method="POST" action="/logout">
+                                                       <button type="submit" 
+                                class="w-full flex items-center justify-center px-3 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white bg-gray-100 dark:bg-gray-700/50 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200">
+                                <i class="fas fa-power-off w-5 h-5 mr-2 text-red-600 dark:text-red-500"></i>
+                                Log Out
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+                </div>
+            </div> 
+
+            <!-- Main Content -->
+            <div class="sm:pl-64 flex flex-col min-h-full">
+                <div class="flex-1">
+                    <!-- Content Area with mobile padding -->
+                    <div class="sm:pt-0 pt-14"> <!-- Adjusted padding for mobile header -->
+                        <!-- Header (Desktop) -->
+                        <header class="hidden sm:block bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 sticky top-0 z-40">
+                            <div class="py-4 px-4 sm:px-6">
+                                <div class="flex justify-between items-center">
+
+                                    <div></div>
+
+                                    <div class="flex items-center space-x-4">
+                                        <div class="flex items-center text-gray-900 dark:text-gray-200">
+                                            <i class="fas fa-sack-dollar text-emerald-500 dark:text-emerald-400 mr-2 text-xl"></i>
+                                            <span class="font-semibold">$ {{saldo}}</span>
+                                        </div>
+
+                                        <a href="/saldo" 
+                                           class="inline-flex items-center px-4 py-2 bg-socialmentorify dark:bg-socialmentorify-dark hover:bg-opacity-80 dark:hover:bg-opacity-80 text-black dark:text-black border border-transparent rounded-md font-semibold text-xs uppercase tracking-widest focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-socialmentorify dark:focus:ring-socialmentorify-dark dark:focus:ring-offset-gray-800 transition-colors duration-200 shadow-lg shadow-socialmentorify/20 dark:shadow-socialmentorify-dark/20 hover:shadow-socialmentorify/40 dark:hover:shadow-socialmentorify-dark/40">
+                                            <i class="fas fa-plus mr-2"></i>
+                                            Agregar saldo
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </header>
+
+                                            
+                                                            
+
+                        <!-- Page Content -->
+                        <main class="py-6 px-4 sm:px-6 bg-gray-50 dark:bg-gray-900">
+                            
+                                                
+                                                            <div x-data="{ show: true }" x-show="show" x-transition
+                                     class="bg-orange-500 text-white p-4 text-sm font-semibold rounded-lg mb-6 shadow animate-wave flex items-center justify-between gap-4">
+                                    <p class="flex-grow">💥Si buscas alguna otra cuenta contactanos por whatsapp <a href="https://wa.link/rfm0qu" target="_blank" rel="noopener noreferrer" class="underline hover:text-white/75 font-bold"></a></p>
+                                    <button @click="show = false" class="flex-shrink-0 text-white hover:text-opacity-75">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                                                     <div x-data="{ show: true }" x-show="show" x-transition
+                                     class="bg-orange-500 text-white p-4 text-sm font-semibold rounded-lg mb-6 shadow animate-wave flex items-center justify-between gap-4">
+                                    <p class="flex-grow">💥Los precios de los diamantes de FREE FIRE estan en la siguiente pagina    <a href="https://torneosff.onrender.com/diamantes" target="_blank" rel="noopener noreferrer" class="underline hover:text-white/75 font-bold"> 👉 aqui</a></p>
+                                    <button @click="show = false" class="flex-shrink-0 text-white hover:text-opacity-75">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            
+                            <div class="py-3 sm:py-6">
+        <div class="w-full px-1 sm:px-2">
+            <!-- Encabezado -->
+            <div class="mb-3 sm:mb-6">
+                <h1 class="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-gray-100">
+                    Mercado de Cuentas Streaming
+                </h1>
+                <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-300 mt-1">
+                    Encuentra las mejores ofertas de streaming ordenadas por precio
+                </p>
+            </div>
+
+            <!-- Advertencia de Seguridad -->
+            <div class="mb-4 p-3 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-lg border border-green-200 dark:border-green-800">
+                <div class="flex items-center gap-2">
+                    <div class="flex-shrink-0">
+                        <svg class="w-5 h-5 text-green-600 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-sm font-medium text-green-800 dark:text-green-200">
+                            <strong>Para compras Seguras y Garantizadas</strong>: NO compres por WhatsApp.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+    <div id="notification" class="hidden mb-4 p-3 rounded-md text-sm font-medium"></div>
+
+
+    <style>
+        /* Custom scrollbar for quick filters */
+        .overflow-x-auto::-webkit-scrollbar {
+            height: 6px;
+        }
+        .overflow-x-auto::-webkit-scrollbar-thumb {
+            background-color: #cbd5e0; /* gray-400 */
+            border-radius: 3px;
+        }
+        .overflow-x-auto::-webkit-scrollbar-track {
+            background-color: #f7fafc; /* gray-50 */
+        }
+        .dark .overflow-x-auto::-webkit-scrollbar-thumb {
+            background-color: #4a5568; /* gray-600 */
+        }
+        .dark .overflow-x-auto::-webkit-scrollbar-track {
+            background-color: #2d3748; /* gray-800 */
+        }
+
+        /* Animation for scrolling credits */
+        @keyframes scrollCredits {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-100%); }
+        }
+
+        .credits-scroll {
+            animation: scrollCredits 15s linear infinite; /* Adjust duration as needed */
+            padding-bottom: 100%; /* Ensures smooth looping by adding space at the bottom */
+        }
+
+        .credits-scroll:hover {
+            animation-play-state: paused;
+        }
+    </style>
 </head>
-<body>
-  <header>
-    <h1><i class="fas fa-gem"></i> Premium Para Todos <i class="fas fa-star"></i></h1>
-    {% if logueado %}
-  <p style="margin-top: 10px;">Bienvenido, {{ usuario }} | Saldo: <strong>${{ saldo }} USD</strong></p>
-{% endif %}
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 p-4 sm:p-6">
 
-  </header>
+    <div class="max-w-4xl mx-auto">
+        <div class="mb-4">
+            <div class="relative">
+                <input type="text"
+                       id="searchInput"
+                       placeholder="Buscar por nombre o categoría..."
+                       class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-200"
+                       onkeyup="applyFilters()">
+                <div class="absolute inset-y-0 right-0 flex items-center pr-3">
+                    <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
 
-  <div class="container">
-    <div class="card">
-      <img src="data:image/webp;base64,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" alt="Canva Pro">
-      <h2>🎨 Canva Pro</h2>
-      <p>Accede a miles de plantillas, imágenes y herramientas premium. Ideal para diseñadores, emprendedores y estudiantes.</p>
-      <p class="price">Desde $4 USD/mes</p>
-{% if logueado %}
-  <form method="POST" action="/comprar">
-    <input type="hidden" name="servicio" value="Canva Pro">
-    <input type="hidden" name="precio" value="4">
-    <button type="submit" class="btn">Comprar con saldo</button>
-  </form>
-{% else %}
-  <a href="#" class="btn" onclick="contactar('Canva Pro')">¡Lo quiero por WhatsApp!</a>
-{% endif %}
+        <div class="mb-3 sm:mb-6 overflow-x-auto pb-3">
+            <div class="flex flex-wrap gap-1 sm:gap-2">
+                <button onclick="filterByService('ALL')"
+                        title="TODOS"
+                        class="p-0 sm:p-0.5 rounded-xl text-sm font-medium border border-gray-200 dark:border-gray-700 transition-colors duration-200 flex items-center justify-center w-14 sm:w-16 h-14 sm:h-16 hover:scale-110 bg-white dark:bg-gray-800">
+                    <span class="text-gray-700 dark:text-gray-200 text-xs sm:text-sm font-bold">TODOS</span>
+                </button>
+                <button onclick="filterByService('CRUNCHYROLL')"
+                        title="CRUNCHYROLL"
+                        class="p-0 sm:p-0.5 rounded-xl text-sm font-medium border border-gray-200 dark:border-gray-700 transition-colors duration-200 flex items-center justify-center w-14 sm:w-16 h-14 sm:h-16 hover:scale-110 bg-white dark:bg-gray-800">
+                    <img src="https://socialvirtu.com/storage/images/streaming/13rAzU007QyWjs8t5JVUra97X5B5y6jJw6QzLYEc.png"
+                         alt="CRUNCHYROLL"
+                         class="w-12 h-12 sm:w-14 sm:h-14 object-contain rounded-lg"
+                         loading="lazy">
+                </button>
+                <button onclick="filterByService('SPOTIFY')"
+                        title="SPOTIFY"
+                        class="p-0 sm:p-0.5 rounded-xl text-sm font-medium border border-gray-200 dark:border-gray-700 transition-colors duration-200 flex items-center justify-center w-14 sm:w-16 h-14 sm:h-16 hover:scale-110 bg-white dark:bg-gray-800">
+                    <img src="https://socialvirtu.com/storage/images/streaming/Rj2irFwyIIAxcZxphpr53q7JIpf350ZJpEuc9dEZ.png"
+                         alt="SPOTIFY"
+                         class="w-12 h-12 sm:w-14 sm:h-14 object-contain rounded-lg"
+                         loading="lazy">
+                </button>
+                <button onclick="filterByService('CANVA')"
+                        title="CANVA"
+                        class="p-0 sm:p-0.5 rounded-xl text-sm font-medium border border-gray-200 dark:border-gray-700 transition-colors duration-200 flex items-center justify-center w-14 sm:w-16 h-14 sm:h-16 hover:scale-110 bg-white dark:bg-gray-800">
+                    <img src="https://socialvirtu.com/storage/images/streaming/uJOWFKHoDHUQJufKxIA3hWlbt1O66UCb8YkTxH6S.png"
+                         alt="CANVA"
+                         class="w-12 h-12 sm:w-14 sm:h-14 object-contain rounded-lg"
+                         loading="lazy">
+                </button>
+                <button onclick="filterByService('FREE FIRE')"
+                        title="FREE FIRE"
+                        class="p-0 sm:p-0.5 rounded-xl text-sm font-medium border border-gray-200 dark:border-gray-700 transition-colors duration-200 flex items-center justify-center w-14 sm:w-16 h-14 sm:h-16 hover:scale-110 bg-white dark:bg-gray-800">
+                    <img src="https://socialvirtu.com/storage/images/streaming/b538ASISEQbBAEOXGjt85TG1cUEyZAEyauh0ZKaf.png"
+                         alt="FREE FIRE"
+                         class="w-12 h-12 sm:w-14 sm:h-14 object-contain rounded-lg"
+                         loading="lazy">
+                </button>
+                <button onclick="filterByService('YOUTUBE')"
+                        title="YOUTUBE"
+                        class="p-0 sm:p-0.5 rounded-xl text-sm font-medium border border-gray-200 dark:border-gray-700 transition-colors duration-200 flex items-center justify-center w-14 sm:w-16 h-14 sm:h-16 hover:scale-110 bg-white dark:bg-gray-800">
+                    <img src="https://socialvirtu.com/storage/images/streaming/XANjGNnUUVzKudGs7wfG5SDBNr8u2T98F6yYTdWF.png"
+                         alt="YOUTUBE"
+                         class="w-12 h-12 sm:w-14 sm:h-14 object-contain rounded-lg"
+                         loading="lazy">
+                </button>
+                <button onclick="filterByService('MAX')"
+                        title="MAX"
+                        class="p-0 sm:p-0.5 rounded-xl text-sm font-medium border border-gray-200 dark:border-gray-700 transition-colors duration-200 flex items-center justify-center w-14 sm:w-16 h-14 sm:h-16 hover:scale-110 bg-white dark:bg-gray-800">
+                    <img src="https://socialvirtu.com/storage/images/streaming/S4Ttkg8kQPAv3tT0m8c1Oo8GeJZ7lk5w1hTFNarn.png"
+                         alt="MAX"
+                         class="w-12 h-12 sm:w-14 sm:h-14 object-contain rounded-lg"
+                         loading="lazy">
+                </button>
+            </div>
+        </div>
+
+        <div id="productsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            </div>
+
     </div>
 
-    <div class="card">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg" alt="YouTube Premium">
-      <h2>🎵 YouTube Premium</h2>
-      <p>Disfruta de YouTube sin anuncios, descarga videos y escucha música en segundo plano.</p>
-      <p class="price">Desde $4 USD/mes</p>
-      {% if logueado %}
-  <form method="POST" action="/comprar">
-    <input type="hidden" name="servicio" value="You Tube premium">
-    <input type="hidden" name="precio" value="4">
-    <button type="submit" class="btn">Comprar con saldo</button>
-  </form>
-{% else %}
-      <a href="#" class="btn" onclick="contactar('YouTube Premium')">¡Lo quiero!</a>
-{% endif %}
-    </div>
-  </div>
 
-  <footer>
-    Hecho con ❤️ para ofrecerte lo mejor. <br>
-    <div class="icons">
-      <i class="fab fa-whatsapp"></i> <i class="fab fa-instagram"></i> <i class="fas fa-envelope"></i>
+<!-- Modal de compra -->
+<div id="purchaseModal" class="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center hidden">
+    <div class="bg-white dark:bg-gray-900 p-6 rounded-lg w-full max-w-md shadow-xl relative">
+        <button id="closeModalButton" class="absolute top-2 right-2 text-gray-500 hover:text-red-500">
+            &times;
+        </button>
+        <h2 id="modalProductTitle" class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
+            Contratar Servicio
+        </h2>
+        <p id="modalProductPrice" class="text-sm text-gray-700 dark:text-gray-300 mb-4">
+            Precio: $0.00
+        </p>
+        <form id="purchaseForm" class="space-y-3">
+            <input type="text" id="customerName" required placeholder="Tu nombre"
+                   class="w-full px-4 py-2 border rounded dark:bg-gray-800 dark:text-white">
+            <input type="text" id="customerWhatsapp" required placeholder="Tu WhatsApp"
+                   class="w-full px-4 py-2 border rounded dark:bg-gray-800 dark:text-white">
+            <input type="email" id="customerEmail" placeholder="Correo electrónico (opcional)"
+                   class="w-full px-4 py-2 border rounded dark:bg-gray-800 dark:text-white">
+            <textarea id="customerObservations" placeholder="Observaciones (opcional)"
+                      class="w-full px-4 py-2 border rounded dark:bg-gray-800 dark:text-white"></textarea>
+            <button type="submit"
+                    class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded">
+                Confirmar compra
+            </button>
+        </form>
     </div>
-  </footer>
+</div>
 
-  <script>
-    function contactar(servicio) {
-      const mensaje = `Hola! Estoy interesado en contratar ${servicio} 😄`;
-      const url = `https://wa.me/524661002589?text=${encodeURIComponent(mensaje)}`;
-      window.open(url, '_blank');
+<script>
+    const products = [
+        {
+            id: 1,
+            name: "Cuenta YouTube Premium",
+            category: "YOUTUBE",
+            duration: "3 meses",
+            priceNormal: 4.00,
+            delivery: "Manual",
+            seller: "braidi",
+            stocksInUse: 7,
+            totalStocks: 10,
+            usersInUse: ["Gerardo", "Chris", "ignacio jimenez", "Daniel", "Brayan", "anderson", "MILYSTREAMINSG CR"]
+        },
+        {
+            id: 2,
+            name: "Cuenta Canva Pro",
+            category: "CANVA",
+            duration: "1 mes",
+            priceNormal: 1.00,
+            delivery: "Manual",
+            seller: "braidi",
+            stocksInUse: 5,
+            totalStocks: 8,
+            usersInUse: ["UsuarioA", "UsuarioB", "UsuarioC", "UsuarioD", "UsuarioE"]
+        },
+        {
+            id: 3,
+            name: "Cuenta Canva Pro",
+            category: "CANVA",
+            duration: "12 meses",
+            priceNormal: 5.00,
+            delivery: "Manual",
+            seller: "braidi",
+            stocksInUse: 2,
+            totalStocks: 5,
+            usersInUse: ["UsuarioX", "UsuarioY"]
+        },
+        {
+            id: 4,
+            name: "Cuenta Crunchyroll Premium",
+            category: "CRUNCHYROLL",
+            duration: "3 meses",
+            priceNormal: 5.00,
+            delivery: "Manual",
+            seller: "braidi",
+            stocksInUse: 8,
+            totalStocks: 12,
+            usersInUse: ["AnimeFan1", "AnimeFan2", "AnimeFan3", "AnimeFan4", "AnimeFan5", "AnimeFan6", "AnimeFan7", "AnimeFan8"]
+        },
+        {
+            id: 5,
+            name: "Cuenta HBO Max",
+            category: "MAX",
+            duration: "3 meses",
+            priceNormal: 3.50,
+            delivery: "Manual",
+            seller: "braidi",
+            stocksInUse: 6,
+            totalStocks: 10,
+            usersInUse: ["MovieLover1", "MovieLover2", "MovieLover3", "MovieLover4", "MovieLover5", "MovieLover6"]
+        },
+        {
+            id: 6,
+            name: "Cuenta Spotify Premium",
+            category: "SPOTIFY",
+            duration: "1 mes",
+            priceNormal: 2.50,
+            delivery: "Manual",
+            seller: "braidi",
+            stocksInUse: 9,
+            totalStocks: 15,
+            usersInUse: ["MusicFan1", "MusicFan2", "MusicFan3", "MusicFan4", "MusicFan5", "MusicFan6", "MusicFan7", "MusicFan8", "MusicFan9"]
+        },
+        {
+            id: 7,
+            name: "Diamantes Free Fire",
+            category: "FREE FIRE",
+            duration: "N/A", // Mantener N/A para este caso
+            priceNormal: null, // Si es N/A el precio también puede ser nulo o especificar un precio base
+            delivery: "Manual",
+            seller: "braidi",
+            stocksInUse: 0,
+            totalStocks: 0,
+            usersInUse: []
+        },
+        {
+            id: 991,
+            name: "Plex demo",
+            category: "PLEX",
+            duration: "2 horas",
+            priceNormal: 0.29,
+            delivery: "Manual",
+            seller: "braidi",
+            stocksInUse: 7,
+            totalStocks: 10,
+            usersInUse: ["Gerardo", "Chris", "ignacio jimenez", "Daniel", "Brayan", "anderson", "MILYSTREAMINSG CR"]
+        }
+    ];
+
+    let currentFilter = 'ALL';
+
+    function generateProductCard(product) {
+        const stocksAvailable = product.totalStocks - product.stocksInUse;
+        const deliveryInfo = product.delivery === 'Manual' ? `
+            <div class="text-xs font-semibold text-yellow-600 dark:text-yellow-400 relative group">
+                <div class="inline-flex items-center px-2 py-0.5 rounded-full bg-yellow-50 dark:bg-yellow-900/20">
+                    Entrega Manual
+                    <span class="ml-1 cursor-help inline-flex items-center justify-center w-4 h-4 rounded-full bg-yellow-100 dark:bg-yellow-800/50 hover:bg-opacity-80 transition-colors">
+                        <span class="text-xs font-bold text-yellow-600 dark:text-yellow-400">?</span>
+                    </span>
+                </div>
+                <div class="absolute left-0 top-full mt-2 w-64 p-3 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                    <div class="flex items-start space-x-3">
+                        <div class="flex-shrink-0">
+                            <div class="w-8 h-8 rounded-full bg-yellow-100 dark:bg-yellow-900/30 flex items-center justify-center">
+                                <svg class="w-4 h-4 text-yellow-600 dark:text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-1">
+                                Entrega Manual
+                            </h4>
+                            <p class="text-xs text-gray-600 dark:text-gray-300">
+                                La entrega de credenciales se realiza manualmente por el administrador. Recibirás tus credenciales en un plazo máximo de 24 horas.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        ` : '';
+
+        const priceInfo = (product.priceNormal !== null) ? `
+            <div class="flex flex-col items-end gap-1">
+                <div class="text-xs text-gray-600 dark:text-gray-400">
+                    Precio:
+                    <span class="text-sm font-bold text-blue-600 dark:text-blue-400">
+                        $${product.priceNormal.toFixed(2)}
+                    </span>
+                </div>
+            </div>
+        ` : '<div class="text-xs text-gray-500 dark:text-gray-400">Precio no disponible</div>';
+
+        const usersInUseHtml = product.usersInUse.map(user => `
+            <div class="credit-item text-xs text-gray-600 dark:text-gray-300 mb-1 flex items-center space-x-1 bg-white dark:bg-gray-700 px-1.5 py-0.5 rounded">
+                <div class="w-1 h-1 rounded-full bg-green-500 animate-pulse"></div>
+                <div class="flex items-center space-x-1">
+                    <svg class="w-2.5 h-2.5 text-gray-400 dark:text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                    </svg>
+                    <span class="font-medium truncate max-w-[80px]">${user}</span>
+                </div>
+            </div>
+        `).join('');
+
+        // Nombre del producto con la duración
+        const productNameWithDuration = product.duration !== "N/A" ? `${product.name} - ${product.duration}` : product.name;
+
+        return `
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden border border-gray-200 dark:border-gray-700">
+                <div class="divide-y divide-gray-200 dark:divide-gray-700">
+                    <div class="p-3 bg-yellow-50 dark:bg-yellow-900/10">
+                        <div class="flex justify-between items-center mb-2">
+                            <div>
+                                <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
+                                    <span class="text-xs text-gray-400 dark:text-gray-500 opacity-70 mr-2">ID: ${product.id}</span>${productNameWithDuration}
+                                </div>
+                                <div class="text-xs text-gray-500 dark:text-gray-400">${product.category}</div>
+                                ${deliveryInfo}
+                            </div>
+                            ${priceInfo}
+                        </div>
+                        <div class="flex items-center mb-2">
+                            <div class="flex-shrink-0 relative">
+                                <div class="h-5 w-5 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+                                    <span class="text-gray-600 dark:text-gray-200 text-xs font-medium">B</span>
+                                </div>
+                                <div class="absolute -bottom-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-green-500 ring-1 ring-white dark:ring-gray-800"></div>
+                            </div>
+                            <div class="ml-2">
+                                <div class="text-xs font-medium text-gray-700 dark:text-gray-300 flex items-center">
+                                    ${product.seller}
+                                    <svg class="w-3 h-3 ml-0.5 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                    </svg>
+                                </div>
+                                <div class="flex items-center space-x-1 text-xs text-gray-400 dark:text-gray-500">
+                                    <span>${product.totalStocks} cuentas</span>
+                                    <span>•</span>
+                                    <span>402 ventas</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-2 bg-gray-50 dark:bg-gray-700/50 p-2 rounded-md">
+                            <div class="text-xs text-gray-900 dark:text-gray-100 flex items-center space-x-1">
+                                <div class="w-1.5 h-1.5 rounded-full bg-green-500"></div>
+                                <span>${product.stocksInUse}/${product.totalStocks} stocks en uso</span>
+                            </div>
+                            <div class="mt-1 relative h-12 overflow-hidden">
+                                <div class="credits-scroll">
+                                    ${usersInUseHtml}
+                                    ${usersInUseHtml} </div>
+                            </div>
+                            <div class="flex items-center space-x-1 mt-1">
+                                <span class="text-xs text-green-500 font-medium">
+                                    ${stocksAvailable}
+                                </span>
+                                <span class="text-xs text-gray-500 dark:text-gray-400">
+                                    stocks disponibles
+                                </span>
+                            </div>
+                        </div>
+                        <div class="flex justify-end items-center">
+                            <button onclick="openPurchaseModal(${product.id})" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md shadow-sm text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 dark:bg-orange-600 dark:hover:bg-orange-700">
+                                Comprar Ahora
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
     }
-  </script>
-</body>
+
+    function renderProducts(filteredProducts) {
+        const productsContainer = document.getElementById('productsContainer');
+        productsContainer.innerHTML = ''; // Clear current products
+
+        if (filteredProducts.length === 0) {
+            productsContainer.innerHTML = '<p class="text-center text-gray-500 dark:text-gray-400 col-span-full">No se encontraron productos que coincidan con tu búsqueda.</p>';
+            return;
+        }
+
+        filteredProducts.forEach(product => {
+            productsContainer.innerHTML += generateProductCard(product);
+        });
+    }
+
+    function applyFilters() {
+        const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+
+        let filtered = products.filter(product => {
+            const matchesCategory = currentFilter === 'ALL' || product.category === currentFilter;
+            const productNameWithDuration = product.duration !== "N/A" ? `${product.name} - ${product.duration}`.toLowerCase() : product.name.toLowerCase();
+            const matchesSearch = productNameWithDuration.includes(searchTerm) || product.category.toLowerCase().includes(searchTerm);
+            return matchesCategory && matchesSearch;
+        });
+        renderProducts(filtered);
+    }
+
+    function filterByService(service) {
+        currentFilter = service;
+        applyFilters();
+    }
+
+    // Modal Handling
+    const purchaseModal = document.getElementById('purchaseModal');
+    const closeModalButton = document.getElementById('closeModalButton');
+    const purchaseForm = document.getElementById('purchaseForm');
+    const modalProductTitle = document.getElementById('modalProductTitle');
+    const modalProductPrice = document.getElementById('modalProductPrice');
+    let selectedProduct = null;
+
+    closeModalButton.addEventListener('click', () => {
+        purchaseModal.classList.add('hidden');
+    });
+
+    purchaseModal.addEventListener('click', (e) => {
+        if (e.target === purchaseModal) {
+            purchaseModal.classList.add('hidden');
+        }
+    });
+
+    function openPurchaseModal(productId) {
+        selectedProduct = products.find(p => p.id === productId);
+        if (selectedProduct) {
+            const productNameWithDuration = selectedProduct.duration !== "N/A" ? `${selectedProduct.name} - ${selectedProduct.duration}` : selectedProduct.name;
+            modalProductTitle.textContent = `Contratar Servicio de Streaming: ${productNameWithDuration}`;
+            modalProductPrice.textContent = `$${selectedProduct.priceNormal !== null ? selectedProduct.priceNormal.toFixed(2) : 'N/A'}`;
+            
+            // Clear previous form data
+            purchaseForm.reset(); 
+            
+            purchaseModal.classList.remove('hidden');
+        }
+    }
+
+function showNotification(message, type = 'success') {
+    const notification = document.getElementById('notification');
+    notification.classList.remove('hidden');
+    
+    notification.textContent = message;
+
+    // Limpia clases anteriores
+    notification.className = 'mb-4 p-3 rounded-md text-sm font-medium';
+
+    if (type === 'success') {
+        notification.classList.add('bg-green-100', 'text-green-800', 'dark:bg-green-900', 'dark:text-green-200');
+    } else if (type === 'error') {
+        notification.classList.add('bg-red-100', 'text-red-800', 'dark:bg-red-900', 'dark:text-red-200');
+    } else {
+        notification.classList.add('bg-gray-100', 'text-gray-800', 'dark:bg-gray-900', 'dark:text-gray-200');
+    }
+
+    setTimeout(() => {
+        notification.classList.add('hidden');
+    }, 7000); // Oculta después de 5 segundos
+}
+
+
+   purchaseForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const customerName = document.getElementById('customerName').value;
+    const customerWhatsapp = document.getElementById('customerWhatsapp').value;
+    const customerEmail = document.getElementById('customerEmail').value;
+    const customerObservations = document.getElementById('customerObservations').value;
+
+    const payload = {
+        servicio: selectedProduct.name,
+        precio: selectedProduct.priceNormal,
+        nombre: customerName,
+        whatsapp: customerWhatsapp,
+        email: customerEmail,
+        observaciones: customerObservations
+    };
+
+    try {
+        const response = await fetch('/comprar', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            showNotification(result.message || 'Hubo un error al procesar tu compra.', 'error');
+            return;
+        }
+
+        showNotification(result.message || '¡Compra realizada con éxito!', 'success');
+        purchaseModal.classList.add('hidden');
+
+    } catch (err) {
+        console.error(err);
+        showNotification('Error de conexión al servidor.', 'error');
+    }
+});
+
+
+    // Initial render when the page loads
+    document.addEventListener('DOMContentLoaded', () => {
+        applyFilters();
+    });
+</script>
+
+
+        <!-- Alpine Dark Mode Store -->
+        <script>
+            document.addEventListener('alpine:init', () => {
+                Alpine.store('theme', {
+                    isDark: localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches),
+                    toggle() {
+                        this.isDark = !this.isDark;
+                        localStorage.theme = this.isDark ? 'dark' : 'light';
+                        
+                        if (this.isDark) {
+                            document.documentElement.classList.add('dark');
+                        } else {
+                            document.documentElement.classList.remove('dark');
+                        }
+                    }
+                });
+            });
+        </script>
+
+        
+        <!-- WhatsApp Button -->
+                <a href="https://wa.me/+525654936049" 
+           target="_blank"
+           class="fixed bottom-4 right-4 bg-[#25D366] text-white rounded-full w-14 h-14 flex items-center justify-center shadow-[4px_4px_10px_rgba(0,0,0,0.5)] hover:shadow-[6px_6px_15px_rgba(0,0,0,0.6)] hover:translate-y-[-2px] transition-all duration-300 z-50">
+            <i class="fab fa-whatsapp text-2xl"></i>
+        </a>
+            </div>
+
+    
+    </body>
 </html>

@@ -3,29 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="../fav/fav.jpeg">
-    <title>Recuperar Contraseña</title>
-    <link rel="stylesheet" href="../static/contrasena.css">
+    <title>Tu Página</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Recuperar Contraseña</h1>
+    <main class="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 p-4">
+    <div class="container max-w-md w-full bg-white dark:bg-gray-800 rounded-lg shadow-xl p-8 space-y-6">
+
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6 text-center">Recuperar Contraseña 🔑</h1>
+
         {% with messages = get_flashed_messages(category_filter=['success', 'error']) %}
             {% if messages %}
-                <div class="flash-message">
+                {% set message_type = 'success' if 'success' in get_flashed_messages(with_categories=true)[0] else 'error' %}
+                <div class="flash-message p-3 rounded-md text-center
+                    {% if message_type == 'success' %} bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-200
+                    {% elif message_type == 'error' %} bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-200
+                    {% endif %} mb-4">
                     {{ messages[0] }}
                 </div>
             {% endif %}
         {% endwith %}
-        <form action="{{ url_for('recuperar_contrasena') }}" method="POST">
-            <label for="email">Ingresa tu correo electrónico:</label>
-            <div class="form-group">
-                <i class="fas fa-envelope icon"></i>
-                <input type="email" name="email" id="email" placeholder="Correo electrónico" required>
+
+        <form action="{{ url_for('recuperar_contrasena') }}" method="POST" class="space-y-5">
+            <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Ingresa tu correo electrónico:</label>
+            <div class="form-group relative">
+                <i class="fas fa-envelope icon absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500"></i>
+                <input type="email" name="email" id="email" placeholder="Correo electrónico" required class="w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
             </div>
-            <button type="submit">Enviar</button>
+            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition duration-200 ease-in-out shadow-md flex items-center justify-center">
+                <i class="fas fa-paper-plane mr-2"></i> Enviar
+            </button>
         </form>
-    </div>    
+    </div>
+</main>   
 </body>
 </html>

@@ -1,48 +1,61 @@
 <!DOCTYPE html>
 <html lang="es">
+
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Descargar Videos de TikTok</title>
-  <link rel="stylesheet" href="../static/tiktok.css" />
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-  <link rel="icon" href="../static/fav/tiktok.png">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4520364325008604"
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4520364325008604"
      crossorigin="anonymous"></script>
+
 </head>
+
+
 <body>
-  <div class="regresar" onclick="volverPagina()">
-    <i class="fas fa-sign-out-alt"> regresar</i>
-  </div>
+ <main class="min-h-screen flex flex-col items-center justify-center bg-gray-50 dark:bg-gray-900 p-4">
+    <div class="regresar absolute top-4 left-4 sm:top-6 sm:left-6 md:top-8 md:left-8 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-4 py-2 rounded-lg shadow-md hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-200 ease-in-out cursor-pointer flex items-center" onclick="volverPagina()">
+        <i class="fas fa-arrow-left mr-2"></i> Regresar
+    </div>
 
-  <div class="container">
-    <h1>Descargar<br>Videos de TikTok</h1>
+    <div class="container max-w-lg w-full bg-white dark:bg-gray-800 rounded-lg shadow-xl p-8 space-y-6 text-center">
+        <h1 class="text-4xl font-extrabold text-gray-900 dark:text-gray-100 leading-tight mb-6">
+            Descargar<br>Videos de TikTok 🚀
+        </h1>
 
-    <section>
-      <article>
-        <form id="download-form" action="/tiktok-download" method="POST">
-          <div class="input-group">
-            <div class="icon">            <i class="fa-solid fa-link"></i>            </div>
-            <input type="url" name="url" placeholder="Enlace de TikTok" required />
-            <button class="youtube-btn" type="submit">
-              <img src="https://static.vecteezy.com/system/resources/previews/018/910/704/original/tiktok-logo-tiktok-symbol-tiktok-icon-free-free-vector.jpg" alt="TikTok" />
-            </button>
-          </div>
+        <section class="space-y-6">
+            <article>
+                <form id="download-form" action="/tiktok-download" method="POST" class="space-y-5">
+                    <div class="input-group relative flex items-center w-full">
+                        <div class="icon absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500">
+                            <i class="fa-solid fa-link text-xl"></i>
+                        </div>
+                        <input type="url" name="url" placeholder="Pega el enlace de TikTok aquí" required
+                               class="w-full pl-12 pr-16 py-3 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-lg placeholder-gray-500 dark:placeholder-gray-400">
+                        <button class="youtube-btn absolute right-0 top-0 h-full px-4 py-2 bg-gray-100 dark:bg-gray-600 rounded-r-lg border border-l-0 border-gray-300 dark:border-gray-600 hover:bg-gray-200 dark:hover:bg-gray-500 transition duration-200 ease-in-out flex items-center justify-center">
+                            <img src="https://static.vecteezy.com/system/resources/previews/018/910/704/original/tiktok-logo-tiktok-symbol-tiktok-icon-free-free-vector.jpg" alt="TikTok" class="h-8 w-8 object-contain" />
+                        </button>
+                    </div>
 
-          <button class="download-btn" type="submit"> <i class="fa-solid fa-download"></i> Descargar</button>
-        </form>
-      </article>
-    </section>
-  </div>
-  <script>
+                    <button class="download-btn w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition duration-200 ease-in-out flex items-center justify-center text-lg mt-6">
+                        <i class="fa-solid fa-download mr-3"></i> Descargar Video
+                    </button>
+                </form>
+            </article>
+        </section>
+    </div>
+</main>
+
+<script>
     function volverPagina(){
-      if(document.referrer){
-        window.history.back()
-      }else {
-        window.location.href = "/";
-      }
+        if(document.referrer){
+            window.history.back();
+        } else {
+            window.location.href = "/";
+        }
     }
-  </script>
+</script>
 </body>
 </html>

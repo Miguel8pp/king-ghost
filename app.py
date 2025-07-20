@@ -30,6 +30,10 @@ from io import BytesIO
 import qrcode
 import io
 from bson.decimal128 import Decimal128
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
+from flask import jsonify
+from bson.json_util import dumps
 
 
 
@@ -61,6 +65,8 @@ collection = db['usuarios']
 pedidos_collection = db['Pedidos']
 pagos_collection = db['Pagos'] 
 posts = db["articulos"]
+pedidos_streaming = db['streaming']
+soporte_collection = db['soporteMensajes']
 
 # GridFS
 fs = gridfs.GridFS(db)      
@@ -123,6 +129,7 @@ def mi_perfil():
 
     usuario = session['usuario']
     user_data = collection.find_one({'usuario': usuario})
+    saldo = obtener_saldo(usuario)
 
     if request.method == 'POST':
         # Cambiar contraseña
@@ -177,7 +184,7 @@ def mi_perfil():
     foto_id = user_data.get('foto_id')
     session['foto_id'] = str(foto_id) if foto_id else None
 
-    return render_template('mi_perfil.html', usuario=user_data['usuario'], email=user_data['email'], foto_id=foto_id)
+    return render_template('mi_perfil.html', usuario=user_data['usuario'], email=user_data['email'], foto_id=foto_id,saldo=saldo)
 
 @app.route('/foto_perfil/<foto_id>')
 def foto_perfil(foto_id):
@@ -195,35 +202,76 @@ def foto_perfil(foto_id):
 def pagina_principal():
     if 'usuario' not in session:
         return redirect(url_for('login'))
-    
-    # Verificar si el usuario está baneado
+
     user_data = collection.find_one({'usuario': session['usuario']})
+    if not user_data:
+        session.clear()
+        return redirect(url_for('login'))
+
     if user_data.get('ban') == 'ban':
         razon_ban = user_data.get('razon_ban', 'Razón no especificada')
-        return render_template('ban.html', razon_ban=razon_ban)  # Pasamos la razón del ban a la plantilla
+        return render_template('ban.html', razon_ban=razon_ban)
 
     saldo = obtener_saldo(session['usuario'])
+
     api = Api()
     categories = api.categories()
     services = api.services()
-    foto_id = user_data.get('foto_id')
 
-    # Validación para categories y services
     if isinstance(categories, dict) and 'categories' in categories:
         categories = categories['categories']
     else:
-        categories = []  # Asegúrate de que categories siempre sea una lista válida
+        categories = []
 
     if isinstance(services, dict) and 'services' in services:
         services = services['services']
     else:
-        services = []  # Asegúrate de que services siempre sea una lista válida
+        services = []
 
-    # Limpiar valores None en categories y services
-    categories = [category for category in categories if category is not None and isinstance(category, dict)]
-    services = [service for service in services if service is not None and isinstance(service, dict)]
-    
-    return render_template('index.html', usuario=session['usuario'], saldo=saldo, categories=categories, services=services, foto_id=foto_id)
+    categories = [c for c in categories if c is not None and isinstance(c, dict)]
+    services = [s for s in services if s is not None and isinstance(s, dict)]
+
+    foto_id = user_data.get('foto_id')
+    mi_codigo = user_data.get('codigo_referido')
+    enlace_referido = user_data.get('enlace_referido')
+
+    # Buscar todos los usuarios referidos por mí
+    referidos = []
+    if mi_codigo:
+        cursor = collection.find({'referido_por': mi_codigo})
+        for doc in cursor:
+            fecha_registro = doc.get('fecha_registro')
+            tiempo_transcurrido = ""
+            if fecha_registro:
+                ahora = datetime.utcnow()
+                diferencia = relativedelta(ahora, fecha_registro)
+                if diferencia.years > 0:
+                    tiempo_transcurrido = f"{diferencia.years} years ago"
+                elif diferencia.months > 0:
+                    tiempo_transcurrido = f"{diferencia.months} months ago"
+                elif diferencia.days > 0:
+                    tiempo_transcurrido = f"{diferencia.days} days ago"
+                else:
+                    tiempo_transcurrido = "Just now"
+
+            referidos.append({
+                'usuario': doc.get('usuario'),
+                'nombre': doc.get('nombre'),
+                'tiempo': tiempo_transcurrido
+            })
+
+    return render_template(
+        'index.html',
+        usuario=session['usuario'],
+        saldo=saldo,
+        categories=categories,
+        services=services,
+        foto_id=foto_id,
+        codigo_referido=mi_codigo,
+        enlace_referido=enlace_referido,
+        referidos=referidos
+    )
+
 
 # Ruta para crear orden de pago
 @app.route('/saldo', methods=['GET', 'POST'])
@@ -307,6 +355,7 @@ def movimientos():
 
     user_data = collection.find_one({'usuario': usuario})
     foto_id = user_data.get('foto_id')
+    saldo = obtener_saldo(usuario)
 
     # Obtener los movimientos de pagos del usuario desde la base de datos
     movimientos_usuario = pagos_collection.find({'usuario': usuario})
@@ -331,10 +380,10 @@ def movimientos():
             'descripcion': pago.get('metodo_pago', 'Desconocido'),
             'monto': monto_redondeado,
             'estado': estado,
-            'fecha': pago.get('fecha', datetime.datetime.now()).strftime('%Y-%m-%d')
+            'fecha': pago.get('fecha', datetime.now()).strftime('%Y-%m-%d')
         })
     
-    return render_template('mov.html', usuario=usuario, pagos=pagos, foto_id=foto_id)
+    return render_template('mov.html', usuario=usuario, pagos=pagos, foto_id=foto_id, saldo=saldo)
 
 
 
@@ -346,7 +395,9 @@ def agregar_orden():
         return redirect(url_for('login'))  # Redirige a la página de login si no está autenticado
 
     usuario = session['usuario']
+    user_data = collection.find_one({'usuario': usuario})
     saldo = obtener_saldo(usuario)  # Obtener saldo del usuario
+    foto_id = user_data.get('foto_id')
 
     # Si el saldo es 0 o inferior, mostrar el mensaje de "Saldo Insuficiente"
     if saldo <= 0:
@@ -432,7 +483,7 @@ def agregar_orden():
         return redirect(url_for('agregar_orden'))
 
     # Si es un GET, simplemente renderizar la página con las categorías y servicios
-    return render_template('yoursmm.html', usuario=usuario, saldo=saldo, categories=categories, services=services)
+    return render_template('yoursmm.html', usuario=usuario, saldo=saldo, categories=categories, services=services, foto_id=foto_id)
 
 # Ruta de login
 @app.route('/login', methods=['GET', 'POST'])
@@ -470,6 +521,7 @@ def login():
 
             # Si el usuario está autenticado, almacenamos su sesión
             session['usuario'] = username
+            session.permanent = 'remember' in request.form
             flash("Bienvenido de nuevo!", "success")
             
             # Redirigimos según el rol del usuario
@@ -482,46 +534,77 @@ def login():
     return render_template('login.html')
 
 # Ruta para registrar un nuevo usuario
+
 @app.route('/registro', methods=['GET', 'POST'])
 def registro():
-    if request.method == 'POST':
-        usuario = request.form['usuario']
-        email = request.form['email']
-        contrasena = request.form['contrasena']
+    referral_code = request.args.get('ref')  # Leer desde URL por si viene con ?ref=...
 
-        # Verificar si el correo ya está registrado
+    if request.method == 'POST':
+        nombre_completo = request.form.get('name')
+        username = request.form.get('username')
+        whatsapp_country = request.form.get('whatsapp_country')
+        whatsapp_number = request.form.get('whatsapp_number')
+        email = request.form.get('email')
+        referral_code = request.form.get('referral_code')  # Leer desde el formulario también
+        password = request.form.get('password')
+        confirm_password = request.form.get('password_confirmation')
+
+        if password != confirm_password:
+            flash("Las contraseñas no coinciden.")
+            return redirect(url_for('registro', ref=referral_code))
+
         if collection.find_one({'email': email}):
             flash("El correo electrónico ya está registrado.")
-            return redirect(url_for('registro'))
+            return redirect(url_for('registro', ref=referral_code))
 
-        # Generar el hash de la contraseña
-        hashed_password = bcrypt.generate_password_hash(contrasena).decode('utf-8')
+        if collection.find_one({'usuario': username}):
+            flash("El nombre de usuario ya está en uso.")
+            return redirect(url_for('registro', ref=referral_code))
 
-        # Insertar el usuario en la base de datos con saldo 0.0000000
-        collection.insert_one({
-            'usuario': usuario,
+        # Si hay código de referido, validar que exista en la base de datos
+        if referral_code:
+            referido_existente = collection.find_one({'codigo_referido': referral_code})
+            if not referido_existente:
+                flash("El código de referido no es válido.")
+                return redirect(url_for('registro'))
+
+        whatsapp = f"+{whatsapp_country}{whatsapp_number}"
+        hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+        codigo_referido = f"{username}_1"
+
+        nuevo_usuario = {
+            'nombre': nombre_completo,
+            'usuario': username,
+            'whatsapp': whatsapp,
             'email': email,
             'contrasena': hashed_password,
-            'saldo': 0.0000000,  # Aquí asignamos el saldo inicial de 0.0000000
+            'saldo': 0.0000000,
             'rol': 'user',
-            'ban': 'no_ban',  # Este campo es para verificar si el usuario está baneado o no
-            'razon_ban': ''  # Campo adicional para almacenar la razón del ban
+            'ban': 'no_ban',
+            'razon_ban': '',
+            'fecha_registro': datetime.utcnow(),
+            'referido_por': referral_code if referral_code else None,
+            'codigo_referido': codigo_referido,
+            'enlace_referido': f"https://kingshop7.onrender.com/registro?ref={codigo_referido}"
+        }
 
-        })
-        
-        # Iniciar sesión automáticamente después de registrarse
-        session['usuario'] = usuario
+        collection.insert_one(nuevo_usuario)
+        session['usuario'] = username
 
-        # Enviar correo de bienvenida
-        enviar_email(email, "Bienvenido a nuestra plataforma", f"Hola {usuario}, ¡bienvenido a nuestra plataforma! para agregar fondos a su cuenta comuníquese por WhatsApp al número +52 4661002589")
+        enviar_email(
+            email,
+            "Bienvenido a nuestra plataforma",
+            f"Hola {nombre_completo}, ¡bienvenido a nuestra plataforma! Para agregar fondos a tu cuenta, comunícate por WhatsApp al número +52 4661002589"
+        )
 
-        # Redirigir al usuario a la página principal
         return redirect(url_for('pagina_principal'))
 
-    return render_template('register.html')
+    # Mostrar formulario con código prellenado si viene de ?ref=
+    return render_template('register.html', referral_code=referral_code)
+
 
 # Ruta para cerrar sesión
-@app.route('/logout')
+@app.route('/logout', methods=['GET', 'POST'])
 def logout():
     session.pop('usuario', None)
     flash("Has cerrado sesión con éxito.", "info")
@@ -766,70 +849,6 @@ def ban():
     # Pasamos la razón del baneo a la plantilla
     return render_template('ban.html', razon_ban=razon_ban)
 
-GENERATED_FOLDER = "generated"
-os.makedirs(GENERATED_FOLDER, exist_ok=True)
-
-@app.route("/bloqp", methods=["GET", "POST"])
-def index():
-    if request.method == "POST":
-        sistema = request.form.get("sistema")
-        urls = request.form.get("urls")
-        url_list = urls.splitlines()
-
-        # Nombre de archivo fijo según sistema
-        filename_map = {
-            "pc": "PC.bat",
-            "android": "Android.conf",
-            "iphone": "iPhone.mobileconfig"
-        }
-
-        final_name = filename_map.get(sistema, "archivo.txt")
-        filepath = os.path.join(GENERATED_FOLDER, final_name)
-
-        with open(filepath, "w") as f:
-            if sistema == "pc":
-                f.write("@echo off\n")
-                f.write("echo Bloqueando sitios...\n\n")
-                for url in url_list:
-                    url = url.strip()
-                    if url:
-                        f.write(f"echo 127.0.0.1 {url} >> %SystemRoot%\\System32\\drivers\\etc\\hosts\n")
-                f.write("\necho Listo.\npause\n")
-
-            elif sistema == "android":
-                for url in url_list:
-                    url = url.strip().replace("https://", "").replace("http://", "")
-                    if url:
-                        f.write(f"||{url}^\n")
-
-            elif sistema == "iphone":
-                f.write("<!-- Archivo simulado .mobileconfig -->\n")
-                for url in url_list:
-                    url = url.strip()
-                    if url:
-                        f.write(f"<!-- Bloquear: {url} -->\n")
-
-        # Redirige a la página de instrucciones con el nombre del archivo
-        return redirect(url_for("instrucciones", sistema=sistema))
-
-    return render_template("bloq.html")
-
-@app.route("/descargar/<sistema>")
-def descargar(sistema):
-    filename_map = {
-        "pc": "PC.bat",
-        "android": "Android.conf",
-        "iphone": "iPhone.mobileconfig"
-    }
-    final_name = filename_map.get(sistema)
-    filepath = os.path.join(GENERATED_FOLDER, final_name)
-    return send_file(filepath, as_attachment=True)
-
-@app.route("/instrucciones/<sistema>")
-def instrucciones(sistema):
-    return render_template("instrucciones.html", sistema=sistema)
-
-
 
 DOWNLOAD_FOLDER = "downloads"
 os.makedirs(DOWNLOAD_FOLDER, exist_ok=True)
@@ -1012,16 +1031,19 @@ def generate_qrcode():
                 print(f"Error generando el QR: {e}", file=sys.stderr)
                 return "Error generando el código QR", 500
     return render_template('genqr.html')
+    
 
 @app.route('/streaming', methods=['GET', 'POST'])
 def streaming():
     if 'usuario' in session:
         user_data = collection.find_one({'usuario': session['usuario']})
+        foto_id = user_data.get('foto_id')
+
         if user_data:
             if user_data.get('ban') == 'ban':
                 return render_template('ban.html', razon_ban=user_data.get('razon_ban', 'Sin razón'))
             # Usuario logueado y no baneado
-            return render_template('streaming.html', logueado=True, usuario=user_data['usuario'], saldo=user_data.get('saldo', 0))
+            return render_template('streaming.html', logueado=True, usuario=user_data['usuario'], saldo=user_data.get('saldo', 0),foto_id=foto_id)
         else:
             # No encontró datos del usuario en BD (por si la sesión está corrupta)
             session.pop('usuario', None)
@@ -1034,18 +1056,23 @@ def streaming():
 
 @app.route('/comprar', methods=['POST'])
 def comprar():
-    try:
-        if 'usuario' not in session:
-            return redirect('/login')
+    if 'usuario' not in session:
+        return jsonify({'message': 'Debes iniciar sesión'}), 401
 
-        servicio = request.form['servicio']
-        # Convertimos precio a Decimal para precisión
-        precio = Decimal(request.form['precio'])
+    try:
+        data = request.get_json()
+
+        servicio = data.get('servicio')
+        precio = Decimal(data.get('precio'))
+        nombre = data.get('nombre')
+        whatsapp = data.get('whatsapp')
+        email = data.get('email', '')
+        observaciones = data.get('observaciones', '')
 
         user_data = collection.find_one({'usuario': session['usuario']})
         saldo_decimal128 = user_data.get('saldo', Decimal128('0'))
 
-        # Convertimos saldo de Decimal128 a Decimal de Python
+        # Convertimos saldo
         if isinstance(saldo_decimal128, Decimal128):
             saldo_actual = saldo_decimal128.to_decimal()
         else:
@@ -1053,23 +1080,33 @@ def comprar():
 
         if saldo_actual >= precio:
             nuevo_saldo = saldo_actual - precio
-            # Guardamos saldo actualizado como Decimal128 en Mongo
+
+            # Actualizar saldo
             collection.update_one(
                 {'usuario': session['usuario']},
                 {'$set': {'saldo': Decimal128(str(nuevo_saldo))}}
             )
 
-            mensaje = f"Hola! He comprado {servicio} desde la web. Mi usuario es {session['usuario']} y pagué ${precio} con saldo 😄"
-            url = f"https://wa.me/524661002589?text={mensaje}"
-            return redirect(url)
+            # Guardar el pedido
+            pedidos_streaming.insert_one({
+                'usuario': session['usuario'],
+                'servicio': servicio,
+                'precio': float(precio),
+                'nombre': nombre,
+                'whatsapp': whatsapp,
+                'email': email,
+                'observaciones': observaciones
+            })
+
+            return jsonify({'message': f'Has comprado {servicio} correctamente. En menos de 24 horas te enviaremos los detalles por whatsapp Tu nuevo saldo es ${nuevo_saldo:.2f}'}), 200
         else:
-            return "Saldo insuficiente", 400
+            return jsonify({'message': 'Saldo insuficiente'}), 400
 
     except Exception as e:
         import traceback
         traceback.print_exc()
-        return "Error interno del servidor", 500
-
+        return jsonify({'message': 'Error interno del servidor'}), 500
+    
 @app.route("/imgcode")
 def imgcode():
     return render_template('gencode.html')
@@ -1082,8 +1119,120 @@ def ajedrez():
 def smmprincipal():
     return render_template('principal.html')
 
+@app.route("/terminos")
+def terminos():
+    if 'usuario' not in session:
+        return redirect(url_for('login'))  # Redirigir a login si no hay usuario en la sesión
+    
+    # Obtener el usuario desde la sesión
+    usuario = session['usuario']
+
+    user_data = collection.find_one({'usuario': usuario})
+    foto_id = user_data.get('foto_id')
+    saldo = obtener_saldo(usuario)
+    return render_template('terminos.html',usuario=session['usuario'],
+        saldo=saldo,
+        foto_id=foto_id)
+
+@app.route('/pedidosStreaming')
+def ver_pedidos_streaming():
+    if 'usuario' not in session:
+        return redirect(url_for('login'))  # o maneja según tu flujo
+
+    usuario = session['usuario']
+    user_data = collection.find_one({'usuario': usuario})
+    foto_id = user_data.get('foto_id')
+    saldo = obtener_saldo(usuario)
+    # Obtener los pedidos del usuario desde la colección pedidos_streaming
+    pedidos = list(pedidos_streaming.find({'usuario': usuario}).sort('_id', -1))  # orden descendente por fecha
+
+    return render_template('Streamingpedidos.html', pedidos=pedidos,usuario=session['usuario'],saldo=saldo,foto_id=foto_id)
+
+
+@app.route('/soporte', methods=['GET', 'POST'])
+def soporte():
+    if 'usuario' not in session:
+        return redirect(url_for('login'))
+
+    usuario = session['usuario']
+    user_data = collection.find_one({'usuario': usuario})
+    foto_id = user_data.get('foto_id')
+    saldo = obtener_saldo(usuario)
+
+    if request.method == 'POST':
+        asunto = request.form.get('asunto')
+        mensaje = request.form.get('mensaje')
+
+        # Puedes guardar esto en MongoDB si quieres:
+        soporte_collection.insert_one({
+            'usuario': session['usuario'],
+            'asunto': asunto,
+            'mensaje': mensaje,
+            'fecha': datetime.now()
+        })
+
+        return render_template('soporte.html', mensaje="Tu mensaje ha sido enviado. Te responderemos pronto.")
+
+    return render_template('soporte.html',usuario=session['usuario'],saldo=saldo,foto_id=foto_id)
+
+
+@app.route('/admin_soporte')
+def admin_soporte():
+    if 'usuario' not in session:
+        return redirect(url_for('login'))
+
+    # Verificar si el usuario es admin
+    user_data = collection.find_one({'usuario': session['usuario']})
+    if not user_data or user_data.get('rol') != 'admin':
+        return redirect(url_for('pagina_principal'))
+
+    # Obtener mensajes de soporte
+    mensajes = list(soporte_collection.find().sort('fecha', -1))  # más recientes primero
+
+    return render_template('admin_soporte.html', mensajes=mensajes)
+
+
+from bson import ObjectId
+
+@app.route('/admin_streaming')
+def admin_streaming():
+    if 'usuario' not in session:
+        return redirect(url_for('login'))
+
+    user_data = collection.find_one({'usuario': session['usuario']})
+    if not user_data or user_data.get('rol') != 'admin':
+        return redirect(url_for('pagina_principal'))
+
+    # Filtro opcional desde query string
+    estado = request.args.get('estado')  # "pendiente", "entregado" o None
+    filtro = {}
+    if estado in ('pendiente', 'entregado'):
+        filtro['estado'] = estado
+
+    pedidos = [
+    {**p, '_id': str(p['_id'])}
+    for p in pedidos_streaming.find(filtro).sort('_id', -1)
+]
+
+    return render_template('admin_streaming.html', pedidos=pedidos, filtro_estado=estado or '')
+
+
+@app.route('/marcar_entregado/<pedido_id>', methods=['POST'])
+def marcar_entregado(pedido_id):
+    if 'usuario' not in session:
+        return redirect(url_for('login'))
+
+    user_data = collection.find_one({'usuario': session['usuario']})
+    if not user_data or user_data.get('rol') != 'admin':
+        return redirect(url_for('pagina_principal'))
+
+    pedidos_streaming.update_one(
+        {'_id': ObjectId(pedido_id)},
+        {'$set': {'estado': 'entregado'}}
+    )
+    return redirect(url_for('admin_streaming'))
 
 
 # Ejecutar la aplicación
-if __name__ == '__main__':
-    app.run(debug=True)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000, debug=True)

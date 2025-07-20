@@ -1,143 +1,668 @@
 <!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="../fav/login.jpeg">
-    <title>Mi Perfil</title>
-    <link rel="stylesheet" href="../static/perfil.css">
-    <link rel="stylesheet" href="../static/index.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script src="https://kit.fontawesome.com/24e326a22f.js" crossorigin="anonymous"></script>
-</head>
-<body>
-    <header>
-        <nav class="navbar">
-            <div class="navbar-brand">
-                <h1>Mi Perfil</h1>
-            </div>
-            <ul class="navbar-menu">
-                <li><a href="/pagina_principal">INICIO</a></li>
-                <li class="dropdown">
-                    <a href="javascript:void(0)" class="dropbtn">
-                        <img src="{{ url_for('foto_perfil', foto_id=foto_id) if foto_id else url_for('static', filename='fotos_perfil/default.png') }}" alt="Foto de perfil" class="navbar-profile-pic">
-                    </a>
-                    <div class="dropdown-content">
-                        <a href="/mi_perfil"><i class="fas fa-user"></i> Mi Perfil</a>
-                        <a href="/pedidos"><i class="fas fa-box"></i> Pedidos</a>
-                        <a href="/saldo"><i class="fas fa-credit-card"></i> Agregar saldo</a>
-                        <a href="/movimientos"><i class="fas fa-exchange-alt"></i> Movimientos</a>
-                        <a href="/logout"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
-                    </div>
-                </li>
-            </ul>
-            <button class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-        </nav>
-    </header>
+<html lang="en" class="h-full">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="0NHWv5SjO5BZ9kADV4o7KWLTBfy9bLT1Eo2GGYFc">
+        <title>INICIO</title>
 
-    <div class="container">
-        <div class="main-content">
-            <!-- Foto de perfil -->
-            <div class="profile-picture-container">
+        <!-- Favicon -->
+        <link rel="icon" type="image/x-icon" href="https://socialvirtu.com/storage/images/brand/favicons/bpcOHEfmC7Ye21lMJgzf1AM7BM4HQVxDMk4I04At.png">
+
+        <!-- Alpine.js (debe ir primero) -->
+        <!-- <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script> -->
+
+        
+        <!-- Dark Mode Script (debe ir primero) -->
+        <script>
+            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        </script>
+
+        <!-- Fonts -->
+        <!-- <link rel="preconnect" href="https://fonts.bunny.net">
+        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" /> -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+        <!-- SweetAlert2 -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        <!-- Scripts -->
+        <link rel="preload" as="style" href="https://socialvirtu.com/build/assets/app-82912516.css" /><link rel="preload" as="style" href="https://socialvirtu.com/build/assets/app-b6a82ad0.css" /><link rel="modulepreload" href="https://socialvirtu.com/build/assets/app-1bab035d.js" /><link rel="stylesheet" href="https://socialvirtu.com/build/assets/app-82912516.css" /><link rel="stylesheet" href="https://socialvirtu.com/build/assets/app-b6a82ad0.css" /><script type="module" src="https://socialvirtu.com/build/assets/app-1bab035d.js"></script>
+        <style>
+            @keyframes wave {
+                0%, 100% { transform: translateY(0); }
+                50% { transform: translateY(-5px); }
+            }
+            .animate-wave {
+                animation: wave 3s ease-in-out infinite;
+            }
+        </style>
+    </head>
+    <body class="font-sans antialiased bg-gray-50 dark:bg-gray-900 h-full">
+        
+        <div class="min-h-full">
+            <!-- Sidebar Navigation (Desktop) -->
+            <div class="hidden sm:flex sm:flex-col sm:w-64 sm:fixed sm:inset-y-0">
+                <nav x-data="{ open: false }" class="h-full">
+    <!-- Desktop Sidebar -->
+    <div class="hidden sm:flex h-full w-64 flex-col bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700">
+        <!-- Logo -->
+        <div class="px-6 py-5">
+            <a href="/pagina_principal" class="flex items-center space-x-2">
+                <img src="../static/img/MIghost.png" 
+         alt="GHOST SMM" 
+         class="h-8 w-auto">
+                <span class="text-gray-900 dark:text-white text-lg font-bold tracking-wider">GHOST SMM</span>
+            </a>
+        </div>
+
+        <!-- Navigation Links -->
+        <div class="flex-1 px-4 py-4">
+            <div class="space-y-2">
+                <!-- Dashboard -->
+                <a class="text-[#99FF00] flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 bg-socialmentorify dark:bg-socialmentorify-dark text-black" href="/pagina_principal">
+    <i class="fas fa-home w-5 h-5 mr-3"></i>
+                    <span>Dashboard</span>
+</a>
+
+
+                <!-- Free -->
+                <a class="text-gray-400 flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/free">
+    <i class="fas fa-gift w-5 h-5 mr-3"></i>
+                    <span>Free</span>
+</a>
+
+                <!-- Sección Streaming -->
+                <div x-data="{ open: false }" class="mt-4">
+                    <button @click="open = !open" 
+                        class="w-full flex items-center justify-between px-3 py-2.5 text-sm font-medium rounded-lg transition-all duration-300 ease-in-out text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white">
+                        <div class="flex items-center">
+                            <i class="fas fa-tv w-5 h-5 mr-3 text-socialmentorify dark:text-socialmentorify-dark"></i>
+                            <span>Streaming</span>
+                        </div>
+                        <i class="fas transition-transform duration-300 ease-in-out" :class="open ? 'fa-chevron-down transform rotate-180' : 'fa-chevron-right'"></i>
+                    </button>
+                    <div x-show="open" 
+                        x-collapse.duration.300ms
+                        x-collapse:enter="transition ease-out duration-300"
+                        x-collapse:enter-start="opacity-0 transform -translate-y-2"
+                        x-collapse:enter-end="opacity-100 transform translate-y-0"
+                        x-collapse:leave="transition ease-in duration-300"
+                        x-collapse:leave-start="opacity-100 transform translate-y-0"
+                        x-collapse:leave-end="opacity-0 transform -translate-y-2"
+                        class="mt-2 space-y-1">
+                        <a class="text-gray-400 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/streaming">
+    <i class="fas fa-store w-5 h-5 mr-3"></i>
+                            <span>Tienda</span>
+</a>
+
+
+
+                        <a class="text-gray-400 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/pedidosStreaming">
+    <i class="fas fa-shopping-cart w-5 h-5 mr-3"></i>
+                            <span>Mis compras</span>
+</a>
+
+                         <a class="text-gray-400 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/soporte">
+    <i class="fas fa-headset w-5 h-5 mr-3"></i>
+                            <span>Soporte Técnico</span>
+</a>
+
+                    </div>
+                </div>
+
+                <!-- Sección SMM -->
+                <div x-data="{ open: false }" class="mt-4">
+                    <button @click="open = !open" 
+                        class="w-full flex items-center justify-between px-3 py-2.5 text-sm font-medium rounded-lg transition-all duration-300 ease-in-out text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white">
+                        <div class="flex items-center">
+                            <i class="fas fa-bolt w-5 h-5 mr-3 text-socialmentorify dark:text-socialmentorify-dark"></i>
+                            <span>Redes Sociales</span>
+                        </div>
+                        <i class="fas transition-transform duration-300 ease-in-out" :class="open ? 'fa-chevron-down transform rotate-180' : 'fa-chevron-right'"></i>
+                    </button>
+                    <div x-show="open" 
+                        x-collapse.duration.300ms
+                        x-collapse:enter="transition ease-out duration-300"
+                        x-collapse:enter-start="opacity-0 transform -translate-y-2"
+                        x-collapse:enter-end="opacity-100 transform translate-y-0"
+                        x-collapse:leave="transition ease-in duration-300"
+                        x-collapse:leave-start="opacity-100 transform translate-y-0"
+                        x-collapse:leave-end="opacity-0 transform -translate-y-2"
+                        class="mt-2 space-y-1">
+                        <a class="text-gray-400 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/agregar_orden">
+    <i class="fas fa-plus w-5 h-5 mr-3"></i>
+                            <span>Nuevo orden</span>
+</a>
+
+
+
+                        <a class="text-gray-400 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/pedidos">
+    <i class="fas fa-list w-5 h-5 mr-3"></i>
+                            <span>Ordenes</span>
+</a>
+
+
+
+
+
+
+                    </div>
+                </div>
+
+                <!-- Sección Finanzas -->
+                <div x-data="{ open: false }" class="mt-4">
+                    <button @click="open = !open" 
+                        class="w-full flex items-center justify-between px-3 py-2.5 text-sm font-medium rounded-lg transition-all duration-300 ease-in-out text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white">
+                        <div class="flex items-center">
+                            <i class="fas fa-wallet w-5 h-5 mr-3 text-socialmentorify dark:text-socialmentorify-dark"></i>
+                            <span>Finanzas</span>
+                        </div>
+                        <i class="fas transition-transform duration-300 ease-in-out" :class="open ? 'fa-chevron-down transform rotate-180' : 'fa-chevron-right'"></i>
+                    </button>
+                    <div x-show="open" 
+                        x-collapse.duration.300ms
+                        x-collapse:enter="transition ease-out duration-300"
+                        x-collapse:enter-start="opacity-0 transform -translate-y-2"
+                        x-collapse:enter-end="opacity-100 transform translate-y-0"
+                        x-collapse:leave="transition ease-in duration-300"
+                        x-collapse:leave-start="opacity-100 transform translate-y-0"
+                        x-collapse:leave-end="opacity-0 transform -translate-y-2"
+                        class="mt-2 space-y-1">
+                        <a class="text-gray-400 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/saldo">
+    <i class="fas fa-credit-card w-5 h-5 mr-3"></i>
+                            <span>Agregar saldo</span>
+</a>
+
+                        <a class="text-gray-400 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/movimientos">
+    <i class="fas fa-history w-5 h-5 mr-3"></i>
+                            <span>Historial de Recargas</span>
+</a>
+
+                        <a class="text-gray-400 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/cartera">
+    <i class="fas fa-wallet w-5 h-5 mr-3"></i>
+                            <span>Cartera</span>
+</a>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Theme Toggle -->
+        <div class="px-4 py-2 border-t border-gray-200 dark:border-gray-700">
+            <button 
+                x-data
+                @click="$store.theme.toggle()"
+                class="w-full flex items-center px-3 py-2.5 text-sm font-medium rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white transition-colors duration-200"
+            >
+                <template x-if="!$store.theme.isDark">
+                    <i class="fas fa-moon w-5 h-5 mr-3 text-blue-400"></i>
+                </template>
+                <template x-if="$store.theme.isDark">
+                    <i class="fas fa-sun w-5 h-5 mr-3 text-amber-400"></i>
+                </template>
+                <span x-text="$store.theme.isDark ? 'Modo Claro' : 'Modo Oscuro'"></span>
+            </button>
+        </div>
+
+        <!-- Términos y Condiciones -->
+        <div class="px-4 py-2 border-t border-gray-200 dark:border-gray-700">
+            <a class="text-gray-400 flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/terminos">
+    <i class="fas fa-file-contract w-5 h-5 mr-3"></i>
+                <span>Términos y Condiciones</span>
+</a>
+        </div>
+
+        <!-- User Profile -->
+<div class="mt-auto border-t border-gray-200 dark:border-gray-700">
+    <div class="px-4 py-4">
+        <a href="/mi_perfil" 
+           class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white">
+
+            <!-- Foto de perfil dinámica -->
+            <img src="{{ url_for('foto_perfil', foto_id=foto_id) if foto_id else url_for('static', filename='fotos_perfil/default.png') }}"
+                 alt="Foto de perfil"
+                 class="h-9 w-9 rounded-full object-cover">
+
+            <!-- Nombre de usuario dinámico -->
+            <p class="text-sm font-medium">{{ usuario }}</p>
+
+            <!-- Ícono Profile -->
+            <i class="fas fa-user w-5 h-5 ml-auto"></i>
+        </a>
+
+
+
+                <!-- Authentication -->
+                <form method="POST" action="/logout">
+                                     <a class="text-gray-400 flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/logout" >
+    <i class="fas fa-power-off w-5 h-5 mr-3 text-red-600 dark:text-red-500"></i>
+                        <span>Log Out</span>
+</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</nav>
+            </div>
+
+            <!-- Mobile Header -->
+            <div class="sm:hidden fixed top-0 left-0 right-0 z-40 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                <div class="px-4 py-3 flex items-center justify-between">
+                    <a href="/pagina_principal" class="flex items-center space-x-2">
+                        <img src="../static/img/MIghost.png" 
+         alt="GHOST SMM" 
+         class="h-8 w-auto">
+                        <span class="text-gray-900 dark:text-white text-lg font-bold tracking-wider">GHOST SMM</span>
+                    </a>
+                    <!-- Mobile Navigation Menu -->
+<div x-data="{ open: false }" class="sm:hidden">
+    <!-- Mobile Menu Button -->
+    <button @click="open = true" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">
+        <i class="fas fa-bars text-xl"></i>
+    </button>
+
+    <!-- Mobile Menu Overlay -->
+    <div x-show="open" 
+        x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="transition ease-in duration-150"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        class="fixed inset-0 z-50 bg-gray-900/50 dark:bg-black/50 backdrop-blur-sm"
+        @click="open = false">
+    </div>
+
+    <!-- Mobile Menu Panel -->
+    <div x-show="open"
+        x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="-translate-x-full"
+        x-transition:enter-end="translate-x-0"
+        x-transition:leave="transition ease-in duration-400"
+        x-transition:leave-start="translate-x-0"
+        x-transition:leave-end="-translate-x-full"
+        @click.away="open = false"
+        class="fixed inset-y-0 left-0 z-50 w-full">
+        
+        <!-- Menu Content -->
+        <div class="relative mr-auto h-full w-[70%] max-w-xs bg-white dark:bg-gray-800 flex flex-col overflow-hidden">
+            <!-- Header -->
+            <div class="flex items-center justify-end px-4 py-3 border-b border-gray-200 dark:border-gray-700">
+                <button @click="open = false" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Navigation Links -->
+            <div class="flex-1 px-4 py-4 overflow-y-auto">
+                <div class="space-y-1">
+                    <!-- Dashboard -->
+                    <a class="text-[#99FF00] bg-[#99FF00]/10 hover:bg-[#99FF00]/20 flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 bg-socialmentorify dark:bg-socialmentorify-dark text-black" href="/pagina_principal">
+    <i class="fas fa-home w-5 h-5 mr-3"></i>
+                        <span>Dashboard</span>
+</a>
+
+
+                    <!-- Free -->
+                    <a class="text-gray-400 hover:text-gray-200 hover:bg-gray-700/50 flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/free">
+    <i class="fas fa-gift w-5 h-5 mr-3"></i>
+                        <span>Free</span>
+</a>
+
+                    <!-- Sección Streaming -->
+                    <div x-data="{ open: false }" class="mt-4">
+                        <button @click="open = !open" 
+                            class="w-full flex items-center justify-between px-3 py-2.5 text-sm font-medium rounded-lg transition-all duration-300 ease-in-out text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white">
+                            <div class="flex items-center">
+                                <i class="fas fa-tv w-5 h-5 mr-3 text-socialmentorify dark:text-socialmentorify-dark"></i>
+                                <span>Streaming</span>
+                            </div>
+                            <i class="fas transition-transform duration-300 ease-in-out" :class="open ? 'fa-chevron-down transform rotate-180' : 'fa-chevron-right'"></i>
+                        </button>
+                        <div x-show="open" 
+                            x-collapse.duration.300ms
+                            x-collapse:enter="transition ease-out duration-300"
+                            x-collapse:enter-start="opacity-0 transform -translate-y-2"
+                            x-collapse:enter-end="opacity-100 transform translate-y-0"
+                            x-collapse:leave="transition ease-in duration-300"
+                            x-collapse:leave-start="opacity-100 transform translate-y-0"
+                            x-collapse:leave-end="opacity-0 transform -translate-y-2"
+                            class="mt-2 space-y-1">
+                            <a class="text-gray-400 hover:text-gray-200 hover:bg-gray-700/50 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/streaming">
+    <i class="fas fa-store w-5 h-5 mr-3"></i>
+                                <span>Tienda</span>
+</a>
+
+
+                            <a class="text-gray-400 hover:text-gray-200 hover:bg-gray-700/50 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/pedidosStreaming">
+    <i class="fas fa-shopping-cart w-5 h-5 mr-3"></i>
+                                <span>Mis Compras</span>
+</a>
+
+                           <a class="text-gray-400 hover:text-gray-200 hover:bg-gray-700/50 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/soporte">
+    <i class="fas fa-headset w-5 h-5 mr-3"></i>
+                                <span>Soporte Técnico</span>
+</a>
+ 
+                        </div>
+                    </div>
+
+                    <!-- Sección SMM -->
+                    <div x-data="{ open: false }" class="mt-4">
+                        <button @click="open = !open" 
+                            class="w-full flex items-center justify-between px-3 py-2.5 text-sm font-medium rounded-lg transition-all duration-300 ease-in-out text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white">
+                            <div class="flex items-center">
+                                <i class="fas fa-bolt w-5 h-5 mr-3 text-socialmentorify dark:text-socialmentorify-dark"></i>
+                                <span>Redes Sociales</span>
+                            </div>
+                            <i class="fas transition-transform duration-300 ease-in-out" :class="open ? 'fa-chevron-down transform rotate-180' : 'fa-chevron-right'"></i>
+                        </button>
+                        <div x-show="open" 
+                            x-collapse.duration.300ms
+                            x-collapse:enter="transition ease-out duration-300"
+                            x-collapse:enter-start="opacity-0 transform -translate-y-2"
+                            x-collapse:enter-end="opacity-100 transform translate-y-0"
+                            x-collapse:leave="transition ease-in duration-300"
+                            x-collapse:leave-start="opacity-100 transform translate-y-0"
+                            x-collapse:leave-end="opacity-0 transform -translate-y-2"
+                            class="mt-2 space-y-1">
+                            <a class="text-gray-400 hover:text-gray-200 hover:bg-gray-700/50 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/agregar_orden">
+    <i class="fas fa-plus w-5 h-5 mr-3"></i>
+                                <span>Nuevo Orden</span>
+</a>
+
+
+
+                            <a class="text-gray-400 hover:text-gray-200 hover:bg-gray-700/50 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/pedidos">
+    <i class="fas fa-list w-5 h-5 mr-3"></i>
+                                <span>Historial de Ordenes</span>
+</a>
+
+                        </div>
+                    </div>
+
+                    <!-- Sección Finanzas -->
+                    <div x-data="{ open: false }" class="mt-4">
+                        <button @click="open = !open" 
+                            class="w-full flex items-center justify-between px-3 py-2.5 text-sm font-medium rounded-lg transition-all duration-300 ease-in-out text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white">
+                            <div class="flex items-center">
+                                <i class="fas fa-wallet w-5 h-5 mr-3 text-socialmentorify dark:text-socialmentorify-dark"></i>
+                                <span>Finanzas</span>
+                            </div>
+                            <i class="fas transition-transform duration-300 ease-in-out" :class="open ? 'fa-chevron-down transform rotate-180' : 'fa-chevron-right'"></i>
+                        </button>
+                        <div x-show="open" 
+                            x-collapse.duration.300ms
+                            x-collapse:enter="transition ease-out duration-300"
+                            x-collapse:enter-start="opacity-0 transform -translate-y-2"
+                            x-collapse:enter-end="opacity-100 transform translate-y-0"
+                            x-collapse:leave="transition ease-in duration-300"
+                            x-collapse:leave-start="opacity-100 transform translate-y-0"
+                            x-collapse:leave-end="opacity-0 transform -translate-y-2"
+                            class="mt-2 space-y-1">
+                            <a class="text-gray-400 hover:text-gray-200 hover:bg-gray-700/50 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/saldo">
+    <i class="fas fa-credit-card w-5 h-5 mr-3"></i>
+                                <span>Agregar saldo</span>
+</a>
+
+                            <a class="text-gray-400 hover:text-gray-200 hover:bg-gray-700/50 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/movimientos">
+    <i class="fas fa-history w-5 h-5 mr-3"></i>
+                                <span>Payment History</span>
+</a>
+
+                            <a class="text-gray-400 hover:text-gray-200 hover:bg-gray-700/50 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/cartera">
+    <i class="fas fa-wallet w-5 h-5 mr-3"></i>
+                                <span>Wallet</span>
+</a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Theme Toggle -->
+            <div class="px-4 py-2 border-t border-gray-200 dark:border-gray-700">
+                <button 
+                    x-data
+                    @click="$store.theme.toggle()"
+                    class="w-full flex items-center px-3 py-2.5 text-sm font-medium rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white transition-colors duration-200"
+                >
+                    <template x-if="!$store.theme.isDark">
+                        <i class="fas fa-moon w-5 h-5 mr-3 text-blue-400"></i>
+                    </template>
+                    <template x-if="$store.theme.isDark">
+                        <i class="fas fa-sun w-5 h-5 mr-3 text-amber-400"></i>
+                    </template>
+                    <span x-text="$store.theme.isDark ? 'Modo Claro' : 'Modo Oscuro'"></span>
+                </button>
+            </div>
+
+            <!-- Términos y Condiciones -->
+            <div class="px-4 py-2 border-t border-gray-200 dark:border-gray-700">
+                <a class="text-gray-400 hover:text-gray-200 hover:bg-gray-700/50 flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/terminos">
+    <i class="fas fa-file-contract w-5 h-5 mr-3"></i>
+                    <span>Términos y Condiciones</span>
+</a>
+            </div>
+
+            <!-- User Profile -->
+            <div class="border-t border-gray-200 dark:border-gray-700">
+                <div class="p-4">
+                    <a href="/mi_perfil" 
+                        class="flex items-center px-3 py-2.5 rounded-lg transition-colors duration-200 hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <div class="h-9 w-9 rounded-full bg-socialmentorify dark:bg-socialmentorify-dark flex items-center justify-center">
+                            <img src="{{ url_for('foto_perfil', foto_id=foto_id) if foto_id else url_for('static', filename='fotos_perfil/default.png') }}" 
+                 alt="Foto de perfil" 
+                 class="h-9 w-9 rounded-full object-cover">
+                        </div>
+                        <div class="ml-3 min-w-0">
+                            <div class="text-sm font-medium text-gray-900 dark:text-white truncate">{{ usuario }}</div>
+                        </div>
+                    </a>
+
+                    <div class="mt-3">
+                        <form method="POST" action="/logout">
+                                                       <button type="submit" 
+                                class="w-full flex items-center justify-center px-3 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white bg-gray-100 dark:bg-gray-700/50 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200">
+                                <i class="fas fa-power-off w-5 h-5 mr-2 text-red-600 dark:text-red-500"></i>
+                                Log Out
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+                </div>
+            </div> 
+
+            <!-- Main Content -->
+            <div class="sm:pl-64 flex flex-col min-h-full">
+                <div class="flex-1">
+                    <!-- Content Area with mobile padding -->
+                    <div class="sm:pt-0 pt-14"> <!-- Adjusted padding for mobile header -->
+                        <!-- Header (Desktop) -->
+                        <header class="hidden sm:block bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 sticky top-0 z-40">
+                            <div class="py-4 px-4 sm:px-6">
+                                <div class="flex justify-between items-center">
+
+                                    <div></div>
+
+                                    <div class="flex items-center space-x-4">
+                                        <div class="flex items-center text-gray-900 dark:text-gray-200">
+                                            <i class="fas fa-sack-dollar text-emerald-500 dark:text-emerald-400 mr-2 text-xl"></i>
+                                            <span class="font-semibold">$ {{saldo}}</span>
+                                        </div>
+
+                                        <a href="/saldo" 
+                                           class="inline-flex items-center px-4 py-2 bg-socialmentorify dark:bg-socialmentorify-dark hover:bg-opacity-80 dark:hover:bg-opacity-80 text-black dark:text-black border border-transparent rounded-md font-semibold text-xs uppercase tracking-widest focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-socialmentorify dark:focus:ring-socialmentorify-dark dark:focus:ring-offset-gray-800 transition-colors duration-200 shadow-lg shadow-socialmentorify/20 dark:shadow-socialmentorify-dark/20 hover:shadow-socialmentorify/40 dark:hover:shadow-socialmentorify-dark/40">
+                                            <i class="fas fa-plus mr-2"></i>
+                                            Agregar saldo
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </header>
+
+                                            
+                                                            
+
+                        <!-- Page Content -->
+                        <main class="py-6 px-4 sm:px-6 bg-gray-50 dark:bg-gray-900">
+
+                                  <div x-data="{ show: true }" x-show="show" x-transition
+                                     class="bg-orange-500 text-white p-4 text-sm font-semibold rounded-lg mb-6 shadow animate-wave flex items-center justify-between gap-4">
+                                    <p class="flex-grow">💥 Si necesitas cambiar otra cosa como tu nombre de usuario 🟢 puedes contactarnos ya que la pagina siue en desarrollo </p>
+                                    <button @click="show = false" class="flex-shrink-0 text-white hover:text-opacity-75">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+
+    <div class="sm:pl-64 flex flex-col min-h-full bg-gray-50 dark:bg-gray-900">
+    <div class="flex-1 p-4 sm:p-6 lg:p-8">
+        <div class="max-w-xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 space-y-6 sm:p-8">
+
+            <div class="profile-picture-container text-center mb-6">
                 {% if foto_id %}
-                    <img src="{{ url_for('foto_perfil', foto_id=foto_id) }}" alt="Foto de Perfil" class="profile-picture">
+                    <img src="{{ url_for('foto_perfil', foto_id=foto_id) }}" alt="Foto de Perfil" class="profile-picture w-32 h-32 rounded-full mx-auto object-cover border-4 border-blue-500 shadow-md">
                 {% else %}
-                    <img src="{{ url_for('static', filename='fotos_perfil/default.png') }}" alt="Foto de Perfil" class="profile-picture">
+                    <img src="{{ url_for('static', filename='fotos_perfil/default.png') }}" alt="Foto de Perfil" class="profile-picture w-32 h-32 rounded-full mx-auto object-cover border-4 border-blue-500 shadow-md">
                 {% endif %}
             </div>
 
-            <!-- Formulario para cambiar la foto -->
-            <form method="POST" enctype="multipart/form-data">
-                <div class="form-group">
-                    <label for="foto" class="custom-file-upload">
-                        <i class="fas fa-upload"></i> Seleccionar foto
+            <form method="POST" enctype="multipart/form-data" class="space-y-4">
+                <div class="form-group text-center">
+                    <label for="foto" class="custom-file-upload inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-md cursor-pointer transition duration-200 ease-in-out shadow-sm">
+                        <i class="fas fa-upload mr-2"></i> Seleccionar foto
                     </label>
-                    <input type="file" name="foto" id="foto" accept="image/*" required onchange="previewImage(event)">
-                    <div id="preview-container" style="margin-top: 10px;"></div>
+                    <input type="file" name="foto" id="foto" accept="image/*" required onchange="previewImage(event)" class="hidden">
+                    <div id="preview-container" class="mt-4 flex justify-center"></div>
                 </div>
-                <button type="submit" name="change-photo" class="order-btn">Actualizar Foto</button>
+                <button type="submit" name="change-photo" class="order-btn w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-md transition duration-200 ease-in-out shadow-md">Actualizar Foto</button>
             </form>
 
-            <!-- Información del usuario -->
-            <div class="profile-item">
-                <i class="fas fa-user"></i>
-                <span>Usuario:</span> {{ usuario }}
-            </div>
-            <div class="profile-item">
-                <i class="fas fa-envelope"></i>
-                <span>Correo:</span> {{ email }}
+            <hr class="border-gray-200 dark:border-gray-700 my-6">
+
+            <div class="profile-info space-y-3">
+                <div class="profile-item flex items-center text-gray-700 dark:text-gray-300">
+                    <i class="fas fa-user text-blue-500 mr-3 text-lg"></i>
+                    <span class="font-semibold">Usuario:</span> <span class="ml-2">{{ usuario }}</span>
+                </div>
+                <div class="profile-item flex items-center text-gray-700 dark:text-gray-300">
+                    <i class="fas fa-envelope text-blue-500 mr-3 text-lg"></i>
+                    <span class="font-semibold">Correo:</span> <span class="ml-2">{{ email }}</span>
+                </div>
             </div>
 
-            <!-- Cambiar Contraseña -->
-            <form method="POST">
-                <div class="change-password-section">
-                    <h3>Cambiar Contraseña</h3>
-                    <div class="form-group">
-                        <label for="current-password">Contraseña Actual</label>
-                        <input type="password" name="current-password" id="current-password" placeholder="Contraseña actual" required>
+            <hr class="border-gray-200 dark:border-gray-700 my-6">
+
+            <form method="POST" class="space-y-4">
+                <div class="change-password-section bg-gray-50 dark:bg-gray-700 p-5 rounded-lg shadow-inner">
+                    <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-4">Cambiar Contraseña</h3>
+                    <div class="form-group mb-3">
+                        <label for="current-password" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Contraseña Actual</label>
+                        <input type="password" name="current-password" id="current-password" placeholder="Contraseña actual" required class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">
                     </div>
-                    <div class="form-group">
-                        <label for="new-password">Nueva Contraseña</label>
-                        <input type="password" name="new-password" id="new-password" placeholder="Nueva contraseña" required>
+                    <div class="form-group mb-3">
+                        <label for="new-password" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nueva Contraseña</label>
+                        <input type="password" name="new-password" id="new-password" placeholder="Nueva contraseña" required class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">
                     </div>
-                    <div class="form-group">
-                        <label for="confirm-new-password">Confirmar Nueva Contraseña</label>
-                        <input type="password" name="confirm-new-password" id="confirm-new-password" placeholder="Confirmar nueva contraseña" required>
+                    <div class="form-group mb-4">
+                        <label for="confirm-new-password" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Confirmar Nueva Contraseña</label>
+                        <input type="password" name="confirm-new-password" id="confirm-new-password" placeholder="Confirmar nueva contraseña" required class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">
                     </div>
-                    <button type="submit" name="change-password" class="order-btn">Cambiar Contraseña</button>
+                    <button type="submit" name="change-password" class="order-btn w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md transition duration-200 ease-in-out shadow-md">Cambiar Contraseña</button>
                 </div>
             </form>
 
-            <!-- Cambiar Correo Electrónico -->
-            <form method="POST">
-                <div class="change-email-section">
-                    <h3><i class="fas fa-envelope" style="color: red;"></i> Cambiar Correo Electrónico</h3>
-                    <div class="form-group">
-                        <label for="current-email">Correo Electrónico Actual</label>
-                        <input type="email" name="current-email" id="current-email" placeholder="Correo electrónico actual" value="{{ email }}" readonly>
+            <hr class="border-gray-200 dark:border-gray-700 my-6">
+
+            <form method="POST" class="space-y-4">
+                <div class="change-email-section bg-red-50 dark:bg-red-900 p-5 rounded-lg shadow-inner border border-red-200 dark:border-red-800">
+                    <h3 class="text-xl font-semibold text-red-700 dark:text-red-300 mb-4 flex items-center">
+                        <i class="fas fa-envelope text-red-500 mr-2"></i> Cambiar Correo Electrónico
+                    </h3>
+                    <div class="form-group mb-3">
+                        <label for="current-email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Correo Electrónico Actual</label>
+                        <input type="email" name="current-email" id="current-email" placeholder="Correo electrónico actual" value="{{ email }}" readonly class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 cursor-not-allowed">
                     </div>
-                    <div class="form-group">
-                        <label for="new-email">Nuevo Correo Electrónico</label>
-                        <input type="email" name="new-email" id="new-email" placeholder="Nuevo correo electrónico" required>
+                    <div class="form-group mb-3">
+                        <label for="new-email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nuevo Correo Electrónico</label>
+                        <input type="email" name="new-email" id="new-email" placeholder="Nuevo correo electrónico" required class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">
                     </div>
-                    <div class="form-group">
-                        <label for="current-password-email">Contraseña Actual</label>
-                        <input type="password" name="current-password-email" id="current-password-email" placeholder="Contraseña actual" required>
+                    <div class="form-group mb-4">
+                        <label for="current-password-email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Contraseña Actual</label>
+                        <input type="password" name="current-password-email" id="current-password-email" placeholder="Contraseña actual" required class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">
                     </div>
-                    <button type="submit" name="change-email" class="order-btn">Cambiar Correo Electrónico</button>
+                    <button type="submit" name="change-email" class="order-btn w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-md transition duration-200 ease-in-out shadow-md">Cambiar Correo Electrónico</button>
                 </div>
             </form>
         </div>
     </div>
+</div>
 
-    <script>
-        const hamburger = document.querySelector('.hamburger');
-        const mobileMenu = document.querySelector('.dropdown-content');
-        hamburger.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
+<script>
+    function previewImage(event) {
+        const previewContainer = document.getElementById('preview-container');
+        const file = event.target.files[0];
 
-        function previewImage(event) {
-            const previewContainer = document.getElementById('preview-container');
-            const file = event.target.files[0];
-
-            if (file && file.type.startsWith('image/')) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    previewContainer.innerHTML = `
-                        <img src="${e.target.result}" alt="Preview"
-                             style="max-width: 120px; max-height: 120px; border-radius: 8px; border: 1px solid #fff; box-shadow: 0 0 8px rgba(0,0,0,0.5); margin-top: 10px;">
-                    `;
-                }
-                reader.readAsDataURL(file);
-            } else {
-                previewContainer.innerHTML = '';
+        if (file && file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewContainer.innerHTML = `
+                    <img src="${e.target.result}" alt="Preview"
+                         class="max-w-32 max-h-32 rounded-lg border border-gray-300 dark:border-gray-600 shadow-md">
+                `;
             }
+            reader.readAsDataURL(file);
+        } else {
+            previewContainer.innerHTML = '';
         }
-    </script>
-</body>
+    }
+</script>
+
+
+        <!-- Alpine Dark Mode Store -->
+        <script>
+            document.addEventListener('alpine:init', () => {
+                Alpine.store('theme', {
+                    isDark: localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches),
+                    toggle() {
+                        this.isDark = !this.isDark;
+                        localStorage.theme = this.isDark ? 'dark' : 'light';
+                        
+                        if (this.isDark) {
+                            document.documentElement.classList.add('dark');
+                        } else {
+                            document.documentElement.classList.remove('dark');
+                        }
+                    }
+                });
+            });
+        </script>
+
+        
+        <!-- WhatsApp Button -->
+                <a href="https://wa.me/+525654936049" 
+           target="_blank"
+           class="fixed bottom-4 right-4 bg-[#25D366] text-white rounded-full w-14 h-14 flex items-center justify-center shadow-[4px_4px_10px_rgba(0,0,0,0.5)] hover:shadow-[6px_6px_15px_rgba(0,0,0,0.6)] hover:translate-y-[-2px] transition-all duration-300 z-50">
+            <i class="fab fa-whatsapp text-2xl"></i>
+        </a>
+            </div>
+
+    
+    </body>
 </html>

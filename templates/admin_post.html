@@ -4,103 +4,106 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Administración</title>
-    <style>
-        body { font-family: 'Arial', sans-serif; margin: 20px; background: #f0f0f0; }
-        h1 { color: #333; }
-        .post { background: white; padding: 15px; margin-bottom: 20px; border: 1px solid #ccc; }
-        form { margin-top: 10px; }
-        input, textarea { width: 100%; padding: 8px; margin-bottom: 8px; }
-        button { padding: 8px 12px; margin-right: 5px; cursor: pointer; }
-        .edit-btn {background: #9e9b9b; color: white; border: solid 1px black;  }
-        .delete-btn { background: #9e9b9b; color: white; border: solid 1px black; }
-        .save-btn {background: #9e9b9b; color: white; border: solid 1px black;  }
-        .logout-btn { background: #9e9b9b; color: white; border: solid 1px black;  }
-        .back-btn { background: #9e9b9b; color: white; border: solid 1px black; }
-    </style>
-<style>
-    .flash-messages {
-      list-style-type: none;
-      padding: 0;
-    }
-  
-    .flash-messages li {
-      padding: 10px;
-      margin: 5px 0;
-      border-radius: 5px;
-      color: white;  /* El texto será blanco para que sea legible */
-    }
-  
-    .flash-messages .post_created {
-      background-color: #4CAF50;  /* Verde para el mensaje de creación */
-    }
-  
-    .flash-messages .post_deleted {
-      background-color: #2196F3;  /* Azul para el mensaje de eliminación */
-    }
-  
-    .flash-messages .error {
-      background-color: #f44336;  /* Rojo para los mensajes de error */
-    }
-  </style>
+<script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <header class="admin-header">
-        <a href="{{ url_for('logout') }}" class="admin-link">cerrar secion</a>
-    </header>
+   <main class="min-h-screen flex flex-col items-center bg-gray-50 dark:bg-gray-900 p-4 sm:p-6 lg:p-8">
+    <div class="admin-container max-w-4xl mx-auto w-full bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 space-y-8 sm:p-8">
 
-<h1>Panel de Administración</h1>
+        <header class="admin-header flex flex-col sm:flex-row justify-between items-center mb-6 border-b pb-4 border-gray-200 dark:border-gray-700">
+            <h1 class="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4 sm:mb-0">Gestión de Artículos ✍️</h1>
+            <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4 w-full sm:w-auto">
+                <a href="{{ url_for('logout') }}" class="admin-link bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-md transition duration-200 ease-in-out shadow-md flex items-center justify-center">
+                    <i class="fas fa-sign-out-alt mr-2"></i> Cerrar sesión
+                </a>
+                <form action="{{ url_for('admin_inicio') }}" method="get" class="w-full sm:w-auto">
+                    <button type="submit" class="back-btn w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition duration-200 ease-in-out shadow-md flex items-center justify-center">
+                        <i class="fas fa-arrow-left mr-2"></i> Regresar al Panel
+                    </button>
+                </form>
+            </div>
+        </header>
 
-<!-- Botón de regresar -->
-<form action="{{ url_for('admin_inicio') }}" method="get">
-    <button type="submit" class="back-btn">Regresar al Panel de Administración</button>
-</form>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="flash-messages space-y-3 mb-6">
+                    {% for message, category in messages %}
+                        <li class="p-3 rounded-md text-center
+                            {% if category == 'success' %} bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-200
+                            {% elif category == 'error' %} bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-200
+                            {% else %} bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-200
+                            {% endif %}">
+                            {{ message }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
 
-{% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
-    <ul class="flash-messages">
-      {% for message, category in messages %}
-        <li class="{{ category }}">{{ message }}</li>
-      {% endfor %}
-    </ul>
-  {% endif %}
-{% endwith %}
+        <hr class="border-gray-200 dark:border-gray-700 my-8">
 
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6 flex items-center">
+            <i class="fas fa-plus-circle mr-3 text-blue-600 dark:text-blue-400"></i> Crear nuevo artículo
+        </h2>
+        <form action="/admin_post/nuevo" method="post" class="space-y-4">
+            <input type="text" name="titulo" placeholder="Título" required
+                   class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400">
+            <textarea name="parrafo" placeholder="Contenido del párrafo principal" required rows="5"
+                      class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400"></textarea>
+            <input type="text" name="img" placeholder="URL de la imagen"
+                   class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400">
+            <input type="text" name="alt" placeholder="Texto alternativo de la imagen"
+                   class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400">
+            <textarea name="descripcion" placeholder="Descripción corta" required rows="3"
+                      class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400"></textarea>
+            <input type="text" name="enlace_href" placeholder="URL del enlace"
+                   class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400">
+            <input type="text" name="enlace_texto" placeholder="Texto del enlace"
+                   class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400">
+            <button type="submit" class="save-btn w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-md transition duration-200 ease-in-out shadow-md flex items-center justify-center text-lg mt-6">
+                <i class="fas fa-save mr-2"></i> Guardar nuevo artículo
+            </button>
+        </form>
 
-<!-- Crear nuevo artículo -->
-<h2>➕ Crear nuevo artículo</h2>
-<form action="/admin_post/nuevo" method="post">
-    <input type="text" name="titulo" placeholder="Título" required>
-    <textarea name="parrafo" placeholder="Contenido del párrafo principal" required></textarea>
-    <input type="text" name="img" placeholder="URL de la imagen">
-    <input type="text" name="alt" placeholder="Texto alternativo de la imagen">
-    <textarea name="descripcion" placeholder="Descripcion corta" required></textarea>
-    <input type="text" name="enlace_href" placeholder="URL del enlace">
-    <input type="text" name="enlace_texto" placeholder="Texto del enlace">
-    <button type="submit" class="save-btn">Guardar nuevo artículo</button>
-</form>
+        <hr class="border-gray-200 dark:border-gray-700 my-8">
 
-<hr>
-
-<!-- Lista de artículos existentes -->
-{% for post in posts %}
-<div class="post">
-    <h3>{{ post.titulo }}</h3>
-    <form action="/admin_post/editar/{{ post._id }}" method="post">
-        <input type="text" name="titulo" value="{{ post.titulo }}" required>
-        <textarea name="parrafo" required>{{ post.parrafo }}</textarea>
-        <input type="text" name="img" value="{{ post.img }}">
-        <input type="text" name="alt" value="{{ post.alt }}">
-        <textarea name="descripcion" required>{{ post.descripcion }} </textarea>
-        <input type="text" name="enlace_href" value="{{ post.enlace_href }}">
-        <input type="text" name="enlace_texto" value="{{ post.enlace_texto }}">
-        <button type="submit" class="edit-btn">Guardar cambios</button>
-    </form>
-    <form action="/admin_post/eliminar/{{ post._id }}" method="post" style="margin-top:5px;">
-        <button type="submit" class="delete-btn" onclick="return confirm('¿Eliminar este artículo?')"> 🗑️ Eliminar artículo</button>
-    </form>
-</div>
-{% endfor %}
-
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6 flex items-center">
+            <i class="fas fa-list-alt mr-3 text-blue-600 dark:text-blue-400"></i> Artículos existentes
+        </h2>
+        <div class="space-y-6">
+            {% for post in posts %}
+            <div class="post bg-gray-50 dark:bg-gray-700 rounded-lg shadow-md p-6 border border-gray-200 dark:border-gray-600">
+                <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">{{ post.titulo }}</h3>
+                <form action="/admin_post/editar/{{ post._id }}" method="post" class="space-y-4">
+                    <input type="text" name="titulo" value="{{ post.titulo }}" required
+                           class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                    <textarea name="parrafo" required rows="5"
+                              class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">{{ post.parrafo }}</textarea>
+                    <input type="text" name="img" value="{{ post.img }}" placeholder="URL de la imagen"
+                           class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                    <input type="text" name="alt" value="{{ post.alt }}" placeholder="Texto alternativo de la imagen"
+                           class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                    <textarea name="descripcion" required rows="3" placeholder="Descripción corta"
+                              class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">{{ post.descripcion }}</textarea>
+                    <input type="text" name="enlace_href" value="{{ post.enlace_href }}" placeholder="URL del enlace"
+                           class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                    <input type="text" name="enlace_texto" value="{{ post.enlace_texto }}" placeholder="Texto del enlace"
+                           class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                    <button type="submit" class="edit-btn w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-md transition duration-200 ease-in-out shadow-md flex items-center justify-center text-lg mt-6">
+                        <i class="fas fa-edit mr-2"></i> Guardar cambios
+                    </button>
+                </form>
+                <form action="/admin_post/eliminar/{{ post._id }}" method="post" class="mt-4">
+                    <button type="submit" class="delete-btn w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-4 rounded-md transition duration-200 ease-in-out shadow-md flex items-center justify-center text-lg" onclick="return confirm('¿Estás seguro de que quieres eliminar este artículo? Esta acción es irreversible.')">
+                        <i class="fas fa-trash-alt mr-2"></i> Eliminar artículo
+                    </button>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</main>
 
 
 </body>

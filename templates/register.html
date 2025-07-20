@@ -1,147 +1,239 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="../fav/fav.jpeg">
-    <title>Registro de Usuario</title>
-    <!-- Cargar Font Awesome desde CDN -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../static/styles.css">
-    <script defer src="../static/app.js"></script>
-    <!-- Cargar particles.js desde CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
-    <style>
-        /* Aseguramos que las partículas se muestren en el fondo */
-        #particles-js {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1; /* Aseguramos que las partículas no tapen los demás elementos */
-        }
-    </style>
-</head>
-<body>  
-    <!-- Div para la animación de partículas -->
-    <div id="particles-js"></div> 
+<html lang="en" class="dark">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="QuDvebfdKRKhvW8d4UkOUWi1fPEINxUsIQdxXxEc">
 
-    <div class="login-container">
-        <form class="login-form" action="/registro" method="POST">
-            <h2>Registro de Usuario</h2>
-            
-            {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <div class="error-message">
-                    {% for message in messages %}
-                        <p>{{ message }}</p>
-                    {% endfor %}
-                </div>  
-            {% endif %}
-            {% endwith %}
+        <title>REGISTER</title>
 
-            <div class="form-group">
-                <i class="fas fa-user icon"></i>
-                <input type="text" name="usuario" placeholder="Nombre de Usuario" required>
-            </div>
-            
-            <div class="form-group">
-                <i class="fas fa-envelope icon"></i>
-                <input type="email" name="email" placeholder="Correo Electrónico" required>
-            </div>
-            
-            <div class="form-group">
-                <i class="fas fa-lock icon"></i>
-                <input type="password" name="contrasena" id="password" placeholder="Contraseña" required>
-                <i class="toggle-password" id="togglePassword"></i>
-            </div>                              
-            
-            <button type="submit" class="btn">Registrarse</button>
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.bunny.net">
+        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        <!-- Particles.js -->
+        <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 
-            <div class="login-link">
-                <p>¿Ya tienes cuenta? <a href="login" class="login-text">¡Inicia sesión aquí!</a></p>
-            </div>
+        <!-- Scripts -->
+        <link rel="preload" as="style" href="https://socialvirtu.com/build/assets/app-82912516.css" /><link rel="preload" as="style" href="https://socialvirtu.com/build/assets/app-b6a82ad0.css" /><link rel="modulepreload" href="https://socialvirtu.com/build/assets/app-1bab035d.js" /><link rel="stylesheet" href="https://socialvirtu.com/build/assets/app-82912516.css" /><link rel="stylesheet" href="https://socialvirtu.com/build/assets/app-b6a82ad0.css" /><script type="module" src="https://socialvirtu.com/build/assets/app-1bab035d.js"></script>    </head>
+    <body class="font-sans text-gray-900 dark:text-white antialiased">
+        <div class="min-h-screen flex flex-col sm:justify-center items-center px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-900 relative">
+            <div id="particles-js" class="absolute inset-0 z-0 opacity-50 dark:opacity-100"></div>
             
-        </form>
+            <div class="relative z-10 w-full pt-6 sm:pt-0">
+                <div class="flex justify-center mb-8">
+                    <a href="/" class="flex items-center space-x-2">
+                        <img src="../static/img/MIghost.png" 
+         alt="VIRTU MALL LLC" 
+         class="h-8 w-auto">
+                        <span class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
+                            GHOST SMM
+                        </span>
+                    </a>
+                </div>
+
+                <div class="w-full sm:max-w-md mx-auto px-6 py-8 bg-white dark:bg-gray-800/50 shadow-xl dark:shadow-gray-800/20 overflow-hidden sm:rounded-lg backdrop-blur-sm relative z-10">
+                    <div class="mb-6 sm:mb-8 text-center">
+        <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">Crear una cuenta</h2>
+        <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400">Únete a nuestra comunidad</p>
     </div>
 
-    <!-- Inicializar la animación de partículas -->
-    <script>
-        particlesJS("particles-js", {
-            "particles": {
-                "number": {
-                    "value": 80,
-                    "density": {
-                        "enable": true,
-                        "value_area": 800
-                    }
-                },
-                "color": {
-                    "value": "#ff0000"  // Color rojo neón para las partículas
-                },
-                "shape": {
-                    "type": "circle",
-                    "stroke": {
-                        "width": 0,
-                        "color": "#000"
-                    }
-                },
-                "opacity": {
-                    "value": 0.8,
-                    "random": true,
-                    "anim": {
-                        "enable": true,
-                        "speed": 1,
-                        "opacity_min": 0.1
-                    }
-                },
-                "size": {
-                    "value": 4,
-                    "random": true,
-                    "anim": {
-                        "enable": true,
-                        "speed": 3,
-                        "size_min": 0.1
-                    }
-                },
-                "line_linked": {
-                    "enable": true,
-                    "distance": 150,
-                    "color": "#ff0000",  // Rojo neón para las líneas
-                    "opacity": 0.5,
-                    "width": 1
-                },
-                "move": {
-                    "enable": true,
-                    "speed": 3,
-                    "direction": "none",
-                    "random": true,
-                    "straight": false,
-                    "out_mode": "out",
-                    "bounce": false,
-                    "attract": {
-                        "enable": false,
-                        "rotateX": 600,
-                        "rotateY": 1200
-                    }
-                }
-            },
-            "interactivity": {
-                "detect_on": "canvas",
-                "events": {
-                    "onhover": {
-                        "enable": true,
-                        "mode": "repulse"
+  <!-- Dentro del <form> -->
+<form method="POST" action="/registro" class="space-y-4 sm:space-y-6">
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative text-sm sm:text-base" role="alert">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>  
+        {% endif %}
+    {% endwith %}
+
+    <input type="hidden" name="_token" value="QuDvebfdKRKhvW8d4UkOUWi1fPEINxUsIQdxXxEc" autocomplete="off">
+
+    <div>
+        <label for="name" class="block font-medium text-gray-900 dark:text-white text-sm sm:text-base">Nombre Completo</label>
+        <input id="name" name="name" type="text" required autofocus autocomplete="name"
+            placeholder="Juan Pérez"
+            class="w-full mt-1.5 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700/50 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-blue-600 focus:ring-blue-600 transition-colors duration-200 text-sm sm:text-base shadow-sm" />
+    </div>
+
+    <div>
+        <label for="username" class="block font-medium text-gray-900 dark:text-white text-sm sm:text-base">Nombre de Usuario</label>
+        <input id="username" name="username" type="text" required placeholder="username"
+            class="w-full mt-1.5 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700/50 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-blue-600 focus:ring-blue-600 transition-colors duration-200 text-sm sm:text-base shadow-sm" />
+    </div>
+
+    <div>
+        <label for="whatsapp_country" class="block font-medium text-gray-900 dark:text-white text-sm sm:text-base">WhatsApp</label>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <select id="whatsapp_country" name="whatsapp_country"
+                class="sm:col-span-1 w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700/50 text-gray-900 dark:text-white text-sm sm:text-base focus:border-blue-600 focus:ring-blue-600 transition-colors duration-200" required>
+                <option value="52" data-flag="mx" selected>🇲🇽 +52</option>
+                    <option value="34" data-flag="es">🇪🇸 +34</option>
+                    <option value="54" data-flag="ar">🇦🇷 +54</option>
+                    <option value="57" data-flag="co">🇨🇴 +57</option>
+                    <option value="58" data-flag="ve">🇻🇪 +58</option>
+                    <option value="51" data-flag="pe">🇵🇪 +51</option>
+                    <option value="56" data-flag="cl">🇨🇱 +56</option>
+                    <option value="593" data-flag="ec">🇪🇨 +593</option>
+                    <option value="591" data-flag="bo">🇧🇴 +591</option>
+                    <option value="595" data-flag="py">🇵🇾 +595</option>
+                    <option value="598" data-flag="uy">🇺🇾 +598</option>
+                    <option value="506" data-flag="cr">🇨🇷 +506</option>
+                    <option value="503" data-flag="sv">🇸🇻 +503</option>
+                    <option value="502" data-flag="gt">🇬🇹 +502</option>
+                    <option value="504" data-flag="hn">🇭🇳 +504</option>
+                    <option value="505" data-flag="ni">🇳🇮 +505</option>
+                    <option value="507" data-flag="pa">🇵🇦 +507</option>
+                    <option value="53" data-flag="cu">🇨🇺 +53</option>
+                    <option value="1" data-flag="pr">🇵🇷 +1</option>
+                    <option value="1" data-flag="do">🇩🇴 +1</option>
+                    <option value="1" data-flag="us">🇺🇸 +1</option>
+            </select>
+            <input id="whatsapp_number" name="whatsapp_number" type="text" required placeholder="123456789"
+                class="sm:col-span-2 w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700/50 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-blue-600 focus:ring-blue-600 transition-colors duration-200 text-sm sm:text-base shadow-sm" />
+        </div>
+        <div class="text-xs text-gray-600 dark:text-gray-400 mt-1">Ingresa solo números, sin espacios ni caracteres especiales</div>
+    </div>
+
+    <div>
+        <label for="email" class="block font-medium text-gray-900 dark:text-white text-sm sm:text-base">Correo electrónico</label>
+        <input id="email" name="email" type="email" required placeholder="correo@ejemplo.com"
+            class="w-full mt-1.5 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700/50 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-blue-600 focus:ring-blue-600 transition-colors duration-200 text-sm sm:text-base shadow-sm" />
+    </div>
+
+ <div>
+    <label for="referral_code" class="block font-medium text-gray-900 dark:text-white text-sm sm:text-base">
+        Código de Referido (Opcional)
+    </label>
+    <input id="referral_code" name="referral_code" type="text"
+        placeholder="Código de referido de quien te invitó"
+        value="{{ referral_code or '' }}"
+        class="w-full mt-1.5 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700/50 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-blue-600 focus:ring-blue-600 transition-colors duration-200 text-sm sm:text-base shadow-sm" />
+    <div class="text-xs text-gray-600 dark:text-gray-400 mt-1">
+        Si alguien te invitó, ingresa su código de referido aquí
+    </div>
+</div>
+
+
+    <div>
+        <label for="password" class="block font-medium text-gray-900 dark:text-white text-sm sm:text-base">Contraseña</label>
+        <input id="password" name="password" type="password" required placeholder="••••••••"
+            class="w-full mt-1.5 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700/50 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-blue-600 focus:ring-blue-600 transition-colors duration-200 text-sm sm:text-base shadow-sm" />
+    </div>
+
+    <div>
+        <label for="password_confirmation" class="block font-medium text-gray-900 dark:text-white text-sm sm:text-base">Confirmar Contraseña</label>
+        <input id="password_confirmation" name="password_confirmation" type="password" required placeholder="••••••••"
+            class="w-full mt-1.5 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700/50 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-blue-600 focus:ring-blue-600 transition-colors duration-200 text-sm sm:text-base shadow-sm" />
+    </div>
+
+    <div class="flex flex-col sm:flex-row items-center justify-end gap-4 mt-6">
+        <a href="/login"
+            class="text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-600 transition-colors duration-200">
+            ¿Ya estás registrado?
+        </a>
+        <button type="submit"
+            class="w-full sm:w-auto justify-center inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150">
+            Registrar
+        </button>
+    </div>
+</form>
+
+
+        <!-- WhatsApp Button -->
+                <a href="https://wa.me/+525654936049" 
+           target="_blank"
+           class="fixed bottom-4 right-4 bg-[#25D366] text-white rounded-full w-14 h-14 flex items-center justify-center shadow-[4px_4px_10px_rgba(0,0,0,0.5)] hover:shadow-[6px_6px_15px_rgba(0,0,0,0.6)] hover:translate-y-[-2px] transition-all duration-300 z-50">
+            <i class="fab fa-whatsapp text-2xl"></i>
+        </a>
+        
+        <script>
+            const isDarkMode = document.documentElement.classList.contains('dark');
+            
+            particlesJS('particles-js', {
+                particles: {
+                    number: {
+                        value: window.innerWidth < 768 ? 40 : 80,
+                        density: {
+                            enable: true,
+                            value_area: 800
+                        }
                     },
-                    "onclick": {
-                        "enable": true,
-                        "mode": "push"
+                    color: {
+                        value: isDarkMode ? '#96F92D' : '#96F92D'
+                    },
+                    shape: {
+                        type: 'circle'
+                    },
+                    opacity: {
+                        value: isDarkMode ? 0.5 : 0.3,
+                        random: false,
+                        animation: {
+                            enable: true,
+                            speed: 1,
+                            opacity_min: isDarkMode ? 0.1 : 0.05,
+                            sync: false
+                        }
+                    },
+                    size: {
+                        value: window.innerWidth < 768 ? 2 : 3,
+                        random: true,
+                        animation: {
+                            enable: true,
+                            speed: 2,
+                            size_min: 0.1,
+                            sync: false
+                        }
+                    },
+                    line_linked: {
+                        enable: true,
+                        distance: window.innerWidth < 768 ? 100 : 150,
+                        color: isDarkMode ? '#96F92D' : '#96F92D',
+                        opacity: isDarkMode ? 0.2 : 0.1,
+                        width: 1
+                    },
+                    move: {
+                        enable: true,
+                        speed: window.innerWidth < 768 ? 1.5 : 2,
+                        direction: 'none',
+                        random: false,
+                        straight: false,
+                        out_mode: 'out',
+                        bounce: false,
                     }
-                }
-            },
-            "retina_detect": true
-        });
-    </script>
-</body>
+                },
+                interactivity: {
+                    detect_on: 'canvas',
+                    events: {
+                        onhover: {
+                            enable: true,
+                            mode: 'grab'
+                        },
+                        onclick: {
+                            enable: true,
+                            mode: 'push'
+                        },
+                        resize: true
+                    },
+                    modes: {
+                        grab: {
+                            distance: window.innerWidth < 768 ? 100 : 140,
+                            line_linked: {
+                                opacity: isDarkMode ? 0.5 : 0.3
+                            }
+                        },
+                        push: {
+                            particles_nb: window.innerWidth < 768 ? 2 : 4
+                        }
+                    }
+                },
+                retina_detect: true
+            });
+        </script>
+    </body>
 </html>

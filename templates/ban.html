@@ -1,12 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="../fav/fav.jpeg">
     <title>Cuenta Baneada</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='ban.css') }}">
-    <!-- Cargar particles.js desde CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class', // Habilitar el modo oscuro con la clase 'dark'
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
     <style>
         /* Aseguramos que las partículas se muestren en el fondo */
@@ -17,37 +22,44 @@
             width: 100%;
             height: 100%;
             z-index: -1; /* Aseguramos que las partículas no tapen los demás elementos */
+            background-color: #1a202c; /* Fondo oscuro base para las partículas */
         }
     </style>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4520364325008604"
-     crossorigin="anonymous"></script>
+        crossorigin="anonymous"></script>
 </head>
-<body>
-       <!-- Div para la animación de partículas -->
-       <div id="particles-js"></div>
+<body class="min-h-screen flex items-center justify-center text-white p-4">
+    <div id="particles-js"></div>
 
-    <div class="content">
-        <h1>¡Tu cuenta ha sido baneada!</h1>
-        <p class="message">Lo sentimos, pero tu cuenta está actualmente baneada. La razón de tu baneo es:</p>
-        <p class="reason">{{ razon_ban }}</p> <!-- Aquí se muestra la razón del baneo -->
-        <p class="support-message">
-            Si tienes preguntas sobre el baneo, puedes ponerte en contacto con el soporte técnico.
+    <div class="relative z-10 content-card max-w-lg w-full bg-gray-900/90 backdrop-blur-sm rounded-lg shadow-2xl p-8 space-y-6 text-center border border-red-700/50">
+        <h1 class="text-5xl font-extrabold text-red-500 mb-4 animate-pulse">
+            <i class="fas fa-ban mr-3"></i> ¡Tu cuenta ha sido baneada!
+        </h1>
+        <p class="text-xl text-gray-300 message">
+            Lo sentimos, pero tu cuenta está actualmente **baneada**. La razón de tu baneo es:
+        </p>
+        <p class="text-2xl font-bold text-red-400 reason px-4 py-2 bg-red-900/30 rounded-md border border-red-700 mx-auto max-w-md break-words">
+            {{ razon_ban }}
+        </p>
+        <p class="text-lg text-gray-400 support-message">
+            Si tienes preguntas sobre el baneo, puedes ponerte en contacto con nuestro soporte técnico.
         </p>
 
-        <!-- Logo de WhatsApp a la izquierda del botón -->
-        <div class="whatsapp-container">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp Logo" class="whatsapp-logo">
-            <a href="https://wa.me/+524661002589?text=Mi%20cuenta%20esta%20baneada,%20pero%20no%20se%20la%20razon" 
-               class="support-btn" target="_blank">
-                Contactar con soporte técnico
+        <div class="whatsapp-container flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4 mt-8">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp Logo" class="w-12 h-12 whatsapp-logo">
+            <a href="https://wa.me/+524661002589?text=Mi%20cuenta%20esta%20baneada,%20pero%20no%20se%20la%20razon"
+                class="support-btn bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:scale-105 flex items-center justify-center text-lg" target="_blank">
+                <i class="fab fa-whatsapp mr-2 text-xl"></i> Contactar con soporte técnico
             </a>
         </div>
 
-        <a href="{{ url_for('logout') }}" class="back-btn">Cerrar sesión</a>
+        <a href="{{ url_for('logout') }}"
+           class="back-btn mt-6 inline-flex items-center px-6 py-3 border border-red-500 text-base font-medium rounded-md shadow-sm text-red-300 bg-red-800/50 hover:bg-red-700/70 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition duration-300 ease-in-out transform hover:scale-105">
+            <i class="fas fa-sign-out-alt mr-2"></i> Cerrar sesión
+        </a>
     </div>
 
-   <!-- Inicializar la animación de partículas -->
-   <script>
+    <script>
     particlesJS("particles-js", {
         "particles": {
             "number": {
@@ -122,6 +134,6 @@
         },
         "retina_detect": true
     });
-</script>
+    </script>
 </body>
 </html>

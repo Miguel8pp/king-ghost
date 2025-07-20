@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Pedidos Streaming</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    </head>
+<body class="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 p-4 sm:p-6 lg:p-8">
+
+    <div class="admin-container max-w-7xl mx-auto w-full bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 space-y-8 sm:p-8">
+        
+        <header class="admin-header flex flex-col sm:flex-row justify-between items-center mb-6 border-b pb-4 border-gray-200 dark:border-gray-700">
+            <h1 class="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4 sm:mb-0 flex items-center">
+                <i class="fas fa-ticket-alt mr-3 text-blue-600 dark:text-blue-400"></i> Pedidos de Cuentas Streaming
+            </h1>
+            <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4 w-full sm:w-auto">
+                <a href="{{ url_for('logout') }}" class="admin-link bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-md transition duration-200 ease-in-out shadow-md flex items-center justify-center">
+                    <i class="fas fa-sign-out-alt mr-2"></i> Salir
+                </a>
+                <form action="{{ url_for('admin_inicio') }}" method="get" class="w-full sm:w-auto">
+                    <button type="submit" class="back-btn w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition duration-200 ease-in-out shadow-md flex items-center justify-center">
+                        <i class="fas fa-arrow-left mr-2"></i> Regresar al Panel
+                    </button>
+                </form>
+            </div>
+        </header>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="messages-container space-y-3 mb-6">
+                {% for category, message in messages %}
+                    <div class="message p-3 rounded-md text-center
+                        {% if category == 'success' %} bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-200
+                        {% elif category == 'error' %} bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-200
+                        {% else %} bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-200
+                        {% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% endwith %}
+
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6 flex items-center">
+            <i class="fas fa-filter mr-3 text-blue-600 dark:text-blue-400"></i> Filtrar Pedidos
+        </h2>
+
+        <form method="get" class="mb-8 flex items-center space-x-4">
+            <label for="estado-filtro" class="text-gray-700 dark:text-gray-300 font-medium">Estado:</label>
+            <select name="estado" id="estado-filtro" onchange="this.form.submit()"
+                    class="border border-gray-300 dark:border-gray-600 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                <option value="" {% if not filtro_estado %}selected{% endif %}>Todos</option>
+                <option value="pendiente" {% if filtro_estado=='pendiente' %}selected{% endif %}>Pendiente</option>
+                <option value="entregado" {% if filtro_estado=='entregado' %}selected{% endif %}>Entregado</option>
+            </select>
+        </form>
+
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6 flex items-center">
+            <i class="fas fa-clipboard-list mr-3 text-blue-600 dark:text-blue-400"></i> Lista de Pedidos
+        </h2>
+
+        {% if pedidos %}
+        <div class="table-responsive overflow-x-auto rounded-lg shadow-md border border-gray-200 dark:border-gray-700">
+            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                <thead class="bg-gray-100 dark:bg-gray-700">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider">Usuario</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider">Servicio</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider">Precio</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider">Nombre</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider">WhatsApp</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider">Email</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider">Estado</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider">Acción</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                    {% for pedido in pedidos %}
+                    <tr class="{% if pedido.estado=='pendiente' %}bg-red-50 dark:bg-red-950/20{% else %}bg-green-50 dark:bg-green-950/20{% endif %} hover:bg-gray-100 dark:hover:bg-gray-700 transition duration-150 ease-in-out">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100" data-label="Usuario">{{ pedido.usuario }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-blue-600 dark:text-blue-400 font-semibold" data-label="Servicio">{{ pedido.servicio }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-green-600 dark:text-green-400 font-semibold" data-label="Precio">${{ pedido.precio }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300" data-label="Nombre">{{ pedido.nombre }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm" data-label="WhatsApp">
+                            <a href="https://wa.me/{{ pedido.whatsapp }}" target="_blank" class="text-blue-500 hover:underline flex items-center">
+                                {{ pedido.whatsapp }} <i class="fab fa-whatsapp ml-1"></i>
+                            </a>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm" data-label="Email">
+                            <a href="mailto:{{ pedido.email }}" class="text-blue-500 hover:underline flex items-center">
+                                {{ pedido.email }} <i class="fas fa-envelope ml-1"></i>
+                            </a>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap" data-label="Estado">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                                {% if pedido.estado=='pendiente' %} bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200
+                                {% else %} bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200
+                                {% endif %}">
+                                {{ pedido.estado | capitalize }}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium" data-label="Acción">
+                            {% if pedido.estado == 'pendiente' %}
+<form action="{{ url_for('marcar_entregado', pedido_id=pedido._id) }}" method="post">
+                                <button type="submit"
+                                        class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded-md shadow-sm transition duration-200 ease-in-out flex items-center text-sm">
+                                    <i class="fas fa-check-circle mr-1"></i> Marcar Entregado
+                                </button>
+                            </form>
+                            {% else %}
+                                <span class="text-green-600 dark:text-green-400 font-semibold flex items-center">
+                                    <i class="fas fa-check-double mr-1"></i> Entregado
+                                </span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="bg-blue-100 dark:bg-blue-900 border border-blue-200 dark:border-blue-700 text-blue-700 dark:text-blue-200 p-4 rounded-md flex items-center justify-center text-lg shadow-sm">
+            <i class="fas fa-info-circle mr-3"></i> No hay pedidos de cuentas streaming para mostrar con los filtros actuales.
+        </div>
+        {% endif %}
+    </div>
+
+</body>
+</html>

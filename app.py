@@ -37,14 +37,6 @@ from bson.json_util import dumps
 
 
 
-
-
-
-
-
-
-
-
 # Importar el archivo yoursmm.py
 from yoursmm import Api
 
@@ -67,6 +59,7 @@ pagos_collection = db['Pagos']
 posts = db["articulos"]
 pedidos_streaming = db['streaming']
 soporte_collection = db['soporteMensajes']
+freefire_collection = db['diamantes']
 
 # GridFS
 fs = gridfs.GridFS(db)      
@@ -1232,7 +1225,293 @@ def marcar_entregado(pedido_id):
     )
     return redirect(url_for('admin_streaming'))
 
+@app.route('/diamantes')
+def diamantes():
+    if 'usuario' not in session:
+        return redirect(url_for('login'))
 
-# Ejecutar la aplicación
+    user_data = collection.find_one({'usuario': session['usuario']})
+    saldo = user_data.get('saldo', Decimal128('0')) # Asumimos que el saldo en DB es Decimal128
+    foto_id = user_data.get('foto_id')
+
+    if isinstance(saldo, Decimal128):
+        saldo = saldo.to_decimal() # Convertir a Decimal para operaciones
+
+    return render_template('diamantes.html', logueado=True, usuario=user_data['usuario'], saldo=saldo,
+        foto_id=foto_id)
+
+
+@app.route('/free-fire-diamonds', methods=['POST'])
+def guardar_diamantes():
+    if 'usuario' not in session:
+        return jsonify({'success': False, 'redirect': url_for('login')}), 401
+
+    data = request.get_json()
+
+    if not data:
+        return jsonify({'success': False, 'error': 'Datos incompletos'}), 400
+
+    try:
+        # Datos del pedido
+        nombre = data.get("nombre")
+        whatsapp = data.get("whatsapp")
+        nick = data.get("nick")
+        id_juego = data.get("idJuego")
+        paquete = data.get("paquete")
+        usuario_frontend = data.get("usuario")
+
+        if usuario_frontend and usuario_frontend != session['usuario']:
+            return jsonify({'success': False, 'error': 'Conflicto de usuario. Intenta de nuevo.'}), 403
+
+        # Precios en USD ($)
+        precios = {
+            "520 + 52 Diamantes Bonus": Decimal('4.87'),
+            "620 + 62 Diamantes Bonus": Decimal('5.64'),
+            "830 + 80 Diamantes Bonus": Decimal('7.95'),
+            "1060 + 106 Diamantes Bonus": Decimal('9.74'),
+            "2180 + 218 Diamantes Bonus": Decimal('18.46'),
+            "4360 + 436 Diamantes Bonus": Decimal('37.18'),
+            "5600 + 560 Diamantes Bonus": Decimal('46.15'),
+            "Tarjeta Semanal": Decimal('4.99'), # ¡Ajustado a USD!
+            "Tarjeta Mensual": Decimal('24.99') # ¡Ajustado a USD! (asumiendo un precio similar semanal/mensual)
+        }
+
+        precio = precios.get(paquete)
+        if precio is None:
+            return jsonify({'success': False, 'error': 'Paquete no válido'}), 400
+
+        user = collection.find_one({'usuario': session['usuario']})
+        if not user:
+            return jsonify({'success': False, 'error': 'Usuario no encontrado en la base de datos.'}), 404
+
+        saldo_actual = user.get('saldo', Decimal128('0'))
+
+        if isinstance(saldo_actual, Decimal128):
+            saldo_actual = saldo_actual.to_decimal()
+
+        if saldo_actual < precio: # Comparar Decimal con Decimal
+            return jsonify({'success': False, 'error': 'Saldo insuficiente'}), 400
+
+        nuevo_saldo = saldo_actual - precio # Resta Decimal con Decimal
+        collection.update_one(
+            {'usuario': session['usuario']},
+            {'$set': {'saldo': Decimal128(nuevo_saldo)}}
+        )
+
+        freefire_collection.insert_one({
+            'usuario': session['usuario'],
+            'nombre': nombre,
+            'whatsapp': whatsapp,
+            'nick': nick,
+            'idJuego': id_juego,
+            'paquete': paquete,
+            'precio': float(precio), # Guardar como float si tu DB lo acepta, o Decimal128(precio) si MongoDB lo requiere como tal.
+            'fecha': datetime.utcnow(),
+            'estado': 'Pendiente' # <--- Asegura que el estado inicial sea 'Pendiente'
+
+        })
+
+        flash(f'✅ Compra realizada correctamente. Tu nuevo saldo es ${nuevo_saldo:.2f}', 'success')
+        return jsonify({'success': True, 'redirect': url_for('diamantes')})
+
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        flash('❌ Error al procesar la compra.', 'error')
+        return jsonify({'success': False, 'error': str(e)}), 500
+    
+@app.route('/historial-recargas')
+def historial_recargas():
+    # 1. Verificar si el usuario está logueado
+    if 'usuario' not in session:
+        flash('Por favor, inicia sesión para ver tu historial.', 'error')
+        return redirect(url_for('login'))
+    
+    # Obtener el usuario desde la sesión
+    usuario = session['usuario']
+
+    user_data = collection.find_one({'usuario': usuario})
+    foto_id = user_data.get('foto_id')
+    saldo = obtener_saldo(usuario)
+
+    try:
+        # 2. Obtener el usuario actual de la sesión
+        current_user = session['usuario']
+
+        # 3. Consultar la colección freefire_collection para obtener las recargas de este usuario
+        # Se ordenan por fecha de forma descendente para mostrar las más recientes primero
+        recargas_cursor = freefire_collection.find({'usuario': current_user}).sort('fecha', -1)
+        
+        # Convertir el cursor a una lista para pasarla a la plantilla
+        recargas = []
+        for recarga in recargas_cursor:
+            # Asegurarse de que el precio sea un float y la fecha esté formateada
+            if isinstance(recarga.get('precio'), Decimal128):
+                recarga['precio'] = recarga['precio'].to_decimal()
+            elif isinstance(recarga.get('precio'), Decimal):
+                recarga['precio'] = float(recarga['precio'])
+            
+            if isinstance(recarga.get('fecha'), datetime):
+                recarga['fecha'] = recarga['fecha'].strftime('%Y-%m-%d %H:%M:%S')
+            
+            # Asegurarse de que el estado exista, si no, poner un valor por defecto
+            recarga['estado'] = recarga.get('estado', 'Pendiente')
+            
+            recargas.append(recarga)
+
+        # 4. Renderizar la plantilla 'historial_recargas.html' y pasarle los datos
+        return render_template('historial_recargas.html', logueado=True, usuario=current_user, recargas=recargas,
+        saldo=saldo,
+        foto_id=foto_id)
+
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        flash(f'❌ Error al cargar el historial de recargas: {str(e)}', 'error')
+        return redirect(url_for('diamantes')) # O a una página de error, o al login
+
+
+@app.route('/admin_diamantes')
+def admin_diamantes():
+    # 1. Verificar si el usuario ha iniciado sesión
+    if 'usuario' not in session:
+        flash('Por favor, inicia sesión para acceder al panel de administración.', 'error')
+        return redirect(url_for('login'))
+
+    # 2. Verificar si el usuario tiene rol de administrador
+    user_data = collection.find_one({'usuario': session['usuario']})
+    if not user_data or user_data.get('rol') != 'admin':
+        flash('Acceso denegado. No tienes permisos de administrador.', 'error')
+        return redirect(url_for('pagina_principal'))
+
+    try:
+        # 3. Filtrar pedidos por estado (opcional, desde query string)
+        estado_filtro = request.args.get('estado')
+        filtro_db = {}
+        if estado_filtro:
+            filtro_db['estado'] = estado_filtro.capitalize() 
+
+        # 4. Obtener todos los pedidos de diamantes Free Fire
+        pedidos_cursor = freefire_collection.find(filtro_db).sort('fecha', -1)
+        
+        # 5. Procesar los pedidos para la plantilla
+        pedidos = []
+        for pedido in pedidos_cursor:
+            pedido['_id'] = str(pedido['_id'])
+            
+            if isinstance(pedido.get('precio'), Decimal128):
+                pedido['precio'] = pedido['precio'].to_decimal()
+            elif isinstance(pedido.get('precio'), Decimal):
+                pedido['precio'] = float(pedido['precio'])
+            
+            if isinstance(pedido.get('fecha'), datetime):
+                pedido['fecha'] = pedido['fecha'].strftime('%Y-%m-%d %H:%M:%S')
+            
+            pedido['estado'] = pedido.get('estado', 'Pendiente')
+            
+            pedidos.append(pedido)
+
+        # 6. Renderizar la plantilla 'admin_diamantes.html' y pasarle los pedidos
+        return render_template('admin_diamantes.html', 
+                               logueado=True, 
+                               usuario=session['usuario'], 
+                               pedidos=pedidos,
+                               filtro_estado=estado_filtro or '')
+
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        flash(f'❌ Error al cargar el panel de administración de diamantes: {str(e)}', 'error')
+        return redirect(url_for('pagina_principal'))
+
+# --- RUTA PARA ACTUALIZAR EL ESTADO DE UN PEDIDO ---
+@app.route('/admin/diamantes/update_status', methods=['POST'])
+def update_diamantes_status():
+    # --- DEBUG: Imprime el tipo de contenido de la petición ---
+    print(f"DEBUG FLASK: Tipo de contenido recibido: {request.content_type}")
+    # ---------------------------------------------------------
+
+    # Verifica si el tipo de contenido es JSON
+    if request.is_json:
+        data = request.get_json()
+        print(f"DEBUG FLASK: Datos recibidos por request.get_json(): {data}") # Debería imprimir el JSON
+        order_id_str = data.get('order_id') # Espera 'order_id'
+        new_status = data.get('status')     # Espera 'status'
+
+        print(f"DEBUG FLASK: Extrayendo order_id: {order_id_str}, new_status: {new_status}")
+
+        if not order_id_str or not new_status:
+            print("DEBUG FLASK: ERROR: order_id o new_status están incompletos después de get().")
+            return jsonify({'success': False, 'error': 'Datos incompletos.'}), 400
+
+        try:
+            # Intenta convertir el order_id a ObjectId solo si es necesario para MongoDB
+            # Si tu _id en MongoDB es un string simple y no un ObjectId, omite esta línea.
+            # Pero si es un ObjectId, es CRÍTICO convertirlo.
+            order_id_obj = ObjectId(order_id_str)
+        except Exception as e:
+            print(f"DEBUG FLASK: Error al convertir order_id a ObjectId: {e}")
+            return jsonify({'success': False, 'error': 'ID de pedido inválido.'}), 400
+
+        # Realiza la actualización en MongoDB
+        try:
+            # Usa order_id_obj si convertiste a ObjectId, de lo contrario usa order_id_str
+            result = freefire_collection.update_one(
+                {'_id': order_id_obj}, # Usa order_id_obj aquí
+                {'$set': {'estado': new_status}}
+            )
+
+            if result.matched_count > 0:
+                flash(f'Pedido {order_id_str} actualizado a {new_status} correctamente.', 'success')
+                return jsonify({'success': True, 'message': 'Estado actualizado.'}), 200
+            else:
+                flash(f'Pedido {order_id_str} no encontrado o no se pudo actualizar.', 'error')
+                return jsonify({'success': False, 'error': 'Pedido no encontrado o sin cambios.'}), 404
+        except Exception as e:
+            print(f"DEBUG FLASK: Error al actualizar en la base de datos: {e}")
+            flash('Error interno del servidor al actualizar el estado.', 'error')
+            return jsonify({'success': False, 'error': 'Error interno del servidor.'}), 500
+    else:
+        print("DEBUG FLASK: Petición no es JSON o Content-Type incorrecto.")
+        return jsonify({'success': False, 'error': 'Content-Type debe ser application/json.'}), 400
+    
+
+# --- RUTA PARA ELIMINAR UN PEDIDO ---
+@app.route('/admin/diamantes/delete', methods=['POST'])
+def delete_diamante_order():
+    print(f"DEBUG: Petición recibida para eliminar orden.") # <-- Punto de depuración
+    if 'usuario' not in session:
+        return jsonify({'success': False, 'redirect': url_for('login')}), 401
+
+    user_data = collection.find_one({'usuario': session['usuario']})
+    if not user_data or user_data.get('rol') != 'admin':
+        return jsonify({'success': False, 'error': 'Acceso denegado.'}), 403
+
+    data = request.get_json()
+    print(f"DEBUG: Datos recibidos por request.get_json(): {data}") # <-- Punto de depuración
+
+    if not data:
+        print("DEBUG: ERROR: Datos vacíos o nulos recibidos para eliminar.") # <-- Punto de depuración
+        return jsonify({'success': False, 'error': 'Datos incompletos.'}), 400
+
+    order_id = data.get('order_id')
+    print(f"DEBUG: Extrayendo order_id para eliminar: {order_id}") # <-- Punto de depuración
+
+    if not order_id:
+        print("DEBUG: ERROR: order_id está incompleto para eliminar después de get().") # <-- Punto de depuración
+        return jsonify({'success': False, 'error': 'ID de pedido no proporcionado.'}), 400
+
+    try:
+        result = freefire_collection.delete_one({'_id': ObjectId(order_id)})
+
+        if result.deleted_count > 0:
+            return jsonify({'success': True, 'message': f'Pedido {order_id} eliminado correctamente.'})
+        else:
+            return jsonify({'success': False, 'error': f'Pedido {order_id} no encontrado.'})
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({'success': False, 'error': str(e)}), 500
+    
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)

@@ -1,0 +1,1400 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="0NHWv5SjO5BZ9kADV4o7KWLTBfy9bLT1Eo2GGYFc">
+        <title>INICIO</title>
+
+        <!-- Favicon -->
+        <link rel="icon" type="image/x-icon" href="https://socialvirtu.com/storage/images/brand/favicons/bpcOHEfmC7Ye21lMJgzf1AM7BM4HQVxDMk4I04At.png">
+
+        <!-- Alpine.js (debe ir primero) -->
+        <!-- <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script> -->
+
+        
+        <!-- Dark Mode Script (debe ir primero) -->
+        <script>
+            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        </script>
+
+        <!-- Fonts -->
+        <!-- <link rel="preconnect" href="https://fonts.bunny.net">
+        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" /> -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+        <!-- SweetAlert2 -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        <!-- Scripts -->
+        <link rel="preload" as="style" href="https://socialvirtu.com/build/assets/app-82912516.css" /><link rel="preload" as="style" href="https://socialvirtu.com/build/assets/app-b6a82ad0.css" /><link rel="modulepreload" href="https://socialvirtu.com/build/assets/app-1bab035d.js" /><link rel="stylesheet" href="https://socialvirtu.com/build/assets/app-82912516.css" /><link rel="stylesheet" href="https://socialvirtu.com/build/assets/app-b6a82ad0.css" /><script type="module" src="https://socialvirtu.com/build/assets/app-1bab035d.js"></script>
+        <style>
+            @keyframes wave {
+                0%, 100% { transform: translateY(0); }
+                50% { transform: translateY(-5px); }
+            }
+            .animate-wave {
+                animation: wave 3s ease-in-out infinite;
+            }
+        </style>
+    </head>
+    <body class="font-sans antialiased bg-gray-50 dark:bg-gray-900 h-full">
+        
+        <div class="min-h-full">
+            <!-- Sidebar Navigation (Desktop) -->
+            <div class="hidden sm:flex sm:flex-col sm:w-64 sm:fixed sm:inset-y-0">
+                <nav x-data="{ open: false }" class="h-full">
+    <!-- Desktop Sidebar -->
+    <div class="hidden sm:flex h-full w-64 flex-col bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700">
+        <!-- Logo -->
+        <div class="px-6 py-5">
+            <a href="/pagina_principal" class="flex items-center space-x-2">
+                <img src="../static/img/MIghost.png" 
+         alt="GHOST SMM" 
+         class="h-8 w-auto">
+                <span class="text-gray-900 dark:text-white text-lg font-bold tracking-wider">GHOST SMM</span>
+            </a>
+        </div>
+
+        <!-- Navigation Links -->
+        <div class="flex-1 px-4 py-4">
+            <div class="space-y-2">
+                <!-- Dashboard -->
+                <a class="text-[#99FF00] flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 bg-socialmentorify dark:bg-socialmentorify-dark text-black" href="/pagina_principal">
+    <i class="fas fa-home w-5 h-5 mr-3"></i>
+                    <span>Dashboard</span>
+</a>
+
+
+                <!-- Free -->
+                <a class="text-gray-400 flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/free">
+    <i class="fas fa-gift w-5 h-5 mr-3"></i>
+                    <span>Free</span>
+</a>
+
+<!-- Free  FIre-->
+<a class="text-gray-400 flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/diamantes">
+    <i class="fas fa-gem w-5 h-5 mr-3"></i>
+    <span>Diamantes Free Fire</span>
+</a>
+
+<a class="text-gray-400 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/historial-recargas">
+    <i class="fas fa-history w-5 h-5 mr-3"></i>
+    <span>Historial de Recargas</span>
+</a>
+<!-- Torneos-->
+<a class="text-gray-400 flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/torneosff">
+    <i class="fas fa-trophy w-5 h-5 mr-3"></i>
+    <span>Torneos</span>
+</a>
+     
+
+                <!-- Sección Streaming -->
+                <div x-data="{ open: false }" class="mt-4">
+                    <button @click="open = !open" 
+                        class="w-full flex items-center justify-between px-3 py-2.5 text-sm font-medium rounded-lg transition-all duration-300 ease-in-out text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white">
+                        <div class="flex items-center">
+                            <i class="fas fa-tv w-5 h-5 mr-3 text-socialmentorify dark:text-socialmentorify-dark"></i>
+                            <span>Streaming</span>
+                        </div>
+                        <i class="fas transition-transform duration-300 ease-in-out" :class="open ? 'fa-chevron-down transform rotate-180' : 'fa-chevron-right'"></i>
+                    </button>
+                    <div x-show="open" 
+                        x-collapse.duration.300ms
+                        x-collapse:enter="transition ease-out duration-300"
+                        x-collapse:enter-start="opacity-0 transform -translate-y-2"
+                        x-collapse:enter-end="opacity-100 transform translate-y-0"
+                        x-collapse:leave="transition ease-in duration-300"
+                        x-collapse:leave-start="opacity-100 transform translate-y-0"
+                        x-collapse:leave-end="opacity-0 transform -translate-y-2"
+                        class="mt-2 space-y-1">
+                        <a class="text-gray-400 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/streaming">
+    <i class="fas fa-store w-5 h-5 mr-3"></i>
+                            <span>Tienda</span>
+</a>
+
+
+
+                        <a class="text-gray-400 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/pedidosStreaming">
+    <i class="fas fa-shopping-cart w-5 h-5 mr-3"></i>
+                            <span>Mis compras</span>
+</a>
+
+                         <a class="text-gray-400 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/soporte">
+    <i class="fas fa-headset w-5 h-5 mr-3"></i>
+                            <span>Soporte Técnico</span>
+</a>
+
+                    </div>
+                </div>
+
+                <!-- Sección SMM -->
+                <div x-data="{ open: false }" class="mt-4">
+                    <button @click="open = !open" 
+                        class="w-full flex items-center justify-between px-3 py-2.5 text-sm font-medium rounded-lg transition-all duration-300 ease-in-out text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white">
+                        <div class="flex items-center">
+                            <i class="fas fa-bolt w-5 h-5 mr-3 text-socialmentorify dark:text-socialmentorify-dark"></i>
+                            <span>Redes Sociales</span>
+                        </div>
+                        <i class="fas transition-transform duration-300 ease-in-out" :class="open ? 'fa-chevron-down transform rotate-180' : 'fa-chevron-right'"></i>
+                    </button>
+                    <div x-show="open" 
+                        x-collapse.duration.300ms
+                        x-collapse:enter="transition ease-out duration-300"
+                        x-collapse:enter-start="opacity-0 transform -translate-y-2"
+                        x-collapse:enter-end="opacity-100 transform translate-y-0"
+                        x-collapse:leave="transition ease-in duration-300"
+                        x-collapse:leave-start="opacity-100 transform translate-y-0"
+                        x-collapse:leave-end="opacity-0 transform -translate-y-2"
+                        class="mt-2 space-y-1">
+                        <a class="text-gray-400 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/agregar_orden">
+    <i class="fas fa-plus w-5 h-5 mr-3"></i>
+                            <span>Nuevo orden</span>
+</a>
+
+
+
+                        <a class="text-gray-400 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/pedidos">
+    <i class="fas fa-list w-5 h-5 mr-3"></i>
+                            <span>Ordenes</span>
+</a>
+
+
+
+
+
+
+                    </div>
+                </div>
+
+                <!-- Sección Finanzas -->
+                <div x-data="{ open: false }" class="mt-4">
+                    <button @click="open = !open" 
+                        class="w-full flex items-center justify-between px-3 py-2.5 text-sm font-medium rounded-lg transition-all duration-300 ease-in-out text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white">
+                        <div class="flex items-center">
+                            <i class="fas fa-wallet w-5 h-5 mr-3 text-socialmentorify dark:text-socialmentorify-dark"></i>
+                            <span>Finanzas</span>
+                        </div>
+                        <i class="fas transition-transform duration-300 ease-in-out" :class="open ? 'fa-chevron-down transform rotate-180' : 'fa-chevron-right'"></i>
+                    </button>
+                    <div x-show="open" 
+                        x-collapse.duration.300ms
+                        x-collapse:enter="transition ease-out duration-300"
+                        x-collapse:enter-start="opacity-0 transform -translate-y-2"
+                        x-collapse:enter-end="opacity-100 transform translate-y-0"
+                        x-collapse:leave="transition ease-in duration-300"
+                        x-collapse:leave-start="opacity-100 transform translate-y-0"
+                        x-collapse:leave-end="opacity-0 transform -translate-y-2"
+                        class="mt-2 space-y-1">
+                        <a class="text-gray-400 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/saldo">
+    <i class="fas fa-credit-card w-5 h-5 mr-3"></i>
+                            <span>Agregar saldo</span>
+</a>
+
+                        <a class="text-gray-400 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/movimientos">
+    <i class="fas fa-history w-5 h-5 mr-3"></i>
+                            <span>Historial de Recargas</span>
+</a>
+
+                        <a class="text-gray-400 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/cartera">
+    <i class="fas fa-wallet w-5 h-5 mr-3"></i>
+                            <span>Cartera</span>
+</a>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Theme Toggle -->
+        <div class="px-4 py-2 border-t border-gray-200 dark:border-gray-700">
+            <button 
+                x-data
+                @click="$store.theme.toggle()"
+                class="w-full flex items-center px-3 py-2.5 text-sm font-medium rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white transition-colors duration-200"
+            >
+                <template x-if="!$store.theme.isDark">
+                    <i class="fas fa-moon w-5 h-5 mr-3 text-blue-400"></i>
+                </template>
+                <template x-if="$store.theme.isDark">
+                    <i class="fas fa-sun w-5 h-5 mr-3 text-amber-400"></i>
+                </template>
+                <span x-text="$store.theme.isDark ? 'Modo Claro' : 'Modo Oscuro'"></span>
+            </button>
+        </div>
+
+        <!-- Términos y Condiciones -->
+        <div class="px-4 py-2 border-t border-gray-200 dark:border-gray-700">
+            <a class="text-gray-400 flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/terminos">
+    <i class="fas fa-file-contract w-5 h-5 mr-3"></i>
+                <span>Términos y Condiciones</span>
+</a>
+        </div>
+
+        <!-- User Profile -->
+<div class="mt-auto border-t border-gray-200 dark:border-gray-700">
+    <div class="px-4 py-4">
+        <a href="/mi_perfil" 
+           class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white">
+
+            <!-- Foto de perfil dinámica -->
+            <img src="{{ url_for('foto_perfil', foto_id=foto_id) if foto_id else url_for('static', filename='fotos_perfil/default.png') }}"
+                 alt="Foto de perfil"
+                 class="h-9 w-9 rounded-full object-cover">
+
+            <!-- Nombre de usuario dinámico -->
+            <p class="text-sm font-medium">{{ usuario }}</p>
+
+            <!-- Ícono Profile -->
+            <i class="fas fa-user w-5 h-5 ml-auto"></i>
+        </a>
+
+
+
+                <!-- Authentication -->
+                <form method="POST" action="/logout">
+                                     <a class="text-gray-400 flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/logout" >
+    <i class="fas fa-power-off w-5 h-5 mr-3 text-red-600 dark:text-red-500"></i>
+                        <span>Log Out</span>
+</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</nav>
+            </div>
+
+            <!-- Mobile Header -->
+            <div class="sm:hidden fixed top-0 left-0 right-0 z-40 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                <div class="px-4 py-3 flex items-center justify-between">
+                    <a href="/pagina_principal" class="flex items-center space-x-2">
+                        <img src="../static/img/MIghost.png" 
+         alt="GHOST SMM" 
+         class="h-8 w-auto">
+                        <span class="text-gray-900 dark:text-white text-lg font-bold tracking-wider">GHOST SMM</span>
+                    </a>
+                    <!-- Mobile Navigation Menu -->
+<div x-data="{ open: false }" class="sm:hidden">
+    <!-- Mobile Menu Button -->
+    <button @click="open = true" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">
+        <i class="fas fa-bars text-xl"></i>
+    </button>
+
+    <!-- Mobile Menu Overlay -->
+    <div x-show="open" 
+        x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="transition ease-in duration-150"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        class="fixed inset-0 z-50 bg-gray-900/50 dark:bg-black/50 backdrop-blur-sm"
+        @click="open = false">
+    </div>
+
+    <!-- Mobile Menu Panel -->
+    <div x-show="open"
+        x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="-translate-x-full"
+        x-transition:enter-end="translate-x-0"
+        x-transition:leave="transition ease-in duration-400"
+        x-transition:leave-start="translate-x-0"
+        x-transition:leave-end="-translate-x-full"
+        @click.away="open = false"
+        class="fixed inset-y-0 left-0 z-50 w-full">
+        
+        <!-- Menu Content -->
+        <div class="relative mr-auto h-full w-[70%] max-w-xs bg-white dark:bg-gray-800 flex flex-col overflow-hidden">
+            <!-- Header -->
+            <div class="flex items-center justify-end px-4 py-3 border-b border-gray-200 dark:border-gray-700">
+                <button @click="open = false" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Navigation Links -->
+            <div class="flex-1 px-4 py-4 overflow-y-auto">
+                <div class="space-y-1">
+                    <!-- Dashboard -->
+                    <a class="text-[#99FF00] bg-[#99FF00]/10 hover:bg-[#99FF00]/20 flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 bg-socialmentorify dark:bg-socialmentorify-dark text-black" href="/pagina_principal">
+    <i class="fas fa-home w-5 h-5 mr-3"></i>
+                        <span>Dashboard</span>
+</a>
+
+
+                    <!-- Free -->
+                    <a class="text-gray-400 hover:text-gray-200 hover:bg-gray-700/50 flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/free">
+    <i class="fas fa-gift w-5 h-5 mr-3"></i>
+                        <span>Free</span>
+</a>
+
+
+<!-- Free  FIre-->
+<a class="text-gray-400 flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/diamantes">
+    <i class="fas fa-gem w-5 h-5 mr-3"></i>
+    <span>Diamantes Free Fire</span>
+</a>
+<a class="text-gray-400 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/historial-recargas">
+    <i class="fas fa-history w-5 h-5 mr-3"></i>
+    <span>Historial de Recargas</span>
+</a>
+<!-- Torneos-->
+<a class="text-gray-400 flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/torneosff">
+    <i class="fas fa-trophy w-5 h-5 mr-3"></i>
+    <span>Torneos</span>
+</a>
+
+
+                    <!-- Sección Streaming -->
+                    <div x-data="{ open: false }" class="mt-4">
+                        <button @click="open = !open" 
+                            class="w-full flex items-center justify-between px-3 py-2.5 text-sm font-medium rounded-lg transition-all duration-300 ease-in-out text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white">
+                            <div class="flex items-center">
+                                <i class="fas fa-tv w-5 h-5 mr-3 text-socialmentorify dark:text-socialmentorify-dark"></i>
+                                <span>Streaming</span>
+                            </div>
+                            <i class="fas transition-transform duration-300 ease-in-out" :class="open ? 'fa-chevron-down transform rotate-180' : 'fa-chevron-right'"></i>
+                        </button>
+                        <div x-show="open" 
+                            x-collapse.duration.300ms
+                            x-collapse:enter="transition ease-out duration-300"
+                            x-collapse:enter-start="opacity-0 transform -translate-y-2"
+                            x-collapse:enter-end="opacity-100 transform translate-y-0"
+                            x-collapse:leave="transition ease-in duration-300"
+                            x-collapse:leave-start="opacity-100 transform translate-y-0"
+                            x-collapse:leave-end="opacity-0 transform -translate-y-2"
+                            class="mt-2 space-y-1">
+                            <a class="text-gray-400 hover:text-gray-200 hover:bg-gray-700/50 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/streaming">
+    <i class="fas fa-store w-5 h-5 mr-3"></i>
+                                <span>Tienda</span>
+</a>
+
+
+                            <a class="text-gray-400 hover:text-gray-200 hover:bg-gray-700/50 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/pedidosStreaming">
+    <i class="fas fa-shopping-cart w-5 h-5 mr-3"></i>
+                                <span>Mis Compras</span>
+</a>
+
+                           <a class="text-gray-400 hover:text-gray-200 hover:bg-gray-700/50 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/soporte">
+    <i class="fas fa-headset w-5 h-5 mr-3"></i>
+                                <span>Soporte Técnico</span>
+</a>
+ 
+                        </div>
+                    </div>
+
+                    <!-- Sección SMM -->
+                    <div x-data="{ open: false }" class="mt-4">
+                        <button @click="open = !open" 
+                            class="w-full flex items-center justify-between px-3 py-2.5 text-sm font-medium rounded-lg transition-all duration-300 ease-in-out text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white">
+                            <div class="flex items-center">
+                                <i class="fas fa-bolt w-5 h-5 mr-3 text-socialmentorify dark:text-socialmentorify-dark"></i>
+                                <span>Redes Sociales</span>
+                            </div>
+                            <i class="fas transition-transform duration-300 ease-in-out" :class="open ? 'fa-chevron-down transform rotate-180' : 'fa-chevron-right'"></i>
+                        </button>
+                        <div x-show="open" 
+                            x-collapse.duration.300ms
+                            x-collapse:enter="transition ease-out duration-300"
+                            x-collapse:enter-start="opacity-0 transform -translate-y-2"
+                            x-collapse:enter-end="opacity-100 transform translate-y-0"
+                            x-collapse:leave="transition ease-in duration-300"
+                            x-collapse:leave-start="opacity-100 transform translate-y-0"
+                            x-collapse:leave-end="opacity-0 transform -translate-y-2"
+                            class="mt-2 space-y-1">
+                            <a class="text-gray-400 hover:text-gray-200 hover:bg-gray-700/50 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/agregar_orden">
+    <i class="fas fa-plus w-5 h-5 mr-3"></i>
+                                <span>Nuevo Orden</span>
+</a>
+
+
+
+                            <a class="text-gray-400 hover:text-gray-200 hover:bg-gray-700/50 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/pedidos">
+    <i class="fas fa-list w-5 h-5 mr-3"></i>
+                                <span>Historial de Ordenes</span>
+</a>
+
+                        </div>
+                    </div>
+
+                    <!-- Sección Finanzas -->
+                    <div x-data="{ open: false }" class="mt-4">
+                        <button @click="open = !open" 
+                            class="w-full flex items-center justify-between px-3 py-2.5 text-sm font-medium rounded-lg transition-all duration-300 ease-in-out text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white">
+                            <div class="flex items-center">
+                                <i class="fas fa-wallet w-5 h-5 mr-3 text-socialmentorify dark:text-socialmentorify-dark"></i>
+                                <span>Finanzas</span>
+                            </div>
+                            <i class="fas transition-transform duration-300 ease-in-out" :class="open ? 'fa-chevron-down transform rotate-180' : 'fa-chevron-right'"></i>
+                        </button>
+                        <div x-show="open" 
+                            x-collapse.duration.300ms
+                            x-collapse:enter="transition ease-out duration-300"
+                            x-collapse:enter-start="opacity-0 transform -translate-y-2"
+                            x-collapse:enter-end="opacity-100 transform translate-y-0"
+                            x-collapse:leave="transition ease-in duration-300"
+                            x-collapse:leave-start="opacity-100 transform translate-y-0"
+                            x-collapse:leave-end="opacity-0 transform -translate-y-2"
+                            class="mt-2 space-y-1">
+                            <a class="text-gray-400 hover:text-gray-200 hover:bg-gray-700/50 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/saldo">
+    <i class="fas fa-credit-card w-5 h-5 mr-3"></i>
+                                <span>Agregar saldo</span>
+</a>
+
+                            <a class="text-gray-400 hover:text-gray-200 hover:bg-gray-700/50 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/movimientos">
+    <i class="fas fa-history w-5 h-5 mr-3"></i>
+                                <span>Payment History</span>
+</a>
+
+                            <a class="text-gray-400 hover:text-gray-200 hover:bg-gray-700/50 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/cartera">
+    <i class="fas fa-wallet w-5 h-5 mr-3"></i>
+                                <span>Wallet</span>
+</a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Theme Toggle -->
+            <div class="px-4 py-2 border-t border-gray-200 dark:border-gray-700">
+                <button 
+                    x-data
+                    @click="$store.theme.toggle()"
+                    class="w-full flex items-center px-3 py-2.5 text-sm font-medium rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white transition-colors duration-200"
+                >
+                    <template x-if="!$store.theme.isDark">
+                        <i class="fas fa-moon w-5 h-5 mr-3 text-blue-400"></i>
+                    </template>
+                    <template x-if="$store.theme.isDark">
+                        <i class="fas fa-sun w-5 h-5 mr-3 text-amber-400"></i>
+                    </template>
+                    <span x-text="$store.theme.isDark ? 'Modo Claro' : 'Modo Oscuro'"></span>
+                </button>
+            </div>
+
+            <!-- Términos y Condiciones -->
+            <div class="px-4 py-2 border-t border-gray-200 dark:border-gray-700">
+                <a class="text-gray-400 hover:text-gray-200 hover:bg-gray-700/50 flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/terminos">
+    <i class="fas fa-file-contract w-5 h-5 mr-3"></i>
+                    <span>Términos y Condiciones</span>
+</a>
+            </div>
+
+            <!-- User Profile -->
+            <div class="border-t border-gray-200 dark:border-gray-700">
+                <div class="p-4">
+                    <a href="/mi_perfil" 
+                        class="flex items-center px-3 py-2.5 rounded-lg transition-colors duration-200 hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <div class="h-9 w-9 rounded-full bg-socialmentorify dark:bg-socialmentorify-dark flex items-center justify-center">
+                            <img src="{{ url_for('foto_perfil', foto_id=foto_id) if foto_id else url_for('static', filename='fotos_perfil/default.png') }}" 
+                 alt="Foto de perfil" 
+                 class="h-9 w-9 rounded-full object-cover">
+                        </div>
+                        <div class="ml-3 min-w-0">
+                            <div class="text-sm font-medium text-gray-900 dark:text-white truncate">{{ usuario }}</div>
+                        </div>
+                    </a>
+
+                    <div class="mt-3">
+                        <form method="POST" action="/logout">
+                                                       <button type="submit" 
+                                class="w-full flex items-center justify-center px-3 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white bg-gray-100 dark:bg-gray-700/50 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200">
+                                <i class="fas fa-power-off w-5 h-5 mr-2 text-red-600 dark:text-red-500"></i>
+                                Log Out
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+                </div>
+            </div> 
+
+            <!-- Main Content -->
+            <div class="sm:pl-64 flex flex-col min-h-full">
+                <div class="flex-1">
+                    <!-- Content Area with mobile padding -->
+                    <div class="sm:pt-0 pt-14"> <!-- Adjusted padding for mobile header -->
+                        <!-- Header (Desktop) -->
+                        <header class="hidden sm:block bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 sticky top-0 z-40">
+                            <div class="py-4 px-4 sm:px-6">
+                                <div class="flex justify-between items-center">
+
+                                    <div></div>
+
+                                    <div class="flex items-center space-x-4">
+                                        <div class="flex items-center text-gray-900 dark:text-gray-200">
+                                            <i class="fas fa-sack-dollar text-emerald-500 dark:text-emerald-400 mr-2 text-xl"></i>
+                                            <span class="font-semibold">$ {{saldo}}</span>
+                                        </div>
+
+                                        <a href="/saldo" 
+                                           class="inline-flex items-center px-4 py-2 bg-socialmentorify dark:bg-socialmentorify-dark hover:bg-opacity-80 dark:hover:bg-opacity-80 text-black dark:text-black border border-transparent rounded-md font-semibold text-xs uppercase tracking-widest focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-socialmentorify dark:focus:ring-socialmentorify-dark dark:focus:ring-offset-gray-800 transition-colors duration-200 shadow-lg shadow-socialmentorify/20 dark:shadow-socialmentorify-dark/20 hover:shadow-socialmentorify/40 dark:hover:shadow-socialmentorify-dark/40">
+                                            <i class="fas fa-plus mr-2"></i>
+                                            Agregar saldo
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </header>
+
+                                            
+                                                            
+
+                        <!-- Page Content -->
+                        <main class="py-6 px-4 sm:px-6 bg-gray-50 dark:bg-gray-900">
+                            
+                                                
+                                                            <div x-data="{ show: true }" x-show="show" x-transition
+                                     class="bg-orange-500 text-white p-4 text-sm font-semibold rounded-lg mb-6 shadow animate-wave flex items-center justify-between gap-4">
+                                    <p class="flex-grow">💥 Bienvenido {{usuario}} recuerda que cualquier problema o duda puedes escribirnos por whatsapp <a href="https://wa.link/rfm0qu" target="_blank" rel="noopener noreferrer" class="underline hover:text-white/75 font-bold"></a></p>
+                                    <button @click="show = false" class="flex-shrink-0 text-white hover:text-opacity-75">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+
+                <div id="notification" class="hidden fixed bottom-4 right-4 z-50 p-4 rounded-lg shadow-lg transition-opacity duration-300 ease-out" role="alert">
+    <div class="flex items-center">
+        <div id="notification-icon" class="mr-3"></div>
+        <p id="notification-message" class="text-sm font-medium"></p>
+    </div>
+</div>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+    <section class="diamante-card bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden border border-gray-200 dark:border-gray-700">
+        <div class="divide-y divide-gray-200 dark:divide-gray-700">
+            <div class="p-3 bg-yellow-50 dark:bg-yellow-900/10 h-full flex flex-col justify-between">
+                <div>
+                    <div class="flex justify-between items-center mb-2">
+                        <div>
+                            <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
+                                <span class="text-xs text-gray-400 dark:text-gray-500 opacity-70 mr-2">ID: 01</span>520 + 52 Diamantes
+                            </div>
+                            <div class="text-xs text-gray-500 dark:text-gray-400">Diamantes Free Fire</div>
+                        </div>
+                        <div class="flex flex-col items-end gap-1">
+                            <div class="text-xs text-gray-600 dark:text-gray-400">
+                                Precio:
+                                <span class="text-sm font-bold text-blue-600 dark:text-blue-400">
+                                    $95 MXN - $4.87 USD
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center mb-2">
+                        <div class="flex-shrink-0 relative">
+                            <div class="h-5 w-5 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+                                <span class="text-gray-600 dark:text-gray-200 text-xs font-medium">G</span>
+                            </div>
+                            <div class="absolute -bottom-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-green-500 ring-1 ring-white dark:ring-gray-800"></div>
+                        </div>
+                        <div class="ml-2">
+                            <div class="text-xs font-medium text-gray-700 dark:text-gray-300 flex items-center">
+                                Ghost SMM
+                                <svg class="w-3 h-3 ml-0.5 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <div class="flex items-center space-x-1 text-xs text-gray-400 dark:text-gray-500">
+                                <span>99+ cuentas</span>
+                                <span>•</span>
+                                <span>257 ventas</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-2 bg-gray-50 dark:bg-gray-700/50 p-2 rounded-md">
+                        <div class="text-xs text-gray-900 dark:text-gray-100 flex items-center space-x-1">
+                            <div class="w-1.5 h-1.5 rounded-full bg-green-500"></div>
+                            <span>34/99+ stocks en uso</span>
+                        </div>
+                        <div class="flex items-center space-x-1 mt-1">
+                            <span class="text-xs text-green-500 font-medium">99+</span>
+                            <span class="text-xs text-gray-500 dark:text-gray-400">stocks disponibles</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-end items-center">
+                    <button onclick="comprar('572 Diamantes')" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md shadow-sm text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 dark:bg-orange-600 dark:hover:bg-orange-700">
+                        Comprar Ahora
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="diamante-card bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden border border-gray-200 dark:border-gray-700">
+        <div class="divide-y divide-gray-200 dark:divide-gray-700">
+            <div class="p-3 bg-yellow-50 dark:bg-yellow-900/10 h-full flex flex-col justify-between">
+                <div>
+                    <div class="flex justify-between items-center mb-2">
+                        <div>
+                            <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
+                                <span class="text-xs text-gray-400 dark:text-gray-500 opacity-70 mr-2">ID: 02</span>620 + 62 Diamantes Bonus
+                            </div>
+                            <div class="text-xs text-gray-500 dark:text-gray-400">Diamantes Free Fire</div>
+                        </div>
+                        <div class="flex flex-col items-end gap-1">
+                            <div class="text-xs text-gray-600 dark:text-gray-400">
+                                Precio:
+                                <span class="text-sm font-bold text-blue-600 dark:text-blue-400">
+                                    $110 MXN - $5.64 USD
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center mb-2">
+                        <div class="flex-shrink-0 relative">
+                            <div class="h-5 w-5 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+                                <span class="text-gray-600 dark:text-gray-200 text-xs font-medium">G</span>
+                            </div>
+                            <div class="absolute -bottom-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-green-500 ring-1 ring-white dark:ring-gray-800"></div>
+                        </div>
+                        <div class="ml-2">
+                            <div class="text-xs font-medium text-gray-700 dark:text-gray-300 flex items-center">
+                                Ghost SMM
+                                <svg class="w-3 h-3 ml-0.5 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <div class="flex items-center space-x-1 text-xs text-gray-400 dark:text-gray-500">
+                                <span>99+ cuentas</span>
+                                <span>•</span>
+                                <span>897 ventas</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-2 bg-gray-50 dark:bg-gray-700/50 p-2 rounded-md">
+                        <div class="text-xs text-gray-900 dark:text-gray-100 flex items-center space-x-1">
+                            <div class="w-1.5 h-1.5 rounded-full bg-green-500"></div>
+                            <span>12/99+ stocks en uso</span>
+                        </div>
+                       
+                        <div class="flex items-center space-x-1 mt-1">
+                            <span class="text-xs text-green-500 font-medium">99+</span>
+                            <span class="text-xs text-gray-500 dark:text-gray-400">stocks disponibles</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-end items-center">
+                    <button onclick="comprar('620 Diamantes')" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md shadow-sm text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 dark:bg-orange-600 dark:hover:bg-orange-700">
+                        Comprar Ahora
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="diamante-card bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden border border-gray-200 dark:border-gray-700">
+        <div class="divide-y divide-gray-200 dark:divide-gray-700">
+            <div class="p-3 bg-yellow-50 dark:bg-yellow-900/10 h-full flex flex-col justify-between">
+                <div>
+                    <div class="flex justify-between items-center mb-2">
+                        <div>
+                            <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
+                                <span class="text-xs text-gray-400 dark:text-gray-500 opacity-70 mr-2">ID: 03</span>830 + 80 Diamantes Bonus
+                            </div>
+                            <div class="text-xs text-gray-500 dark:text-gray-400">Diamantes Free Fire</div>
+                        </div>
+                        <div class="flex flex-col items-end gap-1">
+                            <div class="text-xs text-gray-600 dark:text-gray-400">
+                                Precio:
+                                <span class="text-sm font-bold text-blue-600 dark:text-blue-400">
+                                    $155 MXN - $7.95 USD
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center mb-2">
+                        <div class="flex-shrink-0 relative">
+                            <div class="h-5 w-5 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+                                <span class="text-gray-600 dark:text-gray-200 text-xs font-medium">G</span>
+                            </div>
+                            <div class="absolute -bottom-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-green-500 ring-1 ring-white dark:ring-gray-800"></div>
+                        </div>
+                        <div class="ml-2">
+                            <div class="text-xs font-medium text-gray-700 dark:text-gray-300 flex items-center">
+                                Ghost SMM
+                                <svg class="w-3 h-3 ml-0.5 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <div class="flex items-center space-x-1 text-xs text-gray-400 dark:text-gray-500">
+                                <span>99+ cuentas</span>
+                                <span>•</span>
+                                <span>1562 ventas</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-2 bg-gray-50 dark:bg-gray-700/50 p-2 rounded-md">
+                        <div class="text-xs text-gray-900 dark:text-gray-100 flex items-center space-x-1">
+                            <div class="w-1.5 h-1.5 rounded-full bg-green-500"></div>
+                            <span>7/99+ stocks en uso</span>
+                        </div>
+                 
+                        <div class="flex items-center space-x-1 mt-1">
+                            <span class="text-xs text-green-500 font-medium">99+</span>
+                            <span class="text-xs text-gray-500 dark:text-gray-400">stocks disponibles</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-end items-center">
+                    <button onclick="comprar('830 Diamantes')" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md shadow-sm text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 dark:bg-orange-600 dark:hover:bg-orange-700">
+                        Comprar Ahora
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="diamante-card bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden border border-gray-200 dark:border-gray-700">
+        <div class="divide-y divide-gray-200 dark:divide-gray-700">
+            <div class="p-3 bg-yellow-50 dark:bg-yellow-900/10 h-full flex flex-col justify-between">
+                <div>
+                    <div class="flex justify-between items-center mb-2">
+                        <div>
+                            <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
+                                <span class="text-xs text-gray-400 dark:text-gray-500 opacity-70 mr-2">ID: 04</span>1060 + 106 Diamantes Bonus
+                            </div>
+                            <div class="text-xs text-gray-500 dark:text-gray-400">Diamantes Free Fire</div>
+                        </div>
+                        <div class="flex flex-col items-end gap-1">
+                            <div class="text-xs text-gray-600 dark:text-gray-400">
+                                Precio:
+                                <span class="text-sm font-bold text-blue-600 dark:text-blue-400">
+                                    $190 MXN - $9.74 USD
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center mb-2">
+                        <div class="flex-shrink-0 relative">
+                            <div class="h-5 w-5 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+                                <span class="text-gray-600 dark:text-gray-200 text-xs font-medium">G</span>
+                            </div>
+                            <div class="absolute -bottom-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-green-500 ring-1 ring-white dark:ring-gray-800"></div>
+                        </div>
+                        <div class="ml-2">
+                            <div class="text-xs font-medium text-gray-700 dark:text-gray-300 flex items-center">
+                                Ghost SMM
+                                <svg class="w-3 h-3 ml-0.5 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <div class="flex items-center space-x-1 text-xs text-gray-400 dark:text-gray-500">
+                                <span>99+ cuentas</span>
+                                <span>•</span>
+                                <span>312 ventas</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-2 bg-gray-50 dark:bg-gray-700/50 p-2 rounded-md">
+                        <div class="text-xs text-gray-900 dark:text-gray-100 flex items-center space-x-1">
+                            <div class="w-1.5 h-1.5 rounded-full bg-green-500"></div>
+                            <span>41/99+ stocks en uso</span>
+                        </div>
+                       
+                        <div class="flex items-center space-x-1 mt-1">
+                            <span class="text-xs text-green-500 font-medium">99+</span>
+                            <span class="text-xs text-gray-500 dark:text-gray-400">stocks disponibles</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-end items-center">
+                    <button onclick="comprar('1060 Diamantes')" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md shadow-sm text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 dark:bg-orange-600 dark:hover:bg-orange-700">
+                        Comprar Ahora
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="diamante-card bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden border border-gray-200 dark:border-gray-700">
+        <div class="divide-y divide-gray-200 dark:divide-gray-700">
+            <div class="p-3 bg-yellow-50 dark:bg-yellow-900/10 h-full flex flex-col justify-between">
+                <div>
+                    <div class="flex justify-between items-center mb-2">
+                        <div>
+                            <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
+                                <span class="text-xs text-gray-400 dark:text-gray-500 opacity-70 mr-2">ID: 05</span>2180 + 218 Diamantes Bonus
+                            </div>
+                            <div class="text-xs text-gray-500 dark:text-gray-400">Diamantes Free Fire</div>
+                        </div>
+                        <div class="flex flex-col items-end gap-1">
+                            <div class="text-xs text-gray-600 dark:text-gray-400">
+                                Precio:
+                                <span class="text-sm font-bold text-blue-600 dark:text-blue-400">
+                                    $360 MXN - $18.46 USD
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center mb-2">
+                        <div class="flex-shrink-0 relative">
+                            <div class="h-5 w-5 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+                                <span class="text-gray-600 dark:text-gray-200 text-xs font-medium">G</span>
+                            </div>
+                            <div class="absolute -bottom-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-green-500 ring-1 ring-white dark:ring-gray-800"></div>
+                        </div>
+                        <div class="ml-2">
+                            <div class="text-xs font-medium text-gray-700 dark:text-gray-300 flex items-center">
+                                Ghost SMM
+                                <svg class="w-3 h-3 ml-0.5 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <div class="flex items-center space-x-1 text-xs text-gray-400 dark:text-gray-500">
+                                <span>99+ cuentas</span>
+                                <span>•</span>
+                                <span>489 ventas</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-2 bg-gray-50 dark:bg-gray-700/50 p-2 rounded-md">
+                        <div class="text-xs text-gray-900 dark:text-gray-100 flex items-center space-x-1">
+                            <div class="w-1.5 h-1.5 rounded-full bg-green-500"></div>
+                            <span>65/99+ stocks en uso</span>
+                        </div>
+                       
+                        <div class="flex items-center space-x-1 mt-1">
+                            <span class="text-xs text-green-500 font-medium">99+</span>
+                            <span class="text-xs text-gray-500 dark:text-gray-400">stocks disponibles</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-end items-center">
+                    <button onclick="comprar('2180 Diamantes')" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md shadow-sm text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 dark:bg-orange-600 dark:hover:bg-orange-700">
+                        Comprar Ahora
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="diamante-card bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden border border-gray-200 dark:border-gray-700">
+        <div class="divide-y divide-gray-200 dark:divide-gray-700">
+            <div class="p-3 bg-yellow-50 dark:bg-yellow-900/10 h-full flex flex-col justify-between">
+                <div>
+                    <div class="flex justify-between items-center mb-2">
+                        <div>
+                            <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
+                                <span class="text-xs text-gray-400 dark:text-gray-500 opacity-70 mr-2">ID: 06</span>4360 + 436 Diamantes Bonus
+                            </div>
+                            <div class="text-xs text-gray-500 dark:text-gray-400">Diamantes Free Fire</div>
+                        </div>
+                        <div class="flex flex-col items-end gap-1">
+                            <div class="text-xs text-gray-600 dark:text-gray-400">
+                                Precio:
+                                <span class="text-sm font-bold text-blue-600 dark:text-blue-400">
+                                    $725 MXN - $37.18 USD
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center mb-2">
+                        <div class="flex-shrink-0 relative">
+                            <div class="h-5 w-5 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+                                <span class="text-gray-600 dark:text-gray-200 text-xs font-medium">G</span>
+                            </div>
+                            <div class="absolute -bottom-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-green-500 ring-1 ring-white dark:ring-gray-800"></div>
+                        </div>
+                        <div class="ml-2">
+                            <div class="text-xs font-medium text-gray-700 dark:text-gray-300 flex items-center">
+                                Ghost SMM
+                                <svg class="w-3 h-3 ml-0.5 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <div class="flex items-center space-x-1 text-xs text-gray-400 dark:text-gray-500">
+                                <span>99+ cuentas</span>
+                                <span>•</span>
+                                <span>2105 ventas</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-2 bg-gray-50 dark:bg-gray-700/50 p-2 rounded-md">
+                        <div class="text-xs text-gray-900 dark:text-gray-100 flex items-center space-x-1">
+                            <div class="w-1.5 h-1.5 rounded-full bg-green-500"></div>
+                            <span>88/99+ stocks en uso</span>
+                        </div>
+                       
+                        <div class="flex items-center space-x-1 mt-1">
+                            <span class="text-xs text-green-500 font-medium">99+</span>
+                            <span class="text-xs text-gray-500 dark:text-gray-400">stocks disponibles</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-end items-center">
+                    <button onclick="comprar('4360 Diamantes')" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md shadow-sm text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 dark:bg-orange-600 dark:hover:bg-orange-700">
+                        Comprar Ahora
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="diamante-card bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden border border-gray-200 dark:border-gray-700">
+        <div class="divide-y divide-gray-200 dark:divide-gray-700">
+            <div class="p-3 bg-yellow-50 dark:bg-yellow-900/10 h-full flex flex-col justify-between">
+                <div>
+                    <div class="flex justify-between items-center mb-2">
+                        <div>
+                            <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
+                                <span class="text-xs text-gray-400 dark:text-gray-500 opacity-70 mr-2">ID: 07</span>5600 + 560 Diamantes Bonus
+                            </div>
+                            <div class="text-xs text-gray-500 dark:text-gray-400">Diamantes Free Fire</div>
+                        </div>
+                        <div class="flex flex-col items-end gap-1">
+                            <div class="text-xs text-gray-600 dark:text-gray-400">
+                                Precio:
+                                <span class="text-sm font-bold text-blue-600 dark:text-blue-400">
+                                    $900 MXN - $46.15 USD
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center mb-2">
+                        <div class="flex-shrink-0 relative">
+                            <div class="h-5 w-5 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+                                <span class="text-gray-600 dark:text-gray-200 text-xs font-medium">G</span>
+                            </div>
+                            <div class="absolute -bottom-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-green-500 ring-1 ring-white dark:ring-gray-800"></div>
+                        </div>
+                        <div class="ml-2">
+                            <div class="text-xs font-medium text-gray-700 dark:text-gray-300 flex items-center">
+                                Ghost SMM
+                                <svg class="w-3 h-3 ml-0.5 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <div class="flex items-center space-x-1 text-xs text-gray-400 dark:text-gray-500">
+                                <span>99+ cuentas</span>
+                                <span>•</span>
+                                <span>3211 ventas</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-2 bg-gray-50 dark:bg-gray-700/50 p-2 rounded-md">
+                        <div class="text-xs text-gray-900 dark:text-gray-100 flex items-center space-x-1">
+                            <div class="w-1.5 h-1.5 rounded-full bg-green-500"></div>
+                            <span>77/99+ stocks en uso</span>
+                        </div>
+                    
+                        <div class="flex items-center space-x-1 mt-1">
+                            <span class="text-xs text-green-500 font-medium">99+</span>
+                            <span class="text-xs text-gray-500 dark:text-gray-400">stocks disponibles</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-end items-center">
+                    <button onclick="comprar('5600 Diamantes')" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md shadow-sm text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 dark:bg-orange-600 dark:hover:bg-orange-700">
+                        Comprar Ahora
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<section class="diamante-card bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden border border-gray-200 dark:border-gray-700">
+        <div class="divide-y divide-gray-200 dark:divide-gray-700">
+            <div class="p-3 bg-yellow-50 dark:bg-yellow-900/10 h-full flex flex-col justify-between">
+                <div>
+                    <div class="flex justify-between items-center mb-2">
+                        <div>
+                            <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
+                                <span class="text-xs text-gray-400 dark:text-gray-500 opacity-70 mr-2">ID: 08</span>Tarjeta Semanal
+                            </div>
+                            <div class="text-xs text-gray-500 dark:text-gray-400">Diamantes Free Fire</div>
+                        </div>
+                        <div class="flex flex-col items-end gap-1">
+                            <div class="text-xs text-gray-600 dark:text-gray-400">
+                                Precio:
+                                <span class="text-sm font-bold text-blue-600 dark:text-blue-400">
+                                    $35 MXN
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center mb-2">
+                        <div class="flex-shrink-0 relative">
+                            <div class="h-5 w-5 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+                                <span class="text-gray-600 dark:text-gray-200 text-xs font-medium">G</span>
+                            </div>
+                            <div class="absolute -bottom-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-green-500 ring-1 ring-white dark:ring-gray-800"></div>
+                        </div>
+                        <div class="ml-2">
+                            <div class="text-xs font-medium text-gray-700 dark:text-gray-300 flex items-center">
+                                Ghost SMM
+                                <svg class="w-3 h-3 ml-0.5 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <div class="flex items-center space-x-1 text-xs text-gray-400 dark:text-gray-500">
+                                <span>99+ cuentas</span>
+                                <span>•</span>
+                                <span>3211 ventas</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-2 bg-gray-50 dark:bg-gray-700/50 p-2 rounded-md">
+                        <div class="text-xs text-gray-900 dark:text-gray-100 flex items-center space-x-1">
+                            <div class="w-1.5 h-1.5 rounded-full bg-green-500"></div>
+                            <span>77/99+ stocks en uso</span>
+                        </div>
+                        
+                        <div class="flex items-center space-x-1 mt-1">
+                            <span class="text-xs text-green-500 font-medium">99+</span>
+                            <span class="text-xs text-gray-500 dark:text-gray-400">stocks disponibles</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-end items-center">
+                    <button onclick="comprar('5600 Diamantes')" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md shadow-sm text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 dark:bg-orange-600 dark:hover:bg-orange-700">
+                        Comprar Ahora
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<section class="diamante-card bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden border border-gray-200 dark:border-gray-700">
+        <div class="divide-y divide-gray-200 dark:divide-gray-700">
+            <div class="p-3 bg-yellow-50 dark:bg-yellow-900/10 h-full flex flex-col justify-between">
+                <div>
+                    <div class="flex justify-between items-center mb-2">
+                        <div>
+                            <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
+                                <span class="text-xs text-gray-400 dark:text-gray-500 opacity-70 mr-2">ID: 09</span>Tarjeta Mensual
+                            </div>
+                            <div class="text-xs text-gray-500 dark:text-gray-400">Diamantes Free Fire</div>
+                        </div>
+                        <div class="flex flex-col items-end gap-1">
+                            <div class="text-xs text-gray-600 dark:text-gray-400">
+                                Precio:
+                                <span class="text-sm font-bold text-blue-600 dark:text-blue-400">
+                                    $180 MXN
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center mb-2">
+                        <div class="flex-shrink-0 relative">
+                            <div class="h-5 w-5 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+                                <span class="text-gray-600 dark:text-gray-200 text-xs font-medium">G</span>
+                            </div>
+                            <div class="absolute -bottom-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-green-500 ring-1 ring-white dark:ring-gray-800"></div>
+                        </div>
+                        <div class="ml-2">
+                            <div class="text-xs font-medium text-gray-700 dark:text-gray-300 flex items-center">
+                                Ghost SMM
+                                <svg class="w-3 h-3 ml-0.5 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <div class="flex items-center space-x-1 text-xs text-gray-400 dark:text-gray-500">
+                                <span>99+ cuentas</span>
+                                <span>•</span>
+                                <span>3211 ventas</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-2 bg-gray-50 dark:bg-gray-700/50 p-2 rounded-md">
+                        <div class="text-xs text-gray-900 dark:text-gray-100 flex items-center space-x-1">
+                            <div class="w-1.5 h-1.5 rounded-full bg-green-500"></div>
+                            <span>77/99+ stocks en uso</span>
+                        </div>
+                        
+                        <div class="flex items-center space-x-1 mt-1">
+                            <span class="text-xs text-green-500 font-medium">99+</span>
+                            <span class="text-xs text-gray-500 dark:text-gray-400">stocks disponibles</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-end items-center">
+                    <button onclick="comprar('5600 Diamantes')" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md shadow-sm text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 dark:bg-orange-600 dark:hover:bg-orange-700">
+                        Comprar Ahora
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+<div id="popup" class="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center hidden">
+    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-xl w-11/12 md:w-1/2 lg:w-1/3 relative">
+        <button onclick="cerrarPopup()" class="absolute top-3 right-3 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+        <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">Confirmar Compra</h2>
+        <div class="mb-4">
+            <p class="text-gray-700 dark:text-gray-300">Estás a punto de comprar:</p>
+            <p class="text-lg font-bold text-blue-600 dark:text-blue-400" id="popup-paquete"></p>
+            <p class="text-md font-semibold text-gray-800 dark:text-gray-200">Por un precio de: <span id="popup-precio"></span></p>
+            <p class="text-sm text-gray-600 dark:text-gray-400">Tu saldo disponible: <span id="popup-saldo-disponible" class="font-bold"></span></p>
+            <p id="popup-saldo-warning" class="text-red-500 text-sm mt-2 hidden">¡Saldo insuficiente! Recarga tu cuenta.</p>
+        </div>
+
+        <div class="mb-4">
+            <label for="nombre" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Nombre Completo</label>
+            <input type="text" id="nombre" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+        </div>
+        <div class="mb-4">
+            <label for="whatsapp" class="block text-sm font-medium text-gray-700 dark:text-gray-300">WhatsApp</label>
+            <input type="text" id="whatsapp" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+        </div>
+        <div class="mb-4">
+            <label for="nick" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Nick de Free Fire</label>
+            <input type="text" id="nick" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+        </div>
+        <div class="mb-6">
+            <label for="idJuego" class="block text-sm font-medium text-gray-700 dark:text-gray-300">ID de Juego (Free Fire)</label>
+            <input type="text" id="idJuego" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+        </div>
+
+        <div class="flex justify-end space-x-3">
+            <button type="button" onclick="cerrarPopup()" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600">Cancelar</button>
+            <button type="button" id="confirmar-pedido-btn" onclick="procesarCompra()"
+                    class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                Confirmar Pedido
+            </button>
+        </div>
+    </div>
+</div>
+
+<p>Tu saldo actual: <span id="current-saldo">${{ '%.2f'|format(saldo) }}</span> USD</p>
+
+<button onclick="comprar('520 + 52 Diamantes Bonus')" class="...">Comprar Ahora</button>
+<button onclick="comprar('620 + 62 Diamantes Bonus')" class="...">Comprar Ahora</button>
+<button onclick="comprar('830 + 80 Diamantes Bonus')" class="...">Comprar Ahora</button>
+<button onclick="comprar('1060 + 106 Diamantes Bonus')" class="...">Comprar Ahora</button>
+<button onclick="comprar('2180 + 218 Diamantes Bonus')" class="...">Comprar Ahora</button>
+<button onclick="comprar('4360 + 436 Diamantes Bonus')" class="...">Comprar Ahora</button>
+<button onclick="comprar('5600 + 560 Diamantes Bonus')" class="...">Comprar Ahora</button>
+<button onclick="comprar('Tarjeta Semanal')" class="...">Comprar Ahora</button>
+<button onclick="comprar('Tarjeta Mensual')" class="...">Comprar Ahora</button>
+
+<script>
+    // Variables globales para el popup
+    let selectedPackage = "";
+    let selectedPrice = 0;
+
+    // Función para mostrar la notificación
+    function showNotification(message, type) {
+        const notification = document.getElementById('notification');
+        const notificationMessage = document.getElementById('notification-message');
+        const notificationIcon = document.getElementById('notification-icon');
+
+        notificationMessage.textContent = message;
+
+        // Limpiar clases previas
+        notification.classList.remove('bg-green-500', 'bg-red-500', 'text-white', 'hidden', 'opacity-0');
+        notificationIcon.innerHTML = ''; // Limpiar ícono previo
+
+        if (type === 'success') {
+            notification.classList.add('bg-green-500', 'text-white');
+            notificationIcon.innerHTML = '<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>';
+        } else if (type === 'error') {
+            notification.classList.add('bg-red-500', 'text-white');
+            notificationIcon.innerHTML = '<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>';
+        }
+
+        notification.classList.remove('hidden');
+        setTimeout(() => notification.classList.add('opacity-100'), 10); // Ligeramente retrasado para la transición
+        setTimeout(() => {
+            notification.classList.remove('opacity-100');
+            notification.classList.add('opacity-0');
+            setTimeout(() => notification.classList.add('hidden'), 300); // Ocultar después de la transición
+        }, 5000); // Ocultar después de 5 segundos
+    }
+
+
+    // Función para abrir el popup de compra
+    function comprar(paqueteSeleccionado) {
+        // Mapeo de paquetes a precios (DEBE COINCIDIR CON TU PYTHON)
+        const precios = {
+            "520 + 52 Diamantes Bonus": 4.87,
+            "620 + 62 Diamantes Bonus": 5.64,
+            "830 + 80 Diamantes Bonus": 7.95,
+            "1060 + 106 Diamantes Bonus": 9.74,
+            "2180 + 218 Diamantes Bonus": 18.46,
+            "4360 + 436 Diamantes Bonus": 37.18,
+            "5600 + 560 Diamantes Bonus": 46.15,
+            "Tarjeta Semanal": 4.99, // Asegúrate de que este valor coincida con el Python
+            "Tarjeta Mensual": 24.99 // Asegúrate de que este valor coincida con el Python
+        };
+
+        // Corrección importante: Los nombres de los paquetes en tu HTML (onclick="comprar(...)")
+        // deben ser EXACTAMENTE los mismos que las claves en el diccionario `precios` en Python.
+        // Revisa tus botones HTML:
+        // Por ejemplo, si tu HTML tiene `onclick="comprar('572 Diamantes')"`,
+        // y en tu Python/JS es "520 + 52 Diamantes Bonus", NO va a coincidir.
+        // DEBEMOS UNIFICAR LOS NOMBRES.
+        // Basado en el HTML que me enviaste, tus `onclick` tienen nombres simplificados como "572 Diamantes".
+        // Voy a ajustar el JavaScript para mapear esos nombres simplificados a los nombres completos del diccionario.
+        // O MEJOR AÚN: CAMBIAMOS LOS NOMBRES EN TU HTML PARA QUE COINCIDAN EXACTAMENTE.
+        // ES MUCHO MÁS SEGURO QUE COINCIDAN DIRECTAMENTE.
+
+        // Mapeo de los nombres simplificados del HTML a los nombres completos del backend
+        const paqueteMapping = {
+            "572 Diamantes": "520 + 52 Diamantes Bonus",
+            "620 Diamantes": "620 + 62 Diamantes Bonus",
+            "830 Diamantes": "830 + 80 Diamantes Bonus",
+            "1060 Diamantes": "1060 + 106 Diamantes Bonus",
+            "2180 Diamantes": "2180 + 218 Diamantes Bonus",
+            "4360 Diamantes": "4360 + 436 Diamantes Bonus",
+            "5600 Diamantes": "5600 + 560 Diamantes Bonus",
+            "Tarjeta Semanal": "Tarjeta Semanal", // Asumiendo que este nombre es consistente
+            "Tarjeta Mensual": "Tarjeta Mensual"   // Asumiendo que este nombre es consistente
+        };
+
+        const nombrePaqueteBackend = paqueteMapping[paqueteSeleccionado];
+
+        if (!nombrePaqueteBackend || !precios[nombrePaqueteBackend]) {
+            showNotification("Paquete no reconocido. Por favor, recarga la página.", "error");
+            return;
+        }
+
+        selectedPackage = nombrePaqueteBackend;
+        selectedPrice = precios[nombrePaqueteBackend];
+
+        document.getElementById('popup-paquete').textContent = selectedPackage;
+        document.getElementById('popup-precio').textContent = `$${selectedPrice.toFixed(2)} USD`; // Formato USD
+
+        // Obtener el saldo del usuario desde el HTML (si lo tienes en un elemento)
+        // Por ejemplo, si tienes un <span id="current-saldo">{{ saldo }}</span> en tu HTML
+        const saldoElement = document.getElementById('current-saldo');
+        let saldoUsuario = 0;
+        if (saldoElement) {
+            saldoUsuario = parseFloat(saldoElement.textContent.replace('$', '').replace(',', ''));
+        } else {
+             // Fallback: Si no puedes obtener el saldo del HTML, podrías pasarlo
+             // como un atributo data en el botón de compra, o recuperarlo de otra forma.
+             // Por ahora, asumimos que existe un elemento 'current-saldo'.
+             console.warn("Elemento 'current-saldo' no encontrado. No se puede verificar el saldo antes del envío.");
+        }
+
+
+        // Actualizar el saldo disponible en el popup
+        document.getElementById('popup-saldo-disponible').textContent = `$${saldoUsuario.toFixed(2)} USD`;
+
+        // Mostrar u ocultar mensaje de saldo insuficiente en el popup
+        const saldoWarning = document.getElementById('popup-saldo-warning');
+        if (saldoUsuario < selectedPrice) {
+            saldoWarning.classList.remove('hidden');
+            document.getElementById('confirmar-pedido-btn').disabled = true; // Deshabilitar botón
+            document.getElementById('confirmar-pedido-btn').classList.add('opacity-50', 'cursor-not-allowed');
+            document.getElementById('confirmar-pedido-btn').classList.remove('hover:bg-blue-700');
+        } else {
+            saldoWarning.classList.add('hidden');
+            document.getElementById('confirmar-pedido-btn').disabled = false; // Habilitar botón
+            document.getElementById('confirmar-pedido-btn').classList.remove('opacity-50', 'cursor-not-allowed');
+            document.getElementById('confirmar-pedido-btn').classList.add('hover:bg-blue-700');
+        }
+
+
+        document.getElementById('popup').classList.remove('hidden');
+    }
+
+    // Función para cerrar el popup
+    function cerrarPopup() {
+        document.getElementById('popup').classList.add('hidden');
+    }
+
+    // Función para procesar la compra (llamada desde el botón "Confirmar Pedido" en el popup)
+    async function procesarCompra() {
+        const nombre = document.getElementById('nombre').value;
+        const whatsapp = document.getElementById('whatsapp').value;
+        const nick = document.getElementById('nick').value;
+        const idJuego = document.getElementById('idJuego').value;
+        const usuario = "{{ usuario }}"; // Obtener el usuario desde Flask
+
+        if (!nombre || !whatsapp || !nick || !idJuego || !selectedPackage || !usuario) {
+            showNotification("Por favor, rellena todos los campos del formulario.", "error");
+            return;
+        }
+
+        const data = {
+            nombre: nombre,
+            whatsapp: whatsapp,
+            nick: nick,
+            idJuego: idJuego,
+            paquete: selectedPackage,
+            usuario: usuario // Enviar el usuario de la sesión al backend
+        };
+
+        try {
+            const response = await fetch('/free-fire-diamonds', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                showNotification(result.message || '✅ Compra realizada correctamente.', 'success');
+                cerrarPopup();
+                // Redirigir o recargar para actualizar el saldo
+                setTimeout(() => {
+                    window.location.href = result.redirect || '/diamantes';
+                }, 1500); // Esperar un poco para que el usuario vea la notificación
+            } else {
+                showNotification(result.error || '❌ Error al procesar la compra.', 'error');
+                if (result.redirect) {
+                    setTimeout(() => {
+                        window.location.href = result.redirect;
+                    }, 1500);
+                }
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            showNotification('❌ Error de conexión al servidor.', 'error');
+        }
+    }
+</script>
+
+        <!-- Alpine Dark Mode Store -->
+        <script>
+            document.addEventListener('alpine:init', () => {
+                Alpine.store('theme', {
+                    isDark: localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches),
+                    toggle() {
+                        this.isDark = !this.isDark;
+                        localStorage.theme = this.isDark ? 'dark' : 'light';
+                        
+                        if (this.isDark) {
+                            document.documentElement.classList.add('dark');
+                        } else {
+                            document.documentElement.classList.remove('dark');
+                        }
+                    }
+                });
+            });
+        </script>
+
+        
+        <!-- WhatsApp Button -->
+                <a href="https://wa.me/+525654936049" 
+           target="_blank"
+           class="fixed bottom-4 right-4 bg-[#25D366] text-white rounded-full w-14 h-14 flex items-center justify-center shadow-[4px_4px_10px_rgba(0,0,0,0.5)] hover:shadow-[6px_6px_15px_rgba(0,0,0,0.6)] hover:translate-y-[-2px] transition-all duration-300 z-50">
+            <i class="fab fa-whatsapp text-2xl"></i>
+        </a>
+            </div>
+
+    
+    </body>
+</html>

@@ -1,256 +1,255 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="../fav/fav.jpeg">
     <title>Panel de Administración</title>
-    <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
-       <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden; /* Evitar desplazamiento horizontal */
+            background-color: #1a202c; /* Fondo oscuro por defecto */
+            color: #e2e8f0; /* Texto claro por defecto */
+        }
+        main {
+            position: relative;
+            z-index: 1; /* Asegurar que el contenido esté por encima de cualquier fondo */
+        }
+        /* Celdas de tabla responsivas para pantallas más pequeñas */
+        @media (max-width: 640px) {
+            table.min-w-full thead {
+                display: none;
+            }
+            table.min-w-full tbody tr {
+                display: block;
+                margin-bottom: 1rem;
+                border: 1px solid #4a5568; /* Borde oscuro para tarjetas */
+                border-radius: 0.5rem;
+                box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            }
+            table.min-w-full tbody td {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0.75rem 1.5rem;
+                border-bottom: 1px solid #4a5568; /* Borde oscuro entre filas */
+            }
+            table.min-w-full tbody td:last-child {
+                border-bottom: none;
+            }
+            table.min-w-full tbody td::before {
+                content: attr(data-label);
+                font-weight: 600;
+                text-transform: uppercase;
+                font-size: 0.75rem;
+                color: #a0aec0; /* Texto gris claro para etiquetas */
+                margin-right: 1rem;
+            }
+            table.min-w-full tbody td.px-6.py-4.whitespace-nowrap.text-right.text-sm.font-medium {
+                display: block;
+                text-align: left;
+            }
+            table.min-w-full tbody td.px-6.py-4.whitespace-nowrap.text-right.text-sm.font-medium form {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+            table.min-w-full tbody td.px-6.py-4.whitespace-nowrap.text-right.text-sm.font-medium form select,
+            table.min-w-full tbody td.px-6.py-4.whitespace-nowrap.text-right.text-sm.font-medium form input,
+            table.min-w-full tbody td.px-6.py-4.whitespace-nowrap.text-right.text-sm.font-medium form button {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
-<body>
-    <div id="particles-js"></div> <!-- Animación de partículas -->
+<body class="bg-gray-900 text-gray-100 min-h-screen flex flex-col">
 
-   <main class="sm:pl-64 flex flex-col min-h-full bg-gray-50 dark:bg-gray-900 p-4 sm:p-6 lg:p-8">
-    <div class="admin-container max-w-7xl mx-auto w-full bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 space-y-8 sm:p-8">
+    <main class="relative z-10 sm:pl-64 flex flex-col min-h-screen p-4 sm:p-6 lg:p-8">
+        <div class="admin-container max-w-7xl mx-auto w-full bg-gray-800 rounded-lg shadow-xl p-6 space-y-8 sm:p-8">
 
-        <header class="admin-header flex flex-col sm:flex-row justify-between items-center mb-6 border-b pb-4 border-gray-200 dark:border-gray-700">
-            <h1 class="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4 sm:mb-0">Panel de Administración 🛠️</h1>
-            <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4 w-full sm:w-auto">
-                <a href="{{ url_for('logout') }}" class="admin-link bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-md transition duration-200 ease-in-out shadow-md flex items-center justify-center">
-                    <i class="fas fa-sign-out-alt mr-2"></i> Salir
-                </a>
-                <form action="{{ url_for('admin_inicio') }}" method="get" class="w-full sm:w-auto">
-                    <button type="submit" class="back-btn w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition duration-200 ease-in-out shadow-md flex items-center justify-center">
-                        <i class="fas fa-arrow-left mr-2"></i> Regresar al Panel
+            <header class="admin-header flex flex-col sm:flex-row justify-between items-center mb-6 border-b pb-4 border-gray-700">
+                <h1 class="text-4xl font-bold text-gray-100 mb-4 sm:mb-0">Panel de Administración 🛠️</h1>
+                <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4 w-full sm:w-auto">
+                    <a href="{{ url_for('logout') }}" class="admin-link bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-md transition duration-200 ease-in-out shadow-md flex items-center justify-center">
+                        <i class="fas fa-sign-out-alt mr-2"></i> Salir
+                    </a>
+                    <form action="{{ url_for('admin_inicio') }}" method="get" class="w-full sm:w-auto">
+                        <button type="submit" class="back-btn w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition duration-200 ease-in-out shadow-md flex items-center justify-center">
+                            <i class="fas fa-arrow-left mr-2"></i> Regresar al Panel
+                        </button>
+                    </form>
+                </div>
+            </header>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="messages-container space-y-3 mb-6">
+                    {% for category, message in messages %}
+                        <div class="message p-3 rounded-md text-center
+                            {% if category == 'success' %} bg-green-900 text-green-200
+                            {% elif category == 'error' %} bg-red-900 text-red-200
+                            {% else %} bg-blue-900 text-blue-200
+                            {% endif %}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% endwith %}
+
+            <div class="search-bar mb-8">
+                <h3 class="text-2xl font-semibold text-gray-100 mb-4">Buscar Usuarios</h3>
+                <form method="get" class="flex flex-col sm:flex-row gap-4">
+                    <input type="text" name="query" placeholder="Buscar por usuario o correo..."
+                           class="flex-grow px-4 py-2 border border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-gray-700 text-gray-100 placeholder-gray-400">
+                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-5 rounded-md transition duration-200 ease-in-out shadow-md flex items-center justify-center">
+                        <i class="fas fa-search mr-2"></i> Buscar
                     </button>
                 </form>
             </div>
-        </header>
 
-        {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            <div class="messages-container space-y-3 mb-6">
-                {% for category, message in messages %}
-                    <div class="message p-3 rounded-md text-center
-                        {% if category == 'success' %} bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-200
-                        {% elif category == 'error' %} bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-200
-                        {% else %} bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-200
-                        {% endif %}">
-                        {{ message }}
-                    </div>
-                {% endfor %}
+            <h2 class="text-3xl font-bold text-gray-100 mb-6">Usuarios Registrados 👥</h2>
+            <div class="table-responsive overflow-x-auto rounded-lg shadow-md border border-gray-700 mb-8">
+                <table class="min-w-full divide-y divide-gray-700">
+                    <thead class="bg-gray-700">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Foto</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Usuario</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Email</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Nombre Completo</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">WhatsApp</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Fecha de Registro</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Referido Por</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Código Referido</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Enlace Referido</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Saldo</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Estado</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Razón de Baneo</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-gray-800 divide-y divide-gray-700">
+                        {% for user in usuarios %}
+                        <tr class="hover:bg-gray-700 transition duration-150 ease-in-out">
+                            <td class="px-6 py-4 whitespace-nowrap" data-label="Foto de perfil">
+                                <img src="{{ url_for('foto_perfil', foto_id=user['foto_id']) if user['foto_id'] else url_for('static', filename='fotos_perfil/default.png') }}"
+                                     alt="Foto de perfil de {{ user['usuario'] }}"
+                                     class="w-10 h-10 rounded-full object-cover border-2 border-blue-600">
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-100" data-label="Usuario">{{ user['usuario'] }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300" data-label="Email">{{ user.get('email', 'N/A') }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300" data-label="Nombre Completo">{{ user.get('nombre', 'N/A') }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300" data-label="WhatsApp">{{ user.get('whatsapp', 'N/A') }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300" data-label="Fecha de Registro">
+                                {% if user.get('fecha_registro') %}{{ user['fecha_registro'].strftime('%Y-%m-%d %H:%M') }}{% else %}N/A{% endif %}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300" data-label="Referido Por">{{ user.get('referido_por', 'N/A') }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300" data-label="Código Referido">{{ user.get('codigo_referido', 'N/A') }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300" data-label="Enlace Referido">
+                                {% if user.get('enlace_referido') %}<a href="{{ user['enlace_referido'] }}" target="_blank" class="text-blue-400 hover:underline">Ver enlace</a>{% else %}N/A{% endif %}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-blue-400" data-label="Saldo">${{ user.get('saldo', 0) | round(2) }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap" data-label="Estado">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                                    {% if user.get('ban') == 'ban' %} bg-red-900 text-red-200
+                                    {% else %} bg-green-900 text-green-200
+                                    {% endif %}">
+                                    {{ 'Baneado' if user.get('ban') == 'ban' else 'Activo' }}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-normal text-sm text-gray-400 max-w-xs" data-label="Razón de Baneo">
+                                {{ user.get('razon_ban', 'N/A') if user.get('ban') == 'ban' else 'N/A' }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium" data-label="Acciones">
+                                <form method="post" class="space-y-2 lg:space-y-0 lg:flex lg:gap-2 items-end">
+                                    <input type="hidden" name="usuario" value="{{ user['usuario'] }}">
+                                    <select name="accion" id="accion-{{ user['usuario'] }}" required onchange="changeForm('{{ user['usuario'] }}')"
+                                            class="w-full lg:w-auto px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-gray-700 text-gray-100 text-sm">
+                                        <option value="">Selecciona acción</option>
+                                        <option value="cambiar_usuario">Cambiar Usuario</option>
+                                        <option value="cambiar_email">Cambiar Email</option>
+                                        <option value="agregar_saldo">Agregar Saldo</option>
+                                        <option value="quitar_saldo">Quitar Saldo</option>
+                                        <option value="cambiar_contrasena">Cambiar Contraseña</option>
+                                        <option value="banear_usuario">Banear Usuario</option>
+                                        <option value="desbanear_usuario">Desbanear Usuario</option>
+                                    </select>
+                                    <div id="input-container-{{ user['usuario'] }}" class="w-full lg:w-auto mt-2 lg:mt-0"></div>
+                                    <button type="submit" class="btn w-full lg:w-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition duration-200 ease-in-out shadow-md text-sm">
+                                        Actualizar
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="13" class="px-6 py-4 text-center text-gray-400 text-lg">No hay usuarios registrados.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
-        {% endif %}
-        {% endwith %}
 
-        <div class="search-bar mb-8">
-            <h3 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Buscar Usuarios</h3>
-            <form method="get" class="flex flex-col sm:flex-row gap-4">
-                <input type="text" name="query" placeholder="Buscar por usuario o correo..."
-                       class="flex-grow px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400">
-                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-5 rounded-md transition duration-200 ease-in-out shadow-md flex items-center justify-center">
-                    <i class="fas fa-search mr-2"></i> Buscar
-                </button>
-            </form>
+            <h2 class="text-3xl font-bold text-gray-100 mb-6 mt-10">Pagos Pendientes 💰</h2>
+            <div class="table-responsive overflow-x-auto rounded-lg shadow-md border border-gray-700">
+                <table class="min-w-full divide-y divide-gray-700">
+                    <thead class="bg-gray-700">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Usuario</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Monto</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Estado del Pago</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-gray-800 divide-y divide-gray-700">
+                        {% for pago in pagos %}
+                        <tr class="hover:bg-gray-700 transition duration-150 ease-in-out">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-100" data-label="Usuario">{{ pago['usuario'] }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-blue-400" data-label="Monto">${{ pago['monto'] }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap" data-label="Estado del Pago">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                                    {% if pago['estado'] == 'completado' %} bg-green-900 text-green-200
+                                    {% elif pago['estado'] == 'cancelado' %} bg-red-900 text-red-200
+                                    {% else %} bg-yellow-900 text-yellow-200
+                                    {% endif %}">
+                                    {{ pago['estado'] | capitalize }}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium" data-label="Acciones">
+                                <form method="post" action="{{ url_for('actualizar_pago') }}" class="space-y-2 lg:space-y-0 lg:flex lg:gap-2 items-end">
+                                    <input type="hidden" name="pago_id" value="{{ pago['_id'] }}">
+                                    <select name="nuevo_estado" required
+                                            class="w-full lg:w-auto px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-gray-700 text-gray-100 text-sm">
+                                        <option value="pendiente" {% if pago['estado'] == 'pendiente' %}selected{% endif %}>Pendiente</option>
+                                        <option value="completado" {% if pago['estado'] == 'completado' %}selected{% endif %}>Completado</option>
+                                        <option value="cancelado" {% if pago['estado'] == 'cancelado' %}selected{% endif %}>Cancelado</option>
+                                    </select>
+                                    <button type="submit" class="btn w-full lg:w-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition duration-200 ease-in-out shadow-md text-sm">
+                                        Actualizar Estado
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="4" class="px-6 py-4 text-center text-gray-400 text-lg">No hay pagos pendientes.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
         </div>
+    </main>
 
-        <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">Usuarios Registrados 👥</h2>
-        <div class="table-responsive overflow-x-auto rounded-lg shadow-md border border-gray-200 dark:border-gray-700 mb-8">
-            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                <thead class="bg-gray-100 dark:bg-gray-700">
-                    <tr>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider">Foto</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider">Usuario</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider">Email</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider">Saldo</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider">Estado</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider">Razón de Baneo</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                    {% for user in usuarios %}
-                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition duration-150 ease-in-out">
-                        <td class="px-6 py-4 whitespace-nowrap" data-label="Foto de perfil">
-                            <img src="{{ url_for('foto_perfil', foto_id=user['foto_id']) if user['foto_id'] else url_for('static', filename='fotos_perfil/default.png') }}"
-                                 alt="Foto de perfil de {{ user['usuario'] }}"
-                                 class="w-10 h-10 rounded-full object-cover border-2 border-blue-400 dark:border-blue-600">
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100" data-label="Usuario">{{ user['usuario'] }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300" data-label="Email">{{ user['email'] }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-blue-600 dark:text-blue-400" data-label="Saldo">${{ user['saldo'] }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap" data-label="Estado">
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
-                                {% if user['ban'] == 'ban' %} bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200
-                                {% else %} bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200
-                                {% endif %}">
-                                {{ 'Baneado' if user['ban'] == 'ban' else 'Activo' }}
-                            </span>
-                        </td>
-                        <td class="px-6 py-4 whitespace-normal text-sm text-gray-500 dark:text-gray-400 max-w-xs" data-label="Razón de Baneo">
-                            {{ user['razon_ban'] if user['ban'] == 'ban' else 'N/A' }}
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium" data-label="Acciones">
-                            <form method="post" class="space-y-2 lg:space-y-0 lg:flex lg:gap-2 items-end">
-                                <input type="hidden" name="usuario" value="{{ user['usuario'] }}">
-                                <select name="accion" id="accion-{{ user['usuario'] }}" required onchange="changeForm('{{ user['usuario'] }}')"
-                                        class="w-full lg:w-auto px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm">
-                                    <option value="">Selecciona acción</option>
-                                    <option value="cambiar_usuario">Cambiar Usuario</option>
-                                    <option value="cambiar_email">Cambiar Email</option>
-                                    <option value="agregar_saldo">Agregar Saldo</option>
-                                    <option value="quitar_saldo">Quitar Saldo</option>
-                                    <option value="cambiar_contrasena">Cambiar Contraseña</option>
-                                    <option value="banear_usuario">Banear Usuario</option>
-                                    <option value="desbanear_usuario">Desbanear Usuario</option>
-                                </select>
-                                <div id="input-container-{{ user['usuario'] }}" class="w-full lg:w-auto"></div>
-                                <button type="submit" class="btn w-full lg:w-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition duration-200 ease-in-out shadow-md text-sm">
-                                    Actualizar
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                    {% else %}
-                    <tr>
-                        <td colspan="7" class="px-6 py-4 text-center text-gray-600 dark:text-gray-400 text-lg">No hay usuarios registrados.</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-
-        <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6 mt-10">Pagos Pendientes 💰</h2>
-        <div class="table-responsive overflow-x-auto rounded-lg shadow-md border border-gray-200 dark:border-gray-700">
-            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                <thead class="bg-gray-100 dark:bg-gray-700">
-                    <tr>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider">Usuario</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider">Monto</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider">Estado del Pago</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                    {% for pago in pagos %}
-                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition duration-150 ease-in-out">
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100" data-label="Usuario">{{ pago['usuario'] }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-blue-600 dark:text-blue-400" data-label="Monto">${{ pago['monto'] }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap" data-label="Estado del Pago">
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
-                                {% if pago['estado'] == 'completado' %} bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200
-                                {% elif pago['estado'] == 'cancelado' %} bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200
-                                {% else %} bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200
-                                {% endif %}">
-                                {{ pago['estado'] | capitalize }}
-                            </span>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium" data-label="Acciones">
-                            <form method="post" action="{{ url_for('actualizar_pago') }}" class="space-y-2 lg:space-y-0 lg:flex lg:gap-2 items-end">
-                                <input type="hidden" name="pago_id" value="{{ pago['_id'] }}">
-                                <select name="nuevo_estado" required
-                                        class="w-full lg:w-auto px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm">
-                                    <option value="pendiente" {% if pago['estado'] == 'pendiente' %}selected{% endif %}>Pendiente</option>
-                                    <option value="completado" {% if pago['estado'] == 'completado' %}selected{% endif %}>Completado</option>
-                                    <option value="cancelado" {% if pago['estado'] == 'cancelado' %}selected{% endif %}>Cancelado</option>
-                                </select>
-                                <button type="submit" class="btn w-full lg:w-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition duration-200 ease-in-out shadow-md text-sm">
-                                    Actualizar Estado
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                    {% else %}
-                    <tr>
-                        <td colspan="4" class="px-6 py-4 text-center text-gray-600 dark:text-gray-400 text-lg">No hay pagos pendientes.</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-
-    </div>
-</main>
-    <!-- Inicializar la animación de partículas -->
     <script>
-        particlesJS("particles-js", {
-            "particles": {
-                "number": {
-                    "value": 80,
-                    "density": {
-                        "enable": true,
-                        "value_area": 800
-                    }
-                },
-                "color": {
-                    "value": "#ffffff"  // Color blanco para las partículas
-                },
-                "shape": {
-                    "type": "circle",
-                    "stroke": {
-                        "width": 0,
-                        "color": "#000"
-                    }
-                },
-                "opacity": {
-                    "value": 0.8,
-                    "random": true,
-                    "anim": {
-                        "enable": true,
-                        "speed": 1,
-                        "opacity_min": 0.1
-                    }
-                },
-                "size": {
-                    "value": 4,
-                    "random": true,
-                    "anim": {
-                        "enable": true,
-                        "speed": 3,
-                        "size_min": 0.1
-                    }
-                },
-                "line_linked": {
-                    "enable": true,
-                    "distance": 150,
-                    "color": "#66ff00",  // Verde neon para las líneas
-                    "opacity": 0.5,
-                    "width": 1
-                },
-                "move": {
-                    "enable": true,
-                    "speed": 3,
-                    "direction": "none",
-                    "random": true,
-                    "straight": false,
-                    "out_mode": "out",
-                    "bounce": false,
-                    "attract": {
-                        "enable": false,
-                        "rotateX": 600,
-                        "rotateY": 1200
-                    }
-                }
-            },
-            "interactivity": {
-                "detect_on": "canvas",
-                "events": {
-                    "onhover": {
-                        "enable": true,
-                        "mode": "repulse"
-                    },
-                    "onclick": {
-                        "enable": true,
-                        "mode": "push"
-                    }
-                }
-            },
-            "retina_detect": true
-        });
-
-        // Cambiar el formulario dinámicamente según la acción seleccionada
+        // Función para actualizar los campos de entrada según la acción seleccionada
         function changeForm(usuario) {
             let selectElement = document.getElementById('accion-' + usuario);
             let inputContainer = document.getElementById('input-container-' + usuario);
@@ -258,24 +257,23 @@
 
             const selectedAction = selectElement.value;
 
-            let inputField;
+            let inputFieldHTML = '';
+            const inputClasses = "w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-gray-700 text-gray-100 placeholder-gray-400";
 
             if (selectedAction === 'agregar_saldo' || selectedAction === 'quitar_saldo') {
-                inputField = `
-                    <label for="monto">Monto</label>
-                    <input type="number" name="monto" placeholder="Monto a agregar o quitar" required>
-                    <label for="tipo_saldo">Tipo</label>`;
+                inputFieldHTML = `<input type="text" name="monto" placeholder="Monto" required class="${inputClasses}">`;
             } else if (selectedAction === 'cambiar_email') {
-                inputField = '<input type="email" name="nuevo_valor" placeholder="Nuevo correo" required>';
+                inputFieldHTML = `<input type="email" name="nuevo_valor" placeholder="Nuevo correo" required class="${inputClasses}">`;
             } else if (selectedAction === 'cambiar_contrasena') {
-                inputField = '<input type="password" name="nuevo_valor" placeholder="Nueva contraseña" required>';
+                inputFieldHTML = `<input type="password" name="nuevo_valor" placeholder="Nueva contraseña" required class="${inputClasses}">`;
             } else if (selectedAction === 'cambiar_usuario') {
-                inputField = '<input type="text" name="nuevo_valor" placeholder="Nuevo usuario" required>';
-            } else if (selectedAction === 'banear_usuario' || selectedAction === 'desbanear_usuario') {
-                inputField = '<input type="text" name="razon_ban" placeholder="Razón del baneo" required>';
+                inputFieldHTML = `<input type="text" name="nuevo_valor" placeholder="Nuevo usuario" required class="${inputClasses}">`;
+            } else if (selectedAction === 'banear_usuario') {
+                inputFieldHTML = `<input type="text" name="razon_ban" placeholder="Razón del baneo" required class="${inputClasses}">`;
             }
+            // No se necesita entrada para 'desbanear_usuario'
 
-            inputContainer.innerHTML = inputField;
+            inputContainer.innerHTML = inputFieldHTML;
         }
     </script>
 </body>

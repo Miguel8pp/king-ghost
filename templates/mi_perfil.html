@@ -4,10 +4,10 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="0NHWv5SjO5BZ9kADV4o7KWLTBfy9bLT1Eo2GGYFc">
-        <title>INICIO</title>
+        <title>GHOST SMM</title>
 
         <!-- Favicon -->
-        <link rel="icon" type="image/x-icon" href="https://socialvirtu.com/storage/images/brand/favicons/bpcOHEfmC7Ye21lMJgzf1AM7BM4HQVxDMk4I04At.png">
+        <link rel="icon" type="image/x-icon" href="../static/img/MIghost.png">
 
         <!-- Alpine.js (debe ir primero) -->
         <!-- <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script> -->
@@ -91,11 +91,7 @@
     <i class="fas fa-history w-5 h-5 mr-3"></i>
     <span>Historial de Recargas</span>
 </a>
-<!-- Torneos-->
-<a class="text-gray-400 flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/torneosff">
-    <i class="fas fa-trophy w-5 h-5 mr-3"></i>
-    <span>Torneos</span>
-</a>
+
      
 
                 <!-- Sección Streaming -->
@@ -205,9 +201,9 @@
                             <span>Historial de Recargas</span>
 </a>
 
-                        <a class="text-gray-400 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/cartera">
-    <i class="fas fa-wallet w-5 h-5 mr-3"></i>
-                            <span>Cartera</span>
+                <a class="text-gray-400 hover:text-gray-200 hover:bg-gray-700/50 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/transferir_saldo">
+    <i class="fas fa-exchange-alt w-5 h-5 mr-3"></i> <!-- Icono de intercambio/transferencia -->
+    <span>Transferir Saldo</span>
 </a>
 
 
@@ -348,11 +344,7 @@
     <i class="fas fa-history w-5 h-5 mr-3"></i>
     <span>Historial de Recargas</span>
 </a>
-<!-- Torneos-->
-<a class="text-gray-400 flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/torneosff">
-    <i class="fas fa-trophy w-5 h-5 mr-3"></i>
-    <span>Torneos</span>
-</a>
+
 
 
                     <!-- Sección Streaming -->
@@ -456,9 +448,9 @@
                                 <span>Payment History</span>
 </a>
 
-                            <a class="text-gray-400 hover:text-gray-200 hover:bg-gray-700/50 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/cartera">
-    <i class="fas fa-wallet w-5 h-5 mr-3"></i>
-                                <span>Wallet</span>
+                <a class="text-gray-400 hover:text-gray-200 hover:bg-gray-700/50 flex items-center pl-8 pr-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white" href="/transferir_saldo">
+    <i class="fas fa-exchange-alt w-5 h-5 mr-3"></i> <!-- Icono de intercambio/transferencia -->
+    <span>Transferir Saldo</span>
 </a>
 
                         </div>
@@ -565,6 +557,24 @@
                                     </button>
                                 </div>
 
+
+                                <!-- Mensajes Flash -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="mb-6">
+      {% for category, message in messages %}
+        <div class="px-4 py-3 rounded relative text-white
+                    {% if category == 'success' %} bg-green-500
+                    {% elif category == 'error' %} bg-red-500
+                    {% else %} bg-blue-500
+                    {% endif %}">
+          <span class="block sm:inline">{{ message }}</span>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
     <div class="sm:pl-64 flex flex-col min-h-full bg-gray-50 dark:bg-gray-900">
     <div class="flex-1 p-4 sm:p-6 lg:p-8">
         <div class="max-w-xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 space-y-6 sm:p-8">
@@ -588,7 +598,7 @@
                 <button type="submit" name="change-photo" class="order-btn w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-md transition duration-200 ease-in-out shadow-md">Actualizar Foto</button>
             </form>
 
-            <hr class="border-gray-200 dark:border-gray-700 my-6">
+            <hr class="border-gray-300 my-6">
 
             <div class="profile-info space-y-3">
                 <div class="profile-item flex items-center text-gray-700 dark:text-gray-300">
@@ -601,7 +611,7 @@
                 </div>
             </div>
 
-            <hr class="border-gray-200 dark:border-gray-700 my-6">
+            <hr class="border-gray-300 my-6">
 
             <form method="POST" class="space-y-4">
                 <div class="change-password-section bg-gray-50 dark:bg-gray-700 p-5 rounded-lg shadow-inner">
@@ -622,12 +632,12 @@
                 </div>
             </form>
 
-            <hr class="border-gray-200 dark:border-gray-700 my-6">
+            <hr class="border-gray-300 my-6">
 
             <form method="POST" class="space-y-4">
-                <div class="change-email-section bg-red-50 dark:bg-red-900 p-5 rounded-lg shadow-inner border border-red-200 dark:border-red-800">
-                    <h3 class="text-xl font-semibold text-red-700 dark:text-red-300 mb-4 flex items-center">
-                        <i class="fas fa-envelope text-red-500 mr-2"></i> Cambiar Correo Electrónico
+                <div class="change-email-section bg-gray-50 dark:bg-gray-700 p-5 rounded-lg shadow-inner">
+                    <h3 class="text-xl font-semibold text-white  mb-4 flex items-center">
+                        <i class="fas fa-envelope text-white mr-2"></i> Cambiar Correo Electrónico
                     </h3>
                     <div class="form-group mb-3">
                         <label for="current-email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Correo Electrónico Actual</label>
@@ -644,6 +654,25 @@
                     <button type="submit" name="change-email" class="order-btn w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-md transition duration-200 ease-in-out shadow-md">Cambiar Correo Electrónico</button>
                 </div>
             </form>
+            <hr class="border-gray-300 my-6">
+
+<!-- Cambiar WhatsApp -->
+<div class="section-card mb-8 bg-gray-50 dark:bg-gray-700 p-5 rounded-lg shadow-inner">
+    <h3 class="text-2xl font-semibold mb-4 flex items-center text-white">
+        <i class="fab fa-whatsapp text-green-400 mr-2"></i> Cambiar WhatsApp
+    </h3>
+    <form action="{{ url_for('mi_perfil') }}" method="post" class="space-y-4">
+        <input type="hidden" name="change-whatsapp">
+        <div class="form-group">
+            <label for="new-whatsapp" class="block text-sm font-medium text-green-400 mb-2">Nuevo Número de WhatsApp:</label>
+            <input type="tel" id="new-whatsapp" name="new-whatsapp" value="{{ whatsapp }}" required
+                   class="w-full py-2 px-3 border rounded-md bg-gray-700 text-gray-100 border-gray-600 focus:outline-none focus:ring-2 focus:ring-green-500">
+        </div>
+        <button type="submit" class="w-full bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-md font-semibold">
+            Actualizar WhatsApp
+        </button>
+    </form>
+</div>
         </div>
     </div>
 </div>

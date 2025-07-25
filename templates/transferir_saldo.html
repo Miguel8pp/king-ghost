@@ -4,10 +4,10 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="0NHWv5SjO5BZ9kADV4o7KWLTBfy9bLT1Eo2GGYFc">
-        <title>GHOST SMM</title>
+        <title>INICIO</title>
 
         <!-- Favicon -->
-        <link rel="icon" type="image/x-icon" href="../static/img/MIghost.png">
+        <link rel="icon" type="image/x-icon" href="https://socialvirtu.com/storage/images/brand/favicons/bpcOHEfmC7Ye21lMJgzf1AM7BM4HQVxDMk4I04At.png">
 
         <!-- Alpine.js (debe ir primero) -->
         <!-- <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script> -->
@@ -543,42 +543,106 @@
                             </div>
                         </header>
 
-                                            
-                                                            
+          {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="max-w-4xl mx-auto mb-6 space-y-3">
+                {% for category, message in messages %}
+                    <div class="p-4 rounded-lg shadow-md flex items-center justify-center text-center
+                        {% if category == 'success' %} bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100
+                        {% elif category == 'error' %} bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100
+                        {% else %} bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-100
+                        {% endif %}">
+                        <span class="font-medium">{{ message }}</span>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% endwith %}
 
-                        <!-- Page Content -->
-                        <main class="py-6 px-4 sm:px-6 bg-gray-50 dark:bg-gray-900">
-<section class="max-w-xl mx-auto p-4 bg-white dark:bg-gray-800 rounded-lg shadow-xl my-8">
-    <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6 flex items-center justify-center sm:justify-start">
-        <i class="fas fa-headset mr-3 text-blue-600 dark:text-blue-400"></i> Soporte Técnico
-    </h2>
-
-    {% if mensaje %}
-    <div class="bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-200 p-4 mb-6 rounded-md shadow-sm flex items-center justify-center text-center">
-        <i class="fas fa-check-circle mr-3"></i> {{ mensaje }}
-    </div>
-    {% endif %}
-
-    <form method="POST" class="space-y-6">
-        <div class="mb-4">
-            <label for="asunto" class="block text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">Asunto</label>
-            <input type="text" name="asunto" id="asunto" required
-                   class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 transition duration-150 ease-in-out">
+        <!-- Saldo Actual -->
+        <div class="max-w-xl mx-auto mb-8 p-6 rounded-xl shadow-lg bg-gradient-to-r from-blue-700 to-blue-900 text-white text-center">
+            <p class="text-xl font-semibold">Tu Saldo Actual: <span class="text-blue-300 font-bold text-2xl">${{ saldo | round(2) }}</span></p>
         </div>
 
-        <div class="mb-4">
-            <label for="mensaje" class="block text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">Mensaje</label>
-            <textarea name="mensaje" id="mensaje" rows="6" required
-                      class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 transition duration-150 ease-in-out"></textarea>
+        <!-- Sección de Búsqueda de Usuario -->
+        <div class="search-section max-w-5xl mx-auto mb-8 p-6 bg-white dark:bg-gray-800 shadow-xl rounded-xl ring-1 ring-gray-200 dark:ring-gray-700">
+            <h2 class="text-2xl font-extrabold mb-5 text-gray-900 dark:text-gray-100">Buscar Usuario para Transferir</h2>
+            <form method="GET" action="{{ url_for('transferir_saldo') }}" class="flex flex-col sm:flex-row gap-4">
+                <input type="text" name="search_query" placeholder="Buscar por usuario o correo..."
+                       value="{{ search_query if search_query else '' }}"
+                       class="flex-grow px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400">
+                <button type="submit" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md transition duration-200 ease-in-out flex items-center justify-center">
+                    <i class="fas fa-search mr-2"></i> Buscar
+                </button>
+            </form>
+
+            {% if found_recipients %}
+                <div class="search-results mt-8">
+                    <h3 class="text-xl font-bold mb-4 text-gray-900 dark:text-gray-100">Resultados de la Búsqueda:</h3>
+                    <div class="overflow-x-auto rounded-lg shadow-md border border-gray-200 dark:border-gray-700">
+                        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                            <thead class="bg-gray-50 dark:bg-gray-700">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Foto</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Usuario</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Email</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Seleccionar</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                                {% for recipient in found_recipients %}
+                                <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition duration-150 ease-in-out">
+                                    <td class="px-6 py-4 whitespace-nowrap" data-label="Foto">
+                                        <img src="{{ url_for('foto_perfil', foto_id=recipient.foto_id) if recipient.foto_id else url_for('static', filename='fotos_perfil/default.png') }}"
+                                             alt="Foto de perfil de {{ recipient.usuario if recipient.usuario else 'usuario' }}"
+                                             class="w-10 h-10 rounded-full object-cover border-2 border-blue-500 dark:border-blue-400">
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100" data-label="Usuario">{{ recipient.usuario }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300" data-label="Email">{{ recipient.email }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium" data-label="Seleccionar">
+                                        <button type="button" onclick="selectRecipient('{{ recipient.usuario }}')" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium rounded-md shadow-sm transition duration-150">
+                                            Seleccionar
+                                        </button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            {% elif search_query %}
+                <p class="mt-4 text-gray-500 dark:text-gray-400 text-center">No se encontraron usuarios con ese criterio.</p>
+            {% endif %}
         </div>
 
-        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-md shadow-lg transition duration-200 ease-in-out flex items-center justify-center text-lg">
-            <i class="fas fa-paper-plane mr-2"></i> Enviar Mensaje
-        </button>
-    </form>
-</section>
-
-        <!-- Alpine Dark Mode Store -->
+        <!-- Sección de Realizar Transferencia -->
+        <div class="transfer-form max-w-2xl mx-auto p-6 bg-white dark:bg-gray-800 rounded-xl shadow-xl ring-1 ring-gray-200 dark:ring-gray-700">
+            <h2 class="text-2xl font-extrabold mb-5 text-gray-900 dark:text-gray-100">Realizar Transferencia</h2>
+            <form method="POST" action="{{ url_for('transferir_saldo') }}" class="space-y-5">
+                <div class="form-group">
+                    <label for="recipient_username" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Usuario Destinatario:</label>
+                    <input type="text" name="recipient_username" id="recipient_username" placeholder="Nombre de usuario del destinatario" required
+                           class="shadow-sm appearance-none border border-gray-300 dark:border-gray-600 rounded-lg w-full py-2 px-3 leading-tight focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400">
+                </div>
+                <div class="form-group">
+                    <label for="amount" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Monto a Transferir:</label>
+                    <input type="number" name="amount" id="amount" placeholder="Ej: 10.50" step="0.01" min="0.01" required
+                           class="shadow-sm appearance-none border border-gray-300 dark:border-gray-600 rounded-lg w-full py-2 px-3 leading-tight focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400">
+                </div>
+                <button type="submit" class="w-full px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md transition duration-200 ease-in-out flex items-center justify-center">
+                    <i class="fas fa-exchange-alt mr-2"></i> Confirmar Transferencia
+                </button>
+            </form>
+        </div>
+    <script>
+        function selectRecipient(username) {
+            document.getElementById('recipient_username').value = username;
+            // Opcional: Podrías ocultar los resultados de búsqueda después de seleccionar
+            const searchResults = document.querySelector('.search-results');
+            if (searchResults) searchResults.style.display = 'none';
+        }
+    </script>
+     <!-- Alpine Dark Mode Store -->
         <script>
             document.addEventListener('alpine:init', () => {
                 Alpine.store('theme', {
@@ -597,15 +661,5 @@
             });
         </script>
 
-        
-        <!-- WhatsApp Button -->
-                <a href="https://wa.me/+525654936049" 
-           target="_blank"
-           class="fixed bottom-4 right-4 bg-[#25D366] text-white rounded-full w-14 h-14 flex items-center justify-center shadow-[4px_4px_10px_rgba(0,0,0,0.5)] hover:shadow-[6px_6px_15px_rgba(0,0,0,0.6)] hover:translate-y-[-2px] transition-all duration-300 z-50">
-            <i class="fab fa-whatsapp text-2xl"></i>
-        </a>
-            </div>
-
-    
-    </body>
+</body>
 </html>

@@ -1292,8 +1292,8 @@ def guardar_diamantes():
             "2180 + 218 Diamantes Bonus": Decimal('18.46'),
             "4360 + 436 Diamantes Bonus": Decimal('37.18'),
             "5600 + 560 Diamantes Bonus": Decimal('46.15'),
-            "Tarjeta Semanal": Decimal('4.99'), # ¡Ajustado a USD!
-            "Tarjeta Mensual": Decimal('24.99') # ¡Ajustado a USD! (asumiendo un precio similar semanal/mensual)
+            "Tarjeta Semanal": Decimal('1.9'), # ¡Ajustado a USD!
+            "Tarjeta Mensual": Decimal('9.25') # ¡Ajustado a USD! (asumiendo un precio similar semanal/mensual)
         }
 
         precio = precios.get(paquete)
@@ -1646,6 +1646,12 @@ def transferir_saldo():
                            search_query=search_query,
                            usuario=current_username, # Pasando el nombre de usuario actual
                            foto_id=foto_id_current_user) # Pasando la foto_id del usuario actual
+
+
+
+@app.route("/faq")
+def faq():
+    return render_template("faq.html")
 
     
 if __name__ == "__main__":

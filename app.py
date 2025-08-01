@@ -50,18 +50,12 @@ limiter.init_app(app)
 
 
 # Configuración de MongoDB
-def get_mongo_client():
+def init_mongodb():
     username = quote_plus(os.getenv('MONGO_USERNAME'))
     password = quote_plus(os.getenv('MONGO_PASSWORD'))
-    uri = f"mongodb+srv://{username}:{password}@cluster0.hx8un.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-    return MongoClient(uri)
-
-def get_db():
-    client = get_mongo_client()
-    return client['db1']
-
-def get_collections():
-    db = get_db()
+    client = MongoClient(f"mongodb+srv://{username}:{password}@cluster0.hx8un.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+    
+    db = client['db1']
     return {
         'usuarios': db['usuarios'],
         'pedidos': db['Pedidos'],
@@ -74,8 +68,7 @@ def get_collections():
         'fs': gridfs.GridFS(db)
     }
 
-# Usás esto donde lo necesites
-collections = get_collections()
+collections = init_mongodb()
 
 # Configuraciones
 SENDGRID_API_KEY = os.getenv('SENDGRID_API_KEY')

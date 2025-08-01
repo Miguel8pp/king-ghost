@@ -259,7 +259,7 @@ def registro():
             'fecha_registro': datetime.utcnow(),
             'referido_por': final_referral_code if final_referral_code else None,
             'codigo_referido': codigo_referido,
-            'enlace_referido': f"https://kingshop7.onrender.com/registro?ref={codigo_referido}"
+            'enlace_referido': f"https://ghostsmm.shop/registro?ref={codigo_referido}"
         }
 
         collections['usuarios'].insert_one(nuevo_usuario)

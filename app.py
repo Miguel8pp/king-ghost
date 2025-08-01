@@ -50,12 +50,18 @@ limiter.init_app(app)
 
 
 # Configuración de MongoDB
-def init_mongodb():
+def get_mongo_client():
     username = quote_plus(os.getenv('MONGO_USERNAME'))
     password = quote_plus(os.getenv('MONGO_PASSWORD'))
-    client = MongoClient(f"mongodb+srv://{username}:{password}@cluster0.hx8un.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
-    
-    db = client['db1']
+    uri = f"mongodb+srv://{username}:{password}@cluster0.hx8un.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+    return MongoClient(uri)
+
+def get_db():
+    client = get_mongo_client()
+    return client['db1']
+
+def get_collections():
+    db = get_db()
     return {
         'usuarios': db['usuarios'],
         'pedidos': db['Pedidos'],
@@ -68,7 +74,8 @@ def init_mongodb():
         'fs': gridfs.GridFS(db)
     }
 
-collections = init_mongodb()
+# Usás esto donde lo necesites
+collections = get_collections()
 
 # Configuraciones
 SENDGRID_API_KEY = os.getenv('SENDGRID_API_KEY')
@@ -1361,5 +1368,230 @@ def page_not_found(e):
 def internal_server_error(e):
     return render_template('500.html'), 500
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+# ================================
+# SISTEMA DE ANUNCIOS RECOMPENSADOS
+# ================================
+
+# Primero, agregar esta línea en la función init_mongodb() después de 'freefire': db['diamantes'],
+# 'anuncios_vistas': db['anunciosVistas'],
+
+# Configuración de anuncios (agregar después de las otras configuraciones)
+ANUNCIOS_CONFIG = {
+    'recompensa_por_anuncio': 0.05,  # $0.05 por anuncio visto
+    'limite_diario': 10,  # Máximo 10 anuncios recompensados por día
+    'tiempo_minimo_vista': 10,  # 10 segundos mínimo de visualización
+    'cooldown_entre_anuncios': 30  # 30 segundos entre anuncios
+}
+
+@app.route('/anuncios')
+@login_required
+@check_ban
+def anuncios():
+    usuario = session['usuario']
+    user_data = collections['usuarios'].find_one({'usuario': usuario})
+    foto_id = user_data.get('foto_id')
+    saldo = decimal128_to_float(user_data.get('saldo', 0))
+    
+    # Obtener estadísticas del día actual
+    hoy = datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)
+    vistas_hoy = collections['anuncios_vistas'].count_documents({
+        'usuario': usuario,
+        'fecha': {'$gte': hoy}
+    })
+    
+    # Calcular anuncios restantes
+    anuncios_restantes = max(0, ANUNCIOS_CONFIG['limite_diario'] - vistas_hoy)
+    
+    # Obtener último anuncio visto para calcular cooldown
+    ultimo_anuncio = collections['anuncios_vistas'].find_one(
+        {'usuario': usuario},
+        sort=[('fecha', -1)]
+    )
+    
+    puede_ver_anuncio = True
+    tiempo_espera = 0
+    
+    if ultimo_anuncio:
+        tiempo_transcurrido = (datetime.utcnow() - ultimo_anuncio['fecha']).total_seconds()
+        if tiempo_transcurrido < ANUNCIOS_CONFIG['cooldown_entre_anuncios']:
+            puede_ver_anuncio = False
+            tiempo_espera = int(ANUNCIOS_CONFIG['cooldown_entre_anuncios'] - tiempo_transcurrido)
+    
+    # Obtener historial de ganancias (últimos 30 días)
+    hace_30_dias = datetime.utcnow() - timedelta(days=30)
+    historial = list(collections['anuncios_vistas'].find({
+        'usuario': usuario,
+        'fecha': {'$gte': hace_30_dias}
+    }).sort('fecha', -1).limit(50))
+    
+    # Calcular ganancias totales del mes
+    ganancias_mes = collections['anuncios_vistas'].count_documents({
+        'usuario': usuario,
+        'fecha': {'$gte': hace_30_dias}
+    }) * ANUNCIOS_CONFIG['recompensa_por_anuncio']
+    
+    return render_template('anuncios.html',
+                         usuario=usuario,
+                         saldo=saldo,
+                         foto_id=foto_id,
+                         vistas_hoy=vistas_hoy,
+                         anuncios_restantes=anuncios_restantes,
+                         puede_ver_anuncio=puede_ver_anuncio,
+                         tiempo_espera=tiempo_espera,
+                         recompensa=ANUNCIOS_CONFIG['recompensa_por_anuncio'],
+                         tiempo_minimo=ANUNCIOS_CONFIG['tiempo_minimo_vista'],
+                         historial=historial,
+                         ganancias_mes=ganancias_mes)
+
+@app.route('/ver_anuncio', methods=['POST'])
+@login_required
+@check_ban
+@limiter.limit("1 per 30 seconds")
+def ver_anuncio():
+    try:
+        data = request.get_json()
+        usuario = session['usuario']
+        tiempo_visto = data.get('tiempo_visto', 0)
+        anuncio_id = data.get('anuncio_id', 'default')
+        
+        # Validaciones
+        if tiempo_visto < ANUNCIOS_CONFIG['tiempo_minimo_vista']:
+            return jsonify({
+                'success': False, 
+                'message': f'Debes ver el anuncio por al menos {ANUNCIOS_CONFIG["tiempo_minimo_vista"]} segundos'
+            }), 400
+        
+        # Verificar límite diario
+        hoy = datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)
+        vistas_hoy = collections['anuncios_vistas'].count_documents({
+            'usuario': usuario,
+            'fecha': {'$gte': hoy}
+        })
+        
+        if vistas_hoy >= ANUNCIOS_CONFIG['limite_diario']:
+            return jsonify({
+                'success': False, 
+                'message': 'Has alcanzado el límite diario de anuncios recompensados'
+            }), 400
+        
+        # Verificar cooldown
+        ultimo_anuncio = collections['anuncios_vistas'].find_one(
+            {'usuario': usuario},
+            sort=[('fecha', -1)]
+        )
+        
+        if ultimo_anuncio:
+            tiempo_transcurrido = (datetime.utcnow() - ultimo_anuncio['fecha']).total_seconds()
+            if tiempo_transcurrido < ANUNCIOS_CONFIG['cooldown_entre_anuncios']:
+                return jsonify({
+                    'success': False, 
+                    'message': f'Debes esperar {int(ANUNCIOS_CONFIG["cooldown_entre_anuncios"] - tiempo_transcurrido)} segundos antes del próximo anuncio'
+                }), 400
+        
+        # Registrar la vista del anuncio
+        collections['anuncios_vistas'].insert_one({
+            'usuario': usuario,
+            'anuncio_id': anuncio_id,
+            'tiempo_visto': tiempo_visto,
+            'recompensa': ANUNCIOS_CONFIG['recompensa_por_anuncio'],
+            'fecha': datetime.utcnow(),
+            'ip': request.remote_addr
+        })
+        
+        # Actualizar saldo del usuario
+        user_data = collections['usuarios'].find_one({'usuario': usuario})
+        saldo_actual = decimal128_to_float(user_data.get('saldo', 0))
+        nuevo_saldo = saldo_actual + ANUNCIOS_CONFIG['recompensa_por_anuncio']
+        
+        collections['usuarios'].update_one(
+            {'usuario': usuario},
+            {'$set': {'saldo': Decimal128(str(nuevo_saldo))}}
+        )
+        
+        # Calcular nuevas estadísticas
+        vistas_hoy_nuevo = vistas_hoy + 1
+        anuncios_restantes = max(0, ANUNCIOS_CONFIG['limite_diario'] - vistas_hoy_nuevo)
+        
+        return jsonify({
+            'success': True,
+            'message': f'¡Felicidades! Has ganado ${ANUNCIOS_CONFIG["recompensa_por_anuncio"]:.2f}',
+            'nuevo_saldo': round(nuevo_saldo, 2),
+            'anuncios_restantes': anuncios_restantes,
+            'vistas_hoy': vistas_hoy_nuevo,
+            'cooldown': ANUNCIOS_CONFIG['cooldown_entre_anuncios']
+        })
+        
+    except Exception as e:
+        print(f"Error en ver_anuncio: {e}")
+        return jsonify({
+            'success': False, 
+            'message': 'Error interno del servidor'
+        }), 500
+
+@app.route('/estadisticas_anuncios')
+@login_required
+def estadisticas_anuncios():
+    usuario = session['usuario']
+    
+    # Estadísticas generales
+    total_vistas = collections['anuncios_vistas'].count_documents({'usuario': usuario})
+    total_ganancias = total_vistas * ANUNCIOS_CONFIG['recompensa_por_anuncio']
+    
+    # Estadísticas por mes (últimos 6 meses)
+    estadisticas_mensuales = []
+    for i in range(6):
+        inicio_mes = datetime.utcnow().replace(day=1, hour=0, minute=0, second=0, microsecond=0) - relativedelta(months=i)
+        fin_mes = inicio_mes + relativedelta(months=1)
+        
+        vistas_mes = collections['anuncios_vistas'].count_documents({
+            'usuario': usuario,
+            'fecha': {'$gte': inicio_mes, '$lt': fin_mes}
+        })
+        
+        estadisticas_mensuales.append({
+            'mes': inicio_mes.strftime('%B %Y'),
+            'vistas': vistas_mes,
+            'ganancias': vistas_mes * ANUNCIOS_CONFIG['recompensa_por_anuncio']
+        })
+    
+    return jsonify({
+        'total_vistas': total_vistas,
+        'total_ganancias': round(total_ganancias, 2),
+        'estadisticas_mensuales': estadisticas_mensuales
+    })
+
+@app.route('/admin_anuncios')
+@admin_required
+def admin_anuncios():
+    # Estadísticas generales
+    total_vistas_hoy = collections['anuncios_vistas'].count_documents({
+        'fecha': {'$gte': datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)}
+    })
+    
+    total_recompensas_hoy = total_vistas_hoy * ANUNCIOS_CONFIG['recompensa_por_anuncio']
+    
+    # Top usuarios por vistas
+    pipeline = [
+        {'$group': {
+            '_id': '$usuario',
+            'total_vistas': {'$sum': 1},
+            'total_ganado': {'$sum': '$recompensa'}
+        }},
+        {'$sort': {'total_vistas': -1}},
+        {'$limit': 10}
+    ]
+    
+    top_usuarios = list(collections['anuncios_vistas'].aggregate(pipeline))
+    
+    # Vistas recientes
+    vistas_recientes = list(collections['anuncios_vistas'].find().sort('fecha', -1).limit(20))
+    
+    return render_template('admin_anuncios.html',
+                         total_vistas_hoy=total_vistas_hoy,
+                         total_recompensas_hoy=round(total_recompensas_hoy, 2),
+                         top_usuarios=top_usuarios,
+                         vistas_recientes=vistas_recientes,
+                         config=ANUNCIOS_CONFIG)
+
+if __name__ == '__main__':
+    app.run(debug=True)

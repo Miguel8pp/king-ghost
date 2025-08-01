@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Anuncios Recompensados</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .admin-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #007bff;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .stat-icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            opacity: 0.8;
+        }
+        
+        .config-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .table-responsive {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .badge-success {
+            background-color: #28a745;
+        }
+        
+        .badge-warning {
+            background-color: #ffc107;
+            color: #000;
+        }
+        
+        .navbar-admin {
+            background: linear-gradient(90deg, #1e3c72 0%, #2a5298 100%);
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-admin">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url_for('admin_inicio') }}">
+                <i class="fas fa-shield-alt"></i> Admin Panel
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="{{ url_for('admin_dashboard') }}">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </a>
+                <a class="nav-link" href="{{ url_for('logout') }}">
+                    <i class="fas fa-sign-out-alt"></i> Salir
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2><i class="fas fa-tv"></i> Gestión de Anuncios Recompensados</h2>
+            <button class="btn btn-outline-primary" onclick="location.reload()">
+                <i class="fas fa-sync-alt"></i> Actualizar
+            </button>
+        </div>
+
+        <!-- Estadísticas principales -->
+        <div class="row">
+            <div class="col-lg-3 col-md-6">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <h3>{{ total_vistas_hoy }}</h3>
+                    <p>Vistas Hoy</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <h3>${{ total_recompensas_hoy }}</h3>
+                    <p>Pagado Hoy</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-coins"></i>
+                    </div>
+                    <h3>${{ "%.2f"|format(config.recompensa_por_anuncio) }}</h3>
+                    <p>Por Anuncio</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>{{ config.limite_diario }}</h3>
+                    <p>Límite Diario</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Configuración del sistema -->
+        <div class="admin-card">
+            <h4><i class="fas fa-cogs"></i> Configuración Actual del Sistema</h4>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="config-section">
+                        <h6><i class="fas fa-money-bill-wave"></i> Configuración Económica</h6>
+                        <ul class="list-unstyled">
+                            <li><strong>Recompensa por anuncio:</strong> ${{ "%.2f"|format(config.recompensa_por_anuncio) }}</li>
+                            <li><strong>Límite diario por usuario:</strong> {{ config.limite_diario }} anuncios</li>
+                            <li><strong>Gasto máximo diario:</strong> ${{ "%.2f"|format(config.recompensa_por_anuncio * config.limite_diario) }} por usuario</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="config-section">
+                        <h6><i class="fas fa-stopwatch"></i> Configuración de Tiempo</h6>
+                        <ul class="list-unstyled">
+                            <li><strong>Tiempo mínimo de vista:</strong> {{ config.tiempo_minimo_vista }} segundos</li>
+                            <li><strong>Cooldown entre anuncios:</strong> {{ config.cooldown_entre_anuncios }} segundos</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i> 
+                <strong>Nota:</strong> Para modificar estas configuraciones, edita las variables en <code>ANUNCIOS_CONFIG</code> en tu archivo app.py
+            </div>
+        </div>
+
+        <!-- Top usuarios por vistas -->
+        <div class="admin-card">
+            <h4><i class="fas fa-trophy"></i> Top 10 Usuarios - Anuncios Vistos</h4>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Ranking</th>
+                            <th>Usuario</th>
+                            <th>Total Vistas</th>
+                            <th>Total Ganado</th>
+                            <th>Promedio Diario</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for usuario in top_usuarios %}
+                        <tr>
+                            <td>
+                                <span class="badge bg-primary">#{{ loop.index }}</span>
+                            </td>
+                            <td>
+                                <i class="fas fa-user"></i> {{ usuario._id }}
+                            </td>
+                            <td>
+                                <span class="badge badge-success">{{ usuario.total_vistas }}</span>
+                            </td>
+                            <td>
+                                <strong class="text-success">${{ "%.2f"|format(usuario.total_ganado) }}</strong>
+                            </td>
+                            <td>
+                                <small class="text-muted">≈ {{ "%.1f"|format(usuario.total_vistas / 30) }}/día</small>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="5" class="text-center text-muted">
+                                <i class="fas fa-inbox"></i> No hay datos disponibles
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Actividad reciente -->
+        <div class="admin-card">
+            <h4><i class="fas fa-history"></i> Actividad Reciente</h4>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Fecha/Hora</th>
+                            <th>Usuario</th>
+                            <th>Tiempo Visto</th>
+                            <th>Recompensa</th>
+                            <th>IP</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for vista in vistas_recientes %}
+                        <tr>
+                            <td>
+                                <small>{{ vista.fecha.strftime('%d/%m/%Y %H:%M:%S') }}</small>
+                            </td>
+                            <td>
+                                <i class="fas fa-user"></i> {{ vista.usuario }}
+                            </td>
+                            <td>
+                                <span class="badge badge-warning">{{ vista.tiempo_visto }}s</span>
+                            </td>
+                            <td>
+                                <strong class="text-success">+${{ "%.2f"|format(vista.recompensa) }}</strong>
+                            </td>
+                            <td>
+                                <small class="text-muted">{{ vista.ip }}</small>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="5" class="text-center text-muted">
+                                <i class="fas fa-inbox"></i> No hay actividad reciente
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Herramientas de administración -->
+        <div class="admin-card">
+            <h4><i class="fas fa-tools"></i> Herramientas de Administración</h4>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-chart-line fa-3x text-primary mb-3"></i>
+                            <h5>Estadísticas Avanzadas</h5>
+                            <p>Ver reportes detallados de rendimiento</p>
+                            <button class="btn btn-primary" onclick="mostrarEstadisticas()">
+                                Ver Estadísticas
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-ban fa-3x text-warning mb-3"></i>
+                            <h5>Detectar Anomalías</h5>
+                            <p>Buscar patrones sospechosos</p>
+                            <button class="btn btn-warning" onclick="detectarAnomalias()">
+                                Analizar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-download fa-3x text-success mb-3"></i>
+                            <h5>Exportar Datos</h5>
+                            <p>Descargar reportes en CSV</p>
+                            <button class="btn btn-success" onclick="exportarDatos()">
+                                Exportar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para estadísticas avanzadas -->
+    <div class="modal fade" id="statsModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-chart-line"></i> Estadísticas Avanzadas
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="statsContent">
+                        <div class="text-center">
+                            <i class="fas fa-spinner fa-spin fa-2x"></i>
+                            <p>Cargando estadísticas...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function mostrarEstadisticas() {
+            const modal = new bootstrap.Modal(document.getElementById('statsModal'));
+            modal.show();
+            
+            // Simular carga de estadísticas (puedes implementar una ruta específica)
+            setTimeout(() => {
+                document.getElementById('statsContent').innerHTML = `
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>Estadísticas Generales</h6>
+                            <ul>
+                                <li>Usuarios activos hoy: {{ total_vistas_hoy // config.limite_diario + 1 if total_vistas_hoy > 0 else 0 }}</li>
+                                <li>Promedio de anuncios por usuario: {{ "%.1f"|format(total_vistas_hoy / (total_vistas_hoy // config.limite_diario + 1) if total_vistas_hoy > 0 else 0) }}</li>
+                                <li>Tasa de finalización: ~95%</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Proyecciones</h6>
+                            <ul>
+                                <li>Gasto proyectado mensual: ${{ "%.2f"|format(total_recompensas_hoy * 30) }}</li>
+                                <li>ROI estimado: 120-150%</li>
+                                <li>Usuarios nuevos esperados: +5-10/día</li>
+                            </ul>
+                        </div>
+                    </div>
+                `;
+            }, 1500);
+        }
+        
+        function detectarAnomalias() {
+            alert('Función de detección de anomalías en desarrollo.\n\nEsta función analizará:\n- Usuarios con patrones de visualización sospechosos\n- IPs con múltiples cuentas\n- Tiempos de visualización anormales');
+        }
+        
+        function exportarDatos() {
+            alert('Función de exportación en desarrollo.\n\nPermitirá exportar:\n- Reporte de vistas por usuario\n- Estadísticas de rendimiento\n- Datos financieros de anuncios');
+        }
+        
+        // Auto-actualizar estadísticas cada 5 minutos
+        setInterval(() => {
+            location.reload();
+        }, 300000);
+    </script>
+</body>
+</html>

@@ -64,6 +64,7 @@ def init_mongodb():
         'streaming': db['streaming'],
         'soporte': db['soporteMensajes'],
         'freefire': db['diamantes'],
+        'anuncios_vistas': db['anunciosVistas'],
         'fs': gridfs.GridFS(db)
     }
 

@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anuncios Recompensados - KingShop</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .ad-container {
+            background: #f8f9fa;
+            border: 2px dashed #dee2e6;
+            border-radius: 10px;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ad-placeholder {
+            text-align: center;
+            color: #6c757d;
+        }
+        
+        .progress-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: conic-gradient(#28a745 0deg, #dee2e6 0deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            position: relative;
+        }
+        
+        .progress-circle::before {
+            content: '';
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: white;
+            position: absolute;
+        }
+        
+        .progress-text {
+            position: relative;
+            z-index: 1;
+            font-weight: bold;
+            color: #28a745;
+        }
+        
+        .stats-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-watch-ad {
+            background: linear-gradient(45deg, #28a745, #20c997);
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 50px;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-watch-ad:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
+            color: white;
+        }
+        
+        .btn-watch-ad:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+        }
+        
+        .cooldown-timer {
+            font-size: 24px;
+            font-weight: bold;
+            color: #dc3545;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .earning-animation {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            background: rgba(40, 167, 69, 0.95);
+            color: white;
+            padding: 20px 40px;
+            border-radius: 15px;
+            font-size: 24px;
+            font-weight: bold;
+            animation: earnPulse 2s ease-in-out;
+            display: none;
+        }
+        
+        @keyframes earnPulse {
+            0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+            50% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+        
+        .history-table {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .ad-demo {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+            background-size: 400% 400%;
+            animation: gradientShift 3s ease infinite;
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+            border-radius: 10px;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="gradient-bg">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand" href="{{ url_for('pagina_principal') }}">
+                    <i class="fas fa-crown"></i> KingShop
+                </a>
+                <div class="d-flex align-items-center">
+                    <span class="navbar-text me-3">
+                        <i class="fas fa-wallet"></i> ${{ "%.2f"|format(saldo) }}
+                    </span>
+                    {% if foto_id %}
+                        <img src="{{ url_for('foto_perfil', foto_id=foto_id) }}" 
+                             class="rounded-circle me-2" width="32" height="32" alt="Perfil">
+                    {% else %}
+                        <i class="fas fa-user-circle fa-2x me-2"></i>
+                    {% endif %}
+                    <span class="navbar-text">{{ usuario }}</span>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container mt-4">
+            <!-- Estadísticas principales -->
+            <div class="row">
+                <div class="col-md-3 col-sm-6 mb-3">
+                    <div class="stats-card text-center">
+                        <i class="fas fa-eye fa-2x text-primary mb-2"></i>
+                        <h5>Hoy</h5>
+                        <h3 class="text-primary">{{ vistas_hoy }}/{{ 10 }}</h3>
+                        <small>Anuncios vistos</small>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-3">
+                    <div class="stats-card text-center">
+                        <i class="fas fa-coins fa-2x text-warning mb-2"></i>
+                        <h5>Restantes</h5>
+                        <h3 class="text-warning">{{ anuncios_restantes }}</h3>
+                        <small>Anuncios disponibles</small>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-3">
+                    <div class="stats-card text-center">
+                        <i class="fas fa-dollar-sign fa-2x text-success mb-2"></i>
+                        <h5>Por anuncio</h5>
+                        <h3 class="text-success">${{ "%.2f"|format(recompensa) }}</h3>
+                        <small>Recompensa</small>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-3">
+                    <div class="stats-card text-center">
+                        <i class="fas fa-calendar-alt fa-2x text-info mb-2"></i>
+                        <h5>Este mes</h5>
+                        <h3 class="text-info">${{ "%.2f"|format(ganancias_mes) }}</h3>
+                        <small>Ganancias totales</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Área principal del anuncio -->
+            <div class="row">
+                <div class="col-lg-8 mb-4">
+                    <div class="stats-card">
+                        <h4 class="text-center mb-4">
+                            <i class="fas fa-tv"></i> Ver Anuncio Recompensado
+                        </h4>
+                        
+                        <!-- Contenedor del anuncio -->
+                        <div class="ad-container mb-4" id="adContainer">
+                            <div class="ad-placeholder" id="adPlaceholder">
+                                <i class="fas fa-play-circle fa-5x mb-3"></i>
+                                <h5>¡Haz clic en "Ver Anuncio" para comenzar!</h5>
+                                <p>Gana ${{ "%.2f"|format(recompensa) }} por ver un anuncio de {{ tiempo_minimo }} segundos</p>
+                            </div>
+                            
+                            <!-- Anuncio demo (reemplazar con código real de anuncios) -->
+                            <div class="ad-demo d-none" id="adDemo">
+                                <h3><i class="fas fa-gift"></i> ¡Oferta Especial!</h3>
+                                <p>Este es un anuncio de demostración</p>
+                                <p>En un entorno real, aquí iría el código de tu red publicitaria</p>
+                                <small>🎯 Publicidad</small>
+                            </div>
+                        </div>
+
+                        <!-- Temporizador circular -->
+                        <div id="timerSection" class="d-none text-center mb-4">
+                            <div class="progress-circle" id="progressCircle">
+                                <div class="progress-text" id="progressText">{{ tiempo_minimo }}</div>
+                            </div>
+                            <p>Tiempo restante para obtener la recompensa</p>
+                        </div>
+
+                        <!-- Botón para ver anuncio -->
+                        <div class="text-center">
+                            {% if not puede_ver_anuncio %}
+                                <div class="cooldown-timer" id="cooldownTimer">
+                                    Espera {{ tiempo_espera }} segundos
+                                </div>
+                            {% endif %}
+                            
+                            <button class="btn btn-watch-ad" id="watchAdBtn" 
+                                    {% if not puede_ver_anuncio or anuncios_restantes <= 0 %}disabled{% endif %}>
+                                {% if anuncios_restantes <= 0 %}
+                                    <i class="fas fa-times"></i> Límite diario alcanzado
+                                {% elif not puede_ver_anuncio %}
+                                    <i class="fas fa-clock"></i> En espera...
+                                {% else %}
+                                    <i class="fas fa-play"></i> Ver Anuncio (+${{ "%.2f"|format(recompensa) }})
+                                {% endif %}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Panel lateral con información -->
+                <div class="col-lg-4">
+                    <div class="stats-card">
+                        <h5><i class="fas fa-info-circle"></i> Información</h5>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check text-success"></i> Gana ${{ "%.2f"|format(recompensa) }} por anuncio</li>
+                            <li><i class="fas fa-check text-success"></i> Máximo {{ 10 }} anuncios por día</li>
+                            <li><i class="fas fa-check text-success"></i> Mínimo {{ tiempo_minimo }} segundos de vista</li>
+                            <li><i class="fas fa-check text-success"></i> Cooldown de 30 segundos</li>
+                        </ul>
+                    </div>
+
+                    <div class="stats-card">
+                        <h5><i class="fas fa-chart-line"></i> Estadísticas Rápidas</h5>
+                        <div class="row text-center">
+                            <div class="col-6">
+                                <strong>{{ vistas_hoy }}</strong><br>
+                                <small>Hoy</small>
+                            </div>
+                            <div class="col-6">
+                                <strong>${{ "%.2f"|format(vistas_hoy * recompensa) }}</strong><br>
+                                <small>Ganado hoy</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Historial de anuncios vistos -->
+            {% if historial %}
+            <div class="row">
+                <div class="col-12">
+                    <div class="stats-card">
+                        <h5><i class="fas fa-history"></i> Historial Reciente</h5>
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Tiempo Visto</th>
+                                        <th>Recompensa</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for vista in historial[:10] %}
+                                    <tr>
+                                        <td>{{ vista.fecha.strftime('%d/%m/%Y %H:%M') }}</td>
+                                        <td>{{ vista.tiempo_visto }}s</td>
+                                        <td class="text-success">+${{ "%.2f"|format(vista.recompensa) }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Animación de ganancia -->
+    <div class="earning-animation" id="earningAnimation">
+        <i class="fas fa-coins"></i> ¡Has ganado $<span id="earningAmount">0.00</span>!
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let adTimer = null;
+        let countdownTimer = null;
+        let currentTime = 0;
+        let cooldownTime = {{ tiempo_espera if not puede_ver_anuncio else 0 }};
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const watchBtn = document.getElementById('watchAdBtn');
+            const adContainer = document.getElementById('adContainer');
+            const adPlaceholder = document.getElementById('adPlaceholder');
+            const adDemo = document.getElementById('adDemo');
+            const timerSection = document.getElementById('timerSection');
+            const progressCircle = document.getElementById('progressCircle');
+            const progressText = document.getElementById('progressText');
+            const cooldownElement = document.getElementById('cooldownTimer');
+            
+            // Inicializar cooldown si es necesario
+            if (cooldownTime > 0) {
+                startCooldown();
+            }
+            
+            watchBtn.addEventListener('click', function() {
+                if (watchBtn.disabled) return;
+                
+                startAdViewing();
+            });
+            
+            function startCooldown() {
+                if (cooldownTime <= 0) {
+                    enableWatchButton();
+                    return;
+                }
+                
+                cooldownElement.textContent = `Espera ${cooldownTime} segundos`;
+                cooldownTime--;
+                
+                setTimeout(startCooldown, 1000);
+            }
+            
+            function enableWatchButton() {
+                const cooldownElement = document.getElementById('cooldownTimer');
+                if (cooldownElement) {
+                    cooldownElement.style.display = 'none';
+                }
+                
+                watchBtn.disabled = false;
+                watchBtn.innerHTML = '<i class="fas fa-play"></i> Ver Anuncio (+${{ "%.2f"|format(recompensa) }})';
+            }
+            
+            function startAdViewing() {
+                // Deshabilitar botón
+                watchBtn.disabled = true;
+                watchBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Viendo anuncio...';
+                
+                // Mostrar anuncio demo (reemplazar con código real)
+                adPlaceholder.classList.add('d-none');
+                adDemo.classList.remove('d-none');
+                timerSection.classList.remove('d-none');
+                
+                // Iniciar temporizador
+                currentTime = {{ tiempo_minimo }};
+                startTimer();
+            }
+            
+            function startTimer() {
+                if (currentTime <= 0) {
+                    completeAdView();
+                    return;
+                }
+                
+                progressText.textContent = currentTime;
+                
+                // Actualizar círculo de progreso
+                const totalTime = {{ tiempo_minimo }};
+                const progress = ((totalTime - currentTime) / totalTime) * 360;
+                progressCircle.style.background = `conic-gradient(#28a745 ${progress}deg, #dee2e6 ${progress}deg)`;
+                
+                currentTime--;
+                adTimer = setTimeout(startTimer, 1000);
+            }
+            
+            function completeAdView() {
+                // Enviar solicitud al servidor
+                fetch('/ver_anuncio', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        tiempo_visto: {{ tiempo_minimo }},
+                        anuncio_id: 'demo_ad_' + Date.now()
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showEarningAnimation(data.nuevo_saldo);
+                        updateStats(data);
+                        resetAdInterface();
+                        
+                        // Iniciar cooldown para el próximo anuncio
+                        if (data.anuncios_restantes > 0) {
+                            cooldownTime = data.cooldown;
+                            watchBtn.disabled = true;
+                            startCooldown();
+                        } else {
+                            watchBtn.disabled = true;
+                            watchBtn.innerHTML = '<i class="fas fa-times"></i> Límite diario alcanzado';
+                        }
+                    } else {
+                        alert('Error: ' + data.message);
+                        resetAdInterface();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error al procesar el anuncio');
+                    resetAdInterface();
+                });
+            }
+            
+            function showEarningAnimation(newBalance) {
+                const animation = document.getElementById('earningAnimation');
+                const amountSpan = document.getElementById('earningAmount');
+                
+                amountSpan.textContent = '{{ "%.2f"|format(recompensa) }}';
+                animation.style.display = 'block';
+                
+                // Actualizar saldo en la navbar
+                document.querySelector('.navbar-text .fas.fa-wallet').nextSibling.textContent = ' $' + newBalance.toFixed(2);
+                
+                setTimeout(() => {
+                    animation.style.display = 'none';
+                }, 3000);
+            }
+            
+            function updateStats(data) {
+                // Actualizar estadísticas en la página
+                document.querySelector('.col-md-3:nth-child(1) h3').textContent = data.vistas_hoy + '/10';
+                document.querySelector('.col-md-3:nth-child(2) h3').textContent = data.anuncios_restantes;
+                
+                // Actualizar estadísticas del día
+                const todayEarned = data.vistas_hoy * {{ recompensa }};
+                const statsElements = document.querySelectorAll('.stats-card .row .col-6 strong');
+                if (statsElements.length >= 2) {
+                    statsElements[0].textContent = data.vistas_hoy;
+                    statsElements[1].textContent = '$' + todayEarned.toFixed(2);
+                }
+            }
+            
+            function resetAdInterface() {
+                // Ocultar anuncio y timer
+                adDemo.classList.add('d-none');
+                timerSection.classList.add('d-none');
+                adPlaceholder.classList.remove('d-none');
+                
+                // Resetear progreso
+                progressCircle.style.background = 'conic-gradient(#28a745 0deg, #dee2e6 0deg)';
+                progressText.textContent = '{{ tiempo_minimo }}';
+            }
+        });
+        
+        // Prevenir que el usuario cierre la página durante un anuncio
+        window.addEventListener('beforeunload', function(e) {
+            if (adTimer !== null) {
+                e.preventDefault();
+                e.returnValue = '¿Estás seguro de que quieres salir? Perderás la recompensa del anuncio actual.';
+            }
+        });
+    </script>
+</body>
+</html>

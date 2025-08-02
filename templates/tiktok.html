@@ -1,61 +1,269 @@
 <!DOCTYPE html>
 <html lang="es">
 
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Descargar Videos de TikTok</title>
+    <title>Descargar Videos de TikTok</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4520364325008604"
-     crossorigin="anonymous"></script>
-
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4520364325008604" crossorigin="anonymous"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .dark .glass-effect {
+            background: rgba(31, 41, 55, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .tiktok-gradient {
+            background: linear-gradient(45deg, #ff0050, #00f2ea);
+        }
+        
+        .pulse-glow {
+            animation: pulse-glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes pulse-glow {
+            from {
+                box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+            }
+            to {
+                box-shadow: 0 0 30px rgba(59, 130, 246, 0.6);
+            }
+        }
+        
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .shimmer {
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        
+        .input-focus {
+            transition: all 0.3s ease;
+        }
+        
+        .input-focus:focus {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+    </style>
 </head>
 
-
-<body>
- <main class="min-h-screen flex flex-col items-center justify-center bg-gray-50 dark:bg-gray-900 p-4">
-    <div class="regresar absolute top-4 left-4 sm:top-6 sm:left-6 md:top-8 md:left-8 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-4 py-2 rounded-lg shadow-md hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-200 ease-in-out cursor-pointer flex items-center" onclick="volverPagina()">
-        <i class="fas fa-arrow-left mr-2"></i> Regresar
+<body class="gradient-bg min-h-screen">
+    <!-- Animated background particles -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute -top-4 -left-4 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
+        <div class="absolute -top-4 -right-4 w-72 h-72 bg-yellow-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse animation-delay-2000"></div>
+        <div class="absolute -bottom-8 left-20 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse animation-delay-4000"></div>
     </div>
 
-    <div class="container max-w-lg w-full bg-white dark:bg-gray-800 rounded-lg shadow-xl p-8 space-y-6 text-center">
-        <h1 class="text-4xl font-extrabold text-gray-900 dark:text-gray-100 leading-tight mb-6">
-            Descargar<br>Videos de TikTok 🚀
-        </h1>
+    <main class="min-h-screen flex flex-col items-center justify-center p-4 relative z-10">
+        <!-- Back button -->
+        <div class="regresar absolute top-4 left-4 sm:top-6 sm:left-6 md:top-8 md:left-8 glass-effect text-gray-800 dark:text-gray-200 px-6 py-3 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 cursor-pointer flex items-center group" onclick="volverPagina()">
+            <i class="fas fa-arrow-left mr-3 group-hover:-translate-x-1 transition-transform duration-300"></i> 
+            <span class="font-medium">Regresar</span>
+        </div>
 
-        <section class="space-y-6">
-            <article>
-                <form id="download-form" action="/tiktok-download" method="POST" class="space-y-5">
-                    <div class="input-group relative flex items-center w-full">
-                        <div class="icon absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500">
-                            <i class="fa-solid fa-link text-xl"></i>
-                        </div>
-                        <input type="url" name="url" placeholder="Pega el enlace de TikTok aquí" required
-                               class="w-full pl-12 pr-16 py-3 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-lg placeholder-gray-500 dark:placeholder-gray-400">
-                        <button class="youtube-btn absolute right-0 top-0 h-full px-4 py-2 bg-gray-100 dark:bg-gray-600 rounded-r-lg border border-l-0 border-gray-300 dark:border-gray-600 hover:bg-gray-200 dark:hover:bg-gray-500 transition duration-200 ease-in-out flex items-center justify-center">
-                            <img src="https://static.vecteezy.com/system/resources/previews/018/910/704/original/tiktok-logo-tiktok-symbol-tiktok-icon-free-free-vector.jpg" alt="TikTok" class="h-8 w-8 object-contain" />
-                        </button>
-                    </div>
-
-                    <button class="download-btn w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition duration-200 ease-in-out flex items-center justify-center text-lg mt-6">
-                        <i class="fa-solid fa-download mr-3"></i> Descargar Video
-                    </button>
-                </form>
-            </article>
-        </section>
+        <!-- Main container -->
+        <div class="container max-w-md w-full glass-effect rounded-3xl shadow-2xl p-8 space-y-8 text-center floating">
+            <!-- Header -->
+             
+            <div class="space-y-4">
+                <div class="mx-auto w-20 h-20 tiktok-gradient rounded-2xl flex items-center justify-center shadow-lg">
+                    <i class="fab fa-tiktok text-white text-3xl"></i>
+                </div>
+                <h1 class="text-3xl font-black text-gray-900 dark:text-gray-100 leading-tight">
+                    Descarga Videos de
+                    <span class="bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent">TikTok</span>
+                </h1>
+                {% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+    <div id="flash-messages" class="fixed inset-x-0 bottom-4 sm:bottom-6 md:bottom-8 z-50 flex justify-center p-4">
+        <div class="w-full max-w-sm space-y-3">
+            {% for category, message in messages %}
+            {% set is_success = category == 'success' %}
+            {% set is_error = category == 'error' %}
+            
+            <div class="flex items-start p-4 rounded-lg shadow-lg
+                {{ 'bg-green-100 border-l-4 border-green-500 text-green-800' if is_success }}
+                {{ 'bg-red-100 border-l-4 border-red-500 text-red-800' if is_error }}
+                " role="alert">
+                
+                <div class="flex-shrink-0 mr-3">
+                    {% if is_success %}
+                        <svg class="h-6 w-6 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    {% elif is_error %}
+                        <svg class="h-6 w-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    {% endif %}
+                </div>
+                
+                <div class="text-sm font-medium">{{ message }}</div>
+            </div>
+            {% endfor %}
+        </div>
     </div>
-</main>
+{% endif %}
+{% endwith %}
+                <p class="text-gray-600 dark:text-gray-400 font-medium">
+                    Descarga tus videos favoritos de forma rápida y sencilla
+                </p>
+            </div>
+
 
 <script>
-    function volverPagina(){
-        if(document.referrer){
-            window.history.back();
-        } else {
-            window.location.href = "/";
+    document.addEventListener('DOMContentLoaded', function() {
+        const flashMessagesContainer = document.getElementById('flash-messages');
+        if (flashMessagesContainer) {
+            const messages = flashMessagesContainer.querySelectorAll('[role="alert"]');
+            messages.forEach(message => {
+                setTimeout(() => {
+                    message.classList.add('transition-all', 'duration-500', 'opacity-0', 'transform', '-translate-y-4');
+                    setTimeout(() => message.remove(), 500);
+                }, 5000); // El mensaje desaparece después de 5 segundos
+            });
         }
-    }
+    });
 </script>
+            <!-- Form section -->
+            <section class="space-y-6">
+                <article>
+                    <form id="download-form" action="/tiktok-download" method="POST" class="space-y-6">
+                        <!-- URL Input -->
+                        <div class="input-group relative">
+                            <div class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 z-10">
+                                <i class="fa-solid fa-link text-lg"></i>
+                            </div>
+                            <input type="url" 
+                                   name="url" 
+                                   placeholder="Pega aquí tu enlace de TikTok..." 
+                                   required
+                                   class="input-focus w-full pl-12 pr-16 py-4 border-2 border-gray-200 dark:border-gray-600 rounded-2xl shadow-sm focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 bg-white/90 dark:bg-gray-700/90 text-gray-900 dark:text-gray-100 text-base placeholder-gray-500 dark:placeholder-gray-400 font-medium backdrop-blur-sm">
+                            
+                            <!-- TikTok icon button -->
+                            <div class="absolute right-2 top-1/2 transform -translate-y-1/2">
+                                <div class="w-10 h-10 bg-gradient-to-r from-pink-500 to-purple-600 rounded-xl flex items-center justify-center shadow-md">
+                                    <i class="fab fa-tiktok text-white text-sm"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Download button -->
+                        <button type="submit" class="download-btn w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-4 px-8 rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center text-lg group pulse-glow">
+                            <i class="fa-solid fa-download mr-3 group-hover:animate-bounce"></i> 
+                            <span>Descargar Video</span>
+                            <div class="absolute inset-0 shimmer rounded-2xl opacity-0 group-hover:opacity-100"></div>
+                        </button>
+                    </form>
+                </article>
+
+                <!-- Features -->
+                <div class="grid grid-cols-3 gap-4 pt-4">
+                    <div class="text-center space-y-2">
+                        <div class="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-xl flex items-center justify-center mx-auto">
+                            <i class="fas fa-bolt text-green-600 dark:text-green-400"></i>
+                        </div>
+                        <p class="text-xs font-semibold text-gray-700 dark:text-gray-300">Rápido</p>
+                    </div>
+                    <div class="text-center space-y-2">
+                        <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-xl flex items-center justify-center mx-auto">
+                            <i class="fas fa-shield-alt text-blue-600 dark:text-blue-400"></i>
+                        </div>
+                        <p class="text-xs font-semibold text-gray-700 dark:text-gray-300">Seguro</p>
+                    </div>
+                    <div class="text-center space-y-2">
+                        <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-xl flex items-center justify-center mx-auto">
+                            <i class="fas fa-gift text-purple-600 dark:text-purple-400"></i>
+                        </div>
+                        <p class="text-xs font-semibold text-gray-700 dark:text-gray-300">Gratis</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        
+            </p>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('download-form');
+    const input = form.querySelector('input[name="url"]');
+    const button = form.querySelector('.download-btn');
+    const buttonOriginalText = `
+        <i class="fa-solid fa-download mr-3 group-hover:animate-bounce"></i> 
+        <span>Descargar Video</span>
+        <div class="absolute inset-0 shimmer rounded-2xl opacity-0 group-hover:opacity-100"></div>
+    `;
+
+    // Lógica para cambiar el color del input
+    input.addEventListener('input', function() {
+        if (this.value.includes('tiktok.com')) {
+            this.classList.add('border-green-500', 'ring-green-500/20');
+            this.classList.remove('border-gray-200', 'dark:border-gray-600');
+        } else {
+            this.classList.remove('border-green-500', 'ring-green-500/20');
+            this.classList.add('border-gray-200', 'dark:border-gray-600');
+        }
+    });
+
+    // Lógica para manejar el envío del formulario
+    form.addEventListener('submit', function(e) {
+        // Deshabilita el botón y muestra el mensaje de "Procesando..."
+        button.innerHTML = '<i class="fas fa-spinner fa-spin mr-3"></i>Procesando...';
+        button.disabled = true;
+
+        // Después de 5 segundos, revierte el estado del botón
+        // Este es un tiempo suficiente para que el servidor procese la petición
+        // y para que la descarga comience en el navegador.
+        setTimeout(() => {
+            // Habilita el botón y restaura el texto original
+            button.innerHTML = buttonOriginalText;
+            button.disabled = false;
+        }, 5000); // 5000 milisegundos = 5 segundos
+    });
+});
+
+function volverPagina(){
+    if(document.referrer){
+        window.history.back();
+    } else {
+        window.location.href = "/";
+    }
+}
+    </script>
 </body>
 </html>

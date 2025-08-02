@@ -1277,23 +1277,12 @@ def ban():
 
     return render_template('ban.html', razon_ban=razon_ban)
 
-@app.route('/qrcode', methods=['GET', 'POST'])
+@app.route('/qrcode')
 def generate_qrcode():
-    if request.method == 'POST':
-        url = request.form.get('url')
-        if url:
-            try:
-                img = qrcode.make(url)
-                buffer = io.BytesIO()
-                img.save(buffer, format='PNG')
-                buffer.seek(0)
-                return send_file(buffer, mimetype='image/png', as_attachment=True, download_name='qrcode.png')
-            except Exception as e:
-                print(f"Error generando el QR: {e}")
-                return "Error generando el código QR", 500
     return render_template('genqr.html')
 
 # Rutas adicionales
+
 @app.route('/tiktok')
 def tiktok_page():
     return render_template("tiktok.html")
@@ -1302,7 +1291,8 @@ def tiktok_page():
 def tiktok_download():
     video_url = request.form.get('url')
     if not video_url:
-        return "<h1>Error:</h1><p>No se proporcionó una URL de TikTok</p>"
+        flash("Error: No se proporcionó una URL de TikTok.", "error")
+        return redirect(url_for('tiktok_page'))
 
     try:
         api_url = "https://tikwm.com/api"
@@ -1310,7 +1300,9 @@ def tiktok_download():
         data = response.json()
 
         if data["code"] != 0:
-            return f"<h1>Error:</h1><p>{data['msg']}</p>"
+            
+            flash(f"{data['msg']}", "error")
+            return redirect(url_for('tiktok_page'))
 
         video_download_url = data["data"]["play"]
         video_content = requests.get(video_download_url).content
@@ -1323,7 +1315,8 @@ def tiktok_download():
         return send_file(filepath, as_attachment=True)
 
     except Exception as e:
-        return f"<h1>Error:</h1><pre>{str(e)}</pre>"
+        flash(f"Ocurrió un error inesperado: {str(e)}", "error")
+        return redirect(url_for('tiktok_page'))
 
 # Rutas estáticas adicionales
 @app.route("/imgcode")

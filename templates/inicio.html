@@ -1,137 +1,697 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <title>KingShop | Descargas, Seguidores, Cuentas Streaming y Más</title>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Descarga videos de TikTok, YouTube y mucho más, sin marcas de agua. Visita nuestro panel para ganar seguidores, cuentas de streaming y más." />
-  <meta name="keywords" content="descargar videos, TikTok sin marca de agua, seguidores, diamantes Free Fire, cuentas streaming, panel SMM, seguidores baratos, GhostSMM" />
-  <meta name="author" content="Miguel" />
-  <link rel="icon" href="../static/img/MIghost.png" />
+  <head>
+    <title>KingShop | Descargas, Seguidores, Cuentas Streaming y Más</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Descarga videos de TikTok, YouTube y mucho más, sin marcas de agua. Visita nuestro panel para ganar seguidores, cuentas de streaming y más."
+    />
+    <meta
+      name="keywords"
+      content="descargar videos, TikTok sin marca de agua, seguidores, diamantes Free Fire, cuentas streaming, panel SMM, seguidores baratos, GhostSMM"
+    />
+    <meta name="author" content="Miguel" />
+    <link rel="icon" href="../static/img/MIghost.png" />
 
-  <!-- Open Graph / Facebook / WhatsApp -->
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="Descarga videos, gana seguidores, compra cuentas y más | KingShop" />
-  <meta property="og:description" content="Panel completo para descargar contenido, comprar diamantes, seguidores o cuentas de streaming. ¡Todo desde una sola plataforma!" />
-  <meta property="og:image" content="https://ghostsmm.shop/static/img/panel.jpeg" />
-  <meta property="og:url" content="https://ghostsmm.shop/" />
-  <meta property="og:site_name" content="KingShop" />
+    <!-- Open Graph / Facebook / WhatsApp -->
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:title"
+      content="Descarga videos, gana seguidores, compra cuentas y más | KingShop"
+    />
+    <meta
+      property="og:description"
+      content="Panel completo para descargar contenido, comprar diamantes, seguidores o cuentas de streaming. ¡Todo desde una sola plataforma!"
+    />
+    <meta
+      property="og:image"
+      content="https://ghostsmm.shop/static/img/panel.jpeg"
+    />
+    <meta property="og:url" content="https://ghostsmm.shop/" />
+    <meta property="og:site_name" content="KingShop" />
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Descarga videos, gana seguidores, compra cuentas y más | KingShop" />
-  <meta name="twitter:description" content="Panel completo para descargar contenido, comprar diamantes, seguidores o cuentas de streaming. ¡Todo desde una sola plataforma!" />
-  <meta name="twitter:image" content="https://ghostsmm.shop/static/img/MIghost.png" />
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Descarga videos, gana seguidores, compra cuentas y más | KingShop"
+    />
+    <meta
+      name="twitter:description"
+      content="Panel completo para descargar contenido, comprar diamantes, seguidores o cuentas de streaming. ¡Todo desde una sola plataforma!"
+    />
+    <meta
+      name="twitter:image"
+      content="https://ghostsmm.shop/static/img/MIghost.png"
+    />
 
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
 
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
 
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
-</head>
+    <style>
+      * {
+        font-family: "Inter", system-ui, -apple-system, sans-serif;
+      }
 
-<body class="bg-gray-50 dark:bg-gray-900 font-montserrat text-gray-900 dark:text-gray-100 min-h-screen flex flex-col">
+      .code-font {
+        font-family: "JetBrains Mono", "Fira Code", monospace;
+      }
 
-    <header class="bg-white dark:bg-gray-800 shadow-md py-4 px-6 sm:px-8">
-        <h1 class="titulo text-4xl font-extrabold text-blue-600 dark:text-blue-400 text-center">Página de Inicio</h1>
+      .gradient-bg {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+
+      .gradient-text {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .card-hover {
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .card-hover:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      }
+
+      .glass-effect {
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+      }
+
+      .dark .glass-effect {
+        background: rgba(17, 24, 39, 0.7);
+        border: 1px solid rgba(55, 65, 81, 0.3);
+      }
+
+      .floating-animation {
+        animation: float 6s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      .pulse-border {
+        animation: pulse-border 2s infinite;
+      }
+
+      @keyframes pulse-border {
+        0%,
+        100% {
+          border-color: rgb(59, 130, 246);
+        }
+        50% {
+          border-color: rgb(147, 51, 234);
+        }
+      }
+
+      .shimmer {
+        background: linear-gradient(
+          45deg,
+          transparent 35%,
+          rgba(255, 255, 255, 0.2) 50%,
+          transparent 65%
+        );
+        background-size: 200% 100%;
+        animation: shimmer 2s infinite;
+      }
+
+      @keyframes shimmer {
+        0% {
+          background-position: -200% 0;
+        }
+        100% {
+          background-position: 200% 0;
+        }
+      }
+
+      .neon-glow {
+        box-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
+      }
+
+      .dark .neon-glow {
+        box-shadow: 0 0 20px rgba(147, 51, 234, 0.5);
+      }
+    </style>
+  </head>
+
+  <body
+    class="bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-gray-900 dark:via-purple-900 dark:to-slate-900 text-gray-900 dark:text-gray-100 min-h-screen flex flex-col"
+  >
+    <!-- Background Effects -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none">
+      <div
+        class="absolute -top-40 -right-80 w-80 h-80 rounded-full bg-gradient-to-r from-purple-400 to-pink-400 opacity-20 blur-3xl floating-animation"
+      ></div>
+      <div
+        class="absolute -bottom-40 -left-80 w-80 h-80 rounded-full bg-gradient-to-r from-blue-400 to-cyan-400 opacity-20 blur-3xl floating-animation"
+        style="animation-delay: -3s"
+      ></div>
+    </div>
+
+    <header
+      class="relative glass-effect shadow-2xl py-8 px-6 sm:px-8 border-b border-white/20"
+    >
+      <div class="max-w-7xl mx-auto">
+        <h1
+          class="text-5xl sm:text-6xl lg:text-7xl font-black text-center gradient-text mb-4"
+        >
+          GhostSMM
+          <span
+            class="text-2xl sm:text-3xl block mt-2 font-medium text-gray-600 dark:text-gray-300"
+          >
+            Tu tienda digital premium
+          </span>
+        </h1>
+        <div class="flex justify-center mt-6">
+          <div
+            class="flex items-center space-x-4 text-sm text-gray-500 dark:text-gray-400"
+          >
+            <span class="flex items-center">
+              <i class="fas fa-shield-alt mr-2 text-green-500"></i>
+              Seguro y confiable
+            </span>
+            <span class="flex items-center">
+              <i class="fas fa-clock mr-2 text-blue-500"></i>
+              Entrega inmediata
+            </span>
+            <span class="flex items-center">
+              <i class="fas fa-star mr-2 text-yellow-500"></i>
+              Calidad premium
+            </span>
+          </div>
+        </div>
+      </div>
     </header>
 
-    <section class="container flex-grow grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-6 sm:p-8 max-w-7xl mx-auto">
-
-        <article class="post bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden flex flex-col justify-between p-6 transform hover:scale-105 transition-transform duration-300 ease-in-out">
-            <div>
-                <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-3">Efecto máquina de escribir con Python</h2>
-                <p class="text-gray-700 dark:text-gray-300 mb-4">
-                    En este archivo está documentado el paso a paso para lograr este efecto.
-                </p>
-                <div class="flex justify-center mb-4">
-                    <img src="https://th.bing.com/th/id/OIP.KnOS3vOcNhLla8LSZw4TugHaHa?w=174&h=180&c=7&r=0&o=5&pid=1.7" alt="logo de python" class="w-24 h-24 object-contain rounded-md shadow-md" />
-                </div>
-                <p class="text-gray-700 dark:text-gray-300 mb-6">
-                    Solo descarga el siguiente archivo y ábrelo en un editor de código y listo.
-                </p>
+    <main
+      class="container flex-grow grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 p-6 sm:p-8 max-w-7xl mx-auto relative z-10"
+    >
+      <article
+        class="card-hover bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl overflow-hidden flex flex-col justify-between border border-white/20 dark:border-gray-700/50"
+      >
+        <div class="p-8">
+          <div class="flex items-center justify-between mb-6">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100">
+              Efecto Máquina de Escribir
+            </h2>
+            <div
+              class="bg-gradient-to-r from-blue-500 to-purple-500 p-3 rounded-xl"
+            >
+              <i class="fab fa-python text-white text-xl"></i>
             </div>
-            <a class="ab w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-md transition duration-200 ease-in-out shadow-md flex items-center justify-center text-lg mt-auto" href="#" onclick="descargarArchivo(); return false;">
-                <i class="fas fa-download mr-2"></i> Descarga aquí
-            </a>
-        </article>
+          </div>
 
-        <article class="post bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden flex flex-col justify-between p-6 transform hover:scale-105 transition-transform duration-300 ease-in-out">
-            <div>
-                <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-3">Haz una imagen bonita de tu código</h2>
-                <p class="text-gray-700 dark:text-gray-300 mb-4">
-                    ¿Te gustaría hacer bonitas imágenes para redes sociales?
-                </p>
-                <div class="flex justify-center mb-4">
-                    <img src="https://pbs.twimg.com/media/Fm64EHdXoAAauut.jpg" alt="codigo" class="w-48 h-auto object-contain rounded-md shadow-md" />
-                </div>
-                <p class="text-gray-700 dark:text-gray-300 mb-6">
-                    Visita esta página 100% gratis y genera tus imágenes fácil y rápido.
-                </p>
+          <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+            Aprende a crear efectos de texto dinámicos con Python. Tutorial
+            completo paso a paso.
+          </p>
+
+          <div class="flex justify-center mb-6">
+            <div class="relative group">
+              <img
+                src="https://th.bing.com/th/id/OIP.KnOS3vOcNhLla8LSZw4TugHaHa?w=174&h=180&c=7&r=0&o=5&pid=1.7"
+                alt="logo de python"
+                class="w-32 h-32 object-contain rounded-2xl shadow-lg group-hover:scale-110 transition-all duration-300"
+              />
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-blue-500/20 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              ></div>
             </div>
-            <a class="ab w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-md transition duration-200 ease-in-out shadow-md flex items-center justify-center text-lg mt-auto" href="/imgcode">
-                <i class="fas fa-arrow-right mr-2"></i> IR A LA PÁGINA
-            </a>
-        </article>
+          </div>
 
-        <article class="post bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden flex flex-col justify-between p-6 transform hover:scale-105 transition-transform duration-300 ease-in-out">
-            <div>
-                <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-3">Cuentas de streaming</h2>
-                <p class="text-gray-700 dark:text-gray-300 mb-4">
-                    Hola, ¿te interesa ver series o películas, YouTube en segundo plano, poder editar en Canva Pro?
-                </p>
-                <div class="flex justify-center mb-4">
-                    <img src="https://th.bing.com/th/id/R.1db02159be0e0306a80fa8d86adb1e4a?rik=lRtd8KVqd6S0Sw&pid=ImgRaw&r=0" alt="streaming" class="w-48 h-auto object-contain rounded-md shadow-md" />
-                </div>
-                <p class="text-gray-700 dark:text-gray-300 mb-6">
-                    Visita la página para comprar tus cuentas de manera más accesible.
-                </p>
+          <div class="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-4 mb-6">
+            <p class="text-sm text-gray-600 dark:text-gray-300 code-font">
+              <i class="fas fa-code mr-2 text-blue-500"></i>
+              Descarga el archivo .py y ábrelo en tu editor favorito
+            </p>
+          </div>
+        </div>
+
+        <div class="p-8 pt-0">
+          <button
+            onclick="descargarArchivo()"
+            class="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center text-lg group shimmer"
+          >
+            <i class="fas fa-download mr-3 group-hover:animate-bounce"></i>
+            Descargar Tutorial
+          </button>
+        </div>
+      </article>
+
+      <article
+        class="card-hover bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl overflow-hidden flex flex-col justify-between border border-white/20 dark:border-gray-700/50"
+      >
+        <div class="p-8">
+          <div class="flex items-center justify-between mb-6">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100">
+              Generador de Códigos QR
+            </h2>
+            <div
+              class="bg-gradient-to-r from-blue-500 to-purple-500 p-3 rounded-xl"
+            >
+              <i class="fas fa-qrcode text-white text-xl"></i>
             </div>
-            <a class="ab w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-md transition duration-200 ease-in-out shadow-md flex items-center justify-center text-lg mt-auto" href="/streaming">
-                <i class="fas fa-arrow-right mr-2"></i> Ir a la página
-            </a>
-        </article>
+          </div>
 
-        {% for post in posts %}
-        <article class="post bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden flex flex-col justify-between p-6 transform hover:scale-105 transition-transform duration-300 ease-in-out">
-            <div>
-                <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-3">{{ post.titulo }}</h2>
-                <p class="text-gray-700 dark:text-gray-300 mb-4">{{ post.parrafo }}</p>
-                <div class="flex justify-center mb-4">
-                    <img src="{{ post.img }}" alt="{{ post.alt }}" class="w-full h-48 object-cover rounded-md shadow-md" />
-                </div>
-                <p class="text-gray-700 dark:text-gray-300 mb-6">{{ post.descripcion }}</p>
+          <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+            Crea códigos QR personalizados al instante. Perfecto para enlaces.
+          </p>
+
+          <div class="flex justify-center mb-6">
+            <div class="relative group">
+              <div
+                class="w-32 h-32 bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900/50 dark:to-purple-900/50 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-all duration-300"
+              >
+                <i
+                  class="fas fa-qrcode text-6xl text-blue-600 dark:text-blue-400"
+                ></i>
+              </div>
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-blue-500/20 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              ></div>
             </div>
-            <a class="ab w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-md transition duration-200 ease-in-out shadow-md flex items-center justify-center text-lg mt-auto" href="{{ post.enlace_href }}">{{ post.enlace_texto }} <i class="fas fa-arrow-right ml-2"></i></a>
-        </article>
-        {% endfor %}
-    </section>
+          </div>
 
-    <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 py-6 px-4 sm:px-6 text-center mt-auto">
-        <section class="mb-3">
-            <a href="https://wa.me/524661002589?text=Hola%2C%20vengo%20desde%20tu%20página%20web%20y%20quiero%20más%20información"
-               class="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium transition duration-200 ease-in-out text-lg">
-                <i class="fab fa-whatsapp mr-2"></i> Contacto
-            </a>
-        </section>
-        <p class="text-gray-600 dark:text-gray-400 text-sm">&copy; 2025 KingShop. Todos los derechos reservados. 👑</p>
+          <div class="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-4 mb-6">
+            <p class="text-sm text-gray-600 dark:text-gray-300">
+              <i class="fas fa-magic mr-2 text-blue-500"></i>
+              Genera QR personalizados con colores y logos
+            </p>
+          </div>
+        </div>
+
+        <div class="p-8 pt-0">
+          <a
+            href="/qrcode"
+            class="block w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl text-center text-lg group shimmer"
+          >
+            <i class="fas fa-qrcode mr-3 group-hover:animate-pulse"></i>
+            Generar QR
+          </a>
+        </div>
+      </article>
+
+      <article
+        class="card-hover bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl overflow-hidden flex flex-col justify-between border border-white/20 dark:border-gray-700/50"
+      >
+        <div class="p-8">
+          <div class="flex items-center justify-between mb-6">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100">
+              Panel de Seguidores
+            </h2>
+            <div
+              class="bg-gradient-to-r from-pink-500 to-rose-500 p-3 rounded-xl"
+            >
+              <i class="fas fa-users text-white text-xl"></i>
+            </div>
+          </div>
+
+          <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+            ¡Impulsa tu presencia en redes sociales! Gana seguidores reales y
+            engagement auténtico.
+          </p>
+
+          <div class="flex justify-center mb-6">
+            <div class="relative group">
+              <div
+                class="w-full h-48 bg-gradient-to-br from-pink-100 to-rose-100 dark:from-pink-900/50 dark:to-rose-900/50 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-105 transition-all duration-300 overflow-hidden"
+              >
+                <div class="text-center">
+                  <i
+                    class="fas fa-chart-line text-4xl text-pink-600 dark:text-pink-400 mb-3"
+                  ></i>
+                  <div class="flex justify-center space-x-2">
+                    <i class="fab fa-instagram text-2xl text-pink-500"></i>
+                    <i
+                      class="fab fa-tiktok text-2xl text-gray-800 dark:text-white"
+                    ></i>
+                    <i class="fab fa-youtube text-2xl text-red-500"></i>
+                    <i class="fab fa-twitter text-2xl text-blue-400"></i>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-pink-500/20 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              ></div>
+            </div>
+          </div>
+
+          <div class="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-4 mb-6">
+            <p class="text-sm text-gray-600 dark:text-gray-300">
+              <i class="fas fa-rocket mr-2 text-pink-500"></i>
+              Incrementa tus seguidores en todas las redes sociales
+            </p>
+          </div>
+        </div>
+
+        <div class="p-8 pt-0">
+          <a
+            href="/principal"
+            class="block w-full bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-700 hover:to-rose-700 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl text-center text-lg group"
+          >
+            <i
+              class="fas fa-arrow-up mr-3 group-hover:translate-y-[-2px] transition-transform duration-300"
+            ></i>
+            Visitar Panel
+          </a>
+        </div>
+      </article>
+
+      <article
+        class="card-hover bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl overflow-hidden flex flex-col justify-between border border-white/20 dark:border-gray-700/50 md:col-span-2 xl:col-span-1"
+      >
+        <div class="p-8">
+          <div class="flex items-center justify-between mb-6">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100">
+              Descarga TikTok
+            </h2>
+            <div class="bg-gradient-to-r from-gray-800 to-black p-3 rounded-xl">
+              <i class="fab fa-tiktok text-white text-xl"></i>
+            </div>
+          </div>
+
+          <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+            Descarga videos de TikTok sin marca de agua al instante. Rápido,
+            fácil y completamente gratis.
+          </p>
+
+          <div class="flex justify-center mb-6">
+            <div class="relative group">
+              <div
+                class="w-full h-48 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-105 transition-all duration-300 overflow-hidden"
+              >
+                <div class="text-center">
+                  <i
+                    class="fab fa-tiktok text-6xl text-gray-800 dark:text-white mb-4"
+                  ></i>
+                  <div
+                    class="flex items-center justify-center space-x-2 text-sm text-gray-600 dark:text-gray-300"
+                  >
+                    <i class="fas fa-download text-green-500"></i>
+                    <span>Sin marca de agua</span>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-gray-800/20 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              ></div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3 mb-6">
+            <div
+              class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-3 text-center"
+            >
+              <i class="fas fa-zap text-yellow-500 text-xl mb-1"></i>
+              <p class="text-xs text-gray-600 dark:text-gray-300">
+                Descarga rápida
+              </p>
+            </div>
+            <div
+              class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-3 text-center"
+            >
+              <i class="fas fa-hd-video text-blue-500 text-xl mb-1"></i>
+              <p class="text-xs text-gray-600 dark:text-gray-300">
+                Alta calidad
+              </p>
+            </div>
+            <div
+              class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-3 text-center"
+            >
+              <i class="fas fa-shield-alt text-green-500 text-xl mb-1"></i>
+              <p class="text-xs text-gray-600 dark:text-gray-300">
+                100% Seguro
+              </p>
+            </div>
+            <div
+              class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-3 text-center"
+            >
+              <i class="fas fa-mobile-alt text-purple-500 text-xl mb-1"></i>
+              <p class="text-xs text-gray-600 dark:text-gray-300">Móvil y PC</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-8 pt-0">
+          <a
+            href="/tiktok"
+            class="block w-full bg-gradient-to-r from-gray-800 to-black hover:from-gray-900 hover:to-gray-800 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl text-center text-lg group"
+          >
+            <i
+              class="fab fa-tiktok mr-3 group-hover:animate-spin transition-transform duration-300"
+            ></i>
+            Descargar Videos
+          </a>
+        </div>
+      </article>
+      <article
+        class="card-hover bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl overflow-hidden flex flex-col justify-between border border-white/20 dark:border-gray-700/50"
+      >
+        <div class="p-8">
+          <div class="flex items-center justify-between mb-6">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100">
+              Imágenes de Código
+            </h2>
+            <div
+              class="bg-gradient-to-r from-green-500 to-teal-500 p-3 rounded-xl"
+            >
+              <i class="fas fa-image text-white text-xl"></i>
+            </div>
+          </div>
+
+          <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+            Crea hermosas capturas de tu código para redes sociales con estilo
+            profesional.
+          </p>
+
+          <div class="flex justify-center mb-6">
+            <div class="relative group">
+              <img
+                src="https://pbs.twimg.com/media/Fm64EHdXoAAauut.jpg"
+                alt="codigo"
+                class="w-full h-48 object-cover rounded-2xl shadow-lg group-hover:scale-105 transition-all duration-300"
+              />
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-green-500/20 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              ></div>
+            </div>
+          </div>
+
+          <div class="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-4 mb-6">
+            <p class="text-sm text-gray-600 dark:text-gray-300">
+              <i class="fas fa-palette mr-2 text-green-500"></i>
+              Herramienta 100% gratuita con múltiples temas y opciones
+            </p>
+          </div>
+        </div>
+
+        <div class="p-8 pt-0">
+          <a
+            href="/imgcode"
+            class="block w-full bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl text-center text-lg group"
+          >
+            <i
+              class="fas fa-arrow-right mr-3 group-hover:translate-x-1 transition-transform duration-300"
+            ></i>
+            Crear Imágenes
+          </a>
+        </div>
+      </article>
+
+      <article
+        class="card-hover bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl overflow-hidden flex flex-col justify-between border border-white/20 dark:border-gray-700/50 md:col-span-2 xl:col-span-1"
+      >
+        <div class="p-8">
+          <div class="flex items-center justify-between mb-6">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100">
+              Cuentas Premium
+            </h2>
+            <div
+              class="bg-gradient-to-r from-purple-500 to-pink-500 p-3 rounded-xl"
+            >
+              <i class="fas fa-crown text-white text-xl"></i>
+            </div>
+          </div>
+
+          <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+            Accede a Netflix, Disney+, Spotify, Canva Pro y más servicios
+            premium a precios increíbles.
+          </p>
+
+          <div class="flex justify-center mb-6">
+            <div class="relative group">
+              <img
+                src="https://th.bing.com/th/id/R.1db02159be0e0306a80fa8d86adb1e4a?rik=lRtd8KVqd6S0Sw&pid=ImgRaw&r=0"
+                alt="streaming"
+                class="w-full h-48 object-cover rounded-2xl shadow-lg group-hover:scale-105 transition-all duration-300"
+              />
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-purple-500/20 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              ></div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3 mb-6">
+            <div
+              class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-3 text-center"
+            >
+              <i class="fab fa-netflix text-red-500 text-xl mb-1"></i>
+              <p class="text-xs text-gray-600 dark:text-gray-300">Netflix</p>
+            </div>
+            <div
+              class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-3 text-center"
+            >
+              <i class="fab fa-spotify text-green-500 text-xl mb-1"></i>
+              <p class="text-xs text-gray-600 dark:text-gray-300">Spotify</p>
+            </div>
+            <div
+              class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-3 text-center"
+            >
+              <i class="fab fa-youtube text-red-500 text-xl mb-1"></i>
+              <p class="text-xs text-gray-600 dark:text-gray-300">YouTube</p>
+            </div>
+            <div
+              class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-3 text-center"
+            >
+              <i class="fas fa-paint-brush text-purple-500 text-xl mb-1"></i>
+              <p class="text-xs text-gray-600 dark:text-gray-300">Canva Pro</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-8 pt-0">
+          <a
+            href="/streaming"
+            class="block w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl text-center text-lg group"
+          >
+            <i
+              class="fas fa-shopping-cart mr-3 group-hover:scale-110 transition-transform duration-300"
+            ></i>
+            Ver Catálogo
+          </a>
+        </div>
+      </article>
+    </main>
+
+    <footer
+      class="relative glass-effect border-t border-white/20 py-8 px-4 sm:px-6 text-center mt-auto"
+    >
+      <div class="max-w-7xl mx-auto">
+        <div class="mb-6">
+          <a
+            href="https://wa.me/524661002589?text=Hola%2C%20vengo%20desde%20tu%20página%20web%20y%20quiero%20más%20información"
+            class="inline-flex items-center bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-8 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl group neon-glow"
+          >
+            <i
+              class="fab fa-whatsapp mr-3 text-xl group-hover:scale-110 transition-transform duration-300"
+            ></i>
+            Contactar por WhatsApp
+          </a>
+        </div>
+
+        <div class="flex justify-center space-x-6 mb-6">
+          <div class="text-center">
+            <div class="text-2xl font-bold gradient-text">100%</div>
+            <div class="text-xs text-gray-500 dark:text-gray-400">Seguro</div>
+          </div>
+          <div class="text-center">
+            <div class="text-2xl font-bold gradient-text">24/7</div>
+            <div class="text-xs text-gray-500 dark:text-gray-400">Soporte</div>
+          </div>
+          <div class="text-center">
+            <div class="text-2xl font-bold gradient-text">+1K</div>
+            <div class="text-xs text-gray-500 dark:text-gray-400">Clientes</div>
+          </div>
+        </div>
+
+        <p class="text-gray-500 dark:text-gray-400 text-sm">
+          &copy; 2025 KingShop. Todos los derechos reservados.
+          <span class="gradient-text font-semibold"
+            >👑 Hecho con amor en México</span
+          >
+        </p>
+      </div>
     </footer>
 
     <script>
-        function descargarArchivo() {
-            const enlace = document.createElement("a");
-            enlace.href = "/static/tutorial/tutorial.py"; // ajusta la ruta si es necesario
-            enlace.download = "tutorial.py"; // puedes incluir la extensión
-            document.body.appendChild(enlace);
-            enlace.click();
-            document.body.removeChild(enlace);
-        }
+      function descargarArchivo() {
+        const enlace = document.createElement("a");
+        enlace.href = "/static/tutorial/tutorial.py";
+        enlace.download = "tutorial.py";
+        document.body.appendChild(enlace);
+        enlace.click();
+        document.body.removeChild(enlace);
+
+        // Feedback visual
+        const button = event.target.closest("button");
+        const originalText = button.innerHTML;
+        button.innerHTML = '<i class="fas fa-check mr-3"></i>¡Descargado!';
+        button.classList.add("bg-green-500");
+
+        setTimeout(() => {
+          button.innerHTML = originalText;
+          button.classList.remove("bg-green-500");
+        }, 2000);
+      }
+
+      // Dark mode detection and automatic switching
+      if (
+        window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches
+      ) {
+        document.documentElement.classList.add("dark");
+      }
+
+      // Add scroll animations
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -100px 0px",
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = "1";
+            entry.target.style.transform = "translateY(0)";
+          }
+        });
+      }, observerOptions);
+
+      document.querySelectorAll("article").forEach((article) => {
+        article.style.opacity = "0";
+        article.style.transform = "translateY(30px)";
+        article.style.transition = "opacity 0.6s ease, transform 0.6s ease";
+        observer.observe(article);
+      });
     </script>
-</body>
+  </body>
 </html>

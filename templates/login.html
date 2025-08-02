@@ -41,15 +41,67 @@
         <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400">Ingresa a tu cuenta para continuar</p>
     </div>
  <!-- Mostrar mensaje de error o éxito -->
-            {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <div class="flash-message {{ 'success-message' if 'Tu contraseña ha sido restablecida con éxito' in messages[0] else 'error-message' }}">
-                    {% for message in messages %}
-                        {{ message }}
-                    {% endfor %}
-                </div>
-            {% endif %}
-            {% endwith %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+    <div id="flash-messages" class="fixed top-4 right-4 z-50 w-full max-w-sm space-y-3">
+        {% for message in messages %}
+        {% set is_success = 'éxito' in message %}
+        <div class="relative flex items-center p-4 pr-10 rounded-lg shadow-md transition-opacity duration-300 ease-in-out opacity-0 translate-y-2
+            {{ 'bg-green-50 border-l-4 border-green-400 text-green-800' if is_success else 'bg-red-50 border-l-4 border-red-400 text-red-800' }}
+            " role="alert">
+            <div class="flex-shrink-0">
+                {% if is_success %}
+                    <svg class="h-6 w-6 text-green-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                {% else %}
+                    <svg class="h-6 w-6 text-red-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                    </svg>
+                {% endif %}
+            </div>
+            <div class="ml-3 font-medium flex-grow">{{ message }}</div>
+            <button type="button" class="absolute top-2 right-2 text-sm p-1 rounded-full hover:bg-gray-200 transition-colors duration-150" aria-label="Cerrar">
+                <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                </svg>
+            </button>
+        </div>
+        {% endfor %}
+    </div>
+{% endif %}
+{% endwith %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const flashMessages = document.querySelectorAll('#flash-messages > div');
+        flashMessages.forEach((message, index) => {
+            // Animación de entrada
+            setTimeout(() => {
+                message.classList.remove('opacity-0', 'translate-y-2');
+                message.classList.add('opacity-100', 'translate-y-0');
+            }, index * 100);
+
+            // Cierre automático después de 5 segundos
+            setTimeout(() => {
+                message.classList.remove('opacity-100', 'translate-y-0');
+                message.classList.add('opacity-0', 'translate-y-2');
+                // Eliminar del DOM después de la transición
+                setTimeout(() => message.remove(), 300);
+            }, 5000 + (index * 500));
+
+            // Cierre manual al hacer clic en el botón
+            const closeButton = message.querySelector('button');
+            if (closeButton) {
+                closeButton.addEventListener('click', () => {
+                    message.classList.remove('opacity-100', 'translate-y-0');
+                    message.classList.add('opacity-0', 'translate-y-2');
+                    setTimeout(() => message.remove(), 300);
+                });
+            }
+        });
+    });
+</script>
     <!-- Session Status -->
     
    <form method="POST" action="/login" class="space-y-4 sm:space-y-6">

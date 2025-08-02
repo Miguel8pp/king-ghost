@@ -50,13 +50,18 @@ limiter.init_app(app)
 
 
 # Configuración de MongoDB
+
+collections = {}
+
+@app.before_first_request
 def init_mongodb():
+    global collections
     username = quote_plus(os.getenv('MONGO_USERNAME'))
     password = quote_plus(os.getenv('MONGO_PASSWORD'))
     client = MongoClient(f"mongodb+srv://{username}:{password}@cluster0.hx8un.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
-    
+
     db = client['db1']
-    return {
+    collections = {
         'usuarios': db['usuarios'],
         'pedidos': db['Pedidos'],
         'pagos': db['Pagos'],
@@ -67,8 +72,6 @@ def init_mongodb():
         'anuncios_vistas': db['anunciosVistas'],
         'fs': gridfs.GridFS(db)
     }
-
-collections = init_mongodb()
 
 # Configuraciones
 SENDGRID_API_KEY = os.getenv('SENDGRID_API_KEY')

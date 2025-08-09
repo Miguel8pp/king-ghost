@@ -1348,7 +1348,12 @@ def terminos():
 # Manejo de errores
 @app.errorhandler(404)
 def page_not_found(e):
-    return render_template('404.html'), 404
+    usuario = session['usuario']
+    user_data = collections['usuarios'].find_one({'usuario': usuario})
+    foto_id = user_data.get('foto_id')
+    saldo = decimal128_to_float(user_data.get('saldo', 0))
+    
+    return render_template('404.html', usuario=usuario, saldo=saldo, foto_id=foto_id), 404
 
 @app.errorhandler(500)
 def internal_server_error(e):

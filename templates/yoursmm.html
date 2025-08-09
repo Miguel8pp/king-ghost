@@ -58,28 +58,7 @@
             <!-- Content -->
             <div class="p-8 space-y-8">
                 
-              <div class="relative overflow-hidden bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-lg p-3 border border-green-200/50 dark:border-green-700/30 mb-6">
-    <div class="absolute top-0 right-0 w-20 h-20 bg-green-500/5 rounded-full -translate-y-10 translate-x-10"></div>
-    <div class="relative flex items-center justify-between gap-3">
-        <div class="flex items-center space-x-2">
-            <div class="w-10 h-10 bg-gradient-to-br from-green-400 to-emerald-500 rounded-md flex items-center justify-center shadow-sm">
-                <i class="fas fa-wallet text-white text-base"></i>
-            </div>
-            <div>
-                <p class="text-[0.65rem] font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider">Saldo Disponible</p>
-                <p class="text-xl font-bold {% if saldo < 5 %}text-red-600 dark:text-red-400{% else %}text-green-600 dark:text-green-400{% endif %}">
-                    ${{ saldo }}
-                </p>
-            </div>
-        </div>
-        {% if saldo < 5 %}
-        <div class="flex-shrink-0 flex items-center space-x-1.5 bg-red-100 dark:bg-red-900/30 px-2.5 py-1 rounded-md">
-            <i class="fas fa-exclamation-triangle text-red-500 text-xs"></i>
-            <span class="text-xs text-red-600 dark:text-red-400 font-medium">Saldo Bajo</span>
-        </div>
-        {% endif %}
-    </div>
-</div>
+              
 
                 <!-- Search Section -->
                 <div class="relative">

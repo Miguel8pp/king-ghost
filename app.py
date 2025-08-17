@@ -509,12 +509,17 @@ def agregar_orden():
     try:
         categories_response = api.categories()
         services_response = api.services()
-        
-        categories = categories_response.get('categories', []) if isinstance(categories_response, dict) else categories_response or []
+
+        # Procesar respuestas si son diccionarios u otros formatos
+        raw_categories = categories_response.get('categories', []) if isinstance(categories_response, dict) else categories_response or []
         services = services_response.get('services', []) if isinstance(services_response, dict) else services_response or []
-        
-        categories = [c for c in categories if c and isinstance(c, dict)]
+
+        # Asegurarse de que los elementos sean diccionarios válidos
         services = [s for s in services if s and isinstance(s, dict)]
+
+        # Extraer categorías únicas desde los servicios
+        categories = sorted({s.get('category') for s in services if s.get('category')})
+
     except Exception as e:
         print(f"Error obteniendo datos de API: {e}")
         categories, services = [], []
@@ -561,7 +566,7 @@ def agregar_orden():
                         # Actualizar saldo
                         nuevo_saldo = saldo - monto
                         collections['usuarios'].update_one(
-                            {'usuario': usuario}, 
+                            {'usuario': usuario},
                             {'$set': {'saldo': Decimal128(str(nuevo_saldo))}}
                         )
 
@@ -575,7 +580,14 @@ def agregar_orden():
 
         return redirect(url_for('agregar_orden'))
 
-    return render_template('yoursmm.html', usuario=usuario, saldo=saldo, categories=categories, services=services, foto_id=foto_id)
+    return render_template(
+        'yoursmm.html',
+        usuario=usuario,
+        saldo=saldo,
+        categories=categories,
+        services=services,
+        foto_id=foto_id
+    )
 
 @app.route('/pedidos')
 @login_required

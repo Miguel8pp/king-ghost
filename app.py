@@ -31,7 +31,7 @@ from bson.json_util import dumps
 from yoursmm import Api
 import sys
 from functools import wraps
-
+import json
 # Cargar variables de entorno
 load_dotenv()
 
@@ -509,17 +509,12 @@ def agregar_orden():
     try:
         categories_response = api.categories()
         services_response = api.services()
-
-        # Procesar respuestas si son diccionarios u otros formatos
-        raw_categories = categories_response.get('categories', []) if isinstance(categories_response, dict) else categories_response or []
+        
+        categories = categories_response.get('categories', []) if isinstance(categories_response, dict) else categories_response or []
         services = services_response.get('services', []) if isinstance(services_response, dict) else services_response or []
-
-        # Asegurarse de que los elementos sean diccionarios válidos
+        
+        categories = [c for c in categories if c and isinstance(c, dict)]
         services = [s for s in services if s and isinstance(s, dict)]
-
-        # Extraer categorías únicas desde los servicios
-        categories = sorted({s.get('category') for s in services if s.get('category')})
-
     except Exception as e:
         print(f"Error obteniendo datos de API: {e}")
         categories, services = [], []
@@ -566,7 +561,7 @@ def agregar_orden():
                         # Actualizar saldo
                         nuevo_saldo = saldo - monto
                         collections['usuarios'].update_one(
-                            {'usuario': usuario},
+                            {'usuario': usuario}, 
                             {'$set': {'saldo': Decimal128(str(nuevo_saldo))}}
                         )
 
@@ -580,14 +575,7 @@ def agregar_orden():
 
         return redirect(url_for('agregar_orden'))
 
-    return render_template(
-        'yoursmm.html',
-        usuario=usuario,
-        saldo=saldo,
-        categories=categories,
-        services=services,
-        foto_id=foto_id
-    )
+    return render_template('yoursmm.html', usuario=usuario, saldo=saldo, categories=categories, services=services, foto_id=foto_id)
 
 @app.route('/pedidos')
 @login_required
@@ -1346,6 +1334,76 @@ def smmprincipal():
 @app.route("/faq")
 def faq():
     return render_template("faq.html")
+
+
+
+
+@app.route('/buscarXid', methods=['POST'])
+def buscarFF():
+    uid = request.form.get('uid')
+    
+    # Verificar si es una solicitud AJAX (desde JavaScript)
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest' or \
+              request.headers.get('Content-Type') == 'application/json' or \
+              request.is_json
+
+    node_script = os.path.abspath("get_player_data.js")
+    print(f"Ejecutando script Node en: {node_script}")
+
+    try:
+        result = subprocess.run(
+            ['node', node_script, uid],
+            capture_output=True,
+            text=True,
+            encoding='utf-8',
+            timeout=10
+        )
+
+        print("CODE:", result.returncode)
+        print("STDOUT:", result.stdout)
+        print("STDERR:", result.stderr)
+
+        output = (result.stdout or "").strip()
+        if not output:
+            output = (result.stderr or "").strip()
+
+        if not output:
+            error_msg = "⚠️ El script no devolvió ninguna salida."
+            if is_ajax:
+                return jsonify({"success": False, "error": error_msg})
+            return render_template('diamantes.html', error=error_msg, uid=uid)
+
+        try:
+            data = json.loads(output)
+        except json.JSONDecodeError:
+            error_msg = f"❌ La salida no es JSON válido: {output}"
+            if is_ajax:
+                return jsonify({"success": False, "error": error_msg})
+            return render_template('diamantes.html', error=error_msg, uid=uid)
+
+        if 'error' in data:
+            if is_ajax:
+                return jsonify({"success": False, "error": data['error']})
+            return render_template('diamantes.html', error=data['error'], uid=uid)
+
+        # Si llegamos aquí, la búsqueda fue exitosa
+        if is_ajax:
+            return jsonify({"success": True, "data": data})
+        
+        return render_template('diamantes.html', result=data, uid=uid)
+
+    except subprocess.TimeoutExpired:
+        error_msg = "❌ Tiempo de espera agotado. El servidor tardó demasiado en responder."
+        if is_ajax:
+            return jsonify({"success": False, "error": error_msg})
+        return render_template('diamantes.html', error=error_msg, uid=uid)
+        
+    except Exception as e:
+        error_msg = f"❌ Excepción inesperada: {str(e)}"
+        if is_ajax:
+            return jsonify({"success": False, "error": error_msg})
+        return render_template('diamantes.html', error=error_msg, uid=uid)
+    
 
 @app.route("/terminos")
 @login_required

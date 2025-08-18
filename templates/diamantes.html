@@ -4,8 +4,104 @@
 {% block title %}GHOST SMM{% endblock %}
 
 {% block content %} 
+ <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+ <style>
+        /* Animaciones personalizadas para el modal */
+        .modal-enter {
+            animation: modalEnter 0.3s ease-out;
+        }
+        
+        .modal-exit {
+            animation: modalExit 0.2s ease-in;
+        }
+        
+        @keyframes modalEnter {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+        
+        @keyframes modalExit {
+            from {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+            to {
+                opacity: 0;
+                transform: scale(0.95) translateY(-10px);
+            }
+        }
 
-                                            
+        /* Evitar scroll del body cuando el modal está abierto */
+        .modal-open {
+            overflow: hidden;
+        }
+
+        /* Scrollbar personalizado para el modal */
+        .modal-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .modal-scroll::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 3px;
+        }
+        
+        .modal-scroll::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 3px;
+        }
+        
+        .modal-scroll::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        /* Para Firefox */
+        .modal-scroll {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(0, 0, 0, 0.3) rgba(0, 0, 0, 0.1);
+        }/* Scrollbar personalizado para el modal */
+.modal-scroll::-webkit-scrollbar {
+    width: 6px;
+}
+
+.modal-scroll::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+}
+
+.modal-scroll::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
+}
+
+.modal-scroll::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+/* Para Firefox */
+.modal-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.3) rgba(0, 0, 0, 0.1);
+}
+
+/* Evitar scroll del body cuando el modal está abierto */
+.modal-open {
+    overflow: hidden;
+}
+    </style>                                           
                                                             
 
                         <!-- Page Content -->
@@ -77,12 +173,13 @@
 
         
 
-                <div id="notification" class="hidden fixed bottom-4 right-4 z-50 p-4 rounded-lg shadow-lg transition-opacity duration-300 ease-out" role="alert">
-    <div class="flex items-center">
-        <div id="notification-icon" class="mr-3"></div>
-        <p id="notification-message" class="text-sm font-medium"></p>
+      <!-- Notificación -->
+    <div id="notification" class="fixed top-4 right-4 z-60 p-4 rounded-lg shadow-lg transition-all duration-300 transform translate-x-full hidden" role="alert">
+        <div class="flex items-center">
+            <div id="notification-icon" class="mr-3"></div>
+            <p id="notification-message" class="text-sm font-medium"></p>
+        </div>
     </div>
-</div>
 
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
     <section class="diamante-card bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden border border-gray-200 dark:border-gray-700">
@@ -643,46 +740,312 @@
     </section>
 
 
-<div id="popup" class="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center hidden">
-    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-xl w-11/12 md:w-1/2 lg:w-1/3 relative">
-        <button onclick="cerrarPopup()" class="absolute top-3 right-3 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
-            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-        </button>
-        <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">Confirmar Compra</h2>
-        <div class="mb-4">
-            <p class="text-gray-700 dark:text-gray-300">Estás a punto de comprar:</p>
-            <p class="text-lg font-bold text-blue-600 dark:text-blue-400" id="popup-paquete"></p>
-            <p class="text-md font-semibold text-gray-800 dark:text-gray-200">Por un precio de: <span id="popup-precio"></span></p>
-            <p class="text-sm text-gray-600 dark:text-gray-400">Tu saldo disponible: <span id="popup-saldo-disponible" class="font-bold"></span></p>
-            <p id="popup-saldo-warning" class="text-red-500 text-sm mt-2 hidden">¡Saldo insuficiente! Recarga tu cuenta.</p>
-        </div>
+  <!-- POPUP MODAL MEJORADO -->
+    <div id="popup" class="fixed inset-0 z-50 hidden">
+        <!-- Overlay con blur -->
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-all duration-300" onclick="cerrarPopup()"></div>
+        
+        <!-- Container del modal que ocupa toda la pantalla -->
+        <div class="relative w-full h-full flex items-center justify-center p-4">
+            <!-- Modal content con scroll interno -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-2xl max-h-[95vh] flex flex-col modal-enter">
+                
+                <!-- Header fijo del modal -->
+                <div class="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Confirmar Compra</h2>
+                    <button onclick="cerrarPopup()" 
+                            class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
 
-        <div class="mb-4">
-            <label for="nombre" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Nombre Completo</label>
-            <input type="text" id="nombre" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
-        </div>
-        <div class="mb-4">
-            <label for="whatsapp" class="block text-sm font-medium text-gray-700 dark:text-gray-300">WhatsApp</label>
-            <input type="text" id="whatsapp" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
-        </div>
-        <div class="mb-4">
-            <label for="nick" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Nick de Free Fire</label>
-            <input type="text" id="nick" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
-        </div>
-        <div class="mb-6">
-            <label for="idJuego" class="block text-sm font-medium text-gray-700 dark:text-gray-300">ID de Juego (Free Fire)</label>
-            <input type="text" id="idJuego" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
-        </div>
+                <!-- Contenido scrolleable -->
+                <div class="flex-1 overflow-y-auto modal-scroll">
+                    <div class="p-6 space-y-6">
+                        
+                        <!-- Información de la compra -->
+                        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 p-4 rounded-lg border border-blue-200 dark:border-blue-800">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">
+                                <i class="fas fa-shopping-cart mr-2 text-blue-600"></i>
+                                Resumen de Compra
+                            </h3>
+                            <div class="space-y-2">
+                                <p class="text-gray-700 dark:text-gray-300">
+                                    <span class="font-medium">Producto:</span>
+                                    <span id="popup-paquete" class="text-lg font-bold text-blue-600 dark:text-blue-400 ml-2"></span>
+                                </p>
+                                <p class="text-gray-700 dark:text-gray-300">
+                                    <span class="font-medium">Precio:</span>
+                                    <span id="popup-precio" class="font-bold text-green-600 dark:text-green-400 ml-2"></span>
+                                </p>
+                                <p class="text-gray-700 dark:text-gray-300">
+                                    <span class="font-medium">Tu saldo:</span>
+                                    <span id="popup-saldo-disponible" class="font-bold ml-2"></span>
+                                </p>
+                                <div id="popup-saldo-warning" class="hidden bg-red-100 dark:bg-red-900/30 border border-red-300 dark:border-red-700 rounded-md p-3 mt-2">
+                                    <p class="text-red-700 dark:text-red-300 font-medium">
+                                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                                        ¡Saldo insuficiente! Necesitas recargar tu cuenta.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
 
-        <div class="flex justify-end space-x-3">
-            <button type="button" onclick="cerrarPopup()" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600">Cancelar</button>
-            <button type="button" id="confirmar-pedido-btn" onclick="procesarCompra()"
-                    class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                Confirmar Pedido
-            </button>
+                        <!-- Buscador de Free Fire -->
+                        <div class="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 p-4 rounded-lg border border-green-200 dark:border-green-800">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4 flex items-center">
+                                <i class="fas fa-search mr-2 text-green-600"></i>
+                                Buscar Jugador Free Fire
+                            </h3>
+                            
+                            <div class="flex flex-col sm:flex-row gap-3 mb-4">
+                                <input type="text" 
+                                       id="uid-search" 
+                                       placeholder="Ingresa UID del jugador" 
+                                       class="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition">
+                                <button onclick="buscarJugador()" 
+                                        id="buscar-btn"
+                                        class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition disabled:bg-gray-400 disabled:cursor-not-allowed whitespace-nowrap">
+                                    <i class="fas fa-search mr-2"></i>Buscar
+                                </button>
+                            </div>
+                            
+                            <!-- Resultado de búsqueda -->
+                            <div id="resultado-busqueda" class="hidden">
+                                <!-- Éxito -->
+                                <div id="resultado-exito" class="hidden bg-white dark:bg-gray-800 p-4 rounded-lg border-2 border-green-300 dark:border-green-600 shadow-sm">
+                                    <div class="flex items-start">
+                                        <div class="flex-shrink-0">
+                                            <i class="fas fa-check-circle text-green-600 text-xl"></i>
+                                        </div>
+                                        <div class="ml-3 flex-1">
+                                            <p class="text-sm font-semibold text-green-800 dark:text-green-300 mb-2">¡Jugador encontrado!</p>
+                                            <div class="space-y-1 text-sm">
+                                                <p><span class="font-medium text-gray-700 dark:text-gray-300">Nickname:</span> <span id="res-nickname" class="text-gray-900 dark:text-gray-100"></span></p>
+                                                <p><span class="font-medium text-gray-700 dark:text-gray-300">UID:</span> <span id="res-uid" class="text-gray-900 dark:text-gray-100"></span></p>
+                                                <p><span class="font-medium text-gray-700 dark:text-gray-300">Región:</span> <span id="res-region" class="text-gray-900 dark:text-gray-100"></span></p>
+                                            </div>
+                                            <button onclick="usarDatosJugador()" 
+                                                    class="mt-3 px-4 py-2 bg-green-600 text-white text-sm rounded-md hover:bg-green-700 transition">
+                                                <i class="fas fa-arrow-down mr-2"></i>Usar estos datos
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Error -->
+                                <div id="resultado-error" class="hidden bg-red-100 dark:bg-red-900/30 p-4 rounded-lg border border-red-300 dark:border-red-700">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-exclamation-circle text-red-600 mr-2"></i>
+                                        <p class="text-sm text-red-700 dark:text-red-300" id="error-mensaje"></p>
+                                    </div>
+                                </div>
+                                
+                                <!-- Cargando -->
+                                <div id="resultado-cargando" class="hidden bg-blue-100 dark:bg-blue-900/30 p-4 rounded-lg border border-blue-300 dark:border-blue-700">
+                                    <div class="flex items-center">
+                                        <div class="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600 mr-3"></div>
+                                        <p class="text-sm text-blue-700 dark:text-blue-300">Buscando jugador...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Formulario de datos personales -->
+                        <div class="bg-gray-50 dark:bg-gray-700/50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4 flex items-center">
+                                <i class="fas fa-user-edit mr-2 text-gray-600"></i>
+                                Datos del Pedido
+                            </h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="nombre" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                        <i class="fas fa-user mr-1"></i>Nombre Completo
+                                    </label>
+                                    <input type="text" id="nombre" 
+                                           class="w-full px-3 py-3 rounded-lg border border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 dark:bg-gray-700 dark:text-gray-100 transition">
+                                </div>
+                                
+                                <div>
+                                    <label for="whatsapp" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                        <i class="fab fa-whatsapp mr-1"></i>WhatsApp
+                                    </label>
+                                    <input type="text" id="whatsapp" 
+                                           class="w-full px-3 py-3 rounded-lg border border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 dark:bg-gray-700 dark:text-gray-100 transition">
+                                </div>
+                                
+                                <div>
+                                    <label for="nick" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                        <i class="fas fa-gamepad mr-1"></i>Nick de Free Fire
+                                    </label>
+                                    <input type="text" id="nick" 
+                                           class="w-full px-3 py-3 rounded-lg border border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 dark:bg-gray-700 dark:text-gray-100 transition">
+                                </div>
+                                
+                                <div>
+                                    <label for="idJuego" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                        <i class="fas fa-hashtag mr-1"></i>ID de Juego (Free Fire)
+                                    </label>
+                                    <input type="text" id="idJuego" 
+                                           class="w-full px-3 py-3 rounded-lg border border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 dark:bg-gray-700 dark:text-gray-100 transition">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer fijo del modal -->
+                <div class="flex-shrink-0 px-6 py-4 bg-gray-50 dark:bg-gray-700/50 border-t border-gray-200 dark:border-gray-700 rounded-b-xl">
+                    <div class="flex flex-col sm:flex-row justify-end gap-3">
+                        <button type="button" onclick="cerrarPopup()" 
+                                class="px-6 py-3 bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-gray-200 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-500 focus:ring-2 focus:ring-gray-500 transition">
+                            <i class="fas fa-times mr-2"></i>Cancelar
+                        </button>
+                        <button type="button" id="confirmar-pedido-btn" onclick="procesarCompra()"
+                                class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition disabled:bg-gray-400 disabled:cursor-not-allowed disabled:opacity-50">
+                            <i class="fas fa-check-circle mr-2"></i>Confirmar Pedido
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
+
+    <script>
+        // Variables globales para almacenar datos del jugador encontrado
+        let jugadorEncontrado = null;
+
+      
+        // Función para buscar jugador
+      // Función para buscar jugador
+async function buscarJugador() {
+    const uid = document.getElementById('uid-search').value.trim();
+    
+    if (!uid) {
+        mostrarError('Por favor ingresa un UID válido');
+        return;
+    }
+    
+    // Mostrar estado de carga
+    mostrarCargando();
+    
+    try {
+        // Crear FormData para coincidir con lo que espera Python
+        const formData = new FormData();
+        formData.append('uid', uid);
+        
+        const response = await fetch('/buscarXid', {
+            method: 'POST',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest', // Indicar que es AJAX
+            },
+            body: formData
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        
+        if (result.success) {
+            // La búsqueda fue exitosa
+            mostrarResultadoExito(result.data);
+        } else {
+            // Hubo un error en la búsqueda
+            mostrarError(result.error || 'Error desconocido al buscar el jugador');
+        }
+        
+    } catch (error) {
+        console.error('Error en la solicitud:', error);
+        mostrarError('Error al conectar con el servidor. Intenta nuevamente.');
+    }
+}
+
+// Función para mostrar resultado exitoso
+function mostrarResultadoExito(data) {
+    jugadorEncontrado = data;
+    
+    document.getElementById('res-nickname').textContent = data.Nickname || data.nickname || 'No disponible';
+    document.getElementById('res-uid').textContent = data.Uid || data.uid || 'No disponible';
+    document.getElementById('res-region').textContent = data.Region || data.region || 'No disponible';
+    
+    document.getElementById('resultado-busqueda').classList.remove('hidden');
+    document.getElementById('resultado-exito').classList.remove('hidden');
+    document.getElementById('resultado-error').classList.add('hidden');
+    document.getElementById('resultado-cargando').classList.add('hidden');
+}
+
+// Función para mostrar error
+function mostrarError(mensaje) {
+    document.getElementById('error-mensaje').textContent = mensaje;
+    
+    document.getElementById('resultado-busqueda').classList.remove('hidden');
+    document.getElementById('resultado-error').classList.remove('hidden');
+    document.getElementById('resultado-exito').classList.add('hidden');
+    document.getElementById('resultado-cargando').classList.add('hidden');
+}
+
+// Función para mostrar estado de carga
+function mostrarCargando() {
+    document.getElementById('resultado-busqueda').classList.remove('hidden');
+    document.getElementById('resultado-cargando').classList.remove('hidden');
+    document.getElementById('resultado-exito').classList.add('hidden');
+    document.getElementById('resultado-error').classList.add('hidden');
+}
+
+// Función para usar los datos del jugador encontrado
+function usarDatosJugador() {
+    if (jugadorEncontrado) {
+        // Usar diferentes nombres de campo dependiendo de la estructura de datos
+        const nickname = jugadorEncontrado.Nickname || jugadorEncontrado.nickname || '';
+        const uid = jugadorEncontrado.Uid || jugadorEncontrado.uid || '';
+        
+        document.getElementById('nick').value = nickname;
+        document.getElementById('idJuego').value = uid;
+        
+        // Animación visual para confirmar que se usaron los datos
+        const nickInput = document.getElementById('nick');
+        const idInput = document.getElementById('idJuego');
+        
+        [nickInput, idInput].forEach(input => {
+            input.classList.add('ring-2', 'ring-green-500');
+            setTimeout(() => {
+                input.classList.remove('ring-2', 'ring-green-500');
+            }, 2000);
+        });
+        
+        // Mensaje de éxito
+        const mensaje = `✅ Datos del jugador aplicados: ${nickname} (${uid})`;
+        if (typeof showNotification === 'function') {
+            showNotification(mensaje, 'success');
+        }
+    }
+}
+
+     
+
+        // Función para limpiar el formulario
+        function limpiarFormulario() {
+            document.getElementById('nombre').value = '';
+            document.getElementById('whatsapp').value = '';
+            document.getElementById('nick').value = '';
+            document.getElementById('idJuego').value = '';
+            document.getElementById('uid-search').value = '';
+            document.getElementById('resultado-busqueda').classList.add('hidden');
+            jugadorEncontrado = null;
+        }
+
+        // Detectar Enter en el campo de búsqueda
+        document.getElementById('uid-search').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                buscarJugador();
+            }
+        });
+    </script>
 
 <p style="display: none;">Tu saldo actual: <span id="current-saldo">${{ '%.2f'|format(saldo) }}</span> USD</p>
 
@@ -692,36 +1055,37 @@
     let selectedPackage = "";
     let selectedPrice = 0;
 
-    // Función para mostrar la notificación
-    function showNotification(message, type) {
-        const notification = document.getElementById('notification');
-        const notificationMessage = document.getElementById('notification-message');
-        const notificationIcon = document.getElementById('notification-icon');
+     // Función para mostrar notificación
+        function showNotification(message, type) {
+            const notification = document.getElementById('notification');
+            const notificationMessage = document.getElementById('notification-message');
+            const notificationIcon = document.getElementById('notification-icon');
 
-        notificationMessage.textContent = message;
+            notificationMessage.textContent = message;
 
-        // Limpiar clases previas
-        notification.classList.remove('bg-green-500', 'bg-red-500', 'text-white', 'hidden', 'opacity-0');
-        notificationIcon.innerHTML = ''; // Limpiar ícono previo
+            // Limpiar clases previas
+            notification.classList.remove('bg-green-500', 'bg-red-500', 'text-white', 'hidden', 'translate-x-full');
+            notificationIcon.innerHTML = '';
 
-        if (type === 'success') {
-            notification.classList.add('bg-green-500', 'text-white');
-            notificationIcon.innerHTML = '<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>';
-        } else if (type === 'error') {
-            notification.classList.add('bg-red-500', 'text-white');
-            notificationIcon.innerHTML = '<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>';
+            if (type === 'success') {
+                notification.classList.add('bg-green-500', 'text-white');
+                notificationIcon.innerHTML = '<i class="fas fa-check-circle"></i>';
+            } else if (type === 'error') {
+                notification.classList.add('bg-red-500', 'text-white');
+                notificationIcon.innerHTML = '<i class="fas fa-exclamation-circle"></i>';
+            }
+
+            notification.classList.remove('hidden');
+            setTimeout(() => notification.classList.remove('translate-x-full'), 10);
+
+            setTimeout(() => {
+                notification.classList.add('translate-x-full');
+                setTimeout(() => notification.classList.add('hidden'), 300);
+            }, 5000);
         }
 
-        notification.classList.remove('hidden');
-        setTimeout(() => notification.classList.add('opacity-100'), 10); // Ligeramente retrasado para la transición
-        setTimeout(() => {
-            notification.classList.remove('opacity-100');
-            notification.classList.add('opacity-0');
-            setTimeout(() => notification.classList.add('hidden'), 300); // Ocultar después de la transición
-        }, 5000); // Ocultar después de 5 segundos
-    }
 
-
+        
     // Función para abrir el popup de compra
     function comprar(paqueteSeleccionado) {
         // Mapeo de paquetes a precios (DEBE COINCIDIR CON TU PYTHON)
@@ -733,22 +1097,10 @@
             "2180 + 218 Diamantes Bonus": 18.46,
             "4360 + 436 Diamantes Bonus": 37.18,
             "5600 + 560 Diamantes Bonus": 46.15,
-            "Tarjeta Semanal": 1.9, // Asegúrate de que este valor coincida con el Python
-            "Tarjeta Mensual": 9.25 // Asegúrate de que este valor coincida con el Python
+            "Tarjeta Semanal": 1.9, 
+            "Tarjeta Mensual": 9.25 
         };
 
-        // Corrección importante: Los nombres de los paquetes en tu HTML (onclick="comprar(...)")
-        // deben ser EXACTAMENTE los mismos que las claves en el diccionario `precios` en Python.
-        // Revisa tus botones HTML:
-        // Por ejemplo, si tu HTML tiene `onclick="comprar('572 Diamantes')"`,
-        // y en tu Python/JS es "520 + 52 Diamantes Bonus", NO va a coincidir.
-        // DEBEMOS UNIFICAR LOS NOMBRES.
-        // Basado en el HTML que me enviaste, tus `onclick` tienen nombres simplificados como "572 Diamantes".
-        // Voy a ajustar el JavaScript para mapear esos nombres simplificados a los nombres completos del diccionario.
-        // O MEJOR AÚN: CAMBIAMOS LOS NOMBRES EN TU HTML PARA QUE COINCIDAN EXACTAMENTE.
-        // ES MUCHO MÁS SEGURO QUE COINCIDAN DIRECTAMENTE.
-
-        // Mapeo de los nombres simplificados del HTML a los nombres completos del backend
         const paqueteMapping = {
             "572 Diamantes": "520 + 52 Diamantes Bonus",
             "620 Diamantes": "620 + 62 Diamantes Bonus",
@@ -757,8 +1109,8 @@
             "2180 Diamantes": "2180 + 218 Diamantes Bonus",
             "4360 Diamantes": "4360 + 436 Diamantes Bonus",
             "5600 Diamantes": "5600 + 560 Diamantes Bonus",
-            "Tarjeta Semanal": "Tarjeta Semanal", // Asumiendo que este nombre es consistente
-            "Tarjeta Mensual": "Tarjeta Mensual"   // Asumiendo que este nombre es consistente
+            "Tarjeta Semanal": "Tarjeta Semanal", 
+            "Tarjeta Mensual": "Tarjeta Mensual"  
         };
 
         const nombrePaqueteBackend = paqueteMapping[paqueteSeleccionado];
@@ -774,8 +1126,6 @@
         document.getElementById('popup-paquete').textContent = selectedPackage;
         document.getElementById('popup-precio').textContent = `$${selectedPrice.toFixed(2)} USD`; // Formato USD
 
-        // Obtener el saldo del usuario desde el HTML (si lo tienes en un elemento)
-        // Por ejemplo, si tienes un <span id="current-saldo">{{ saldo }}</span> en tu HTML
         const saldoElement = document.getElementById('current-saldo');
         let saldoUsuario = 0;
         if (saldoElement) {
@@ -807,12 +1157,25 @@
 
 
         document.getElementById('popup').classList.remove('hidden');
+            document.body.classList.add('modal-open'); // ← ESTA LÍNEA ES CLAVE
+
     }
 
-    // Función para cerrar el popup
-    function cerrarPopup() {
-        document.getElementById('popup').classList.add('hidden');
-    }
+     function cerrarPopup() {
+            const popup = document.getElementById('popup');
+            const modalContent = popup.querySelector('.modal-enter');
+            
+            modalContent.classList.remove('modal-enter');
+            modalContent.classList.add('modal-exit');
+            
+            setTimeout(() => {
+                popup.classList.add('hidden');
+                modalContent.classList.remove('modal-exit');
+                modalContent.classList.add('modal-enter');
+                document.body.classList.remove('modal-open');
+                limpiarFormulario();
+            }, 200);
+        }
 
     // Función para procesar la compra (llamada desde el botón "Confirmar Pedido" en el popup)
     async function procesarCompra() {
@@ -822,10 +1185,16 @@
         const idJuego = document.getElementById('idJuego').value;
         const usuario = "{{ usuario }}"; // Obtener el usuario desde Flask
 
-        if (!nombre || !whatsapp || !nick || !idJuego || !selectedPackage || !usuario) {
-            showNotification("Por favor, rellena todos los campos del formulario.", "error");
-            return;
-        }
+        if (!nombre || !whatsapp || !nick || !idJuego) {
+                showNotification('Por favor completa todos los campos', 'error');
+                return;
+            }
+            
+            // Simular procesamiento
+            showNotification('¡Compra procesada exitosamente!', 'success');
+            cerrarPopup();
+        
+
 
         const data = {
             nombre: nombre,
@@ -867,6 +1236,31 @@
             showNotification('❌ Error de conexión al servidor.', 'error');
         }
     }
+    
+        function limpiarFormulario() {
+            document.getElementById('nombre').value = '';
+            document.getElementById('whatsapp').value = '';
+            document.getElementById('nick').value = '';
+            document.getElementById('idJuego').value = '';
+            document.getElementById('uid-search').value = '';
+            document.getElementById('resultado-busqueda').classList.add('hidden');
+            jugadorEncontrado = null;
+        }
+
+        // Event listener para Enter en búsqueda
+        document.getElementById('uid-search').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                buscarJugador();
+            }
+        });
+
+        // Cerrar modal con Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && !document.getElementById('popup').classList.contains('hidden')) {
+                cerrarPopup();
+            }
+        });
 </script>
 
         <!-- Alpine Dark Mode Store -->

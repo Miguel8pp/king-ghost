@@ -1341,8 +1341,8 @@ def faq():
 @app.route('/buscarXid', methods=['POST'])
 def buscarFF():
     uid = request.form.get('uid')
-    
-    # Verificar si es una solicitud AJAX (desde JavaScript)
+    region = request.form.get('region', 'br')  # valor por defecto: US
+
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest' or \
               request.headers.get('Content-Type') == 'application/json' or \
               request.is_json
@@ -1352,7 +1352,7 @@ def buscarFF():
 
     try:
         result = subprocess.run(
-            ['node', node_script, uid],
+            ['node', node_script, uid, region],
             capture_output=True,
             text=True,
             encoding='utf-8',
@@ -1389,7 +1389,7 @@ def buscarFF():
         # Si llegamos aquí, la búsqueda fue exitosa
         if is_ajax:
             return jsonify({"success": True, "data": data})
-        
+
         return render_template('diamantes.html', result=data, uid=uid)
 
     except subprocess.TimeoutExpired:
@@ -1397,13 +1397,12 @@ def buscarFF():
         if is_ajax:
             return jsonify({"success": False, "error": error_msg})
         return render_template('diamantes.html', error=error_msg, uid=uid)
-        
+
     except Exception as e:
         error_msg = f"❌ Excepción inesperada: {str(e)}"
         if is_ajax:
             return jsonify({"success": False, "error": error_msg})
         return render_template('diamantes.html', error=error_msg, uid=uid)
-    
 
 @app.route("/terminos")
 @login_required

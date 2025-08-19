@@ -1,12 +1,15 @@
 {
   "name": "buscador",
   "version": "1.0.0",
-  "main": "buscar.js",
+  "main": "get_player_data.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "free-fire-apis": "^0.0.1"
+  }
 }

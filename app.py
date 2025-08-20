@@ -1404,6 +1404,80 @@ def buscarFF():
             return jsonify({"success": False, "error": error_msg})
         return render_template('diamantes.html', error=error_msg, uid=uid)
 
+
+from datetime import datetime
+
+@app.route('/DataXid', methods=['POST'])
+def Data():
+    uid = request.form.get('uid')
+    region = request.form.get('region', 'br')  # valor por defecto: br
+
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest' or \
+              request.headers.get('Content-Type') == 'application/json' or \
+              request.is_json
+
+    node_script = os.path.abspath("get_player_data_id.js")
+    print(f"Ejecutando script Node en: {node_script}")
+
+    try:
+        result = subprocess.run(
+            ['node', node_script, uid, region],
+            capture_output=True,
+            text=True,
+            encoding='utf-8',
+            timeout=10
+        )
+
+        output = (result.stdout or "").strip()
+        if not output:
+            output = (result.stderr or "").strip()
+
+        if not output:
+            error_msg = "⚠️ El script no devolvió ninguna salida."
+            if is_ajax:
+                return jsonify({"success": False, "error": error_msg})
+            return render_template('jugador.html', error=error_msg, uid=uid)
+
+        try:
+            data = json.loads(output)
+        except json.JSONDecodeError:
+            error_msg = f"❌ La salida no es JSON válido: {output}"
+            if is_ajax:
+                return jsonify({"success": False, "error": error_msg})
+            return render_template('jugador.html', error=error_msg, uid=uid)
+
+        if 'error' in data:
+            if is_ajax:
+                return jsonify({"success": False, "error": data['error']})
+            return render_template('jugador.html', error=data['error'], uid=uid)
+
+        # Convertir timestamps a fechas legibles (solo si existen)
+        if 'basicInfo' in data:
+            if 'createAt' in data['basicInfo']:
+                data['basicInfo']['createAtFormatted'] = datetime.utcfromtimestamp(data['basicInfo']['createAt']).strftime('%Y-%m-%d %H:%M:%S UTC')
+            if 'lastLoginAt' in data['basicInfo']:
+                data['basicInfo']['lastLoginAtFormatted'] = datetime.utcfromtimestamp(data['basicInfo']['lastLoginAt']).strftime('%Y-%m-%d %H:%M:%S UTC')
+
+        if is_ajax:
+            return jsonify({"success": True, "data": data})
+
+        return render_template('jugador.html', result=data, uid=uid)
+
+    except subprocess.TimeoutExpired:
+        error_msg = "❌ Tiempo de espera agotado. El servidor tardó demasiado en responder."
+        if is_ajax:
+            return jsonify({"success": False, "error": error_msg})
+        return render_template('jugador.html', error=error_msg, uid=uid)
+
+    except Exception as e:
+        error_msg = f"❌ Excepción inesperada: {str(e)}"
+        if is_ajax:
+            return jsonify({"success": False, "error": error_msg})
+        return render_template('jugador.html', error=error_msg, uid=uid)
+
+
+
+
 @app.route("/terminos")
 @login_required
 def terminos():

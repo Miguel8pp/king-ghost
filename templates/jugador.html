@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Datos de Jugador Free Fire</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 font-sans p-4 min-h-screen flex items-center justify-center">
+
+<div class="container bg-gray-800 p-8 rounded-lg shadow-2xl max-w-2xl w-full border border-gray-700">
+    <h1 class="text-3xl font-bold text-center text-red-500 mb-6 tracking-wide">Buscar Jugador Free Fire</h1>
+
+    <form method="POST" action="/DataXid" class="flex flex-col md:flex-row gap-4 mb-6">
+        <input 
+            type="text" 
+            name="uid" 
+            placeholder="UID" 
+            required 
+            value="{{ uid or '' }}"
+            class="flex-1 bg-gray-700 border border-gray-600 rounded-md py-2 px-4 text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors"
+        >
+        <select 
+            name="region"
+            class="bg-gray-700 border border-gray-600 rounded-md py-2 px-4 text-gray-200 focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors"
+        >
+            <option value="br" {% if region == 'br' %}selected{% endif %}>BR</option>
+            <option value="us" {% if region == 'us' %}selected{% endif %}>US</option>
+            <option value="sg" {% if region == 'sg' %}selected{% endif %}>SG</option>
+        </select>
+        <button 
+            type="submit"
+            class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-md shadow-lg transition-transform transform hover:scale-105"
+        >
+            Buscar
+        </button>
+    </form>
+
+    {% if error %}
+        <div class="bg-red-800 text-red-200 p-4 rounded-md text-center font-semibold mb-6">
+            ❌ {{ error }}
+        </div>
+    {% endif %}
+
+    {% if result %}
+        <div class="space-y-6">
+            <div class="bg-gray-700 p-6 rounded-lg shadow-inner border border-gray-600">
+                <h2 class="text-2xl font-bold text-red-400 mb-4 flex items-center">
+                    <span class="mr-2">👤</span> Información Básica
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="data-item">🆔 <span class="font-semibold">{{ result.basicInfo.accountId }}</span></div>
+                    <div class="data-item">👤 Nickname: <span class="font-semibold">{{ result.basicInfo.nickname }}</span></div>
+                    <div class="data-item">📍 Región: <span class="font-semibold">{{ result.basicInfo.region }}</span></div>
+                    <div class="data-item">🏅 Nivel: <span class="font-semibold">{{ result.basicInfo.level }}</span></div>
+                    <div class="data-item">📈 Experiencia: <span class="font-semibold">{{ result.basicInfo.exp }}</span></div>
+                    <div class="data-item">👍 Likes recibidos: <span class="font-semibold">{{ result.basicInfo.liked }}</span></div>
+                    <div class="data-item">🎖️ Puntos en BR: <span class="font-semibold">{{ result.basicInfo.brRank }}</span></div>
+                    <div class="data-item">📅 Cuenta creada en: <span class="font-semibold">{{ result.basicInfo.createAtFormatted }}</span></div>
+                    <div class="data-item">🕒 Último inicio de sesión: <span class="font-semibold">{{ result.basicInfo.lastLoginAtFormatted }}</span></div>
+                </div>
+            </div>
+
+            {% if result.clanBasicInfo %}
+            <div class="bg-gray-700 p-6 rounded-lg shadow-inner border border-gray-600">
+                <h2 class="text-2xl font-bold text-red-400 mb-4 flex items-center">
+                    <span class="mr-2">🏰</span> Clan
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="data-item">🏷️ Nombre: <span class="font-semibold">{{ result.clanBasicInfo.clanName }}</span></div>
+                    <div class="data-item">🔢 Miembros: <span class="font-semibold">{{ result.clanBasicInfo.memberNum }}/{{ result.clanBasicInfo.capacity }}</span></div>
+                    <div class="data-item">⭐ Nivel del Clan: <span class="font-semibold">{{ result.clanBasicInfo.clanLevel }}</span></div>
+                </div>
+            </div>
+            {% endif %}
+
+            {% if result.captainBasicInfo %}
+            <div class="bg-gray-700 p-6 rounded-lg shadow-inner border border-gray-600">
+                <h2 class="text-2xl font-bold text-red-400 mb-4 flex items-center">
+                    <span class="mr-2">🧑‍✈️</span> Capitán del Clan
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="data-item">👤 Nickname: <span class="font-semibold">{{ result.captainBasicInfo.nickname }}</span></div>
+                    <div class="data-item">🏅 Nivel: <span class="font-semibold">{{ result.captainBasicInfo.level }}</span></div>
+                    <div class="data-item">👍 Likes recibidos: <span class="font-semibold">{{ result.captainBasicInfo.liked }}</span></div>
+                    <div class="data-item">🎖️ Puntos en BR: <span class="font-semibold">{{ result.captainBasicInfo.brRank }}</span></div>
+                </div>
+            </div>
+            {% endif %}
+
+            {% if result.petInfo %}
+            <div class="bg-gray-700 p-6 rounded-lg shadow-inner border border-gray-600">
+                <h2 class="text-2xl font-bold text-red-400 mb-4 flex items-center">
+                    <span class="mr-2">🐾</span> Mascota
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="data-item">🆔 ID: <span class="font-semibold">{{ result.petInfo.id }}</span></div>
+                    <div class="data-item">🏅 Nivel: <span class="font-semibold">{{ result.petInfo.level }}</span></div>
+                    <div class="data-item">✨ Exp: <span class="font-semibold">{{ result.petInfo.exp }}</span></div>
+                </div>
+            </div>
+            {% endif %}
+
+            {% if result.creditScoreInfo %}
+            <div class="bg-gray-700 p-6 rounded-lg shadow-inner border border-gray-600">
+                <h2 class="text-2xl font-bold text-red-400 mb-4 flex items-center">
+                    <span class="mr-2">📊</span> Puntuacion de honor:
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="data-item">✅ Score: <span class="font-semibold">{{ result.creditScoreInfo.creditScore }}</span></div>
+                    <div class="data-item">🎁 Recompensa: <span class="font-semibold">{{ result.creditScoreInfo.rewardState }}</span></div>
+                </div>
+            </div>
+            {% endif %}
+
+            {% if result.socialInfo %}
+            <div class="bg-gray-700 p-6 rounded-lg shadow-inner border border-gray-600">
+                <h2 class="text-2xl font-bold text-red-400 mb-4 flex items-center">
+                    <span class="mr-2">🌐</span> Información Social
+                </h2>
+                <div class="grid grid-cols-1">
+                    <div class="data-item">📃 Descripcion del perfil: <span class="font-semibold">{{ result.socialInfo.signature }}</span></div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>
+
+<style>
+    .data-item {
+        @apply bg-gray-600 p-3 rounded-md shadow-sm border border-gray-500;
+    }
+</style>
+
+</body>
+</html>

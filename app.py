@@ -1405,7 +1405,11 @@ def buscarFF():
         return render_template('diamantes.html', error=error_msg, uid=uid)
 
 
-from datetime import datetime
+@app.route("/DatosFF")
+def FFdats():
+    return render_template("jugador.html")
+
+
 
 @app.route('/DataXid', methods=['POST'])
 def Data():

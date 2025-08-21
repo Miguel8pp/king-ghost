@@ -698,7 +698,7 @@ def streaming():
                              saldo=decimal128_to_float(user_data.get('saldo', 0)),
                              foto_id=user_data.get('foto_id'))
     
-    return render_template('streaming.html', logueado=False)
+    return render_template('streaming.html', logueado=False, saldo=0)
 
 @app.route('/comprar', methods=['POST'])
 @login_required
@@ -785,15 +785,18 @@ def guardar_diamantes():
     try:
         # Precios en USD
         precios = {
-            "520 + 52 Diamantes Bonus": Decimal('4.87'),
-            "620 + 62 Diamantes Bonus": Decimal('5.64'),
-            "830 + 80 Diamantes Bonus": Decimal('7.95'),
-            "1060 + 106 Diamantes Bonus": Decimal('9.74'),
-            "2180 + 218 Diamantes Bonus": Decimal('18.46'),
-            "4360 + 436 Diamantes Bonus": Decimal('37.18'),
-            "5600 + 560 Diamantes Bonus": Decimal('46.15'),
-            "Tarjeta Semanal": Decimal('1.9'),
-            "Tarjeta Mensual": Decimal('9.25')
+         "100 + 10 Diamantes Bonus": Decimal('0.90'),
+         "200 + 20 Diamantes Bonus": Decimal('1.80'),
+         "310 + 32 Diamantes Bonus": Decimal('2.66'),
+         "520 + 52 Diamantes Bonus": Decimal('4.42'),
+         "620 + 62 Diamantes Bonus": Decimal('5.34'),
+         "830 + 80 Diamantes Bonus": Decimal('7.10'),
+         "1060 + 106 Diamantes Bonus": Decimal('9.50'),
+         "2180 + 218 Diamantes Bonus": Decimal('17.00'),
+         "5600 + 560 Diamantes Bonus": Decimal('40.00'),
+         "Tarjeta Semanal": Decimal('1.75'),
+         "Tarjeta Mensual": Decimal('8.00'),
+         "Pase Booyha": Decimal('1.75')
         }
 
         paquete = data.get("paquete")

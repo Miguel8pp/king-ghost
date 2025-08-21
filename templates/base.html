@@ -2,7 +2,7 @@
 <html lang="en" class="h-full">
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="csrf-token" content="0NHWv5SjO5BZ9kADV4o7KWLTBfy9bLT1Eo2GGYFc">
 <title>{% block title %}GHOST SMM{% endblock %}</title>
         <!-- Favicon -->
@@ -35,7 +35,19 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <!-- Scripts -->
-        <link rel="preload" as="style" href="https://socialvirtu.com/build/assets/app-155178dc.css" /><link rel="preload" as="style" href="https://socialvirtu.com/build/assets/app-b6a82ad0.css" /><link rel="modulepreload" href="https://socialvirtu.com/build/assets/app-1bab035d.js" /><link rel="stylesheet" href="https://socialvirtu.com/build/assets/app-155178dc.css" /><link rel="stylesheet" href="https://socialvirtu.com/build/assets/app-b6a82ad0.css" /><script type="module" src="https://socialvirtu.com/build/assets/app-1bab035d.js"></script>
+<!-- PRELOAD opcional -->
+<link rel="preload" as="style" href="{{ url_for('static', filename='build/assets/app-aa52d3e0.css') }}">
+<link rel="preload" as="style" href="{{ url_for('static', filename='build/assets/app-b6a82ad0.css') }}">
+<link rel="modulepreload" href="{{ url_for('static', filename='build/assets/app-1bab035d.js') }}">
+
+<!-- ESTILOS -->
+<link rel="stylesheet" href="{{ url_for('static', filename='build/assets/app-aa52d3e0.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='build/assets/app-b6a82ad0.css') }}">
+
+<!-- SCRIPTS -->
+<script type="module" src="{{ url_for('static', filename='build/assets/app-1bab035d.js') }}"></script>
+
+        <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
         <style>
             @keyframes wave {
                 0%, 100% { transform: translateY(0); }
@@ -45,6 +57,7 @@
                 animation: wave 3s ease-in-out infinite;
             }
         </style>
+
     </head>
     <body class="font-sans antialiased bg-gray-50 dark:bg-gray-900 h-full">
         
@@ -679,6 +692,17 @@
     }
     </script>
 
+
+  <!-- Footer -->
+                <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-auto">
+                    <div class="py-2 px-2 sm:px-3">
+                        <div class="text-center text-sm text-gray-600 dark:text-gray-400">
+                            2025 GhostSMM. All rights reserved.
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
 
         <!-- Alpine Dark Mode Store -->
         <script>

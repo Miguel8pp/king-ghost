@@ -18,7 +18,18 @@
         <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 
         <!-- Scripts -->
-        <link rel="preload" as="style" href="https://socialvirtu.com/build/assets/app-155178dc.css" /><link rel="preload" as="style" href="https://socialvirtu.com/build/assets/app-b6a82ad0.css" /><link rel="modulepreload" href="https://socialvirtu.com/build/assets/app-1bab035d.js" /><link rel="stylesheet" href="https://socialvirtu.com/build/assets/app-155178dc.css" /><link rel="stylesheet" href="https://socialvirtu.com/build/assets/app-b6a82ad0.css" /><script type="module" src="https://socialvirtu.com/build/assets/app-1bab035d.js"></script>    </head>
+ <!-- Scripts -->
+<!-- PRELOAD opcional -->
+<link rel="preload" as="style" href="{{ url_for('static', filename='build/assets/app-aa52d3e0.css') }}">
+<link rel="preload" as="style" href="{{ url_for('static', filename='build/assets/app-b6a82ad0.css') }}">
+<link rel="modulepreload" href="{{ url_for('static', filename='build/assets/app-1bab035d.js') }}">
+
+<!-- ESTILOS -->
+<link rel="stylesheet" href="{{ url_for('static', filename='build/assets/app-aa52d3e0.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='build/assets/app-b6a82ad0.css') }}">
+
+<!-- SCRIPTS -->
+<script type="module" src="{{ url_for('static', filename='build/assets/app-1bab035d.js') }}"></script>
     <body class="font-sans text-gray-900 dark:text-white antialiased">
         <div class="min-h-screen flex flex-col sm:justify-center items-center px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-900 relative">
             <div id="particles-js" class="absolute inset-0 z-0 opacity-50 dark:opacity-100"></div>

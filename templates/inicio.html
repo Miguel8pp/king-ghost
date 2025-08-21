@@ -215,57 +215,82 @@
     <main
       class="container flex-grow grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 p-6 sm:p-8 max-w-7xl mx-auto relative z-10"
     >
-      <article
-        class="card-hover bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl overflow-hidden flex flex-col justify-between border border-white/20 dark:border-gray-700/50"
-      >
-        <div class="p-8">
-          <div class="flex items-center justify-between mb-6">
-            <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100">
-              Efecto Máquina de Escribir
-            </h2>
-            <div
-              class="bg-gradient-to-r from-blue-500 to-purple-500 p-3 rounded-xl"
-            >
-              <i class="fab fa-python text-white text-xl"></i>
+           <article
+            class="card-hover bg-gray-800/80 backdrop-blur-sm rounded-3xl shadow-2xl overflow-hidden flex flex-col justify-between border border-gray-700/50 transition-all duration-300 transform"
+        >
+            <div class="p-8">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-3xl font-bold text-white">
+                        Consigue Likes, Diamantes y Más
+                    </h2>
+                    <div
+                        class="bg-gradient-to-r from-cyan-400 to-sky-600 p-3 rounded-xl shadow-lg"
+                    >
+                        <!-- Icono de fuego, representativo de Free Fire -->
+                        <i class="fas fa-fire text-white text-xl"></i>
+                    </div>
+                </div>
+
+                <p class="text-gray-300 mb-6 leading-relaxed">
+                    Obtén likes gratis para Free Fire, diamantes baratos, seguidores en redes sociales y cuentas premium de streaming.
+                </p>
+
+                <div class="flex justify-center mb-6">
+                    <div class="relative group">
+                        <img
+                            src="https://placehold.co/400x200/222222/a9a9a9?text=Servicios+Digitales"
+                            alt="Servicios Digitales"
+                            class="w-full h-48 object-cover rounded-2xl shadow-lg group-hover:scale-105 transition-all duration-300"
+                            onerror="this.src='https://placehold.co/400x200/222222/a9a9a9?text=Servicios+Digitales';"
+                        />
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-cyan-500/20 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                        ></div>
+                    </div>
+                </div>
+
+                <!-- Íconos de los servicios -->
+                <div class="grid grid-cols-2 gap-3 mb-6">
+                    <div
+                        class="bg-gray-700/50 rounded-lg p-3 text-center transition-all duration-200 hover:bg-cyan-500/20"
+                    >
+                        <i class="fas fa-heart text-red-500 text-xl mb-1"></i>
+                        <p class="text-xs text-gray-300">Likes Free Fire</p>
+                    </div>
+                    <div
+                        class="bg-gray-700/50 rounded-lg p-3 text-center transition-all duration-200 hover:bg-cyan-500/20"
+                    >
+                        <i class="fas fa-gem text-blue-400 text-xl mb-1"></i>
+                        <p class="text-xs text-gray-300">Diamantes</p>
+                    </div>
+                    <div
+                        class="bg-gray-700/50 rounded-lg p-3 text-center transition-all duration-200 hover:bg-cyan-500/20"
+                    >
+                        <i class="fas fa-share-alt text-purple-400 text-xl mb-1"></i>
+                        <p class="text-xs text-gray-300">Redes Sociales</p>
+                    </div>
+                    <div
+                        class="bg-gray-700/50 rounded-lg p-3 text-center transition-all duration-200 hover:bg-cyan-500/20"
+                    >
+                        <i class="fas fa-play-circle text-orange-400 text-xl mb-1"></i>
+                        <p class="text-xs text-gray-300">Streaming</p>
+                    </div>
+                </div>
             </div>
-          </div>
 
-          <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-            Aprende a crear efectos de texto dinámicos con Python. Tutorial
-            completo paso a paso.
-          </p>
-
-          <div class="flex justify-center mb-6">
-            <div class="relative group">
-              <img
-                src="https://th.bing.com/th/id/OIP.KnOS3vOcNhLla8LSZw4TugHaHa?w=174&h=180&c=7&r=0&o=5&pid=1.7"
-                alt="logo de python"
-                class="w-32 h-32 object-contain rounded-2xl shadow-lg group-hover:scale-110 transition-all duration-300"
-              />
-              <div
-                class="absolute inset-0 bg-gradient-to-t from-blue-500/20 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-              ></div>
+            <div class="p-8 pt-0">
+                <a
+                    href="/login"
+                    class="block w-full bg-gradient-to-r from-cyan-500 to-sky-600 hover:from-cyan-600 hover:to-sky-700 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl text-center text-lg group"
+                >
+                    <i
+                        class="fas fa-arrow-right mr-3 group-hover:scale-110 transition-transform duration-300"
+                    ></i>
+                    Acceder Ahora
+                </a>
             </div>
-          </div>
-
-          <div class="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-4 mb-6">
-            <p class="text-sm text-gray-600 dark:text-gray-300 code-font">
-              <i class="fas fa-code mr-2 text-blue-500"></i>
-              Descarga el archivo .py y ábrelo en tu editor favorito
-            </p>
-          </div>
-        </div>
-
-        <div class="p-8 pt-0">
-          <button
-            onclick="descargarArchivo()"
-            class="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center text-lg group shimmer"
-          >
-            <i class="fas fa-download mr-3 group-hover:animate-bounce"></i>
-            Descargar Tutorial
-          </button>
-        </div>
-      </article>
+        </article>
+      
 
 <article
   class="card-hover bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl overflow-hidden flex flex-col justify-between border border-white/20 dark:border-gray-700/50"
@@ -629,80 +654,58 @@
           </a>
         </div>
       </article>
-
-      <article
-        class="card-hover bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl overflow-hidden flex flex-col justify-between border border-white/20 dark:border-gray-700/50 md:col-span-2 xl:col-span-1"
+<article
+        class="card-hover bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl overflow-hidden flex flex-col justify-between border border-white/20 dark:border-gray-700/50"
       >
         <div class="p-8">
           <div class="flex items-center justify-between mb-6">
             <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100">
-              Cuentas Premium
+              Efecto Máquina de Escribir
             </h2>
             <div
-              class="bg-gradient-to-r from-purple-500 to-pink-500 p-3 rounded-xl"
+              class="bg-gradient-to-r from-blue-500 to-purple-500 p-3 rounded-xl"
             >
-              <i class="fas fa-crown text-white text-xl"></i>
+              <i class="fab fa-python text-white text-xl"></i>
             </div>
           </div>
 
           <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-            Accede a Netflix, Disney+, Spotify, Canva Pro y más servicios
-            premium a precios increíbles.
+            Aprende a crear efectos de texto dinámicos con Python. Tutorial
+            completo paso a paso.
           </p>
 
           <div class="flex justify-center mb-6">
             <div class="relative group">
               <img
-                src="https://th.bing.com/th/id/R.1db02159be0e0306a80fa8d86adb1e4a?rik=lRtd8KVqd6S0Sw&pid=ImgRaw&r=0"
-                alt="streaming"
-                class="w-full h-48 object-cover rounded-2xl shadow-lg group-hover:scale-105 transition-all duration-300"
+                src="https://th.bing.com/th/id/OIP.KnOS3vOcNhLla8LSZw4TugHaHa?w=174&h=180&c=7&r=0&o=5&pid=1.7"
+                alt="logo de python"
+                class="w-32 h-32 object-contain rounded-2xl shadow-lg group-hover:scale-110 transition-all duration-300"
               />
               <div
-                class="absolute inset-0 bg-gradient-to-t from-purple-500/20 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                class="absolute inset-0 bg-gradient-to-t from-blue-500/20 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
               ></div>
             </div>
           </div>
 
-          <div class="grid grid-cols-2 gap-3 mb-6">
-            <div
-              class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-3 text-center"
-            >
-              <i class="fab fa-netflix text-red-500 text-xl mb-1"></i>
-              <p class="text-xs text-gray-600 dark:text-gray-300">Netflix</p>
-            </div>
-            <div
-              class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-3 text-center"
-            >
-              <i class="fab fa-spotify text-green-500 text-xl mb-1"></i>
-              <p class="text-xs text-gray-600 dark:text-gray-300">Spotify</p>
-            </div>
-            <div
-              class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-3 text-center"
-            >
-              <i class="fab fa-youtube text-red-500 text-xl mb-1"></i>
-              <p class="text-xs text-gray-600 dark:text-gray-300">YouTube</p>
-            </div>
-            <div
-              class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-3 text-center"
-            >
-              <i class="fas fa-paint-brush text-purple-500 text-xl mb-1"></i>
-              <p class="text-xs text-gray-600 dark:text-gray-300">Canva Pro</p>
-            </div>
+          <div class="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-4 mb-6">
+            <p class="text-sm text-gray-600 dark:text-gray-300 code-font">
+              <i class="fas fa-code mr-2 text-blue-500"></i>
+              Descarga el archivo .py y ábrelo en tu editor favorito
+            </p>
           </div>
         </div>
 
         <div class="p-8 pt-0">
-          <a
-            href="/streaming"
-            class="block w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl text-center text-lg group"
+          <button
+            onclick="descargarArchivo()"
+            class="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center text-lg group shimmer"
           >
-            <i
-              class="fas fa-shopping-cart mr-3 group-hover:scale-110 transition-transform duration-300"
-            ></i>
-            Ver Catálogo
-          </a>
+            <i class="fas fa-download mr-3 group-hover:animate-bounce"></i>
+            Descargar Tutorial
+          </button>
         </div>
       </article>
+
     </main>
  <div class="fixed bottom-4 right-4 z-50 flex flex-col gap-3">
             <!-- WhatsApp Button -->

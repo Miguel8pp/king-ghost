@@ -4,54 +4,108 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Datos de Jugador Free Fire</title>
+    <!-- Use Tailwind CSS for a modern, responsive design -->
     <script src="https://cdn.tailwindcss.com"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+        /* Import a clean, modern font */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom styles to enhance the data display */
+        .data-item {
+            @apply bg-gray-700 p-4 rounded-lg shadow-inner border border-gray-600 flex items-center gap-2;
+        }
     </style>
 </head>
-<body class="bg-gray-900 text-gray-100 font-sans p-4 min-h-screen flex items-center justify-center">
+<body class="bg-gray-900 text-gray-100 p-4 min-h-screen flex items-center justify-center">
 
-<div class="container bg-gray-800 p-8 rounded-lg shadow-2xl max-w-2xl w-full border border-gray-700">
-    <h1 class="text-3xl font-bold text-center text-red-500 mb-6 tracking-wide">Buscar Jugador Free Fire</h1>
+<div class="container bg-gray-800 p-8 rounded-2xl shadow-2xl max-w-2xl w-full border border-gray-700 relative">
+    
+    <!-- Button to go back to the home page -->
+    <a href="/" class="absolute top-4 left-4 text-gray-400 hover:text-red-500 transition-colors duration-300">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12" />
+        </svg>
+    </a>
 
+    <h1 class="text-3xl sm:text-4xl font-extrabold text-center text-red-500 mb-6 tracking-wide">Buscar Jugador Free Fire</h1>
+
+    <!-- Diamond recharge message -->
+    <div class="bg-blue-600 p-3 rounded-lg text-center font-semibold text-sm mb-6 shadow-md border-2 border-blue-500">
+        <p>Recarga diamantes baratos a un bajo costo.
+            <a href="/login" class="text-white hover:underline font-bold ml-1 transition-colors duration-300">¡Recarga aquí!</a>
+        </p>
+    </div>
+
+    <!-- API Parameters Explanation -->
+    <div class="bg-gray-700 p-6 rounded-lg shadow-inner mb-6 border border-gray-600">
+        <h2 class="text-xl font-bold text-red-400 mb-4 flex items-center">
+            <span class="mr-2">ℹ️</span> Parámetros de la Búsqueda
+        </h2>
+        <div class="space-y-4 text-sm text-gray-300">
+            <p>Para buscar los datos de un jugador, necesitas proporcionar la siguiente información.
+            </p>
+            <div class="bg-gray-600 p-4 rounded-lg">
+                <ul class="list-disc list-inside">
+                    <li><strong>UID (ID de Usuario)</strong>: El ID único del jugador. Es un valor numérico.</li>
+                    <li><strong>Región</strong>: El código de la región del jugador.
+                        <ul class="ml-4 mt-2 space-y-1">
+                            <li><span class="font-semibold text-red-300">BR</span>: Incluye Brasil, EE. UU. (US), Norteamérica (NA), y LATAM.</li>
+                            <li><span class="font-semibold text-red-300">SG</span>: Incluye Singapur, ID, ME, VN, TH, CIS, EU, TW, MY, y PK.</li>
+                            <li><span class="font-semibold text-red-300">IND</span>: Exclusivo para India.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Player search form -->
     <form method="POST" action="/DataXid" class="flex flex-col md:flex-row gap-4 mb-6">
         <input 
             type="text" 
             name="uid" 
-            placeholder="UID" 
+            placeholder="UID del Jugador" 
             required 
             value="{{ uid or '' }}"
-            class="flex-1 bg-gray-700 border border-gray-600 rounded-md py-2 px-4 text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors"
+            class="flex-1 bg-gray-700 border border-gray-600 rounded-md py-3 px-5 text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors"
         >
         <select 
             name="region"
-            class="bg-gray-700 border border-gray-600 rounded-md py-2 px-4 text-gray-200 focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors"
+            class="bg-gray-700 border border-gray-600 rounded-md py-3 px-5 text-gray-200 focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors"
         >
             <option value="br" {% if region == 'br' %}selected{% endif %}>BR</option>
             <option value="us" {% if region == 'us' %}selected{% endif %}>US</option>
             <option value="sg" {% if region == 'sg' %}selected{% endif %}>SG</option>
+            <option value="ind" {% if region == 'ind' %}selected{% endif %}>IND</option>
         </select>
         <button 
             type="submit"
-            class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-md shadow-lg transition-transform transform hover:scale-105"
+            class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-md shadow-lg transition-transform transform hover:scale-105"
         >
             Buscar
         </button>
     </form>
 
+    <!-- Error message display -->
     {% if error %}
-        <div class="bg-red-800 text-red-200 p-4 rounded-md text-center font-semibold mb-6">
+        <div class="bg-red-800 text-red-200 p-4 rounded-lg text-center font-semibold mb-6">
             ❌ {{ error }}
         </div>
     {% endif %}
 
+    <!-- Player data results -->
     {% if result %}
         <div class="space-y-6">
+            <!-- Basic Info -->
             <div class="bg-gray-700 p-6 rounded-lg shadow-inner border border-gray-600">
                 <h2 class="text-2xl font-bold text-red-400 mb-4 flex items-center">
                     <span class="mr-2">👤</span> Información Básica
                 </h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="data-item">🆔 <span class="font-semibold">{{ result.basicInfo.accountId }}</span></div>
                     <div class="data-item">👤 Nickname: <span class="font-semibold">{{ result.basicInfo.nickname }}</span></div>
                     <div class="data-item">📍 Región: <span class="font-semibold">{{ result.basicInfo.region }}</span></div>
@@ -64,6 +118,7 @@
                 </div>
             </div>
 
+            <!-- Clan Info -->
             {% if result.clanBasicInfo %}
             <div class="bg-gray-700 p-6 rounded-lg shadow-inner border border-gray-600">
                 <h2 class="text-2xl font-bold text-red-400 mb-4 flex items-center">
@@ -77,6 +132,7 @@
             </div>
             {% endif %}
 
+            <!-- Clan Captain Info -->
             {% if result.captainBasicInfo %}
             <div class="bg-gray-700 p-6 rounded-lg shadow-inner border border-gray-600">
                 <h2 class="text-2xl font-bold text-red-400 mb-4 flex items-center">
@@ -91,6 +147,7 @@
             </div>
             {% endif %}
 
+            <!-- Pet Info -->
             {% if result.petInfo %}
             <div class="bg-gray-700 p-6 rounded-lg shadow-inner border border-gray-600">
                 <h2 class="text-2xl font-bold text-red-400 mb-4 flex items-center">
@@ -104,10 +161,11 @@
             </div>
             {% endif %}
 
+            <!-- Credit Score Info -->
             {% if result.creditScoreInfo %}
             <div class="bg-gray-700 p-6 rounded-lg shadow-inner border border-gray-600">
                 <h2 class="text-2xl font-bold text-red-400 mb-4 flex items-center">
-                    <span class="mr-2">📊</span> Puntuacion de honor:
+                    <span class="mr-2">📊</span> Puntuación de honor
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="data-item">✅ Score: <span class="font-semibold">{{ result.creditScoreInfo.creditScore }}</span></div>
@@ -116,25 +174,35 @@
             </div>
             {% endif %}
 
+            <!-- Social Info -->
             {% if result.socialInfo %}
             <div class="bg-gray-700 p-6 rounded-lg shadow-inner border border-gray-600">
                 <h2 class="text-2xl font-bold text-red-400 mb-4 flex items-center">
                     <span class="mr-2">🌐</span> Información Social
                 </h2>
                 <div class="grid grid-cols-1">
-                    <div class="data-item">📃 Descripcion del perfil: <span class="font-semibold">{{ result.socialInfo.signature }}</span></div>
+                    <div class="data-item">📃 Descripción del perfil: <span class="font-semibold">{{ result.socialInfo.signature }}</span></div>
                 </div>
             </div>
             {% endif %}
         </div>
     {% endif %}
 </div>
-
-<style>
-    .data-item {
-        @apply bg-gray-600 p-3 rounded-md shadow-sm border border-gray-500;
-    }
-</style>
-
+     <!-- WhatsApp Buttons -->
+        <div class="fixed bottom-4 right-4 z-50 flex flex-col gap-3">
+            <!-- WhatsApp Button -->
+                        <a href="https://wa.me/59161383909" 
+               target="_blank"
+               class="bg-[#25D366] text-white rounded-full w-14 h-14 flex items-center justify-center shadow-[4px_4px_10px_rgba(0,0,0,0.5)] hover:shadow-[6px_6px_15px_rgba(0,0,0,0.6)] hover:translate-y-[-2px] transition-all duration-300">
+                <i class="fab fa-whatsapp text-2xl"></i>
+            </a>
+            
+            <!-- WhatsApp Group Button -->
+                        <a href="https://chat.whatsapp.com/GwQ1v3BALQvFRu6qOXY2QD"
+               target="_blank"
+               class="bg-[#25D366] text-white rounded-full w-14 h-14 flex items-center justify-center shadow-[4px_4px_10px_rgba(0,0,0,0.5)] hover:shadow-[6px_6px_15px_rgba(0,0,0,0.6)] hover:translate-y-[-2px] transition-all duration-300">
+                <i class="fas fa-users text-2xl"></i>
+            </a>
+                    </div>
 </body>
 </html>

@@ -1484,6 +1484,86 @@ def Data():
 
 
 
+@app.route('/free')
+@login_required
+def free():
+    usuario = session['usuario']
+    user_data = collections['usuarios'].find_one({'usuario': usuario})
+    foto_id = user_data.get('foto_id')
+    saldo = decimal128_to_float(user_data.get('saldo', 0))
+
+    return render_template('free.html', usuario=usuario, saldo=saldo, foto_id=foto_id)
+
+
+@app.route('/getLikes', methods=['POST'])
+def get_likes():
+    uid = request.form.get('uid')
+
+    if not uid:
+        return jsonify({"success": False, "error": "UID no proporcionado"})
+
+    node_script = os.path.abspath("get_likes.js")
+
+    try:
+        result = subprocess.run(
+            ['node', node_script, uid],
+            capture_output=True,
+            text=True,
+            encoding='utf-8',
+            timeout=60
+        )
+
+        output = result.stdout.strip() or result.stderr.strip()
+        if not output:
+            return jsonify({"success": False, "error": "Sin respuesta del script"})
+
+        data = json.loads(output)
+
+        status = data.get("status", "")
+
+        if status == "success":
+            data["titulo"] = "❤️ LIKES DIARIOS ❤️"
+            data["status_envio"] = "🎉 ¡Likes enviados con éxito!"
+            data["agradecimento"] = "💖 ¡Gracias por usar nuestro sistema! Sigue disfrutando del juego."
+
+            # Traducir likes.limite_diario si es necesario
+            likes = data.get("likes", {})
+            if likes.get("limite_diario") == "❌":
+                likes["limite_diario"] = "❌"
+            elif likes.get("limite_diario") == "✅":
+                likes["limite_diario"] = "✅ vuelve más tarde"
+            data["likes"] = likes
+
+        elif status == "not_found":
+            data["titulo"] = "❌ JUGADOR NO ENCONTRADO ❌"
+            data["mensagem"] = "No fue posible localizar el jugador con el UID proporcionado."
+            data["dicas"] = [
+                "• Verifica que el UID sea correcto.",
+                "• Evita espacios o caracteres extras.",
+                "• Intenta con otro UID si el problema persiste."
+            ]
+
+        elif status == "manutencao":
+            data["titulo"] = "⚠️ SISTEMA EN MANTENIMIENTO ⚠️"
+            data["mensagem"] = "El sistema de likes está temporalmente indisponible."
+            data["dica"] = "⏳ Intenta nuevamente más tarde o contacta con soporte si el problema persiste."
+
+        elif status == "error":
+            data["titulo"] = "❌ ERROR INESPERADO ❌"
+            data["mensagem"] = "Ocurrió un error al procesar tu solicitud."
+            data["detalhes"] = [
+                "• Verifica que el UID proporcionado sea válido.",
+                "• Intenta nuevamente más tarde.",
+                "• Contacta con soporte si el problema persiste."
+            ]
+
+        return jsonify({"success": True, "data": data})
+
+    except subprocess.TimeoutExpired:
+        return jsonify({"success": False, "error": "⏱ Tiempo de espera agotado"})
+    except Exception as e:
+        return jsonify({"success": False, "error": f"⚠️ Error interno: {str(e)}"})
+
 
 @app.route("/terminos")
 @login_required

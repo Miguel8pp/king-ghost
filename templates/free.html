@@ -1,0 +1,301 @@
+     
+          {% extends 'base.html' %}
+
+{% block title %}Garena Free Fire Likes{% endblock %}
+
+{% block content %} 
+    <!-- Incluye Tailwind CSS para los estilos -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Configuración de Tailwind para colores y animaciones personalizadas
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'ff-red': '#f13b2d',
+                        'ff-blue': '#0a6cf6',
+                        'ff-dark': '#0f0f0f',
+                        'ff-dark-card': '#1a1a1a',
+                        'ff-light-gray': '#e5e7eb',
+                        'ff-gray': '#6b7280'
+                    },
+                    boxShadow: {
+                        'glow-orange': '0 0 15px rgba(241, 59, 45, 0.7)',
+                        'glow-blue': '0 0 15px rgba(10, 108, 246, 0.7)',
+                        'glow-card': '0 10px 20px rgba(0, 0, 0, 0.5)',
+                    },
+                    animation: {
+                        'pulse-glow': 'pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'bounce-in': 'bounce-in 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards',
+                    },
+                    keyframes: {
+                        'pulse-glow': {
+                            '0%, 100%': { boxShadow: '0 0 0px rgba(241, 59, 45, 0.7)' },
+                            '50%': { boxShadow: '0 0 10px rgba(241, 59, 45, 0.9)' },
+                        },
+                        'bounce-in': {
+                            '0%': { transform: 'scale(0.5)', opacity: '0' },
+                            '60%': { transform: 'scale(1.1)', opacity: '1' },
+                            '80%': { transform: 'scale(0.95)' },
+                            '100%': { transform: 'scale(1)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Importa una fuente moderna y legible (Inter) -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Estilos para el fondo dinámico */
+        .bg-pattern {
+            background-image: 
+                radial-gradient(circle at 10% 10%, rgba(241, 59, 45, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 90% 90%, rgba(10, 108, 246, 0.15) 0%, transparent 50%),
+                linear-gradient(135deg, #0f0f0f 0%, #000000 100%);
+        }
+
+        /* Estilo para el efecto de "glassmorphism" */
+        .card-glass {
+            background-color: rgba(26, 26, 26, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-ff-dark text-ff-light-gray flex items-center justify-center p-4 bg-pattern">
+    <div class="container mx-auto max-w-lg relative">
+
+        <!-- Encabezado de la página -->
+        <div class="text-center mb-10">
+            <h1 class="text-5xl md:text-6xl font-extrabold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-ff-red to-ff-blue">
+                Free Fire Likes
+            </h1>
+            <p class="text-gray-400 text-lg md:text-xl font-medium">Envía likes a tus amigos, rápido y sin complicaciones.</p>
+        </div>
+
+        <!-- Tarjeta principal de la aplicación -->
+        <div class="card-glass rounded-3xl shadow-glow-card overflow-hidden transition-all duration-300 transform hover:scale-[1.01]">
+            <div class="p-8 md:p-10">
+                <form id="form-like" class="space-y-6">
+                    <div>
+                        <label for="uid" class="block text-sm font-medium text-gray-300">
+                            ID del Jugador
+                        </label>
+                        <div class="relative mt-1">
+                            <input 
+                                type="text" 
+                                id="uid" 
+                                name="uid" 
+                                placeholder="Ingresa el UID del jugador aquí"
+                                class="w-full px-4 py-3 bg-ff-dark border border-gray-700 rounded-xl text-ff-light-gray placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-ff-red focus:border-ff-red transition-all duration-200"
+                                required
+                            >
+                            <div class="absolute inset-y-0 right-0 flex items-center pr-4">
+                                <!-- Icono de usuario -->
+                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button 
+                        type="submit" 
+                        id="submit-btn"
+                        class="w-full bg-gradient-to-r from-ff-red to-ff-blue text-white font-bold py-3 px-6 rounded-xl transform transition-all duration-200 hover:scale-105 hover:shadow-glow-orange focus:outline-none focus:ring-2 focus:ring-ff-red focus:ring-offset-2 focus:ring-offset-ff-dark disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                    >
+                        <span class="flex items-center justify-center gap-2">
+                            <!-- Icono de corazón SVG -->
+                            <svg id="btn-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                            </svg>
+                            <span id="btn-text">Enviar Likes</span>
+                        </span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Sección para mostrar los resultados -->
+        <div id="resultado-container" class="mt-8 transition-all duration-300 hidden opacity-0 transform scale-95">
+            <div class="card-glass rounded-2xl p-6 relative">
+                <div class="flex items-center gap-3 mb-4">
+                    <span id="result-icon-wrapper" class="w-8 h-8 rounded-full flex items-center justify-center animate-bounce-in">
+                        <!-- El icono se inyecta dinámicamente -->
+                    </span>
+                    <h3 id="result-title" class="text-xl font-semibold"></h3>
+                </div>
+                <!-- El contenido se genera dinámicamente -->
+                <div id="result-content" class="text-sm space-y-2 leading-relaxed"></div>
+            </div>
+        </div>
+
+        <!-- Capa de carga (overlay) -->
+        <div id="loading-overlay" class="fixed inset-0 bg-ff-dark/70 backdrop-blur-sm z-50 flex items-center justify-center hidden">
+            <div class="bg-ff-dark-card rounded-2xl p-8 text-center shadow-lg">
+                <!-- Spinner de carga -->
+                <div class="w-16 h-16 border-4 border-ff-red border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                <p class="text-white font-medium text-lg">Enviando likes...</p>
+            </div>
+        </div>
+    </div>
+
+<script>
+    document.getElementById('form-like').addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const uid = document.getElementById('uid').value.trim();
+        if (!uid) {
+            showError("❌ El UID es obligatorio.");
+            return;
+        }
+
+        const submitBtn = document.getElementById('submit-btn');
+        const btnText = document.getElementById('btn-text');
+        const btnIcon = document.getElementById('btn-icon');
+        const loadingOverlay = document.getElementById('loading-overlay');
+        const resultContainer = document.getElementById('resultado-container');
+
+        // Ocultar resultados previos y preparar animación
+        resultContainer.classList.add('hidden', 'opacity-0', 'scale-95');
+
+        // Estado de carga
+        submitBtn.disabled = true;
+        btnText.textContent = 'Enviando...';
+        btnIcon.classList.add('animate-pulse');
+        loadingOverlay.classList.remove('hidden');
+
+        const formData = new FormData();
+        formData.append('uid', uid);
+
+        try {
+            const res = await fetch('/getLikes', {
+                method: 'POST',
+                body: formData
+            });
+
+            const json = await res.json();
+
+            if (json.success) {
+                showSuccess(json.data);
+            } else {
+                showError("Error: " + json.error);
+            }
+        } catch (err) {
+            showError("❌ Error de conexión. Verifica tu conexión a internet.");
+        } finally {
+            // Restaurar estado
+            submitBtn.disabled = false;
+            btnText.textContent = 'Enviar Likes';
+            btnIcon.classList.remove('animate-pulse');
+            loadingOverlay.classList.add('hidden');
+        }
+    });
+
+    function showSuccess(data) {
+        const resultContainer = document.getElementById('resultado-container');
+        const resultTitle = document.getElementById('result-title');
+        const resultIconWrapper = document.getElementById('result-icon-wrapper');
+        const resultContent = document.getElementById('result-content');
+
+        // Manejar casos que no sean éxito
+        if (data.status !== "success") {
+            resultIconWrapper.innerHTML = `
+                <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5A5.4 5.4 0 017.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3A5.4 5.4 0 0122 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
+            `;
+            resultIconWrapper.classList.add('bg-ff-red', 'animate-bounce-in');
+            resultTitle.textContent = data.titulo || "¡Información!";
+
+            resultContent.innerHTML = `
+                <p><strong>Estado:</strong> ${data.status}</p>
+                <p><strong>Mensaje:</strong> ${data.mensagem || ''}</p>
+                ${data.dica ? `<p><em>${data.dica}</em></p>` : ''}
+                ${data.dicas ? '<ul>' + data.dicas.map(d => `<li>${d}</li>`).join('') + '</ul>' : ''}
+                ${data.detalhes ? '<ul>' + data.detalhes.map(d => `<li>${d}</li>`).join('') + '</ul>' : ''}
+            `;
+
+            // Estilos de advertencia
+            resultContainer.querySelector('.card-glass').classList.add('bg-yellow-900/30', 'border-yellow-600/50');
+            resultContent.classList.add('text-yellow-200');
+
+            resultContainer.classList.remove('hidden');
+            setTimeout(() => {
+                resultContainer.classList.remove('opacity-0', 'scale-95');
+            }, 10);
+            resultContainer.scrollIntoView({ behavior: 'smooth' });
+            return;
+        }
+
+        // Caso de éxito
+        resultIconWrapper.innerHTML = `
+            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5A5.4 5.4 0 017.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3A5.4 5.4 0 0122 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+        `;
+        resultIconWrapper.classList.add('bg-ff-red', 'animate-bounce-in');
+        resultTitle.textContent = data.titulo || "🎉 ¡Likes enviados con éxito!";
+
+        resultContent.innerHTML = `
+            <div class="border-l-2 border-ff-red pl-4">
+                <p><strong>Jugador:</strong> ${data.player.nickname}</p>
+                <p><strong>UID:</strong> ${data.player.uid}</p>
+                <p><strong>Región:</strong> ${data.player.region}</p>
+                <p><strong>Nivel:</strong> ${data.player.level}</p>
+                <p><strong>EXP:</strong> ${data.player.exp}</p>
+            </div>
+            <div class="border-l-2 border-ff-blue pl-4">
+                <p><strong>Likes Antes:</strong> ${data.likes.antes}</p>
+                <p><strong>Likes Después:</strong> ${data.likes.depois}</p>
+                <p><strong>Likes Adicionados:</strong> ${data.likes.adicionados}</p>
+                <p><strong>Límite Diario:</strong> ${data.likes.limite_diario}</p>
+            </div>
+            <p class="mt-4 text-center text-gray-400 text-sm italic">${data.agradecimento}</p>
+        `;
+
+        // Restablecer estilos
+        resultContainer.querySelector('.card-glass').classList.remove(
+            'bg-red-900/20', 'border-red-500/50', 'bg-yellow-900/30', 'border-yellow-600/50'
+        );
+        resultContent.classList.remove('text-red-300', 'text-yellow-200');
+
+        resultContainer.classList.remove('hidden');
+        setTimeout(() => {
+            resultContainer.classList.remove('opacity-0', 'scale-95');
+        }, 10);
+        resultContainer.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function showError(message) {
+        const resultContainer = document.getElementById('resultado-container');
+        const resultTitle = document.getElementById('result-title');
+        const resultIconWrapper = document.getElementById('result-icon-wrapper');
+        const resultContent = document.getElementById('result-content');
+
+        resultIconWrapper.innerHTML = `
+            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2a10 10 0 100 20 10 10 0 000-20zM12 18a1.5 1.5 0 110-3 1.5 1.5 0 010 3zM12 16a1 1 0 01-1-1V8a1 1 0 112 0v7a1 1 0 01-1 1z"/>
+            </svg>
+        `;
+        resultIconWrapper.classList.add('bg-red-600', 'animate-bounce-in');
+        resultTitle.textContent = "¡Error!";
+        resultContent.innerHTML = `<p class="text-red-300 font-medium">${message}</p>`;
+
+        resultContainer.querySelector('.card-glass').classList.remove('bg-yellow-900/30', 'border-yellow-600/50');
+        resultContainer.querySelector('.card-glass').classList.add('bg-red-900/20', 'border-red-500/50');
+
+        resultContainer.classList.remove('hidden');
+        setTimeout(() => {
+            resultContainer.classList.remove('opacity-0', 'scale-95');
+        }, 10);
+        resultContainer.scrollIntoView({ behavior: 'smooth' });
+    }
+</script>
+
+         {% endblock %}

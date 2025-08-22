@@ -510,11 +510,25 @@ def agregar_orden():
         categories_response = api.categories()
         services_response = api.services()
         
-        categories = categories_response.get('categories', []) if isinstance(categories_response, dict) else categories_response or []
-        services = services_response.get('services', []) if isinstance(services_response, dict) else services_response or []
+        # Procesar categorías correctamente
+        if isinstance(categories_response, list):
+            # Si categories_response es una lista de strings
+            if categories_response and isinstance(categories_response[0], str):
+                categories = [{'id': cat, 'name': cat} for cat in categories_response]
+            # Si categories_response es una lista de objetos
+            elif categories_response and isinstance(categories_response[0], dict):
+                categories = categories_response
+            else:
+                categories = []
+        else:
+            categories = []
         
-        categories = [c for c in categories if c and isinstance(c, dict)]
-        services = [s for s in services if s and isinstance(s, dict)]
+        services = services_response if isinstance(services_response, list) else []
+        services = [s for s in services if isinstance(s, dict)]
+        
+        print("CATEGORÍAS ENVIADAS AL FRONT:", categories)
+        print("SERVICIOS ENVIADOS AL FRONT:", services[:3])
+
     except Exception as e:
         print(f"Error obteniendo datos de API: {e}")
         categories, services = [], []
@@ -576,6 +590,7 @@ def agregar_orden():
         return redirect(url_for('agregar_orden'))
 
     return render_template('yoursmm.html', usuario=usuario, saldo=saldo, categories=categories, services=services, foto_id=foto_id)
+
 
 @app.route('/pedidos')
 @login_required

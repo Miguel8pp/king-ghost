@@ -1,23 +1,20 @@
- {% extends 'base.html' %}
+{% extends 'base.html' %}
 
 {% block title %}GHOST SMM{% endblock %}
 
-{% block content %}    
+{% block content %}
 
-                                            
-                                                            
+<main class="py-6 px-4 sm:px-6 bg-gray-50 dark:bg-gray-900">
 
-                        <!-- Page Content -->
-                        <main class="py-6 px-4 sm:px-6 bg-gray-50 dark:bg-gray-900">
-                            
-                                                
-                                                            <div x-data="{ show: true }" x-show="show" x-transition
-                                     class="bg-orange-500 text-white p-4 text-sm font-semibold rounded-lg mb-6 shadow animate-wave flex items-center justify-between gap-4">
-                                    <p class="flex-grow">💥 Si tienes algun problema con tu pedido no olvides contactarnos por whatsapp 🟢 </p>
-                                    <button @click="show = false" class="flex-shrink-0 text-white hover:text-opacity-75">
-                                        <i class="fas fa-times"></i>
-                                    </button>
-                                </div>
+    <!-- Alerta inicial -->
+    <div x-data="{ show: true }" x-show="show" x-transition
+         class="bg-orange-500 text-white p-4 text-sm font-semibold rounded-lg mb-6 shadow animate-wave flex items-center justify-between gap-4">
+        <p class="flex-grow">💥 Si tienes algún problema con tu pedido no olvides contactarnos por WhatsApp 🟢</p>
+        <button @click="show = false" class="flex-shrink-0 text-white hover:text-opacity-75">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+
     <!-- Flash Messages -->
     <div class="max-w-4xl mx-auto mb-6">
         {% with messages = get_flashed_messages(with_categories=true) %}
@@ -36,65 +33,62 @@
         {% endwith %}
     </div>
 
-    <!-- Main Container -->
+    <!-- Contenedor Principal -->
     <div class="max-w-4xl mx-auto">
         <div class="bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl shadow-2xl overflow-hidden border border-gray-200/50 dark:border-gray-700/50">
-            
-            <!-- Header -->
-  <div class="bg-gradient-to-r from-emerald-500 to-green-600 
-            dark:from-emerald-700 dark:to-green-800 p-8">
-    <div class="flex items-center space-x-4">
-        <div class="w-16 h-16 bg-white/40 dark:bg-gray-700/30 rounded-2xl 
-                    flex items-center justify-center backdrop-blur-sm">
-            <i class="fas fa-rocket text-green-800 dark:text-white text-2xl"></i>
-        </div>
-        <div>
-            <h1 class="text-green-900 dark:text-white text-3xl font-bold">Nueva Orden</h1>
-            <p class="text-green-700 dark:text-green-300 mt-1">Crea tu pedido de redes sociales</p>
-        </div>
-    </div>
-</div>
 
-            <!-- Content -->
+            <!-- Encabezado -->
+            <div class="bg-gradient-to-r from-emerald-500 to-green-600 dark:from-emerald-700 dark:to-green-800 p-8">
+                <div class="flex items-center space-x-4">
+                    <div class="w-16 h-16 bg-white/40 dark:bg-gray-700/30 rounded-2xl flex items-center justify-center backdrop-blur-sm">
+                        <i class="fas fa-rocket text-green-800 dark:text-white text-2xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-green-900 dark:text-white text-3xl font-bold">Nueva Orden</h1>
+                        <p class="text-green-700 dark:text-green-300 mt-1">Crea tu pedido de redes sociales</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contenido -->
             <div class="p-8 space-y-8">
-                
-              
 
-                <!-- Search Section -->
+                <!-- Búsqueda por ID -->
                 <div class="relative">
                     <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
                         <i class="fas fa-search mr-2 text-blue-500"></i>Búsqueda Rápida por ID
                     </label>
-                    <div class="relative">
-                        <input type="text" id="search-id" placeholder="Buscar por ID de servicio" onkeyup="buscarPorID()"
-                               class="w-full px-4 py-4 pl-12 border-2 border-gray-200 dark:border-gray-600 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 transition-all duration-200">
-                        
-                    </div>
+                    <input type="text" id="search-id" placeholder="Buscar por ID de servicio" onkeyup="buscarPorID()"
+                           class="w-full px-4 py-4 pl-12 border-2 border-gray-200 dark:border-gray-600 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 transition-all duration-200">
                 </div>
 
-                <!-- Order Form -->
+                <!-- Formulario -->
                 <form method="POST" id="order-form" class="space-y-6">
-                    
-                    <!-- Category Selection -->
-                    <div class="form-group">
-                        <label for="category-select" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
-                            <i class="fas fa-layer-group mr-2 text-purple-500"></i>Categoría
-                        </label>
-                        <div class="relative">
-                            <select id="category-select" name="category" onchange="updateServices()"
-                                    class="w-full px-4 py-4 border-2 border-gray-200 dark:border-gray-600 rounded-xl shadow-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 appearance-none cursor-pointer transition-all duration-200">
-                                <option value="">Selecciona una categoría</option>
-                                {% for category in categories %}
-                                    <option value="{{ category }}">{{ category }}</option>
-                                {% endfor %}
-                            </select>
-                            <div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
-                                <i class="fas fa-chevron-down text-gray-400"></i>
-                            </div>
-                        </div>
-                    </div>
 
-                    <!-- Service Selection -->
+                  <!-- Selección de categoría -->
+<div class="form-group">
+    <label for="category-select" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
+        <i class="fas fa-layer-group mr-2 text-purple-500"></i>Categoría
+    </label>
+    <div class="relative">
+        <select id="category-select" name="category" onchange="updateServices()"
+                class="w-full px-4 py-4 border-2 border-gray-200 dark:border-gray-600 rounded-xl shadow-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 appearance-none cursor-pointer transition-all duration-200">
+            <option value="">Selecciona una categoría</option>
+            {% for category in categories %}
+                {% if category is string %}
+                    <option value="{{ category }}">{{ category }}</option>
+                {% else %}
+                    <option value="{{ category.id }}">{{ category.name }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+        <div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
+            <i class="fas fa-chevron-down text-gray-400"></i>
+        </div>
+    </div>
+</div>
+
+                    <!-- Selección de servicio -->
                     <div class="form-group">
                         <label for="service-select" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
                             <i class="fas fa-cogs mr-2 text-indigo-500"></i>Servicio
@@ -110,9 +104,8 @@
                         </div>
                     </div>
 
-                    <!-- Quantity and Link Row -->
+                    <!-- Cantidad y Enlace -->
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        <!-- Quantity -->
                         <div class="form-group">
                             <label for="quantity" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
                                 <i class="fas fa-hashtag mr-2 text-green-500"></i>Cantidad
@@ -125,7 +118,6 @@
                             </div>
                         </div>
 
-                        <!-- Link -->
                         <div class="form-group">
                             <label for="service-link" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
                                 <i class="fas fa-link mr-2 text-cyan-500"></i>Enlace del Servicio
@@ -135,43 +127,41 @@
                         </div>
                     </div>
 
-              <!-- Price Information -->
-<div class="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-2xl p-6 border border-gray-200 dark:border-gray-700">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- Price per 1000 -->
-        <div>
-            <label for="price-display" class="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2">
-                <i class="fas fa-dollar-sign mr-2 text-yellow-400"></i>Precio por 1000
-            </label>
-            <input type="text" id="price-display" name="price" readonly
-                   class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-mono cursor-not-allowed">
-        </div>
+                    <!-- Precios -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-2xl p-6 border border-gray-200 dark:border-gray-700">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="price-display" class="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2">
+                                    <i class="fas fa-dollar-sign mr-2 text-yellow-400"></i>Precio por 1000
+                                </label>
+                                                            <input type="text" id="price-display" name="price" readonly
+                                       class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-mono cursor-not-allowed">
+                            </div>
 
-        <!-- Total Price -->
-        <div class="flex items-end">
-            <div class="w-full">
-                <label class="text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2 block">
-                    <i class="fas fa-calculator mr-2 text-orange-400"></i>Total a Pagar
-                </label>
-                <div class="bg-gray-50 dark:bg-gray-800 rounded-xl p-4 border border-blue-300 dark:border-blue-700 shadow-inner">
-                    <p class="text-3xl font-bold text-blue-600 dark:text-blue-400 font-mono" id="total-price">$0.0000000</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+                            <div class="flex items-end">
+                                <div class="w-full">
+                                    <label class="text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2 block">
+                                        <i class="fas fa-calculator mr-2 text-orange-400"></i>Total a Pagar
+                                    </label>
+                                    <div class="bg-gray-50 dark:bg-gray-800 rounded-xl p-4 border border-blue-300 dark:border-blue-700 shadow-inner">
+                                        <p class="text-3xl font-bold text-blue-600 dark:text-blue-400 font-mono" id="total-price">$0.0000000</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-<!-- Submit Button -->
-<div class="pt-6">
-    <button type="submit" class="relative w-full bg-gradient-to-r from-blue-600 to-purple-700 hover:from-blue-700 hover:to-purple-800 text-white font-bold py-5 px-8 rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-1 overflow-hidden">
-        <div class="relative z-10 flex items-center justify-center space-x-3">
-            <i class="fas fa-rocket text-2xl group-hover:scale-110 transition-transform duration-300"></i>
-            <span class="text-lg">Realizar Pedido</span>
-            <i class="fas fa-paper-plane group-hover:translate-x-1 transition-transform duration-300"></i>
-        </div>
-        <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 z-0"></div>
-    </button>
-</div>
+                    <!-- Botón de envío -->
+                    <div class="pt-6">
+                        <button type="submit" class="relative w-full bg-gradient-to-r from-blue-600 to-purple-700 hover:from-blue-700 hover:to-purple-800 text-white font-bold py-5 px-8 rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-1 overflow-hidden">
+                            <div class="relative z-10 flex items-center justify-center space-x-3">
+                                <i class="fas fa-rocket text-2xl group-hover:scale-110 transition-transform duration-300"></i>
+                                <span class="text-lg">Realizar Pedido</span>
+                                <i class="fas fa-paper-plane group-hover:translate-x-1 transition-transform duration-300"></i>
+                            </div>
+                            <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 z-0"></div>
+                        </button>
+                    </div>
 
                 </form>
             </div>
@@ -179,6 +169,7 @@
     </div>
 </main>
 
+<!-- Scripts -->
 <script>
     const categories = {{ categories | tojson }};
     const services = {{ services | tojson }};
@@ -230,4 +221,4 @@
     }
 </script>
 
-         {% endblock %}
+{% endblock %}

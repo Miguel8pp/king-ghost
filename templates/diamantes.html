@@ -114,6 +114,14 @@
                                         <i class="fas fa-times"></i>
                                     </button>
                                 </div>
+                                    <div x-data="{ show: true }" x-show="show" x-transition
+         class="bg-orange-500 text-white p-2 text-sm font-semibold rounded-lg mb-2 shadow animate-wave flex items-center justify-between gap-2">
+        <p class="flex-grow">🎉 ¡Tu primera recarga en Free Fire en nuestra web puede salirte a mitad de precio!
+        Pregunta por WhatsApp si tu ID es válido para la promoción 🔥</p>
+        <button @click="show = false" class="flex-shrink-0 text-white hover:text-opacity-75">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
 {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
         <div class="max-w-4xl mx-auto mb-6 space-y-3">

@@ -3,59 +3,146 @@
 {% block title %}GHOST SMM{% endblock %}
 
 {% block content %}
+<!-- Page Content -->
+<main class="py-2 px-2 sm:px-3 bg-gray-50 dark:bg-gray-900">
+    
+    <div x-data="{ show: true }" x-show="show" x-transition
+         class="bg-orange-500 text-white p-2 text-sm font-semibold rounded-lg mb-2 shadow animate-wave flex items-center justify-between gap-2">
+        <p class="flex-grow">🎉 ¡Tu primera recarga en Free Fire en nuestra web puede salirte a mitad de precio!
+        Pregunta por WhatsApp si tu ID es válido para la promoción 🔥</p>
+        <button @click="show = false" class="flex-shrink-0 text-white hover:text-opacity-75">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+      <div x-data="{ show: true }" x-show="show" x-transition
+         class="bg-orange-500 text-white p-2 text-sm font-semibold rounded-lg mb-2 shadow animate-wave flex items-center justify-between gap-2">
+        <p class="flex-grow">Para acreditar tu saldo deves mandar el comprobante por whatsapp</p>
+        <button @click="show = false" class="flex-shrink-0 text-white hover:text-opacity-75">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    
+    <div class="py-3 sm:py-12 bg-gray-50 dark:bg-gray-900">
+        <div class="w-full mx-auto px-1 sm:px-6 lg:px-8">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg">
+                <div class="p-2 sm:p-6 text-gray-900 dark:text-gray-200">
+                    
+                    <!-- Amount Input -->
+                    <div class="mb-6">
+                        <label for="amount" class="block text-sm font-medium text-gray-900 dark:text-gray-200">Monto a agregar (USD)</label>
+                        <div class="mt-1 relative rounded-md shadow-sm">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <span class="text-gray-600 dark:text-gray-400 sm:text-sm">$</span>
+                            </div>
+                            <input type="number" name="amount" id="amount" 
+                                class="pl-7 block w-full rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm focus:border-blue-500 dark:focus:border-blue-400 focus:ring-blue-500 dark:focus:ring-blue-400"
+                                placeholder="10"
+                                step="1"
+                                min="1"
+                                max="1000">
+                        </div>
+                    </div>
 
-<main class="sm:pl-64 flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900 p-4 sm:p-6 lg:p-8">
-    <div class="max-w-xl mx-auto w-full bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 space-y-6 sm:p-8">
+                    <!-- Payment Method Selection -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-900 dark:text-gray-200 mb-3">Método de pago</label>
+                        <div class="mt-2 grid grid-cols-1 md:grid-cols-2 gap-3">
+                            
+                            <!-- PAYPAL -->
+                            <button type="button" id="paypalBtn" class="relative flex items-start p-4 border border-gray-200 dark:border-gray-600 rounded-lg cursor-pointer hover:border-blue-500 dark:hover:border-blue-400 transition-colors duration-200">
+                                <div class="ml-3 flex flex-row items-center flex-grow gap-2">
+                                    <div class="flex-shrink-0 flex items-center justify-center bg-white dark:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600 h-16 w-16 sm:h-20 sm:w-20">
+                                        <i class="fab fa-paypal text-blue-600 text-4xl sm:text-5xl"></i>
+                                    </div>
+                                    <div class="flex flex-col justify-center flex-grow">
+                                        <p class="text-lg sm:text-xl font-bold text-gray-900 dark:text-gray-200 leading-tight">Pay Pal | Desde 10$ USD</p>
+                                        <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">Worldwide Payments
+                                            <span class="block sm:inline sm:before:content-['•'] sm:before:mx-1">
+                                                Fee: $0.40 + 7.00%
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </button>
 
-        <div x-data="{ show: true }" x-show="show"
-             x-transition:enter="transition ease-out duration-300"
-             x-transition:enter-start="opacity-0 scale-90"
-             x-transition:enter-end="opacity-100 scale-100"
-             x-transition:leave="transition ease-in duration-200"
-             x-transition:leave-start="opacity-100 scale-100"
-             x-transition:leave-end="opacity-0 scale-90"
-             class="bg-orange-500 text-white p-4 text-sm font-semibold rounded-lg mb-6 shadow animate-wave flex items-center justify-between gap-4">
-            <p class="flex-grow">💥 ¡Manda el comprobante de pago para recargar tu saldo en la página!</p>
-            <button type="button" @click="show = false" class="flex-shrink-0 text-white hover:text-opacity-75 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded-full p-1">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
+                            <!-- BINANCE PAY -->
+                            <button type="button" id="binanceBtn" class="relative flex items-start p-4 border border-gray-200 dark:border-gray-600 rounded-lg cursor-pointer hover:border-yellow-500 dark:hover:border-yellow-400 transition-colors duration-200">
+                                <div class="ml-3 flex flex-row items-center flex-grow gap-2">
+                                    <div class="flex-shrink-0 flex items-center justify-center bg-white dark:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600 h-16 w-16 sm:h-20 sm:w-20">
+                                        <i class="fab fa-btc text-yellow-500 text-4xl sm:text-5xl"></i>
+                                    </div>
+                                    <div class="flex flex-col justify-center flex-grow">
+                                        <p class="text-lg sm:text-xl font-bold text-gray-900 dark:text-gray-200 leading-tight">BINANCE PAY / QR / $1 USDT</p>
+                                        <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">[Automatic] Binance Pay with QR Code</p>
+                                    </div>
+                                </div>
+                            </button>
 
-     
+                            <!-- TRANSFERENCIA -->
+                            <button type="button" id="transferBtn" class="relative flex items-start p-4 border border-gray-200 dark:border-gray-600 rounded-lg cursor-pointer hover:border-purple-500 dark:hover:border-purple-400 transition-colors duration-200">
+                                <div class="ml-3 flex flex-row items-center flex-grow gap-2">
+                                    <div class="flex-shrink-0 flex items-center justify-center bg-white dark:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600 h-16 w-16 sm:h-20 sm:w-20">
+                                        <div class="h-12 w-12 sm:h-16 sm:w-16 bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center rounded-xl">
+                                            <i class="fas fa-university text-blue-600 text-xl sm:text-2xl"></i>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col justify-center flex-grow">
+                                        <p class="text-lg sm:text-xl font-bold text-gray-900 dark:text-gray-200 leading-tight">Paga con transferencia</p>
+                                        <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">
+                                            <span class="block sm:inline sm:before:content-['•'] sm:before:mx-1">Solo Mexico</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </button>
+                            
+                            <!-- OXXO -->
+                            <button type="button" id="oxxoBtn" class="relative flex items-start p-4 border border-gray-200 dark:border-gray-600 rounded-lg cursor-pointer hover:border-red-500 dark:hover:border-red-400 transition-colors duration-200">
+                                <div class="ml-3 flex flex-row items-center flex-grow gap-2">
+                                    <div class="flex-shrink-0 flex items-center justify-center bg-white dark:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600 h-16 w-16 sm:h-20 sm:w-20">
+                                        <div class="h-12 w-12 sm:h-16 sm:w-16 bg-red-100 dark:bg-red-900/30 flex items-center justify-center rounded-xl">
+                                            <i class="fas fa-store text-red-600 text-xl sm:text-2xl"></i>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col justify-center flex-grow">
+                                        <p class="text-lg sm:text-xl font-bold text-gray-900 dark:text-gray-200 leading-tight">Paga con depósito en OXXO</p>
+                                        <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">
+                                            <span class="block sm:inline sm:before:content-['•'] sm:before:mx-1">Pago en efectivo en tiendas OXXO</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </button>
 
-        <div class="payment-container space-y-5">
-            <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200 text-center mb-4">
-                ¿Cuánto deseas agregar? 🤔
-            </h3>
-            <input type="number" id="montoInput" placeholder="Monto a agregar" min="1" required
-                   class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm
-                          focus:ring-blue-500 focus:border-blue-500 focus:outline-none
-                          bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 text-lg text-center
-                          transition duration-200 ease-in-out">
+                        </div>
+                    </div>
 
-            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <button type="button" class="btn paypal-btn flex items-center justify-center px-6 py-4 bg-blue-700 hover:bg-blue-800 text-white font-semibold rounded-lg shadow-md transition duration-200 ease-in-out cursor-pointer" id="paypalBtn">
-                    <i class="fab fa-paypal mr-3 text-xl"></i> Pagar con PayPal
-                </button>
+                    <!-- Terms -->
+                    <div class="mb-6">
+                        <label class="flex items-center space-x-2 text-sm text-gray-700 dark:text-gray-300">
+                            <input type="checkbox" 
+                                   name="terms_accepted"
+                                   id="terms_accepted"
+                                   required
+                                   class="rounded border-gray-300 dark:border-gray-700 text-blue-600 dark:text-blue-400 focus:ring-blue-500 dark:focus:ring-blue-400">
+                            <span>
+                                Además de aceptar los <a href="/terminos" target="_blank" class="text-blue-600 dark:text-blue-400 hover:underline">Términos y Condiciones</a>
+                            </span>
+                        </label>
+                        <div class="mt-2 text-xs text-gray-600 dark:text-gray-400 pl-6">
+                            <p>Reconozco que los fondos agregados son NO reembolsables y todo el saldo introducido solo podrá ser utilizado dentro de la plataforma. Me comprometo a no presentar disputas fraudulentas ni solicitudes de devolución de cargo. Entiendo que cualquier intento de fraude o práctica deshonesta resultará en la suspensión permanente de la cuenta, acciones legales y será denunciado ante las autoridades correspondientes.</p>
+                        </div>
+                    </div>
 
-                <button type="button" class="btn binance-btn flex items-center justify-center px-6 py-4 bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-semibold rounded-lg shadow-md transition duration-200 ease-in-out cursor-pointer" id="binanceBtn">
-                    <i class="fab fa-btc mr-3 text-xl"></i> Pagar con Binance
-                </button>
-
-                <button type="button" class="btn transfer-btn flex items-center justify-center px-6 py-4 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg shadow-md transition duration-200 ease-in-out cursor-pointer" id="transferBtn">
-                    <i class="fas fa-exchange-alt mr-3 text-xl"></i> Transferencia Bancaria
-                </button>
-
-                <button type="button" class="btn oxxo-btn flex items-center justify-center px-6 py-4 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg shadow-md transition duration-200 ease-in-out cursor-pointer" id="oxxoBtn">
-                    Depositar en OXXO <i class="fas fa-store ml-3 text-xl"></i>
-                </button>
+                </div>
             </div>
         </div>
     </div>
 </main>
 
+<!-- MODALES -->
+
+<!-- PayPal Modal -->
 <div id="paypalModal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 opacity-0 pointer-events-none transition-opacity duration-300">
-    <div class="modal-content bg-white dark:bg-gray-800 rounded-lg shadow-2xl p-6 w-full max-w-md mx-auto relative transform scale-95 opacity-0 transition-all duration-300" id="p">
+    <div class="modal-content bg-white dark:bg-gray-800 rounded-lg shadow-2xl p-6 w-full max-w-md mx-auto relative transform scale-95 opacity-0 transition-all duration-300">
         <span class="close absolute top-3 right-3 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 text-3xl font-bold cursor-pointer">&times;</span>
         <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4 text-center">Mandar Comprobante de pago por WhatsApp 📲</h2>
         <p class="text-gray-700 dark:text-gray-300 mb-2 text-center text-sm">Las comisiones de PayPal serán descontadas al actualizar su saldo.</p>
@@ -66,8 +153,9 @@
     </div>
 </div>
 
+<!-- Binance Modal -->
 <div id="binanceModal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 opacity-0 pointer-events-none transition-opacity duration-300">
-    <div class="modal-content bg-white dark:bg-gray-800 rounded-lg shadow-2xl p-6 w-full max-w-md mx-auto relative transform scale-95 opacity-0 transition-all duration-300" id="b">
+    <div class="modal-content bg-white dark:bg-gray-800 rounded-lg shadow-2xl p-6 w-full max-w-md mx-auto relative transform scale-95 opacity-0 transition-all duration-300">
         <span class="close absolute top-3 right-3 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 text-3xl font-bold cursor-pointer">&times;</span>
         <p class="exito copyed bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-200 py-2 px-4 rounded-md text-center mb-4 opacity-0 transition-opacity duration-300 absolute w-11/12 left-1/2 -translate-x-1/2 -top-12">ID copiado exitosamente 🎉</p>
         <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4 text-center">Paga mediante Binance Pay 💰</h2>
@@ -85,8 +173,9 @@
     </div>
 </div>
 
+<!-- Transfer Modal -->
 <div id="transferModal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 opacity-0 pointer-events-none transition-opacity duration-300">
-    <div class="modal-content bg-white dark:bg-gray-800 rounded-lg shadow-2xl p-6 w-full max-w-md mx-auto relative transform scale-95 opacity-0 transition-all duration-300" id="t">
+    <div class="modal-content bg-white dark:bg-gray-800 rounded-lg shadow-2xl p-6 w-full max-w-md mx-auto relative transform scale-95 opacity-0 transition-all duration-300">
         <span class="close absolute top-3 right-3 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 text-3xl font-bold cursor-pointer">&times;</span>
         <p class="exito copyed bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-200 py-2 px-4 rounded-md text-center mb-4 opacity-0 transition-opacity duration-300 absolute w-11/12 left-1/2 -translate-x-1/2 -top-12">Clave copiada exitosamente 🎉</p>
         <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4 text-center">Paga mediante Transferencia 🏦</h2>
@@ -105,8 +194,9 @@
     </div>
 </div>
 
+<!-- OXXO Modal -->
 <div id="oxxoModal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 opacity-0 pointer-events-none transition-opacity duration-300">
-    <div class="modal-content bg-white dark:bg-gray-800 rounded-lg shadow-2xl p-6 w-full max-w-md mx-auto relative transform scale-95 opacity-0 transition-all duration-300" id="o">
+    <div class="modal-content bg-white dark:bg-gray-800 rounded-lg shadow-2xl p-6 w-full max-w-md mx-auto relative transform scale-95 opacity-0 transition-all duration-300">
         <span class="close absolute top-3 right-3 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 text-3xl font-bold cursor-pointer">&times;</span>
         <p class="exito copyed bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-200 py-2 px-4 rounded-md text-center mb-4 opacity-0 transition-opacity duration-300 absolute w-11/12 left-1/2 -translate-x-1/2 -top-12">Clave OXXO copiada exitosamente 🎉</p>
         <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4 text-center">Deposita en OXXO 🏪</h2>
@@ -124,6 +214,7 @@
     </div>
 </div>
 
+<!-- Thank You Modal -->
 <div id="thankYouModal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 opacity-0 pointer-events-none transition-opacity duration-300">
     <div class="modal-content bg-white dark:bg-gray-800 rounded-lg shadow-2xl p-6 w-full max-w-md mx-auto relative transform scale-95 opacity-0 transition-all duration-300">
         <span class="close absolute top-3 right-3 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 text-3xl font-bold cursor-pointer">&times;</span>
@@ -140,9 +231,6 @@
 </div>
 
 <style>
-    /*
-    Si estás usando una animación personalizada 'animate-wave', asegúrate de que esté definida aquí o en tu CSS principal.
-    Ejemplo:
     @keyframes wave {
         0%, 100% { transform: scale(1); }
         50% { transform: scale(1.01); }
@@ -150,7 +238,6 @@
     .animate-wave {
         animation: wave 2s infinite ease-in-out;
     }
-    */
 </style>
 
 <script>
@@ -198,6 +285,29 @@
     }
 
     /**
+     * Validar que el monto esté ingresado y los términos aceptados
+     */
+    function validateForm() {
+        const amountInput = document.getElementById("amount");
+        const termsCheckbox = document.getElementById("terms_accepted");
+        
+        if (!amountInput.value || parseFloat(amountInput.value) <= 0) {
+            alert("Por favor, ingresa un monto válido y mayor que cero.");
+            amountInput.focus();
+            return false;
+        }
+        
+        if (!termsCheckbox.checked) {
+            alert("Por favor, acepta los términos y condiciones.");
+            termsCheckbox.focus();
+            return false;
+        }
+        
+        monto = parseFloat(amountInput.value);
+        return true;
+    }
+
+    /**
      * Envía los detalles del pago al backend.
      * @param {string} user - El nombre de usuario.
      * @param {number} amount - El monto de la recarga.
@@ -235,15 +345,6 @@
      * Crea una orden de pago y muestra el modal de agradecimiento.
      */
     function crearOrdenDePago() {
-        const montoInput = document.getElementById("montoInput");
-        // Asegúrate de que el monto sea un número válido y positivo
-        if (!montoInput.value || parseFloat(montoInput.value) <= 0) {
-            alert("Por favor, ingresa un monto válido y mayor que cero.");
-            montoInput.focus();
-            return;
-        }
-        monto = parseFloat(montoInput.value); // Actualiza la variable global 'monto'
-
         // Guarda el pago en la base de datos (simulado)
         guardarPago(usuario, monto, metodoPago);
 
@@ -262,40 +363,28 @@
 
     // --- Manejadores de eventos para los botones de método de pago ---
     document.getElementById("paypalBtn").addEventListener('click', function() {
+        if (!validateForm()) return;
         metodoPago = "PayPal";
-        crearOrdenDePagoWrapper(document.getElementById("paypalModal"));
+        showModal(document.getElementById("paypalModal"));
     });
 
     document.getElementById("binanceBtn").addEventListener('click', function() {
+        if (!validateForm()) return;
         metodoPago = "Binance";
-        crearOrdenDePagoWrapper(document.getElementById("binanceModal"));
+        showModal(document.getElementById("binanceModal"));
     });
 
     document.getElementById("transferBtn").addEventListener('click', function() {
+        if (!validateForm()) return;
         metodoPago = "Transferencia";
-        crearOrdenDePagoWrapper(document.getElementById("transferModal"));
+        showModal(document.getElementById("transferModal"));
     });
 
     document.getElementById("oxxoBtn").addEventListener('click', function() {
+        if (!validateForm()) return;
         metodoPago = "OXXO";
-        crearOrdenDePagoWrapper(document.getElementById("oxxoModal"));
+        showModal(document.getElementById("oxxoModal"));
     });
-
-    /**
-     * Wrapper para manejar la lógica de abrir el modal después de la validación del monto.
-     * @param {HTMLElement} modalToOpen - El modal que se debe abrir.
-     */
-    function crearOrdenDePagoWrapper(modalToOpen) {
-        const montoInput = document.getElementById("montoInput");
-        if (!montoInput.value || parseFloat(montoInput.value) <= 0) {
-            alert("Por favor, ingresa un monto válido y mayor que cero.");
-            montoInput.focus();
-            return;
-        }
-        monto = parseFloat(montoInput.value); // Actualiza la variable global 'monto'
-        showModal(modalToOpen);
-    }
-
 
     // Asigna los eventos de click a los botones "Crear Orden de Pago" dentro de cada modal
     document.getElementById("createOrderBtn").addEventListener('click', crearOrdenDePago);
@@ -323,9 +412,7 @@
 
     // --- Lógica para el botón de WhatsApp ---
     document.getElementById("whatsappButton").addEventListener('click', function() {
-        // Asegúrate de que las variables 'monto' y 'metodoPago' estén actualizadas
-        // por la función 'crearOrdenDePago' antes de llamar a esto.
-        var mensaje = `¡Hola! Acabo de recargar saldo en el Panel Ghost. Mi usuario es ${usuario} y he añadido $${monto} por el método de ${metodoPago}. Envío mi comprobante de pago en un momento.`;
+        var mensaje = `¡Hola! Acabo de recargar saldo en el Panel Ghost. Mi usuario es ${usuario} y he añadido ${monto} por el método de ${metodoPago}. Envío mi comprobante de pago en un momento.`;
         var whatsappUrl = `https://wa.me/524661002589?text=${encodeURIComponent(mensaje)}`;
         window.open(whatsappUrl, '_blank');
     });
@@ -337,7 +424,7 @@
         input.setSelectionRange(0, 99999); // Para dispositivos móviles
         document.execCommand('copy');
 
-        const mensaje = document.getElementById('idcopy');
+        const mensaje = document.querySelector('#binanceModal .copyed');
         mensaje.classList.remove('opacity-0');
         mensaje.classList.add('opacity-100');
 
@@ -353,7 +440,7 @@
         input.setSelectionRange(0, 99999); // Para dispositivos móviles
         document.execCommand('copy');
 
-        const mensaje = document.getElementById('clcopy');
+        const mensaje = document.querySelector('#transferModal .copyed');
         mensaje.classList.remove('opacity-0');
         mensaje.classList.add('opacity-100');
 
@@ -369,7 +456,7 @@
         input.setSelectionRange(0, 99999); // Para dispositivos móviles
         document.execCommand('copy');
 
-        const mensaje = document.getElementById('oxxocopy');
+        const mensaje = document.querySelector('#oxxoModal .copyed');
         mensaje.classList.remove('opacity-0');
         mensaje.classList.add('opacity-100');
 

@@ -1336,7 +1336,11 @@ def smmprincipal():
 
 @app.route("/faq")
 def faq():
-    return render_template("faq.html")
+    usuario = session['usuario']
+    user_data = collections['usuarios'].find_one({'usuario': usuario})
+    foto_id = user_data.get('foto_id')
+    saldo = decimal128_to_float(user_data.get('saldo', 0))
+    return render_template("faq.html", usuario=usuario, saldo=saldo, foto_id=foto_id)
 
 
 

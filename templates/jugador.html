@@ -6,7 +6,7 @@
     <title>Datos de Jugador Free Fire</title>
     <!-- Use Tailwind CSS for a modern, responsive design -->
     <script src="https://cdn.tailwindcss.com"></script>
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
         /* Import a clean, modern font */
@@ -17,6 +17,94 @@
         /* Custom styles to enhance the data display */
         .data-item {
             @apply bg-gray-700 p-4 rounded-lg shadow-inner border border-gray-600 flex items-center gap-2;
+        }
+
+        /* Search button animations */
+        .search-btn {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .search-btn.loading {
+            pointer-events: none;
+        }
+        
+        .search-btn .btn-text {
+            transition: opacity 0.3s ease;
+        }
+        
+        .search-btn.loading .btn-text {
+            opacity: 0;
+        }
+        
+        .search-btn .loading-spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .search-btn.loading .loading-spinner {
+            opacity: 1;
+        }
+        
+        /* Spinner animation */
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        
+        .search-btn.loading .loading-spinner {
+            animation: spin 1s linear infinite;
+        }
+        
+        /* Results fade-in animation */
+        .results-container {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease-out;
+        }
+        
+        .results-container.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Staggered animation for result sections */
+        .result-section {
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: all 0.4s ease-out;
+        }
+        
+        .result-section.animate {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        /* Pulse animation for data items */
+        .data-item {
+            animation: none;
+        }
+        
+        .data-item.pulse-in {
+            animation: pulseIn 0.6s ease-out;
+        }
+        
+        @keyframes pulseIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            50% {
+                transform: scale(1.02);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
     </style>
 </head>
@@ -64,7 +152,7 @@
     </div>
     
     <!-- Player search form -->
-    <form method="POST" action="/DataXid" class="flex flex-col md:flex-row gap-4 mb-6">
+    <form method="POST" action="/DataXid" class="flex flex-col md:flex-row gap-4 mb-6" id="searchForm">
         <input 
             type="text" 
             name="uid" 
@@ -84,28 +172,32 @@
         </select>
         <button 
             type="submit"
-            class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-md shadow-lg transition-transform transform hover:scale-105"
+            id="searchBtn"
+            class="search-btn bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-md shadow-lg transition-all duration-300 transform hover:scale-105"
         >
-            Buscar
+            <span class="btn-text">Buscar</span>
+            <div class="loading-spinner">
+                <i class="fas fa-spinner text-xl"></i>
+            </div>
         </button>
     </form>
 
     <!-- Error message display -->
     {% if error %}
-        <div class="bg-red-800 text-red-200 p-4 rounded-lg text-center font-semibold mb-6">
+        <div class="bg-red-800 text-red-200 p-4 rounded-lg text-center font-semibold mb-6 results-container show">
             ❌ {{ error }}
         </div>
     {% endif %}
 
     <!-- Player data results -->
     {% if result %}
-        <div class="space-y-6">
+        <div class="space-y-6 results-container" id="resultsContainer">
             <!-- Basic Info -->
-            <div class="bg-gray-700 p-6 rounded-lg shadow-inner border border-gray-600">
+            <div class="bg-gray-700 p-6 rounded-lg shadow-inner border border-gray-600 result-section">
                 <h2 class="text-2xl font-bold text-red-400 mb-4 flex items-center">
                     <span class="mr-2">👤</span> Información Básica
                 </h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="basicInfoGrid">
                     <div class="data-item">🆔 <span class="font-semibold">{{ result.basicInfo.accountId }}</span></div>
                     <div class="data-item">👤 Nickname: <span class="font-semibold">{{ result.basicInfo.nickname }}</span></div>
                     <div class="data-item">📍 Región: <span class="font-semibold">{{ result.basicInfo.region }}</span></div>
@@ -120,7 +212,7 @@
 
             <!-- Clan Info -->
             {% if result.clanBasicInfo %}
-            <div class="bg-gray-700 p-6 rounded-lg shadow-inner border border-gray-600">
+            <div class="bg-gray-700 p-6 rounded-lg shadow-inner border border-gray-600 result-section">
                 <h2 class="text-2xl font-bold text-red-400 mb-4 flex items-center">
                     <span class="mr-2">🏰</span> Clan
                 </h2>
@@ -134,7 +226,7 @@
 
             <!-- Clan Captain Info -->
             {% if result.captainBasicInfo %}
-            <div class="bg-gray-700 p-6 rounded-lg shadow-inner border border-gray-600">
+            <div class="bg-gray-700 p-6 rounded-lg shadow-inner border border-gray-600 result-section">
                 <h2 class="text-2xl font-bold text-red-400 mb-4 flex items-center">
                     <span class="mr-2">🧑‍✈️</span> Capitán del Clan
                 </h2>
@@ -149,7 +241,7 @@
 
             <!-- Pet Info -->
             {% if result.petInfo %}
-            <div class="bg-gray-700 p-6 rounded-lg shadow-inner border border-gray-600">
+            <div class="bg-gray-700 p-6 rounded-lg shadow-inner border border-gray-600 result-section">
                 <h2 class="text-2xl font-bold text-red-400 mb-4 flex items-center">
                     <span class="mr-2">🐾</span> Mascota
                 </h2>
@@ -163,7 +255,7 @@
 
             <!-- Credit Score Info -->
             {% if result.creditScoreInfo %}
-            <div class="bg-gray-700 p-6 rounded-lg shadow-inner border border-gray-600">
+            <div class="bg-gray-700 p-6 rounded-lg shadow-inner border border-gray-600 result-section">
                 <h2 class="text-2xl font-bold text-red-400 mb-4 flex items-center">
                     <span class="mr-2">📊</span> Puntuación de honor
                 </h2>
@@ -176,7 +268,7 @@
 
             <!-- Social Info -->
             {% if result.socialInfo %}
-            <div class="bg-gray-700 p-6 rounded-lg shadow-inner border border-gray-600">
+            <div class="bg-gray-700 p-6 rounded-lg shadow-inner border border-gray-600 result-section">
                 <h2 class="text-2xl font-bold text-red-400 mb-4 flex items-center">
                     <span class="mr-2">🌐</span> Información Social
                 </h2>
@@ -188,21 +280,85 @@
         </div>
     {% endif %}
 </div>
-     <!-- WhatsApp Buttons -->
-        <div class="fixed bottom-4 right-4 z-50 flex flex-col gap-3">
-            <!-- WhatsApp Button -->
-                    <a href="https://wa.me/+525654936049" 
-               target="_blank"
-               class="bg-[#25D366] text-white rounded-full w-14 h-14 flex items-center justify-center shadow-[4px_4px_10px_rgba(0,0,0,0.5)] hover:shadow-[6px_6px_15px_rgba(0,0,0,0.6)] hover:translate-y-[-2px] transition-all duration-300">
-                <i class="fab fa-whatsapp text-2xl"></i>
-            </a>
+
+<!-- WhatsApp Buttons -->
+<div class="fixed bottom-4 right-4 z-50 flex flex-col gap-3">
+    <!-- WhatsApp Button -->
+    <a href="https://wa.me/+525654936049" 
+       target="_blank"
+       class="bg-[#25D366] text-white rounded-full w-14 h-14 flex items-center justify-center shadow-[4px_4px_10px_rgba(0,0,0,0.5)] hover:shadow-[6px_6px_15px_rgba(0,0,0,0.6)] hover:translate-y-[-2px] transition-all duration-300">
+        <i class="fab fa-whatsapp text-2xl"></i>
+    </a>
+    
+    <!-- WhatsApp Group Button -->
+    <a href="https://chat.whatsapp.com/GwQ1v3BALQvFRu6qOXY2QD"
+       target="_blank"
+       class="bg-[#25D366] text-white rounded-full w-14 h-14 flex items-center justify-center shadow-[4px_4px_10px_rgba(0,0,0,0.5)] hover:shadow-[6px_6px_15px_rgba(0,0,0,0.6)] hover:translate-y-[-2px] transition-all duration-300">
+        <i class="fas fa-users text-2xl"></i>
+    </a>
+</div>
+
+<script>
+    // Animation JavaScript
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchForm = document.getElementById('searchForm');
+        const searchBtn = document.getElementById('searchBtn');
+        const resultsContainer = document.getElementById('resultsContainer');
+        
+        // Handle form submission animation
+        if (searchForm) {
+            searchForm.addEventListener('submit', function(e) {
+                // Add loading state to button
+                searchBtn.classList.add('loading');
+                searchBtn.disabled = true;
+                
+                // Hide existing results with fade out
+                if (resultsContainer) {
+                    resultsContainer.classList.remove('show');
+                }
+            });
+        }
+        
+        // Animate results when they appear
+        if (resultsContainer) {
+            // Show results container
+            setTimeout(() => {
+                resultsContainer.classList.add('show');
+            }, 300);
             
-            <!-- WhatsApp Group Button -->
-                        <a href="https://chat.whatsapp.com/GwQ1v3BALQvFRu6qOXY2QD"
-               target="_blank"
-               class="bg-[#25D366] text-white rounded-full w-14 h-14 flex items-center justify-center shadow-[4px_4px_10px_rgba(0,0,0,0.5)] hover:shadow-[6px_6px_15px_rgba(0,0,0,0.6)] hover:translate-y-[-2px] transition-all duration-300">
-                <i class="fas fa-users text-2xl"></i>
-            </a>
-                    </div>
+            // Animate each result section with staggered timing
+            const resultSections = document.querySelectorAll('.result-section');
+            resultSections.forEach((section, index) => {
+                setTimeout(() => {
+                    section.classList.add('animate');
+                    
+                    // Animate data items within each section
+                    const dataItems = section.querySelectorAll('.data-item');
+                    dataItems.forEach((item, itemIndex) => {
+                        setTimeout(() => {
+                            item.classList.add('pulse-in');
+                        }, itemIndex * 50);
+                    });
+                }, (index + 1) * 200);
+            });
+        }
+        
+        // Remove loading state if page loads with results
+        if (resultsContainer) {
+            searchBtn.classList.remove('loading');
+            searchBtn.disabled = false;
+        }
+    });
+    
+    // Reset button state on page load
+    window.addEventListener('load', function() {
+        const searchBtn = document.getElementById('searchBtn');
+        if (searchBtn) {
+            searchBtn.classList.remove('loading');
+            searchBtn.disabled = false;
+        }
+    });
+</script>
+
 </body>
 </html>

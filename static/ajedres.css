@@ -177,7 +177,7 @@ h1 {
 
 /* Puedes añadir una clase adicional a las piezas para diferenciarlas */
 .pieza-blanca {
-    color: #f0f0f0; /* Blanco más puro */
+    color: #ff0000c0; /* Blanco más puro */
 }
 
 .pieza-negra {

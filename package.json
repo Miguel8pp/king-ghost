@@ -10,8 +10,10 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "cloudscraper": "^4.6.0",
     "cors": "^2.8.5",
     "express": "^5.1.0",
-    "free-fire-apis": "^0.0.1"
+    "free-fire-apis": "^0.0.1",
+    "puppeteer-core": "^24.17.0"
   }
 }
